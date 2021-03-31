@@ -1,0 +1,80 @@
+.gallerypage{
+    width: 100%; height: 500px;
+    overflow: hidden;
+}
+.gallerypage-1-background{
+    position: absolute; top: 0px; left: 0px;
+    width: 100%; height: 100%;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#019cdd+0,00c0bc+49,6ef4ba+100 */
+    background: rgb(1,156,221); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(1,156,221,1) 0%, rgba(0,192,188,1) 49%, rgba(110,244,186,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(1,156,221,1) 0%,rgba(0,192,188,1) 49%,rgba(110,244,186,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(1,156,221,1) 0%,rgba(0,192,188,1) 49%,rgba(110,244,186,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#019cdd', endColorstr='#6ef4ba',GradientType=0 ); /* IE6-9 */
+
+}
+.gallerypage-1-svg{
+    position: absolute;
+    -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, 0.3) );
+    filter: drop-shadow( 3px 3px 2px rgba(0,0,0,0.3) );
+}
+.gallerypage-1-title{
+    position: absolute; top: 150px; left: 0px;
+    font-size: 40px; font-weight: 900; color: white;
+}
+.gallerypage-1-subtitle{
+    position: absolute; top: 220px; left: 0px;
+    font-size: 16px; font-weight: 400; color: rgb(240,240,240);
+}
+.gallerypage-1-btn{
+    position: absolute; top: 290px; left: 0px;
+    height: 36px; line-height: 36px; border-radius: 18px;
+    padding-left: 20px; padding-right: 20px;
+    font-size: 16px; font-weight: 300; color: black;
+    background: white;
+}
+
+.gallerypage-2-board{
+    position: absolute; top: 80px; bottom: 30px; left: 0px; right: 0px;
+    background: white; border-radius: 15px;
+}
+.gallerypage-2-layleft{
+    position: absolute; top: 50px; left: 100px;
+    width: 341px;
+}
+.gallerypage-2-layright{
+    position: absolute; top: 90px; right: 100px; left: 600px;
+}
+.gallerypage-2-txt{
+    font-size: 16px; font-weight: 300; color: black;
+}
+.gallerypage-2-btn{
+    display: inline-block; margin-top: 20px;
+    height: 38px; line-height: 38px; border-radius: 19px;
+    padding-left: 30px; padding-right: 30px;
+    background: rgb(94,94,97);
+    font-size: 16px; font-weight: 300; color: white;
+}
+.gallerypage-2-effect{
+    position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;
+    object-fit: cover
+}
+
+.gallerypage-3-effect{
+    position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;
+    object-fit: cover
+}
+.gallerypage-3-layleft{
+    position: absolute; top: 130px; left: 0px; width: 400px;
+}
+.gallerypage-3-title{
+    line-height: 38px; margin-top: 10px;
+    font-size: 35px; font-weight: 900; color: rgb(60,108,170);
+}
+.gallerypage-3-txt{
+    margin-top: 10px;
+    font-size: 16px; font-weight: 300; color: black;
+}
+.gallerypage-3-img{
+    position: absolute; bottom: 40px; right: 0px;
+}
