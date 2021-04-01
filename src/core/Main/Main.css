@@ -17,8 +17,8 @@
     font-size: 16px; font-weight: 400;
 }
 .CARD > .CARD-IMG{
-    position: absolute; top: 10px; left: 16%;
-    width: 68%;
+    position: absolute; top: 30px; left: calc(50% - 31.5px);
+    width: 63px; height: 63px;
 }
 
 #lay2{

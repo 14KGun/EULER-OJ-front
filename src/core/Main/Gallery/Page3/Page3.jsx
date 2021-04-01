@@ -8,8 +8,9 @@ const PageMaker = () => {
     const [xy, setXy] = useState([0, 0]);
     const [isHover, setHover] = useState(false);
     const calc = (e) => {
-        const targetWidth = e.target.offsetWidth, targetHeight = e.target.offsetHeight;
-        const top = e.target.getBoundingClientRect().top, left = e.target.getBoundingClientRect().left;
+        const target = document.getElementById("gallerypage-3-main");
+        const targetWidth = target.offsetWidth, targetHeight = target.offsetHeight;
+        const top = target.getBoundingClientRect().top, left = target.getBoundingClientRect().left;
         const x = (e.clientX-left)/targetWidth-0.5, y = (e.clientY-top)/targetHeight-0.5;
         return [x, y]
     }
@@ -27,7 +28,7 @@ const PageMaker = () => {
     });
 
     return(
-        <div style={{ height: '100%' }}
+        <div id="gallerypage-3-main" style={{ height: '100%' }}
         onMouseEnter={ () => setHover(true) } onMouseMove={ (e) => setXy(calc(e)) } onMouseLeave={ () => setHover(false) }>
             <animated.img className="gallerypage-3-effect" src={ imgEffect } style={ effectStyle }/>
             <div className="FRAME_MAIN" style={{ height: '100%' }}>

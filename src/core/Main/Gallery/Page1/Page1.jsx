@@ -16,9 +16,10 @@ import svgS43 from './s4-3.svg'
 
 const ScgImg = () => {
     const calc = (e) => {
-        const targetWidth = e.target.offsetWidth, targetHeight = e.target.offsetHeight;
-        const top = e.target.getBoundingClientRect().top, left = e.target.getBoundingClientRect().left;
-        const x = (e.clientX-left)/targetWidth-0.5, y = (e.clientY-top)/targetHeight-0.5;
+        const target = document.getElementById("gallerypage-1-main");
+        const targetWidth = target.offsetWidth, targetHeight = target.offsetHeight;
+        const top = target.getBoundingClientRect().top, left = target.getBoundingClientRect().left;
+        const x = (e.pageX-left)/targetWidth-0.5, y = (e.pageY-top)/targetHeight-0.5;
         return [x, y, 1];
     }
     const trans = (_xys, t) => `perspective(600px) rotateX(${-_xys[1]*20*t}deg) rotateY(${_xys[0]*20*t}deg) scale(${_xys[2]})`
@@ -45,7 +46,7 @@ const ScgImg = () => {
     });
     
     return (
-        <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
+        <div id="gallerypage-1-main" style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
         onMouseMove={ (e) => setXys(calc(e)) }>
             <div className="FRAME_MAIN" style={{ height: '100%' }}>
                 <animated.img src={ svgScreen } className="gallerypage-1-svg" style={ styleScreen }/>
