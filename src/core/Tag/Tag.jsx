@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import Top from '../Frame/Top/Top';
 import Footer from '../Frame/Footer'
 import Loading from '../Frame/Loading/Loading';
+import TagIcon from './TagIcon/TagIcon';
 
 const TopBackground = () => {
     return (
         <div style={{ width: '100%', height: '100%', background: 'yellow' }}></div>
     )
 }
+const FixedLay = () => {
+    return (
+        <div style={{ width: '100%', height: '100%' }}>
+            <TagIcon scale="50px"/>
+        </div>
+    )
+}
 class Tag extends Component {
     render() {
         return (
             <div>
-                <Top background={ <TopBackground/> } fixedLay={ "sdfsdfsdfsdf" }/>
+                <Top background={ <TopBackground/> } fixedLay={ <FixedLay/> }/>
                 <div className="FRAME_MAIN ND">
                     <div style={{ paddingTop: '100px', height: '300px' }}>
                         <Loading/>
