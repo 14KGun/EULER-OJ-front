@@ -98,7 +98,7 @@ const HeaderMaker = (props) => {
             onMouseLeave={ () => setLoginHover(false) }
             style={{ ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id=='' ? 'none' : 'block' }}>
                 <div id="header_prof_imgborder">
-                    <img className="FULLIMG" src="/profile-img/supernova.webp?size=100"/>
+                    <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`}/>
                 </div>
             </animated.button>
         </animated.div>

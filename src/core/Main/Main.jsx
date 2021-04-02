@@ -2,6 +2,9 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
+import Lay2Youtube from './Lay2/Youtube';
+import Lay2Problem from './Lay2/Problem';
+import Lay2Empty from './Lay2/Empty';
 import Footer from '../Frame/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
@@ -57,7 +60,7 @@ const Lay1Item = (props) => {
 class Main extends Component {
     constructor(props){
         super(props);
-        this.state = { pageIndex: 0, pageFix: undefined };
+        this.state = { pageIndex: 0/*Math.floor(Math.random() * 2)*/, pageFix: undefined };
 
         const setPage = (pageIndex) => {
             this.setState({ pageIndex: pageIndex });
@@ -81,6 +84,9 @@ class Main extends Component {
                     </div>
                 </div>
                 <div id="lay2" style={{ background: 'rgba(120,120,120,0.2)' }}>
+                    <div className="FRAME_MAIN ND" style={{ textAlign: 'justify', textAlignLast: 'justify', verticalAlign: 'top' }}>
+                    <Lay2Problem/> <Lay2Youtube/> <Lay2Empty/>
+                    </div>
                 </div>
                 <Footer/>
             </div>
