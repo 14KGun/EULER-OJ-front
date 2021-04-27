@@ -38,7 +38,7 @@ const YoutubeItem = (props) => {
     };
 
     return (
-        <a href={ `https://youtu.be/${ props.id }` }>
+        <a href={ `https://youtu.be/${ props.id }` } target="_blank">
             <animated.div style={ itemStyle }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <animated.img style={ imgStyle } src={ props.imgSrc }/>

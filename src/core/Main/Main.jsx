@@ -67,6 +67,9 @@ class Main extends Component {
         }
         this.setPage = setPage;
     }
+    componentDidMount(){
+        document.title = "오일러OJ"
+    }
     fixPage(pageIndex){
         this.setState({ pageFix: pageIndex });
         if(pageIndex != undefined) this.setPage(pageIndex);

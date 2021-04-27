@@ -1,0 +1,16 @@
+.TagTopBackground > img{ position: absolute; }
+.TagTopBackground > div{ position: absolute; }
+.TagTopBackground-ground{
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#454c81+0,73638f+50,7d6892+100 */
+    background: rgb(69,76,129); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(69,76,129,1) 0%, rgba(115,99,143,1) 50%, rgba(125,104,146,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgba(69,76,129,1) 0%,rgba(115,99,143,1) 50%,rgba(125,104,146,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgba(69,76,129,1) 0%,rgba(115,99,143,1) 50%,rgba(125,104,146,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#454c81', endColorstr='#7d6892',GradientType=1 ); /* IE6-9 */
+}
+.TagTopBackground-trans{
+    -moz-transform: scaleX(-1); 
+    -o-transform: scaleX(-1); 
+    -webkit-transform: scaleX(-1); 
+    transform: scaleX(-1);   
+}

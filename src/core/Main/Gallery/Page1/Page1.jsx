@@ -1,4 +1,5 @@
 import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import '../Gallery.css';
 import svgScreen from './screen.svg'
@@ -35,7 +36,7 @@ const ScgImg = () => {
     const styleS32 = useSpring({ top: `calc(60% + ${xys[1]*40}px)`, right: `calc(40px - ${xys[0]*25}px)`, height: '12%', transform: trans(xys,1.6), config: springConfig });
     const styleS41 = useSpring({ top: `calc(27% + ${xys[1]*50}px)`, right: `calc(350px - ${xys[0]*30}px)`, height: '12%', transform: trans(xys,1.6), config: springConfig });
     const styleS42 = useSpring({ top: `calc(48% + ${xys[1]*50}px)`, right: `calc(0px - ${xys[0]*30}px)`, height: '12%', transform: trans(xys,1.8), config: springConfig });
-    const styleS43 = useSpring({ top: `calc(13% + ${xys[1]*50}px)`, right: `calc(20px - ${xys[0]*30}px)`, height: '15%', transform: trans(xys,1.8), config: springConfig });
+    const styleS43 = useSpring({ top: `calc(8% + ${xys[1]*50}px)`, right: `calc(20px - ${xys[0]*30}px)`, height: '28%', transform: trans(xys,1.8), config: springConfig });
     const styleP1 = useSpring({ top: `calc(25% + ${xys[1]*50}px)`, right: `calc(140px - ${xys[0]*35}px)`, height: '60%', transform: trans(xys,2), config: springConfig });
     const styleP2 = useSpring({ top: `calc(35% + ${xys[1]*50}px)`, right: `calc(360px - ${xys[0]*40}px)`, height: '60%', transform: trans(xys,2), config: springConfig });
     
@@ -64,10 +65,10 @@ const ScgImg = () => {
 
                 <div className="gallerypage-1-title">오일러OJ</div>
                 <div className="gallerypage-1-subtitle">오일러에서 개발한 온라인 저지 사이트(Online Judge Site)입니다.<br/>다양한 코딩 문제들을 이용해서 폭넓고 깊은 학습을 하세요!</div>
-                <a href="/problemset">
+                <Link to="/problemset">
                     <animated.div className="gallerypage-1-btn" style={ btnStyle }
                     onMouseEnter={ () => serBtnHover(true) } onMouseLeave={ () => serBtnHover(false) }>이동하기</animated.div>
-                </a>
+                </Link>
             </div>
         </div>
     );

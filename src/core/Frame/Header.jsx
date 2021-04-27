@@ -1,6 +1,9 @@
 import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
+import { withRouter } from 'react-router-dom';
 import axios from '../Tool/axios';
+import HeaderPopup from './HeaderPopup';
 import './Header.css';
 import eulerLogo from './svg_eulerlogo.svg';
 
@@ -13,12 +16,12 @@ const HeaderBtn = (props) => {
     });
 
     return (
-        <a href={ props.url }>
+        <Link to={ props.url }>
             <div className="HEADER_BTN" onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <animated.div className="HEADER_BTN_A" style={ props.txtStyle }>{ props.name }</animated.div>
                 <animated.div className="HEADER_BTN_B" style={ style }></animated.div>
             </div>
-        </a>
+        </Link>
     );
 }
 const HeaderMaker = (props) => {
@@ -37,7 +40,7 @@ const HeaderMaker = (props) => {
     document.addEventListener('scroll', () => scrollevent());
 
     const headerStyle = useSpring({
-        height: height, 
+        height: height, zIndex: 90,
         background: isScrolled ? `rgba(${theme.r},${theme.g},${theme.b},0.6)` : `rgba(${theme.r},${theme.g},${theme.b},0)`, 
         WebkitBackdropFilter: `blur(${isScrolled ? 6 : 0}px)`, backdropFilter: `blur(${isScrolled ? 6 : 0}px)`,
         boxShadow: `0 0 10px 5px rgba(0,0,0,${isScrolled ? 0.1 : 0})`
@@ -46,82 +49,100 @@ const HeaderMaker = (props) => {
         color: isScrolled ? 'black' : 'white'
     });
 
-    const [isLogoHover, setLogoHover] = useState(false);
-    const logoStyle = useSpring({
-        background: isLogoHover ? 'rgba(230,230,230,0.4)' : 'rgba(230,230,230,0.0)'
-    });
-
-    const [isLoginHover, setLoginHover] = useState(false);
-    const loginStyle = useSpring({
-        background: isLoginHover ? 'rgba(230,230,230,0.4)' : 'rgba(230,230,230,0.0)'
-    });
+    /* PopupScreen */
+    const [isLeftPopup, setLeftPopup] = useState(false);
+    const [isRightPopup, setRightPopup] = useState(false);
 
     /* Logo Hover */
+    const [isLogoHover, setLogoHover] = useState(false);
+    const logoStyle = useSpring({
+        background: isLogoHover|isLeftPopup ? 'rgba(230,230,230,0.4)' : 'rgba(230,230,230,0.0)'
+    });
     const logoSpringConfig = { duration: 150 };
     const logoImgStyle = useSpring({
-        top: isLogoHover ? '13px' : '15px',
-        left: isLogoHover ? '35px' : '31px',
-        height: isLogoHover ? '30px' : '40px',
+        top: isLogoHover|isLeftPopup ? '13px' : '15px',
+        left: isLogoHover|isLeftPopup ? '35px' : '31px',
+        height: isLogoHover|isLeftPopup ? '30px' : '40px',
         config: logoSpringConfig
     });
     const logoTxtStyle = useSpring({
-        top: isLogoHover ? '40px' : '40px',
-        left: isLogoHover ? '10px' : '10px',
-        opacity: isLogoHover ? 1 : 0,
+        top: isLogoHover|isLeftPopup ? '40px' : '40px',
+        left: isLogoHover|isLeftPopup ? '10px' : '10px',
+        opacity: isLogoHover|isLeftPopup ? 1 : 0,
         config: logoSpringConfig
     });
     const logoTxtABStyle = useSpring({
-        fontSize: isLogoHover ? '12px' : '16px',
+        fontSize: isLogoHover|isLeftPopup ? '12px' : '16px',
         config: logoSpringConfig
     });
 
+    /* LoginHover */
+    const [isLoginHover, setLoginHover] = useState(false);
+    const loginStyle = useSpring({
+        background: isLoginHover|isRightPopup ? 'rgba(230,230,230,0.4)' : 'rgba(230,230,230,0.0)'
+    });
+
     return (
-        <animated.div id="header" className="ND" style={ headerStyle }>
-            <animated.button id="header_btn0" className="BTNC" style={ logoStyle }
-            onMouseEnter={ () => setLogoHover(true) }
-            onMouseLeave={ () => setLogoHover(false) }>
-                <animated.img id="header_btn0_img" src={ eulerLogo } style={ logoImgStyle }/>
-                <animated.div id="header_btn0_txt" style={ logoTxtStyle }>
-                    <animated.span id="header_btn0_txt_A" style={ logoTxtABStyle }>오일러</animated.span><animated.span id="header_btn0_txt_B" style={ logoTxtABStyle }>OJ</animated.span>
-                </animated.div>
-            </animated.button>
-            <div id="header_btn0line"/>
-            { urlList.map((item, index) => <HeaderBtn key={ index } url={ item.url } txtStyle={ headerTxtStyle } name={ item.name }/>) }
+        <>
+            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
+            leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
 
-            <a href="/login"><animated.button id="header_login" className="BTNC"
-            onMouseEnter={ () => setLoginHover(true) }
-            onMouseLeave={ () => setLoginHover(false) }
-            style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id!='' ? 'none' : 'block' }}>로그인</animated.button></a>
+            <animated.div id="header" className="ND" style={ headerStyle }>
+                <animated.button id="header_btn0" className="BTNC" style={ logoStyle }
+                onClick={ () => setLeftPopup(!isLeftPopup) }
+                onMouseEnter={ () => setLogoHover(true) }
+                onMouseLeave={ () => setLogoHover(false) }>
+                    <animated.img id="header_btn0_img" src={ eulerLogo } style={ logoImgStyle }/>
+                    <animated.div id="header_btn0_txt" style={ logoTxtStyle }>
+                        <animated.span id="header_btn0_txt_A" style={ logoTxtABStyle }>오일러</animated.span><animated.span id="header_btn0_txt_B" style={ logoTxtABStyle }>OJ</animated.span>
+                    </animated.div>
+                </animated.button>
+                <div id="header_btn0line"/>
+                { urlList.map((item, index) => <HeaderBtn key={ index } url={ item.url } txtStyle={ headerTxtStyle } name={ item.name }/>) }
 
-            <animated.button id="header_prof" className="BTNC"
-            onMouseEnter={ () => setLoginHover(true) }
-            onMouseLeave={ () => setLoginHover(false) }
-            style={{ ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id=='' ? 'none' : 'block' }}>
-                <div id="header_prof_imgborder">
-                    <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`}/>
-                </div>
-            </animated.button>
-        </animated.div>
+                <Link to="/login"><animated.button id="header_login" className="BTNC"
+                onClick={ () => setRightPopup(!isRightPopup) }
+                onMouseEnter={ () => setLoginHover(true) }
+                onMouseLeave={ () => setLoginHover(false) }
+                style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id!='' ? 'none' : 'block' }}>로그인</animated.button></Link>
 
+                <animated.button id="header_prof" className="BTNC"
+                onClick={ () => setRightPopup(!isRightPopup) }
+                onMouseEnter={ () => setLoginHover(true) }
+                onMouseLeave={ () => setLoginHover(false) }
+                style={{ ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id=='' ? 'none' : 'block' }}>
+                    <div id="header_prof_imgborder">
+                        <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`}/>
+                    </div>
+                </animated.button>
+            </animated.div>
+        </>
     );
 }
-class Header extends Component {
-    state = { loginInfo: undefined }
-    constructor(props){
-        super(props);
+const Header = ({ location, match, history }) => {
+    const urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
+        { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
+    
+    const theme = { r: 255, g: 255, b: 255 };
+    const [loginInfo, setLoginInfo] = useState(undefined);
+    const [pathname, setPathname] = useState(undefined);
 
-        this.urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
-            { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
-
-        this.theme = { r: 255, g: 255, b: 255 };
-
+    history.listen((location) => {
+        if(pathname != location.pathname){
+            setPathname(location.pathname);
+            axios.get('/json/logininfo').then((userInfo) => {
+                setLoginInfo(userInfo.data);
+            });
+        }
+    });
+    if(pathname != location.pathname){
+        setPathname(location.pathname);
         axios.get('/json/logininfo').then((userInfo) => {
-            this.setState({ loginInfo: userInfo.data});
+            setLoginInfo(userInfo.data);
         });
     }
-    render() {
-        return <HeaderMaker urlList={ this.urlList } theme={ this.theme } loginInfo={ this.state.loginInfo }/>;
-    }
+
+    return <HeaderMaker urlList={ urlList } theme={ theme } loginInfo={ loginInfo }/>;
 }
 
-export default Header;
+export default withRouter(Header);
