@@ -43,6 +43,7 @@ class TagIcon extends Component {
         this.scale = this.props.scale;
 
         if(this.props.type === 'folder') this.icon = <Folder/>;
+        else if(this.props.type === 'tag' && this.props.theme=="light") this.icon = <TagLight/>;
         else if(this.props.type === 'tag') this.icon = <TagDark/>;
         else if(this.props.type === 'youtube') this.icon = <YoutubeLight/>;
         else if(this.props.type === 'blog') this.icon = <BlogLight/>;

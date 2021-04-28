@@ -6,15 +6,17 @@ import PageNotFound from './core/PageNotFound/PageNotFound';
 import './Font.css';
 import './App.css';
 
+const TagWithId = ({match}) => {
+  return <Frame><Tag id={match.params.Pnum} page={1}/></Frame>
+}
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path="/"><Frame><Main/></Frame></Route>
         <Route path="/problemset" component={ () => { window.location.href = 'https://euleroj.io/problemset'; return null; } }/>
-        <Route path="/tags" component={ () => { window.location.href = 'https://euleroj.io/tags'; return null; } }/>
-        <Route exact path="/tags2"><Frame><Tag/></Frame></Route>
-        <Route exact path="/tags2/:Pnum"><Frame><Tag/></Frame></Route>
+        <Route exact path="/tags"><Frame><Tag id={0} page={1}/></Frame></Route>
+        <Route exact path="/tags/:Pnum" component={ TagWithId }></Route>
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
         <Route path="/ranking" component={ () => { window.location.href = 'https://euleroj.io/ranking'; return null; } }/>

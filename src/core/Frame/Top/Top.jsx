@@ -10,7 +10,7 @@ const TitleLay = (props) => {
                 <div style={{ position: 'absolute', left: '0px', top: '3px', width: '40px', height: '40px', overflow: 'hidden' }}>
                     { props.icon }
                 </div>
-                <div style={{ position: 'absolute', left: '50px', top: '0px', fontSize: '30px', fontWeight: '900', color: 'white' }}>태그</div>
+                <div style={{ position: 'absolute', left: '50px', top: '0px', fontSize: '30px', fontWeight: '900', color: 'white' }}>{ props.title }</div>
             </div>
         </div>
     )
@@ -56,7 +56,7 @@ class Top extends Component {
                     </div>
                 </div>
 
-                <TitleLay icon={ this.props.icon } scrolledTop={ this.state.scrolledTop }/>
+                <TitleLay icon={ this.props.icon } title={ this.props.title } scrolledTop={ this.state.scrolledTop }/>
             </>
         );
     }
