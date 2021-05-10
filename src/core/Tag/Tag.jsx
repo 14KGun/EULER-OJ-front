@@ -30,7 +30,7 @@ const TopFixedLayIcon = (props) => {
 }
 const TopFixedLayArrow = () => {
     return (
-        <img src={ svgArrow } style={{ height: '10px', marginLeft: '6px', marginRight: '6px' }}/>
+        <img src={ svgArrow } style={{ height: '10px', marginLeft: '6px', marginRight: '6px' }} alt=""/>
     )
 }
 const TopFixedLay = (props) => {
@@ -81,7 +81,7 @@ class Tag extends Component {
         document.title = "태그 : 오일러OJ"
     }
     getSnapshotBeforeUpdate(prevProps, prevState){
-        if(prevProps.id != this.props.id){
+        if(prevProps.id !== this.props.id){
             this.setState({ err: undefined, msg: undefined, info: undefined, route: [], tagChild: undefined, problemChild: undefined });
             axios.get(`/json/tags/getInfo/${ this.props.id }`).then((tagInfo) => {
                 if(!tagInfo.data.err) document.title = `${ tagInfo.data.info.name } : 오일러OJ`;

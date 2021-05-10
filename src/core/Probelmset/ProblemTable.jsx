@@ -1,5 +1,4 @@
 import React, { Component, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import svgPersonGreen from './svg_personGreen.svg';
 import svgPersonGray from './svg_personGray.svg';
@@ -30,7 +29,7 @@ const ProblemItem = (props) => {
         float: 'left',
         width: '16px', marginLeft: '20px',
         height: '16px', marginTop: '22px', borderRadius: '8px',
-        background: (props.res=='0' ? 'rgb(220,220,220)' : (props.res=='100' ? 'rgb(34,177,76)' : 'rgb(255,127,39)'))
+        background: (props.res==='0' ? 'rgb(220,220,220)' : (props.res==='100' ? 'rgb(34,177,76)' : 'rgb(255,127,39)'))
     };
     const Item2Style = {
         float: 'left',
@@ -48,10 +47,10 @@ const ProblemItem = (props) => {
         height: '60px', lineHeight: '60px',
         fontSize: '16px', fontWeight: '500', color: 'black'
     }
-    const Item3ImgStyle = {
+    /*const Item3ImgStyle = {
         width: '20px', height: '20px',
         verticalAlign: 'middle', paddingBottom: '5px', marginLeft: '2px'
-    }
+    }*/
     const Item4Style = {
         float: 'right', width: '80px', height: '60px', position: 'relative', marginRight: '20px'
     }
@@ -76,11 +75,11 @@ const ProblemItem = (props) => {
                 <span style={ Item3TxtStyle }>{ props.title }</span>
             </div></a>
             <a href={`/problemset/stats/${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGray }/>
+                <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
                 <div style={ Item4Txtstye }>{ props.submit }</div>
             </div></a>
             <a href={`/status?pid=${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGreen }/>
+                <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
                 <div style={ Item4Txtstye }>{ props.solve }</div>
             </div></a>
         </animated.div>

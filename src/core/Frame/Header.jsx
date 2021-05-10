@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { withRouter } from 'react-router-dom';
@@ -28,7 +28,7 @@ const HeaderMaker = (props) => {
     const urlList = props.urlList;
     const theme = props.theme;
     const height = '70px';
-    const currentUrl = window.location.pathname;
+    //const currentUrl = window.location.pathname;
 
     /* SCROLL */
     const [isScrolled, setIsScrolled] = useState(false);
@@ -104,15 +104,15 @@ const HeaderMaker = (props) => {
                 onClick={ () => setRightPopup(!isRightPopup) }
                 onMouseEnter={ () => setLoginHover(true) }
                 onMouseLeave={ () => setLoginHover(false) }
-                style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id!='' ? 'none' : 'block' }}>로그인</animated.button></Link>
+                style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo===undefined || props.loginInfo.id!=='' ? 'none' : 'block' }}>로그인</animated.button></Link>
 
                 <animated.button id="header_prof" className="BTNC"
                 onClick={ () => setRightPopup(!isRightPopup) }
                 onMouseEnter={ () => setLoginHover(true) }
                 onMouseLeave={ () => setLoginHover(false) }
-                style={{ ...loginStyle, display: props.loginInfo==undefined || props.loginInfo.id=='' ? 'none' : 'block' }}>
+                style={{ ...loginStyle, display: props.loginInfo===undefined || props.loginInfo.id==='' ? 'none' : 'block' }}>
                     <div id="header_prof_imgborder">
-                        <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`}/>
+                        <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`} alt=""/>
                     </div>
                 </animated.button>
             </animated.div>
@@ -128,14 +128,14 @@ const Header = ({ location, match, history }) => {
     const [pathname, setPathname] = useState(undefined);
 
     history.listen((location) => {
-        if(pathname != location.pathname){
+        if(pathname !== location.pathname){
             setPathname(location.pathname);
             axios.get('/json/logininfo').then((userInfo) => {
                 setLoginInfo(userInfo.data);
             });
         }
     });
-    if(pathname != location.pathname){
+    if(pathname !== location.pathname){
         setPathname(location.pathname);
         axios.get('/json/logininfo').then((userInfo) => {
             setLoginInfo(userInfo.data);

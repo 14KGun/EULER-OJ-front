@@ -32,9 +32,9 @@ const PageMaker = () => {
         onMouseEnter={ () => setHover(true) } onMouseMove={ (e) => setXy(calc(e)) } onMouseLeave={ () => setHover(false) }>
             <animated.img className="gallerypage-3-effect" src={ imgEffect } style={ effectStyle }/>
             <div className="FRAME_MAIN" style={{ height: '100%' }}>
-                <img className="gallerypage-3-img" src={ imgBook }/>
+                <img className="gallerypage-3-img" src={ imgBook } alt=""/>
                 <div className="gallerypage-3-layleft">
-                    <img src={ imgTitle }/>
+                    <img src={ imgTitle } alt="오일러BOOKS"/>
                     <div className="gallerypage-3-title">코딩마법서 1권<br/>STONE VERSION</div>
                     <div className="gallerypage-3-txt">코딩 테스트를 위한 기초 실력을 키워나가는데 최적인 책!<br/>코딩마법서 1권 &lt;STONE VERSION&gt;은 여러분에게 마법과 같은 새로운 해법을 제시해 드립니다.</div>
                     <a href="https://smartstore.naver.com/eulerbooks/products/5080335014">

@@ -10,31 +10,31 @@ import imgNosolveLight from './img_nosolveLight.png';
 import imgNosolveDark from './img_nosolveDark.png';
 
 const Folder = () => {
-    return <img src={ svgFolder } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ svgFolder } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Folder"/>
 }
 const TagLight = () => {
-    return <img src={ svgTagLight } style={{ width: '100%', height: '100%', overFit: 'contain' }}/>
+    return <img src={ svgTagLight } style={{ width: '100%', height: '100%', overFit: 'contain' }} alt="Tag"/>
 }
 const TagDark = () => {
-    return <img src={ svgTagDark } style={{ width: '100%', height: '100%', overFit: 'contain' }}/>
+    return <img src={ svgTagDark } style={{ width: '100%', height: '100%', overFit: 'contain' }} alt="Tag"/>
 }
 const YoutubeLight = () => {
-    return <img src={ imgYoutubeLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgYoutubeLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Youtube"/>
 }
 const YoutubeDark = () => {
-    return <img src={ imgYoutubeDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgYoutubeDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Youtube"/>
 }
 const BlogLight = () => {
-    return <img src={ imgBlogLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgBlogLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Blog"/>
 }
 const BlogDark = () => {
-    return <img src={ imgBlogDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgBlogDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Blog"/>
 }
 const NosolveLight = () => {
-    return <img src={ imgNosolveLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgNosolveLight } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Nosolve"/>
 }
 const NosolveDark = () => {
-    return <img src={ imgNosolveDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }}/>
+    return <img src={ imgNosolveDark } style={{ width: '90%', height: '90%', overFit: 'contain', padding: '5%' }} alt="Nosolve"/>
 }
 
 class TagIcon extends Component {
@@ -43,10 +43,13 @@ class TagIcon extends Component {
         this.scale = this.props.scale;
 
         if(this.props.type === 'folder') this.icon = <Folder/>;
-        else if(this.props.type === 'tag' && this.props.theme=="light") this.icon = <TagLight/>;
+        else if(this.props.type === 'tag' && this.props.theme === "light") this.icon = <TagLight/>;
         else if(this.props.type === 'tag') this.icon = <TagDark/>;
+        else if(this.props.type === 'youtube' && this.props.theme === "light") this.icon = <YoutubeDark/>;
         else if(this.props.type === 'youtube') this.icon = <YoutubeLight/>;
+        else if(this.props.type === 'blog' && this.props.theme === "light") this.icon = <BlogDark/>;
         else if(this.props.type === 'blog') this.icon = <BlogLight/>;
+        else if(this.props.type === 'nosolve' && this.props.theme === "light") this.icon = <NosolveDark/>;
         else if(this.props.type === 'nosolve') this.icon = <NosolveLight/>;
         else this.icon = <TagDark/>;
     }

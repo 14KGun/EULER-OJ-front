@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { useSpring, animated } from 'react-spring';
 
 const LoadingMaker = () => {

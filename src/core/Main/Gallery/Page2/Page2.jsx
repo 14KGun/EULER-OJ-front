@@ -29,10 +29,10 @@ const PageMaker = () => {
             <div className="FRAME_MAIN" style={{ height: '100%' }}>
                 <div className="gallerypage-2-board">
                     <div className="gallerypage-2-layleft">
-                        <img src={ imgMac }/>
+                        <img src={ imgMac } alt=""/>
                     </div>
                     <div className="gallerypage-2-layright">
-                        <img src={ imgTitle } />
+                        <img src={ imgTitle } alt="오일러TV"/>
                         <div className="gallerypage-2-txt">오일러EDU는 많은 사람들이 재미있고 더 쉽게 코딩에 다가갈 수 있도록 유튜브 채널과 연결하여 Uncontact 교육을 진행하고 있습니다.</div>
                         <a href="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ">
                             <animated.span className="gallerypage-2-btn" style={ btnStyle }

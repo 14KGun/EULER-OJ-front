@@ -43,7 +43,7 @@ class Problem extends Component {
         });
     }
     render() {
-        if(this.state.problemList == undefined){
+        if(this.state.problemList === undefined){
             return (
                 <Frame title="새로운 문제">
                     <div style={{ position: 'relative', paddingTop: '100px' }}>

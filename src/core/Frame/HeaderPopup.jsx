@@ -28,10 +28,10 @@ const BtnItem = (props) => {
 
     if(props.newtab){
         return (
-            <a href={ props.url } target="_blank">
+            <a href={ props.url } target="_blank" rel="noreferrer">
                 <animated.div style={{ ...style, ...springStyle }}
                 onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                    <img style={ imgStyle } src={ props.icon } />
+                    <img style={ imgStyle } src={ props.icon } alt={ props.name }/>
                     <div style={ txtStyle }>{ props.name }</div>
                 </animated.div>
             </a>
@@ -42,7 +42,7 @@ const BtnItem = (props) => {
             <Link to={ props.url } onClick={ props.close }>
                 <animated.div style={{ ...style, ...springStyle }}
                 onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                    <img style={ imgStyle } src={ props.icon } />
+                    <img style={ imgStyle } src={ props.icon } alt={ props.name }/>
                     <div style={ txtStyle }>{ props.name }</div>
                 </animated.div>
             </Link>
@@ -74,7 +74,7 @@ const HeaderRight = (props) => {
         fontSize: '20px', fontWeight: '500', color: 'white',
     };
 
-    if(props.loginInfo == undefined) return <></>;
+    if(props.loginInfo === undefined) return <></>;
     else{
         return (
             <animated.div className="ND" style={{ ...style, ...springStyle }}>

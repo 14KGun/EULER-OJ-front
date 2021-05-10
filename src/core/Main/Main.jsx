@@ -1,5 +1,4 @@
 import React, { Component, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
@@ -37,7 +36,7 @@ const Lay1Item = (props) => {
         onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
         style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
             <div className="CARD-NAME">{ props.name }</div>
-            <img className="CARD-IMG" src={ props.img } />
+            <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
         </animated.div>
     );
 
@@ -72,7 +71,7 @@ class Main extends Component {
     }
     fixPage(pageIndex){
         this.setState({ pageFix: pageIndex });
-        if(pageIndex != undefined) this.setPage(pageIndex);
+        if(pageIndex !== undefined) this.setPage(pageIndex);
     }
     render() {
         return (

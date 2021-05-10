@@ -6,7 +6,7 @@ import Page3 from './Page3/Page3';
 
 const GalleryMaker = (props) => {
     const pageList = [<Page1/>, <Page2/>, <Page3/>];
-    const pageIndex = props.pageIndex, setPage = props.setPage;
+    const pageIndex = props.pageIndex; //, setPage = props.setPage;
 
     var pageStyle = [];
 

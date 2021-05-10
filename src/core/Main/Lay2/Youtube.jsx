@@ -38,7 +38,7 @@ const YoutubeItem = (props) => {
     };
 
     return (
-        <a href={ `https://youtu.be/${ props.id }` } target="_blank">
+        <a href={ `https://youtu.be/${ props.id }` } target="_blank" rel="noreferrer">
             <animated.div style={ itemStyle }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <animated.img style={ imgStyle } src={ props.imgSrc }/>
@@ -59,7 +59,7 @@ class Youtube extends Component {
         });
     }
     render() {
-        if(this.state.youtubeList == undefined){
+        if(this.state.youtubeList === undefined){
             return (
                 <Frame title="오일러TV">
                     <div style={{ position: 'relative', paddingTop: '100px' }}>

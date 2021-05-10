@@ -44,7 +44,7 @@ class Footer extends Component {
                         <div style={ this.lay1Style }>
                             <div>
                                 <div style={{ display: this.state.bodyWidth > 600 ? 'block' : 'none' }}>
-                                    <img style={ this.logoStyle } src={ imgEulerLogoBlack }/>
+                                    <img style={ this.logoStyle } src={ imgEulerLogoBlack } alt="EULER"/>
                                     <span style={ this.logoTitleStyle }>오일러</span>
                                 </div>
                                 <div style={{ ...this.copyRightStyle, textAlign: this.state.bodyWidth > 600 ? 'left' : 'center' }}>Copyright ⓒ 2001 EULER. All right reserved.</div>
@@ -52,12 +52,12 @@ class Footer extends Component {
                             <div style={{ position: this.state.bodyWidth > 600 ? 'absolute' : 'relative',
                             textAlign: this.state.bodyWidth > 600 ? 'right' : 'center',
                             top: '10px', right: '0px' }}>
-                                <a href="https://smartstore.naver.com/eulerbooks"><img src={ imgBtn2 } style={ this.minibtnStyle }/></a>
-                                <a href="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ"><img src={ imgBtn3 } style={ this.minibtnStyle }/></a>
-                                <a href="https://www.instagram.com/euler_lab/"><img src={ imgBtn4 } style={ this.minibtnStyle }/></a>
-                                <a href="https://www.facebook.com/euleredu"><img src={ imgBtn5 } style={ this.minibtnStyle }/></a>
-                                <a href="https://band.us/@euler"><img src={ imgBtn6 } style={ this.minibtnStyle }/></a>
-                                <a href="https://blog.naver.com/euleredu"><img src={ imgBtn7 } style={ this.minibtnStyle }/></a><br/>
+                                <a href="https://smartstore.naver.com/eulerbooks"><img src={ imgBtn2 } style={ this.minibtnStyle } alt="EULER naver smartstore"/></a>
+                                <a href="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ"><img src={ imgBtn3 } style={ this.minibtnStyle } alt="EULER youtube"/></a>
+                                <a href="https://www.instagram.com/euler_lab/"><img src={ imgBtn4 } style={ this.minibtnStyle } alt="EULER instagram"/></a>
+                                <a href="https://www.facebook.com/euleredu"><img src={ imgBtn5 } style={ this.minibtnStyle } alt="EULER facebook"/></a>
+                                <a href="https://band.us/@euler"><img src={ imgBtn6 } style={ this.minibtnStyle } alt="EULER naver band"/></a>
+                                <a href="https://blog.naver.com/euleredu"><img src={ imgBtn7 } style={ this.minibtnStyle } alt="EULER naver blog"/></a><br/>
                                 <u><a href="/about" style={ this.personalRightStyle }>개인정보처리방침</a></u>
                             </div>
                         </div>
