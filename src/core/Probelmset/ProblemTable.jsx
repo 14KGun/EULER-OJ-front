@@ -2,6 +2,9 @@ import React, { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import svgPersonGreen from './svg_personGreen.svg';
 import svgPersonGray from './svg_personGray.svg';
+import imgNosolve from '../Tag/TagIcon/img_nosolveLight.png'
+import imgYoutube from '../Tag/TagIcon/img_youtubeLight.png'
+import imgBlog from '../Tag/TagIcon/img_blogLight.png'
 
 const ProblemTop = () => {
     const borderLine = '2px solid rgb(0,150,200)';
@@ -40,17 +43,17 @@ const ProblemItem = (props) => {
     const Item3Style = {
         position: 'absolute', top: '0px', left: '130px',
         height: '60px', overflow: 'hidden',
-        width: '200px'
+        width: 'calc(100% - 330px)'
     }
     const Item3TxtStyle = {
         display: 'inline-block',
         height: '60px', lineHeight: '60px',
         fontSize: '16px', fontWeight: '500', color: 'black'
     }
-    /*const Item3ImgStyle = {
+    const Item3ImgStyle = {
         width: '20px', height: '20px',
         verticalAlign: 'middle', paddingBottom: '5px', marginLeft: '2px'
-    }*/
+    }
     const Item4Style = {
         float: 'right', width: '80px', height: '60px', position: 'relative', marginRight: '20px'
     }
@@ -66,6 +69,11 @@ const ProblemItem = (props) => {
     const [ isHover, setHover ] = useState(false);
     const ItemBackground = useSpring({ background: isHover ? 'rgba(200,200,200,0.2)' : 'rgba(200,200,200,0)', config: { duration: 100 } }).background;
 
+    const tagList = [];
+    if(props.tags.nosolve){ tagList.push(<span key="sp1">&nbsp;</span>); tagList.push(<img key="nosolve" src={ imgNosolve } style={ Item3ImgStyle } alt="nosolve"/>); }
+    if(props.tags.youtube){ tagList.push(<span key="sp2">&nbsp;</span>); tagList.push(<img key="youtube" src={ imgYoutube } style={ Item3ImgStyle } alt="youtube"/>); }
+    if(props.tags.blog){ tagList.push(<span key="sp3">&nbsp;</span>); tagList.push(<img key="blog" src={ imgBlog } style={ Item3ImgStyle } alt="blog"/>); }
+
     return (
         <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden', background: ItemBackground }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
@@ -73,6 +81,7 @@ const ProblemItem = (props) => {
             <a href={`/problemset/problem/${ props.id }`}><div style={ Item2Style }>#{ props.id }</div></a>
             <a href={`/problemset/problem/${ props.id }`}><div style={ Item3Style }>
                 <span style={ Item3TxtStyle }>{ props.title }</span>
+                { tagList }
             </div></a>
             <a href={`/problemset/stats/${ props.id }`}><div style={{ ...Item4Style }}>
                 <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
@@ -90,7 +99,7 @@ class ProblemTable extends Component {
         return (
             <>
                 { this.props.content.length > 0 ? <ProblemTop/> : <></> }
-                { this.props.content.map((item) => <ProblemItem id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res }/>) }
+                { this.props.content.map((item, index) => <ProblemItem key={ index } id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res } tags={ item.tags }/>) }
             </>
         );
     }

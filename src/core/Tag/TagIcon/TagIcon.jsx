@@ -38,24 +38,20 @@ const NosolveDark = () => {
 }
 
 class TagIcon extends Component {
-    constructor(props) {
-        super(props);
-        this.scale = this.props.scale;
-
+    render() {
         if(this.props.type === 'folder') this.icon = <Folder/>;
         else if(this.props.type === 'tag' && this.props.theme === "light") this.icon = <TagLight/>;
         else if(this.props.type === 'tag') this.icon = <TagDark/>;
-        else if(this.props.type === 'youtube' && this.props.theme === "light") this.icon = <YoutubeDark/>;
-        else if(this.props.type === 'youtube') this.icon = <YoutubeLight/>;
-        else if(this.props.type === 'blog' && this.props.theme === "light") this.icon = <BlogDark/>;
-        else if(this.props.type === 'blog') this.icon = <BlogLight/>;
-        else if(this.props.type === 'nosolve' && this.props.theme === "light") this.icon = <NosolveDark/>;
-        else if(this.props.type === 'nosolve') this.icon = <NosolveLight/>;
+        else if(this.props.type === 'youtube' && this.props.theme === "light") this.icon = <YoutubeLight/>;
+        else if(this.props.type === 'youtube') this.icon = <YoutubeDark/>;
+        else if(this.props.type === 'blog' && this.props.theme === "light") this.icon = <BlogLight/>;
+        else if(this.props.type === 'blog') this.icon = <BlogDark/>;
+        else if(this.props.type === 'nosolve' && this.props.theme === "light") this.icon = <NosolveLight/>;
+        else if(this.props.type === 'nosolve') this.icon = <NosolveDark/>;
         else this.icon = <TagDark/>;
-    }
-    render() {
+
         return (
-            <span style={{ display: 'inline-block', width: this.scale, height: this.scale, overflow: 'hidden' }}>
+            <span style={{ display: 'inline-block', width: this.props.scale, height: this.props.scale, overflow: 'hidden' }}>
                 { this.icon }
             </span>
         );

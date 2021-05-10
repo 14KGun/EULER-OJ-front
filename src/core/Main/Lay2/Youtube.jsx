@@ -54,7 +54,6 @@ class Youtube extends Component {
         super(props);
 
         axios.get('/json/main/youtubelist').then((youtubeList) => {
-            console.log(youtubeList.data);
             this.setState({ youtubeList: youtubeList.data });
         });
     }

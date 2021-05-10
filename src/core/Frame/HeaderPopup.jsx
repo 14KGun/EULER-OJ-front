@@ -5,6 +5,9 @@ import imgEuler from '../Main/img_card1.png';
 import imgYoutube from '../Main/img_card2.png';
 import imgBooks from '../Main/img_card3.png';
 import imgBlog from '../Main/img_card4.png';
+import svgProf from './HeaderPopupIcon/svg_prof.svg';
+import svgSetting from './HeaderPopupIcon/svg_setting.svg';
+import svgLogout from './HeaderPopupIcon/svg_logout.svg';
 
 const BtnItem = (props) => {
     const [isHover, setHover] = useState(false);
@@ -18,7 +21,9 @@ const BtnItem = (props) => {
     })
     const imgStyle = {
         position: 'absolute', top: '15px', left: '15px',
-        width: '30px', height: '30px'
+        width: props.fasten ? '24px' : '30px',
+        height: props.fasten ? '24px' : '30px',
+        padding: props.fasten ? '3px' : '0px'
     }
     const txtStyle = {
         position: 'absolute', top: '0px', left: '60px',
@@ -26,28 +31,16 @@ const BtnItem = (props) => {
         textAlign: 'center', fontSize: '16px', fontWeight: '300', color: 'black'
     }
 
-    if(props.newtab){
-        return (
-            <a href={ props.url } target="_blank" rel="noreferrer">
-                <animated.div style={{ ...style, ...springStyle }}
-                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                    <img style={ imgStyle } src={ props.icon } alt={ props.name }/>
-                    <div style={ txtStyle }>{ props.name }</div>
-                </animated.div>
-            </a>
-        )
-    }
-    else{
-        return (
-            <Link to={ props.url } onClick={ props.close }>
-                <animated.div style={{ ...style, ...springStyle }}
-                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                    <img style={ imgStyle } src={ props.icon } alt={ props.name }/>
-                    <div style={ txtStyle }>{ props.name }</div>
-                </animated.div>
-            </Link>
-        )
-    }
+    const content = (
+        <animated.div style={{ ...style, ...springStyle }}
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            <img style={ imgStyle } src={ props.icon } alt={ props.name }/>
+            <div style={ txtStyle }>{ props.name }</div>
+        </animated.div>
+    )
+
+    if(props.newtab) return <a href={ props.url } target="_blank" rel="noreferrer">{ content }</a>;
+    else return <Link to={ props.url } onClick={ props.close }>{ content }</Link>;
 }
 const HeaderRight = (props) => {
     const style = {
@@ -86,9 +79,9 @@ const HeaderRight = (props) => {
                     </div>
                     <div style={ Lay1IdStyle }>{ props.loginInfo.id }</div>
                 </div>
-                <BtnItem icon={ "123" } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close }/>
-                <BtnItem icon={ "123" } name="계정 설정" url="/setting/profile" close={ props.close }/>
-                <BtnItem icon={ "123" } name="로그아웃" url="/logout" close={ props.close }/>
+                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } fasten/>
+                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } fasten/>
+                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } fasten/>
             </animated.div>
         );
     }

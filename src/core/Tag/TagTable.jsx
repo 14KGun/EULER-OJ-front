@@ -39,13 +39,18 @@ const TagItem = (props) => {
     const [ isHover, setHover ] = useState(false);
     const ItemBackground = useSpring({ background: isHover ? 'rgba(200,200,200,0.2)' : 'rgba(200,200,200,0)', config: { duration: 100 } }).background;
 
+    var subTxt = '빈 태그';
+    if(props.sub.tag > 0 && props.sub.problem > 0) subTxt = `${props.sub.tag}개의 태그와 ${props.sub.problem}개의 문제`;
+    else if(props.sub.tag > 0) subTxt = `${props.sub.tag}개의 태그`;
+    else if(props.sub.problem > 0) subTxt = `${props.sub.problem}개의 문제`;
+
     return (
         <Link to={`/tags/${ props.id }`}>
             <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', background: ItemBackground }}
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <div style={{ ...ItemStyle, ...Item1Style }}><TagIcon type={ props.type } scale="26px" theme="light"/></div>
                 <div style={{ ...ItemStyle, ...Item2Style }}>{ props.name }</div>
-                <div style={{ ...ItemStyle, ...Item3Style }}>{ props.sub }</div>
+                <div style={{ ...ItemStyle, ...Item3Style }}>{ subTxt }</div>
             </animated.div>
         </Link>
     )
@@ -55,7 +60,7 @@ class TagTable extends Component {
         return (
             <>
                 { this.props.content.length > 0 ? <TagTop/> : <></> }
-                { this.props.content.map((item) => <TagItem id={ item.id } type={ item.icon } name={ item.name } sub="..."/>) }
+                { this.props.content.map((item, index) => <TagItem key={ index } id={ item.id } type={ item.icon } name={ item.name } sub={{ tag: item.subTagLength, problem: item.subProblemLength }}/>) }
             </>
         );
     }

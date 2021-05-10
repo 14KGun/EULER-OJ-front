@@ -55,7 +55,7 @@ const Background = (props) => {
     return (
         <div className="TagTopBackground" style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
             <img src={ svgBackground } style={{ top: '0px', left: '0px', width: '100%', height: '100%', objectFit: 'cover' }} alt=""/>
-            { props.stars.map((item, index) => <animated.img src={ item.src } style={{ width: item.size, top: item.top, left: item.left, opacity: springLight }}/>) }
+            { props.stars.map((item, index) => <animated.img key={ index } src={ item.src } style={{ width: item.size, top: item.top, left: item.left, opacity: springLight }}/>) }
 
             <animated.img className="TagTopBackground-trans" src={ svgShoot } style={{ height: springHeight.to((h) => (1-sinkPercent(h))*50+'%'), top: springShooting.to((x) => x*20+'%'), left: springShooting.to((x) => (1-x)*10+'%') }} />
 
