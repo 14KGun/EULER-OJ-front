@@ -101,12 +101,11 @@ class Tag extends Component {
                 });
             });
         }
-        if(this.state.err); // !
         return (
             <div>
                 <Top icon={ <TagIcon type={ this.state.info ? this.state.info.icon : 'tag' } scale="40px" on="top"/> }
                 title={ this.state.info ? this.state.info.name : '' }
-                background={ <TopBackground/> } fixedLay={ <TopFixedLay list={ this.state.route }/> }/>
+                background={ <TopBackground/> } fixedLay={ <TopFixedLay list={ this.state.route ? this.state.route : [] }/> }/>
                 
                 <div className="FRAME_MAIN ND">
                     { this.state.err ? <ErrorLay msg={ this.state.msg }/> : 

@@ -46,7 +46,7 @@ const HeaderMaker = (props) => {
         boxShadow: `0 0 10px 5px rgba(0,0,0,${isScrolled ? 0.1 : 0})`
     });
     const headerTxtStyle = useSpring({
-        color: isScrolled ? 'black' : 'white'
+        color: isScrolled ? 'black' : props.txtColor
     });
 
     /* PopupScreen */
@@ -119,7 +119,7 @@ const HeaderMaker = (props) => {
         </>
     );
 }
-const Header = ({ location, match, history }) => {
+const Header = ({ location, match, history, txtColor }) => {
     const urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
         { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
     
@@ -142,7 +142,7 @@ const Header = ({ location, match, history }) => {
         });
     }
 
-    return <HeaderMaker urlList={ urlList } theme={ theme } loginInfo={ loginInfo }/>;
+    return <HeaderMaker urlList={ urlList } theme={ theme } loginInfo={ loginInfo } txtColor={ txtColor }/>;
 }
 
 export default withRouter(Header);
