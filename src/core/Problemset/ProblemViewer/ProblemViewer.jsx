@@ -414,7 +414,7 @@ class ProblemViewer extends Component {
                             <BtnSubmit id={ this.props.id }/>
                             <BoxLink id={ this.props.id } youtube={ this.state.youtube } blog={ this.state.blog } tooltip={ this.tooltip }/>
                             <BoxStat id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
-                            <BoxStatus id={ this.props.id } loginId={ this.props.loginId } res={ this.state.res }/>
+                            <BoxStatus id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
                             <BoxLimit time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
                         </div>
                     </div>
