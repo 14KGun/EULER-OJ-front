@@ -6,7 +6,7 @@ import Top from '../Frame/Top/Top';
 import TopBackground from './TagTopBackground/TagTopBackground';
 import TagIcon from './TagIcon/TagIcon';
 import TagTable from './TagTable';
-import ProblemTable from '../Probelmset/ProblemTable'
+import ProblemTable from '../Problemset/ProblemTable'
 import Loading from '../Frame/Loading/Loading';
 import PageSelector from '../Frame/PageSelector';
 import Footer from '../Frame/Footer'

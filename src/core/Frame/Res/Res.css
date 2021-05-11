@@ -1,0 +1,38 @@
+.RES_BOX{
+    width: 100%; height: 26px;
+    position: relative; overflow: hidden;;
+    border-radius: 13px;
+    background: rgb(200,200,200);
+}
+.RES_BOX > .RES_ST{
+    height: 100%; width: 0%;
+}
+.RES_BOX > .RES_TXT{
+    width: 100%; height: 100%; padding-left: 8px;
+    position: absolute; top: 0px; left: 0px;
+    text-align: center; line-height: 26px;
+    font-size: 13px; font-weight: 500; color: white;
+}
+.RES_BOX > .RES_IMGBOX{
+    width: 20px; height: 20px;
+    position: absolute; top: 3px; left: 3px;
+    border-radius: 10px; overflow: hidden;
+    background: white;
+}
+.RES_BOX > .RES_IMGBOX > img{
+    width: 60%; height: 60%;
+    position: absolute; top: 20%; left: 20%;
+}
+.RES_BOX > .RES_IMGBOX > .RES_PENDING{
+    width: 100%; height: 100%;
+    position: absolute; top: 0px; left: 0px;
+}
+.RES_BOX > .RES_IMGBOX > .RES_PENDING > .RES_PENDING_ITEM{
+    width: 20%; height: 20%; border-radius: 10px;
+    overflow: hidden;
+    position: absolute; top: 40%;
+    background: white;
+}
+.RES_BOX > .RES_IMGBOX > .RES_PENDING > .RES_PENDING_ITEM1{ left: 2px; }
+.RES_BOX > .RES_IMGBOX > .RES_PENDING > .RES_PENDING_ITEM2{ left: 8px }
+.RES_BOX > .RES_IMGBOX > .RES_PENDING > .RES_PENDING_ITEM3{ left: 14px; }

@@ -42,7 +42,7 @@ class TooltipCons{
     }
     isExist(elementId){
         var res = false;
-        this.tooltips.map(item => {
+        this.tooltips.forEach(item => {
             if(item.key === elementId) res = true;
         });
         return res;

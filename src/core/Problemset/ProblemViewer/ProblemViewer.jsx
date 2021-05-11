@@ -6,6 +6,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
 import Loading from '../../Frame/Loading/Loading';
+import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer'
 import './ProblemViewer.css';
 import imgEditor from './img_editor.png';
@@ -247,7 +248,7 @@ const BoxStatus = (props) => {
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
                 </animated.div>
             </a>
-            <a href={`/status?pid=${props.id}&lid=${props.loginId ? props.loginId: ''}`}>
+            <a href={`/status?pid=${props.id}&lid=${props.loginId ? props.loginId : ''}`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
@@ -255,6 +256,7 @@ const BoxStatus = (props) => {
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
             </a>
+            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res }/></div> : <></> }
         </div>
     )
 }
@@ -329,6 +331,7 @@ const problemDefaultState = {
     title: undefined, problemHtml: undefined, tags: [], loginId: undefined,
     sampleInput: [], sampleOutput: [], youtube: '', blog: '',
     solve: '', submit: '', timelimit: '', memorylimit: '', inputmethod: '', outputmethod: '',
+    res: undefined
 }
 class ProblemViewer extends Component {
     constructor(props){
@@ -353,6 +356,9 @@ class ProblemViewer extends Component {
                     solve: probInfo.data.solve, submit: probInfo.data.submit,
                     timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
                 });
+            });
+            axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
+                this.setState({ res: resInfo.data.res });
             });
         }
 
@@ -408,7 +414,7 @@ class ProblemViewer extends Component {
                             <BtnSubmit id={ this.props.id }/>
                             <BoxLink id={ this.props.id } youtube={ this.state.youtube } blog={ this.state.blog } tooltip={ this.tooltip }/>
                             <BoxStat id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
-                            <BoxStatus id={ this.props.id } loginId={ this.props.loginId }/>
+                            <BoxStatus id={ this.props.id } loginId={ this.props.loginId } res={ this.state.res }/>
                             <BoxLimit time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
                         </div>
                     </div>
