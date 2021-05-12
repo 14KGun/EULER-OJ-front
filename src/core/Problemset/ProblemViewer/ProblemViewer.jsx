@@ -6,6 +6,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
 import Loading from '../../Frame/Loading/Loading';
+import TopMessage from './TopMessage';
 import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer'
 import './ProblemViewer.css';
@@ -346,6 +347,19 @@ class ProblemViewer extends Component {
         }
         return prevState;
     }
+
+    isneedMsg1(){
+        if(this.state.tags === undefined) return false;
+        for(var i=0; i<this.state.tags.length; i++){
+            console.log(this.state.tags[i])
+            if(this.state.tags[i].name === '제출이 금지됨') return true;
+        }
+        return false;
+    }
+    isneedMsg2(){
+        return false;
+    }
+
     render() {
         if(this.state.loaded === false){
             axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
@@ -407,6 +421,8 @@ class ProblemViewer extends Component {
                     <title>{ this.state.title ? `#${ this.state.id } ${ this.state.title } : 오일러OJ` : `#${ this.props.id } : 오일러OJ` }</title>
                 </Helmet>
                 <div className="FRAME_MAIN" style={{ paddingTop: '110px' }}>
+                    { this.isneedMsg1() ? <TopMessage type="banwarn"/> : <></> }
+                    { this.isneedMsg2() ? <TopMessage type="bookmark"/> : <></> }
                     <div id="lay_main">
                         <div id="lay_left">{ layLeft }</div>
                         <div id="lay_right" className="ND">
