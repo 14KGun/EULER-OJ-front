@@ -7,6 +7,7 @@ import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
 import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
+import Bookmark from './Bookmark/Bookmark';
 import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer'
 import './ProblemViewer.css';
@@ -351,7 +352,6 @@ class ProblemViewer extends Component {
     isneedMsg1(){
         if(this.state.tags === undefined) return false;
         for(var i=0; i<this.state.tags.length; i++){
-            console.log(this.state.tags[i])
             if(this.state.tags[i].name === '제출이 금지됨') return true;
         }
         return false;
@@ -406,7 +406,10 @@ class ProblemViewer extends Component {
                 <>
                     <div id="prob-id">#{ this.state.id }</div>
                     <div id="prob-title">{ this.state.title }</div>
-                    <div id="prob-tag" className="ND"><TagsLay tags={ this.state.tags }/></div>
+                    <div id="prob-tag" className="ND">
+                        <TagsLay tags={ this.state.tags }/>
+                        <Bookmark tooltip={ this.tooltip } id={ this.state.id }/>
+                    </div>
                     <div className="txt0">문제</div>
                     <div dangerouslySetInnerHTML={{ __html: problems[0] }}/>
                     <div className="txt1">입출력 예제</div>

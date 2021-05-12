@@ -17,6 +17,7 @@ body{ background: rgb(250,251,252); }
     font-size: 32px; font-weight: 900; color: rgb(0,134,191);
 }
 #prob-tag{
+    position: relative;
     margin-top: 8px; padding-bottom: 10px;
     border-bottom: 2px solid rgb(0,134,191);
 }
