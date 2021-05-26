@@ -3,7 +3,7 @@ import Frame from './core/Frame/Frame';
 import Main from './core/Main/Main';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
-import ProblemSubmit from './core/Problemset/ProblemViewer/ProblemViewer';
+import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
 import Tag from './core/Tag/Tag';
 import PageNotFound from './core/PageNotFound/PageNotFound';
 import './Font.css';
