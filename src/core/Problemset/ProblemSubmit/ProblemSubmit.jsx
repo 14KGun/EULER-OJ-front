@@ -18,7 +18,7 @@ const Top = () => {
     }
     return (
         <div style={{ marginTop: '100px', marginBottom: '15px' }}>
-            <img style={ styleImg } src={ imgSubmit }/>
+            <img style={ styleImg } src={ imgSubmit } alt=""/>
             <span style={ txtStyle }>소스 코드 제출</span>
         </div>
     )
@@ -76,7 +76,7 @@ const BtnSort = (props) => {
     const [isHover, setHover] = useState(false);
     const [tooltipId, settooltipId] = useState('undefined');
     const background = useSpring({
-        background: isHover ? 'rgba(190,190,190,1)' : 'rgba(190,190,190,0)',
+        background: isHover ? 'rgba(200,200,200,1)' : 'rgba(200,200,200,0)',
         config: { duration: 150 }
     }).background;
     const onMouseEnter = () => {
@@ -97,7 +97,7 @@ const BtnSort = (props) => {
     return (
         <a href="/setting/profile?page=langsort">
             <animated.div id="btn-sort" style={{ ...style, background: background }} onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>
-                <img src={ svgSort } style={ styleImg }/>
+                <img src={ svgSort } style={ styleImg } alt="sort"/>
             </animated.div>
         </a>
     )
@@ -128,6 +128,7 @@ class Lay1 extends Component {
 class Lay2 extends Component {
     constructor(props){
         super(props);
+        this.state = { lang: 'c++11' };
         this.style = {
             position: 'absolute', top: '0px', left: '210px', right: '0px',
             height: '200px',
@@ -137,6 +138,19 @@ class Lay2 extends Component {
         this.txt2Style = { fontSize: '20px', fontWeight: '800', color: 'black' }
         this.selectStyle = { marginLeft: '20px', width: '200px', height: '30px' }
     }
+    onChange(lang){
+        this.setState({ lang: lang });
+        if(this.props.python3Warning === false && lang === 'python3'){
+            this.props.setPython3Warning(true);
+        }
+        else if(this.props.python3Warning === true && lang !== 'python3'){
+            this.props.setPython3Warning(false);
+        }
+    }
+    shouldComponentUpdate(nextProps, nextState){
+        if(nextProps === this.props) return false;
+        return true;
+    }
     render() {
         return (
             <div style={ this.style }>
@@ -144,8 +158,9 @@ class Lay2 extends Component {
                 <div style={{ ...this.txt2Style, marginTop: '0px', marginLeft: '20px' }}>가로세로 낱말퀴즈</div>
                 <div style={{ ...this.txt1Style, marginTop: '20px', marginLeft: '20px' }}>제출 언어</div>
                 <div style={{ position: 'relative' }}>
-                    <select style={ this.selectStyle }>
+                    <select style={ this.selectStyle } onChange={ (e) => this.onChange(e.target.value) }>
                         <option value="c++11">C++11</option>
+                        <option value="python3">Python3</option>
                     </select>
                     <BtnSort tooltip={ this.props.tooltip }/>
                 </div>
@@ -207,6 +222,10 @@ class ProblemSubmit extends Component {
     constructor(props){
         super(props);
         this.tooltip = new Tooltip();
+        this.state = { python3Warning: false }
+    }
+    setPython3Warning(val){
+        this.setState({ python3Warning: val });
     }
     render() {
         return (
@@ -215,7 +234,8 @@ class ProblemSubmit extends Component {
                     <Top/>
                     <div style={{ height: 200, position: 'relative' }}>
                         <Lay1 id={ this.props.id }/>
-                        <Lay2 id={ this.props.id } tooltip={ this.tooltip }/>
+                        <Lay2 id={ this.props.id } tooltip={ this.tooltip }
+                        setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning }/>
                     </div>
                     <Editor tooltip={ this.tooltip }/>
                 </div>
