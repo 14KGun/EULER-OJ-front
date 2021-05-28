@@ -35,7 +35,7 @@ function App() {
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
         <Route path="/profile/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/profile/'+props.match.params.pnum; return null; } }/>
         <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>
-        <Route path="/"><Frame><PageNotFound/></Frame></Route>
+        <Route path="/"><Frame headerTxtColor="black"><PageNotFound/></Frame></Route>
       </Switch>
     </Router>
   );
