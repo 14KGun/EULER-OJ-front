@@ -2,6 +2,8 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
+import Popup from './ProblemSubmitPopup';
+import TopMessage from '../ProblemViewer/TopMessage';
 import Footer from '../../Frame/Footer';
 import Tooltip from  '../../Tool/tooltip';
 import imgSubmit from './img_submit.png';
@@ -112,7 +114,7 @@ class Lay1 extends Component {
             background: 'rgb(230,230,230)', borderRadius: '15px'
         }
         this.txt1Style = { fontSize: '15px', fontWeight: '400', color: 'gray' }
-        this.txt2Style = { fontSize: '18px', fontWeight: '500', color: 'black' }
+        this.txt2Style = { fontSize: '18px', fontWeight: '700', color: 'black' }
     }
     render() {
         return (
@@ -182,7 +184,7 @@ const Editor = (props) => {
     }).background;
     const onMouseEnter = () => {
         setHover(true);
-        const id = props.tooltip.create(document.getElementById(`btn-editorsetting`), 'top', '언어 정렬 설정으로 이동');
+        const id = props.tooltip.create(document.getElementById(`btn-editorsetting`), 'top', '에디터 설정으로 이동');
         settooltipId(id);
     };
     const onMouseLeave = () => {
@@ -237,10 +239,12 @@ class ProblemSubmit extends Component {
                         <Lay2 id={ this.props.id } tooltip={ this.tooltip }
                         setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning }/>
                     </div>
+                    <TopMessage type="python3Warning"/>
                     <Editor tooltip={ this.tooltip }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer/>
+                { this.state.popup ? <Popup/> : <></> }
             </>
         );
     }

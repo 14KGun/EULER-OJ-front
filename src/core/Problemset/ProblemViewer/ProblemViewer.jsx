@@ -477,17 +477,11 @@ class ProblemViewer extends Component {
     }
     componentDidMount(){
         this.resizeEvent()
-        window.onload = () => {
-            this.resizeEvent()
-            window.addEventListener('resize', this.resizeEvent);
-        }
+        window.addEventListener('resize', this.resizeEvent);
     }
     componentDidUpdate(){
         this.resizeEvent()
-        window.onload = () => {
-            this.resizeEvent()
-            window.addEventListener('resize', this.resizeEvent);
-        }
+        window.addEventListener('resize', this.resizeEvent);
     }
     componentWillUnmount(){
         this.tooltip.clear();
