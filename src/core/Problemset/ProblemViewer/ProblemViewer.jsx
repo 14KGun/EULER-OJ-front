@@ -416,6 +416,7 @@ class ProblemViewer extends Component {
                     <div dangerouslySetInnerHTML={{ __html: problems[0] }}/>
                     <div className="txt1">입출력 예제</div>
                     { samples }
+                    <div dangerouslySetInnerHTML={{ __html: problems[1] }}/>
                 </>
             );
         }
