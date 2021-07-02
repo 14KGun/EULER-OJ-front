@@ -22,7 +22,7 @@ function App() {
         <Route exact path="/"><Frame><Main/></Frame></Route>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
-        <Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>
+        {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
         <Route path="/problemset" component={ () => { window.location.href = 'https://euleroj.io/problemset'; return null; } }/>
         <Route exact path="/tags"><Frame><Tag id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum" component={ TagWithId }></Route>

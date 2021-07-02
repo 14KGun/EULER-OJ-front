@@ -230,6 +230,12 @@ class ProblemSubmit extends Component {
         this.setState({ python3Warning: val });
     }
     render() {
+        const Python3DengerMsg = () => (
+            <>
+                <div style={{ height: '10px' }}/>
+                <TopMessage type="python3Warning"/>
+            </>
+        );
         return (
             <>
                 <div className="FRAME_MAIN ND">
@@ -239,12 +245,12 @@ class ProblemSubmit extends Component {
                         <Lay2 id={ this.props.id } tooltip={ this.tooltip }
                         setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning }/>
                     </div>
-                    <TopMessage type="python3Warning"/>
+                    <Python3DengerMsg/>
                     <Editor tooltip={ this.tooltip }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer/>
-                { this.state.popup ? <Popup/> : <></> }
+                {/* { this.state.popup ? <Popup/> : <></> } */}
             </>
         );
     }
