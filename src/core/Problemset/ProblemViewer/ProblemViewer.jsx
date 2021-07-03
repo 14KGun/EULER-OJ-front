@@ -479,6 +479,7 @@ class ProblemViewer extends Component {
     componentDidMount(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
     }
     componentDidUpdate(){
         this.resizeEvent()
@@ -487,6 +488,7 @@ class ProblemViewer extends Component {
     componentWillUnmount(){
         this.tooltip.clear();
         window.removeEventListener('resize', this.resizeEvent);
+        clearInterval(this.resizeEventInterval);
     }
 }
 
