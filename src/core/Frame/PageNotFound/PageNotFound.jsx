@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import Footer from '../Footer'
+import Footer from '../Footer/Footer'
 import svgPNF from './svg_pagenotfound.svg';
 
 const BtnBack = (props) => {

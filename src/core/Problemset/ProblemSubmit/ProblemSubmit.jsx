@@ -4,7 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 import Popup from './ProblemSubmitPopup';
 import TopMessage from '../ProblemViewer/TopMessage';
-import Footer from '../../Frame/Footer';
+import Footer from '../../Frame/Footer/Footer';
 import Tooltip from  '../../Tool/tooltip';
 import imgSubmit from './img_submit.png';
 import svgSort from './svg_sort.svg';

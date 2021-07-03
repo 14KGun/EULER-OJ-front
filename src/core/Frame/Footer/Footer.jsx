@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import imgEulerLogoBlack from './svg_eulerlogo-black.svg';
+import imgEulerLogoBlack from '../svg_eulerlogo-black.svg';
 import imgBtn2 from './img_icon2.png';
 import imgBtn3 from './img_icon3.png';
 import imgBtn4 from './img_icon4.png';

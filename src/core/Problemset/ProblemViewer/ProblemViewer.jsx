@@ -10,7 +10,7 @@ import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
-import Footer from '../../Frame/Footer'
+import Footer from '../../Frame/Footer/Footer'
 import './ProblemViewer.css';
 import imgEditor from './img_editor.png';
 import imgSubmit from './img_submit.png';

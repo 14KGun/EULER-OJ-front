@@ -4,7 +4,7 @@ import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
 import Lay2Empty from './Lay2/Empty';
-import Footer from '../Frame/Footer'
+import Footer from '../Frame/Footer/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
 import imgCard2 from './img_card2.png';
