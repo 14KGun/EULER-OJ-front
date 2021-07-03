@@ -54,7 +54,7 @@ class ProblemSubmitPopup extends Component {
         const body = document.body, html = document.documentElement;
         const pageHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
         const pageHeightBefore = document.getElementById('submitPagePopup').clientHeight;
-        if(pageHeightBefore != pageHeight){
+        if(pageHeightBefore !== pageHeight){
             console.log(pageHeight);
             document.getElementById("submitPagePopup").style.height = `${ pageHeight }px`;
         }
