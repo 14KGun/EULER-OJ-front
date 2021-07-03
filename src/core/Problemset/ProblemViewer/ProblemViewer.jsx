@@ -9,6 +9,7 @@ import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
 import Res from '../../Frame/Res/Res';
+import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer'
 import './ProblemViewer.css';
 import imgEditor from './img_editor.png';
@@ -375,6 +376,7 @@ class ProblemViewer extends Component {
                 this.setState({ res: resInfo.data.res });
             });
         }
+        if(this.state.err) return <PageNotFound msg={ `요청하신 문제 #${this.props.id}는 존재하지 않거나 관리자에 의하여 비공개된 문제일 수 있습니다.` }/>;
 
         var layLeft = <LoadingLay/>;
         if(this.state.loaded){
@@ -414,6 +416,7 @@ class ProblemViewer extends Component {
                     <div dangerouslySetInnerHTML={{ __html: problems[0] }}/>
                     <div className="txt1">입출력 예제</div>
                     { samples }
+                    <div dangerouslySetInnerHTML={{ __html: problems[1] }}/>
                 </>
             );
         }
@@ -466,23 +469,20 @@ class ProblemViewer extends Component {
             }
         }
 
-        const heightLeft = document.getElementById('lay_left').clientHeight;
-        const heightRight = document.getElementById('lay_right').clientHeight;
-        document.getElementById("lay_main").style.height = `${ Math.max(heightLeft, heightRight) }px`
+        try{
+            const heightLeft = document.getElementById('lay_left').clientHeight;
+            const heightRight = document.getElementById('lay_right').clientHeight;
+            document.getElementById("lay_main").style.height = `${ Math.max(heightLeft, heightRight) }px`
+        } catch(error){
+        }
     }
     componentDidMount(){
         this.resizeEvent()
-        window.onload = () => {
-            this.resizeEvent()
-            window.addEventListener('resize', this.resizeEvent);
-        }
+        window.addEventListener('resize', this.resizeEvent);
     }
     componentDidUpdate(){
         this.resizeEvent()
-        window.onload = () => {
-            this.resizeEvent()
-            window.addEventListener('resize', this.resizeEvent);
-        }
+        window.addEventListener('resize', this.resizeEvent);
     }
     componentWillUnmount(){
         this.tooltip.clear();

@@ -8,7 +8,7 @@ class Problem extends Component {
         this.state = { onload: false, setting: undefined }
     }
     render() {
-        if(this.state.onload == false){
+        if(this.state.onload === false){
             axios.get(`/json/problems/usersetting`).then((settingInfo) => {
                 this.setState({ onload: true, setting: settingInfo.data.setting });
             });

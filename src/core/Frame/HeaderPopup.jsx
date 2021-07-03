@@ -6,6 +6,7 @@ import imgYoutube from '../Main/img_card2.png';
 import imgBooks from '../Main/img_card3.png';
 import imgBlog from '../Main/img_card4.png';
 import svgProf from './HeaderPopupIcon/svg_prof.svg';
+import svgBookmark from './HeaderPopupIcon/svg_bookmark.svg';
 import svgSetting from './HeaderPopupIcon/svg_setting.svg';
 import svgLogout from './HeaderPopupIcon/svg_logout.svg';
 
@@ -21,9 +22,9 @@ const BtnItem = (props) => {
     })
     const imgStyle = {
         position: 'absolute', top: '15px', left: '15px',
-        width: props.fasten ? '24px' : '30px',
-        height: props.fasten ? '24px' : '30px',
-        padding: props.fasten ? '3px' : '0px'
+        width: `${ 30 - 2*props.padding }px`,
+        height: `${ 30 - 2*props.padding }px`,
+        padding: `${ props.padding }px`
     }
     const txtStyle = {
         position: 'absolute', top: '0px', left: '60px',
@@ -42,6 +43,9 @@ const BtnItem = (props) => {
     if(props.newtab) return <a href={ props.url } target="_blank" rel="noreferrer">{ content }</a>;
     else return <Link to={ props.url } onClick={ props.close }>{ content }</Link>;
 }
+BtnItem.defaultProps = {
+    padding: 0
+}
 const HeaderRight = (props) => {
     const style = {
         position: 'fixed', top: '80px', right: '10px', width: '300px', zIndex: 89,
@@ -49,7 +53,7 @@ const HeaderRight = (props) => {
         background: 'white'
     };
     const springStyle = useSpring({
-        height: props.show ? '390px' : '0px'
+        height: props.show ? '450px' : '0px'
     });
     const lay1Style = {
         height: '180px', paddingTop: '30px',
@@ -79,9 +83,10 @@ const HeaderRight = (props) => {
                     </div>
                     <div style={ Lay1IdStyle }>{ props.loginInfo.id }</div>
                 </div>
-                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } fasten/>
-                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } fasten/>
-                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } fasten/>
+                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } padding={ 3 }/>
+                <BtnItem icon={ svgBookmark } name="내 북마크" url="/tags/bookmark" close={ props.close } padding={ 4 }/>
+                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } padding={ 3 }/>
+                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } padding={ 4 }/>
             </animated.div>
         );
     }
