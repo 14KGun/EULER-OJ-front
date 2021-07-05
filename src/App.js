@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Frame from './core/Frame/Frame';
+import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
+import Login from './core/Login/Login';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
@@ -20,6 +22,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/"><Frame><Main/></Frame></Route>
+        <Route exact path="/login"><LoginBoxFrame><Login/></LoginBoxFrame></Route>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
