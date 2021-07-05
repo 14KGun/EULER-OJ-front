@@ -22,7 +22,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/"><Frame><Main/></Frame></Route>
-        <Route exact path="/login"><LoginBoxFrame><Login/></LoginBoxFrame></Route>
+        <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
