@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
+import svgBackground01 from './svg_background1.svg';
 
 const getBodyWidth = (scalable, bodyWidth) => {
     const margin = 40;
@@ -21,23 +22,34 @@ const LoginBoxFrame = (props) => {
     }
     useEffect(() => {
         window.addEventListener('resize', resizeEvent);
+        document.getElementById("root").style.height = "100%";
         return () => {
             window.removeEventListener('resize', resizeEvent);
+            document.getElementById("root").style.height = "auto";
         }
     });
 
     const styleLayCenter = {
         width: '450px', height: '500px', margin: 'auto', overflow: 'hidden', position: 'relative',
-        background: 'white', borderRadius: '25px'
+        background: 'white', borderRadius: '25px', zIndex: '20'
     }
     const styleLayCenterWidth = useSpring({
         from: getBodyWidth(false, bodyWidth),
         width: getBodyWidth(props.scalable, bodyWidth),
-        config: { duration: 400, tension: 1000, mass: 1, precision: 1 }
+        config: { mass: 1.0, tension: 100, friction: 20.0, precision: 0.01, velocity: 0.0 }
+    });
+    const styleBackground = {
+        width: '100%', height: '100%', position: 'absolute', top: '0px', left: '0px',
+        objectFit: 'cover', zIndex: '0'
+    };
+    const styleBackgroundOpacity = useSpring({
+        from: { opacity: 0 },
+        opacity: props.background==="img1" ? 1 : 0,
+        config: { duration: 400 }
     });
 
     return (
-        <div style={{ width: '100%', height: '100%', background: 'rgb(235,235,235)' }}>
+        <div style={{ width: '100%', height: 'max(100%, 725px)', background: 'rgb(235,235,235)', position: 'relative' }}>
             <div id="layTop" style={{ height: `${ Math.max(50, (bodyHeight-500)/3) }px` }}/>
             <div id="layMid">
                 <animated.div id="layCenter" style={{ ...styleLayCenter, ...styleLayCenterWidth }}>
@@ -45,6 +57,7 @@ const LoginBoxFrame = (props) => {
                 </animated.div>
             </div>
             <div id="latBtm" style={{ height: '150px' }}/>
+            <animated.img src={ svgBackground01 } style={{ ...styleBackground, ...styleBackgroundOpacity }}/>
         </div>
     )
 }

@@ -32,11 +32,11 @@ const HeaderMaker = (props) => {
     /* SCROLL */
     const [isScrolled, setIsScrolled] = useState(false);
     const scrollevent = () => {
-        const scrolledHeight = document.getElementById('root').scrollTop;
+        const scrolledHeight = document.documentElement.scrollTop;
         if(scrolledHeight > 0) setIsScrolled(true);
         else setIsScrolled(false);
     };
-    document.getElementById('root').addEventListener('scroll', () => scrollevent());
+    document.addEventListener('scroll', () => scrollevent());
 
     const headerStyle = useSpring({
         height: height, zIndex: 90,

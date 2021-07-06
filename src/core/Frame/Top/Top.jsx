@@ -25,10 +25,10 @@ class Top extends Component {
     }
     componentDidMount(){
         this.scrollevent();
-        document.getElementById('root').addEventListener('scroll', () => this.scrollevent());
+        document.addEventListener('scroll', () => this.scrollevent());
     }
     scrollevent(){
-        const scrolledHeight = document.getElementById('root').scrollTop;
+        const scrolledHeight = document.documentElement.scrollTop;
         this.setState({ scrolledTop: scrolledHeight });
     }
     render() {

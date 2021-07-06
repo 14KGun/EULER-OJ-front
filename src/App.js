@@ -3,6 +3,7 @@ import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
 import Login from './core/Login/Login';
+import Findmypassword from './core/Login/Findmypassword/Findmypassword';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
@@ -23,6 +24,7 @@ function App() {
       <Switch>
         <Route exact path="/"><Frame><Main/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
+        <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
@@ -34,6 +36,10 @@ function App() {
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
         <Route path="/ranking" component={ () => { window.location.href = 'https://euleroj.io/ranking'; return null; } }/>
         <Route path="/board" component={ () => { window.location.href = 'https://euleroj.io/board'; return null; } }/>
+        <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>
+        <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
+        <Route path="/login/auth/naver" component={ () => { window.location.href = 'https://euleroj.io/login/auth/naver'; return null; } }/>
+        <Route path="/login/auth/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/auth/kakao'; return null; } }/>
         <Route path="/login" component={ () => { window.location.href = 'https://euleroj.io/login'; return null; } }/>
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
         <Route path="/profile/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/profile/'+props.match.params.pnum; return null; } }/>
