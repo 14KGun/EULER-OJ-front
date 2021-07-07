@@ -9,7 +9,7 @@ import TagTable from './TagTable';
 import ProblemTable from '../Problemset/ProblemTable'
 import Loading from '../Frame/Loading/Loading';
 import PageSelector from '../Frame/PageSelector';
-import Footer from '../Frame/Footer/Footer'
+import Footer from '../Frame/Footer/Footer';
 import svgArrow from './svg_arrow.svg';
 
 const TopFixedLayIcon = (props) => {

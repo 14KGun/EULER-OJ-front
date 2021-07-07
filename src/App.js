@@ -4,6 +4,7 @@ import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
 import Login from './core/Login/Login';
 import Findmypassword from './core/Login/Findmypassword/Findmypassword';
+import Problemset from './core/Problemset/Problemset/Problemset';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
@@ -13,6 +14,7 @@ import './Font.css';
 import './App.css';
 
 const FindmypasswordWithId = ({match}) => <LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame>
+const ProblemsetWithId = ({match}) => <Frame><Problemset category1={ match.params.Pnum1 } category2={ match.params.Pnum2 } page={ match.params.Pnum3 }/></Frame>
 const ProblemWithId = ({match}) => <Frame headerTxtColor="black"><Problem id={match.params.Pnum}/></Frame>
 const ProblemViewerWithId = ({match}) => <Frame headerTxtColor="black"><ProblemViewer id={match.params.Pnum}/></Frame>
 const ProblemSubmitWithId = ({match}) => <Frame headerTxtColor="black"><ProblemSubmit id={match.params.Pnum}/></Frame>
@@ -27,6 +29,10 @@ function App() {
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword/:Pnum" component={ FindmypasswordWithId }/>
+        <Route exact path="/problemset"><Frame><Problemset/></Frame></Route>
+        <Route exact path="/problemset/list/:Pnum1" component={ ProblemsetWithId }/>
+        <Route exact path="/problemset/list/:Pnum1/:Pnum2" component={ ProblemsetWithId }/>
+        <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3" component={ ProblemsetWithId }/>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
