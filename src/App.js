@@ -12,6 +12,7 @@ import PageNotFound from './core/PageNotFound/PageNotFound';
 import './Font.css';
 import './App.css';
 
+const FindmypasswordWithId = ({match}) => <LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame>
 const ProblemWithId = ({match}) => <Frame headerTxtColor="black"><Problem id={match.params.Pnum}/></Frame>
 const ProblemViewerWithId = ({match}) => <Frame headerTxtColor="black"><ProblemViewer id={match.params.Pnum}/></Frame>
 const ProblemSubmitWithId = ({match}) => <Frame headerTxtColor="black"><ProblemSubmit id={match.params.Pnum}/></Frame>
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/"><Frame><Main/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
+        <Route exact path="/login/findmypassword/:Pnum" component={ FindmypasswordWithId }/>
         <Route exact path="/problemset/problem/:Pnum" component={ ProblemWithId }/>
         <Route exact path="/problemset/viewer/:Pnum" component={ ProblemViewerWithId }/>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}

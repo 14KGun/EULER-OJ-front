@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
+import getHref from '../../Tool/getHref';
 import HeaderPopup from './HeaderPopup/HeaderPopup';
 import './Header.css';
 import eulerLogo from '../svg_eulerlogo.svg';
@@ -99,7 +100,7 @@ const HeaderMaker = (props) => {
                 <div id="header_btn0line"/>
                 { urlList.map((item, index) => <HeaderBtn key={ index } url={ item.url } txtStyle={ headerTxtStyle } name={ item.name }/>) }
 
-                <Link to="/login"><animated.button id="header_login" className="BTNC"
+                <Link to={ getHref.loginCurrentUrl() }><animated.button id="header_login" className="BTNC"
                 onClick={ () => setRightPopup(!isRightPopup) }
                 onMouseEnter={ () => setLoginHover(true) }
                 onMouseLeave={ () => setLoginHover(false) }

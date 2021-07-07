@@ -17,8 +17,8 @@ const LoginBoxFrame = (props) => {
     const resizeEvent = () => {
         const _bodyWidth = document.body.clientWidth;
         const _bodyHeight = document.body.clientHeight;
-        if(bodyWidth!=_bodyWidth) setBodyWidth(_bodyWidth);
-        if(bodyHeight!=_bodyHeight) setBodyHeight(_bodyHeight);
+        if(bodyWidth!==_bodyWidth) setBodyWidth(_bodyWidth);
+        if(bodyHeight!==_bodyHeight) setBodyHeight(_bodyHeight);
     }
     useEffect(() => {
         window.addEventListener('resize', resizeEvent);

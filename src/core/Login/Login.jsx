@@ -1,7 +1,9 @@
 import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import axios from '../Tool/axios';
+import getHref from '../Tool/getHref';
 import SocialLogin from './SocialLogin';
 import svgCoding from './svg_coding.svg';
 
@@ -55,11 +57,14 @@ const BtnLogin = (props) => {
         fontSize: '15px', fontWeight: '300', color: 'white'
     }
     const springBtn = useSpring({
-        background: isHover ? 'rgb(30,110,220)' : 'rgb(50,140,250)',
+        background: isHover || props.canClick===false ? 'rgb(30,110,220)' : 'rgb(50,140,250)',
         config: { duration: 200 }
     });
+    const handleClick = () => {
+        if(props.canClick) props.onClick();
+    }
     return (
-        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) } onClick={ props.onClick }
+        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) } onClick={ handleClick }
         style={{ ...styleBtn, ...springBtn }} className="BTNC">Go</animated.div>
     )
 }
@@ -114,7 +119,7 @@ const BtnSignup = (props) => {
 class Login extends Component {
     constructor(props){
         super(props);
-        this.state = { page: 'right' }
+        this.state = { page: 'right', state: 'input', msg: '' }
         this.styleLayLeft = {
             position: 'absolute', top: '0px', right: '450px', width: '450px', height: '100%'
         }
@@ -133,6 +138,10 @@ class Login extends Component {
             width: '100%', height: '100%', fontSize: '17px', fontWeight: '300',
             border: 'none', outline: 'none'
         }
+        this.styleMsg = {
+            marginLeft: '75px', marginRight: '75px',
+            fontSize: '13px', fontWeight: '300', color: 'red'
+        }
         this.styleInputContainer = {
             marginLeft: '75px', marginRight: '75px', height: '25px',
             borderBottom: '2px solid rgb(200,200,200)'
@@ -142,25 +151,55 @@ class Login extends Component {
         }
     }
     onClickLogin(){
+        const id = document.getElementById('input-id').value;
+        const pw = document.getElementById('input-pw').value;
+        if(id==='' || pw==='' || id.length>30 || pw.length>50) return;
 
+        this.setState({ state: 'waiting' }, () => axios.post(`/json/login/try`, { id: id, pw: pw }).then((res) => {
+            if(res.data.res === 'fault'){
+                this.setState({ state: 'input', msg: '해당 계정을 찾을 수 없습니다.' });
+            }
+            else if(res.data.res === 'email'){
+                this.setState({ state: 'input', msg: '이메일 인증을 완료하세요.' });
+            }
+            else if(res.data.res === 'done'){
+                this.setState({ state: 'done' });
+            }
+            else{
+                this.setState({ state: 'input', msg: '서버 오류로 인해 로그인 할 수 없습니다.' });
+            }
+        }));   
+    }
+    onKeyup(){
+        if(window.event.keyCode === 13) this.onClickLogin();
     }
     pageMove(page){
         this.setState({ page: page });
     }
     render() {
+        if(this.state.state === 'done'){
+            const callback = getHref.hrefParse().query.callback;
+            const add = getHref.hrefParse().query.add;
+
+            if(callback) return <Redirect to={ getHref.decode(callback) }/>
+            else if(add) window.location.href = getHref.decodeOld(add);
+            else return <Redirect to="/"/>
+        }
         const pageLogin = (
             <>
                 <div style={ this.styleTitle }>로그인</div>
                 <div style={{ ...this.styleTxt1, marginTop: '30px' }}>ID</div>
                 <div style={ this.styleInputContainer }>
-                    <input id="input-id" type="txt" style={ this.styleInput }/>
+                    <input id="input-id" type="txt" style={ this.styleInput } onKeyUp={ () => this.onKeyup() }/>
                 </div>
                 <div style={{ ...this.styleTxt1, marginTop: '20px' }}>PASSWORD</div>
                 <div style={ this.styleInputContainer }>
-                    <input id="input-pw" type="password" style={{ ...this.styleInput, letterSpacing: '3px' }}/>
+                    <input id="input-pw" type="password" style={{ ...this.styleInput, letterSpacing: '3px' }} onKeyUp={ () => this.onKeyup() }/>
                 </div>
-                <div style={{ height: '60px' }}/>
-                <BtnLogin onClick={ () => this.onClickLogin() }/>
+                <div style={{ height: '60px' }}>
+                    <div style={ this.styleMsg }>{ this.state.msg }</div>
+                </div>
+                <BtnLogin onClick={ () => this.onClickLogin() } canClick={ this.state.state === 'input' }/>
                 <div style={{ height: '15px' }}/>
                 <BtnSocial onClick={ () => this.pageMove('left') }/>
                 <div style={{ height: '35px' }}/>
