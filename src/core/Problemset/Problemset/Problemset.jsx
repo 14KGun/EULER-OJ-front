@@ -6,6 +6,8 @@ import axios from '../../Tool/axios';
 import Top from '../../Frame/Top/Top';
 import imgBackground from './img_background.png';
 import Loading from '../../Frame/Loading/Loading';
+import ProblemTable from '../ProblemTable';
+import PageSelector from '../../Frame/PageSelector';
 import Footer from '../../Frame/Footer/Footer';
 
 const getCategory = (category1, category2, page) => {
@@ -83,39 +85,52 @@ const SelectLayBtn = (props) => {
 const SelectLay = (props) => {
     return (
         <div className="ND" style={{ paddingTop: '30px' }}>
-            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id } selected={ props.selected === item.id }/>) }
+            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id } selected={ String(props.selected) === String(item.id) }/>) }
         </div>
     )
 }
 
-const defaultState = { category1: 'none', category2: 'none', page: 1, list: [] };
+const defaultState = { category1: 'none', category2: 'none', requestPage: 'none', page: 1, maxPage: 1, nav: [], list: [] };
 class Problemset extends Component {
     constructor(props) {
         super(props);
         this.state = { ...defaultState };
     }
     static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.category1 !== prevState.category1 || nextProps.category2 !== prevState.category2){
+        const propsCategory = getCategory(nextProps.category1, nextProps.category2, nextProps.page);
+        console.log(propsCategory, prevState);
+        if(String(propsCategory[0]) !== String(prevState.category1) || String(propsCategory[1]) !== String(prevState.category2) || String(propsCategory[2]) !== String(prevState.requestPage)){
             window.scrollTo(0,0);
             return { ...defaultState };
         }
         return prevState;
     }
+    makeGetPageUrl(page){
+        return `/problemset/list/${ this.state.category1 }/${ this.state.category2 }/${ page }`;
+    }
     render() {
         const propsCategory = getCategory(this.props.category1, this.props.category2, this.props.page);
 
         let container = <LoadingLay/>;
-        if(propsCategory === [this.state.category1, this.state.category2, this.state.page]){
+        console.log(propsCategory, this.state.category1, this.state.category2);
+        if(String(propsCategory[0]) === String(this.state.category1) && String(propsCategory[1]) === String(this.state.category2) && String(propsCategory[2]) === String(this.state.requestPage)){
             container = (
                 <div className="FRAME_MAIN">
-                    <SelectLay items={ [{id:'1', name:'헬로'}, {id:'2', name:'와웅'}] } selected={ propsCategory[1] } category1={ propsCategory[0] }/>
+                    <SelectLay items={ this.state.nav } selected={ propsCategory[1] } category1={ propsCategory[0] }/>
+                    <div style={{ height: '30px' }}/>
+                    <ProblemTable content={ this.state.list }/>
+                    <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) }/>
+                    <div className="BTM_EMPTY"></div>
                 </div>
             );
         }
         else{
-            const url = `/json/problems/getlist/?category1=${ propsCategory[0] }?category2=${ propsCategory[1] }?page=${ propsCategory[2] }`;
+            const url = `/json/problems/getlist/?category1=${ propsCategory[0] }&category2=${ propsCategory[1] }&page=${ propsCategory[2] }`;
             axios.get(url).then((listInfo) => {
-                
+                this.setState({
+                    category1: listInfo.data.category1, category2: listInfo.data.category2, page: listInfo.data.page, maxPage: listInfo.data.maxPage,
+                    nav: listInfo.data.nav, list: listInfo.data.list, requestPage: propsCategory[2]
+                });
             });
         }
 
