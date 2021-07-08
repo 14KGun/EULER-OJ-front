@@ -9,6 +9,7 @@ import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
 import Tag from './core/Tag/Tag';
+import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import PageNotFound from './core/PageNotFound/PageNotFound';
 import './Font.css';
 import './App.css';
@@ -20,6 +21,7 @@ const ProblemViewerWithId = ({match}) => <Frame headerTxtColor="black"><ProblemV
 const ProblemSubmitWithId = ({match}) => <Frame headerTxtColor="black"><ProblemSubmit id={match.params.Pnum}/></Frame>
 const TagWithId = ({match}) => <Frame><Tag id={match.params.Pnum} page={1}/></Frame>
 const TagWithIdPage = ({match}) => <Frame><Tag id={match.params.Pnum1} page={match.params.Pnum2}/></Frame>
+const EulerRankingWithIdPage = ({match}) => <Frame><EulerRanking page={match.params.Pnum}/></Frame>
 
 function App() {
   return (
@@ -40,8 +42,13 @@ function App() {
         <Route exact path="/tags"><Frame><Tag id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum" component={ TagWithId }></Route>
         <Route exact path="/tags/:Pnum1/:Pnum2" component={ TagWithIdPage }></Route>
+
+        <Route exact path="/ranking"><Frame><EulerRanking page={1}/></Frame></Route>
+        <Route exact path="/ranking/euler/:Pnum" component={ EulerRankingWithIdPage }/>
+
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
+        <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
         <Route path="/ranking" component={ () => { window.location.href = 'https://euleroj.io/ranking'; return null; } }/>
         <Route path="/board" component={ () => { window.location.href = 'https://euleroj.io/board'; return null; } }/>
         <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>

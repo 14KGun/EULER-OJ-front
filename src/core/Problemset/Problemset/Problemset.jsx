@@ -9,7 +9,13 @@ import Loading from '../../Frame/Loading/Loading';
 import ProblemTable from '../ProblemTable';
 import PageSelector from '../../Frame/PageSelector';
 import Footer from '../../Frame/Footer/Footer';
+import svgCoding from './svg_coding.svg';
 
+const Icon = () => {
+    return (
+        <img src={ svgCoding } style={{ paddingTop: '6px' }} alt=""/>
+    )
+}
 const getCategory = (category1, category2, page) => {
     if(category1){
         if(category2){
@@ -24,7 +30,7 @@ const getCategory = (category1, category2, page) => {
 }
 const TopBackground = () => {
     return (
-        <div className="TagTopBackground" style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: 'rgb(200,200,200)' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: 'rgb(200,200,200)' }}>
             <img src={ imgBackground } style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt=""/>
         </div>
     )
@@ -98,7 +104,6 @@ class Problemset extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         const propsCategory = getCategory(nextProps.category1, nextProps.category2, nextProps.page);
-        console.log(propsCategory, prevState);
         if(String(propsCategory[0]) !== String(prevState.category1) || String(propsCategory[1]) !== String(prevState.category2) || String(propsCategory[2]) !== String(prevState.requestPage)){
             window.scrollTo(0,0);
             return { ...defaultState };
@@ -112,7 +117,6 @@ class Problemset extends Component {
         const propsCategory = getCategory(this.props.category1, this.props.category2, this.props.page);
 
         let container = <LoadingLay/>;
-        console.log(propsCategory, this.state.category1, this.state.category2);
         if(String(propsCategory[0]) === String(this.state.category1) && String(propsCategory[1]) === String(this.state.category2) && String(propsCategory[2]) === String(this.state.requestPage)){
             container = (
                 <div className="FRAME_MAIN">
@@ -120,7 +124,6 @@ class Problemset extends Component {
                     <div style={{ height: '30px' }}/>
                     <ProblemTable content={ this.state.list }/>
                     <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) }/>
-                    <div className="BTM_EMPTY"></div>
                 </div>
             );
         }
@@ -137,9 +140,9 @@ class Problemset extends Component {
         return (
             <div>
                 <Helmet><title>문제 : 오일러OJ</title></Helmet>
-                <Top icon={ <div/> }
-                title="문제" background={ <TopBackground/> } fixedLay={ <TopFixedLay category={ propsCategory[0] }/> }/>
+                <Top icon={ <Icon/> } title="문제" background={ <TopBackground/> } fixedLay={ <TopFixedLay category={ propsCategory[0] }/> }/>
                 { container }
+                <div className="BTM_EMPTY"></div>
                 <Footer/>
             </div>
         );
