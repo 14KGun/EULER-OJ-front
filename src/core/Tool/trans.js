@@ -7,5 +7,8 @@ const timeParsePositive = (t) => {
     if(t<60*60*24*365) return `${ parseInt(t/60/60/24/30) }개월`
     return `${ parseInt(t/60/60/24/365) }년`
 }
+const date = (t) => {
+    return `${ t.getFullYear() }년 ${ t.getMonth()+1 }월 ${ t.getDate() }일 ${ t.getHours() }시 ${ t.getMinutes() }분`;
+}
 
-export default { timeParsePositive }
+export default { timeParsePositive, date }
