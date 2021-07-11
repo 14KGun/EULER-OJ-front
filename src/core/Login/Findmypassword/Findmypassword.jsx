@@ -76,7 +76,7 @@ class Findmypassword extends Component {
                 <Helmet><title>내 비밀번호 찾기 : 오일러OJ</title></Helmet>
                 <div style={ this.styleTitle }>내 비밀번호 찾기</div>
                 
-                <div style={ this.styleTxt2 }>비밀번호를 찾고자 하는 아이디를 입력해 주세요</div>
+                <div style={ this.styleTxt2 }>현재 개발 중인 기능입니다</div>
 
                 <div style={{ ...this.styleTxt1, marginTop: '30px' }}>ID</div>
                 <div style={ this.styleInputContainer }>

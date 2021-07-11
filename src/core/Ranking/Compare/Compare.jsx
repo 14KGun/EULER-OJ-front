@@ -218,6 +218,17 @@ class Compare extends Component {
             }
         }
         else{
+            const trophyCleaner = (_array) => {
+                const array = [];
+                for(var i=0; i<_array.length; i++){
+                    if(getTrophyInfo.getInfoById(_array[i])) array.push(_array[i]);
+                }
+                return array;
+            }
+            this.state.bothTrophy = trophyCleaner(this.state.bothTrophy);
+            this.state.only1Trophy = trophyCleaner(this.state.only1Trophy);
+            this.state.only2Trophy = trophyCleaner(this.state.only2Trophy);
+
             container = (
                 <div className="FRAME_MAIN ND">
                     <div style={{ height: '50px' }}/>
