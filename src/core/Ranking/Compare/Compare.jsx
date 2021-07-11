@@ -204,7 +204,6 @@ class Compare extends Component {
             if(!this.load){
                 this.load = true;
                 axios.get(`/json/ranking/compare/${ this.props.id1 }/${ this.props.id2 }`).then((result) => {
-                    console.log(result.data);
                     this.setState({
                         id1: result.data.id1, id2: result.data.id2, only1: result.data.only1, only2: result.data.only2,
                         bothSolve: result.data.bothSolve, bothSubmit: result.data.bothSubmit,
@@ -218,17 +217,6 @@ class Compare extends Component {
             }
         }
         else{
-            const trophyCleaner = (_array) => {
-                const array = [];
-                for(var i=0; i<_array.length; i++){
-                    if(getTrophyInfo.getInfoById(_array[i])) array.push(_array[i]);
-                }
-                return array;
-            }
-            this.state.bothTrophy = trophyCleaner(this.state.bothTrophy);
-            this.state.only1Trophy = trophyCleaner(this.state.only1Trophy);
-            this.state.only2Trophy = trophyCleaner(this.state.only2Trophy);
-
             container = (
                 <div className="FRAME_MAIN ND">
                     <div style={{ height: '50px' }}/>
@@ -265,7 +253,11 @@ class Compare extends Component {
                     <Title>{ `'${ this.state.id2 }' 만 가지고 있는 업적` }<SubTitle>{ this.state.only2Trophy.length }</SubTitle></Title>
                     <Container>
                         <div style={{ textAlign: 'center' }}>
-                            { this.state.only2Trophy.map((item, index) => <Trophy key={ index } src={ getTrophyInfo.list[item].icon } text={ getTrophyInfo.list[item].name } hint={ getTrophyInfo.list[item].hint } id={ getTrophyInfo.list[item].id } have/>) }
+                            { this.state.only2Trophy.map((item, index) => {
+                                const trophy = getTrophyInfo.getInfoById(item);
+                                if(trophy) return <Trophy key={ index } src={ trophy.icon } text={ trophy.name } hint={ trophy.hint } id={ trophy.id } have/>
+                                else return <></>
+                            }) }
                         </div>
                     </Container>
                     
@@ -273,7 +265,11 @@ class Compare extends Component {
                     <Title>{ `'${ this.state.id1 }' 만 가지고 있는 업적` }<SubTitle>{ this.state.only1Trophy.length }</SubTitle></Title>
                     <Container>
                         <div style={{ textAlign: 'center' }}>
-                            { this.state.only1Trophy.map((item, index) => <Trophy key={ index } src={ getTrophyInfo.list[item].icon } text={ getTrophyInfo.list[item].name } hint={ getTrophyInfo.list[item].hint } id={ getTrophyInfo.list[item].id } have/>) }
+                            { this.state.only1Trophy.map((item, index) => {
+                                const trophy = getTrophyInfo.getInfoById(item);
+                                if(trophy) return <Trophy key={ index } src={ trophy.icon } text={ trophy.name } hint={ trophy.hint } id={ trophy.id } have/>
+                                else return <></>
+                            }) }
                         </div>
                     </Container>
                     
@@ -297,7 +293,11 @@ class Compare extends Component {
                     <Title>{ `둘 다 가지고 있는 업적` }<SubTitle>{ this.state.bothTrophy.length }</SubTitle></Title>
                     <Container>
                         <div style={{ textAlign: 'center' }}>
-                            { this.state.bothTrophy.map((item, index) => <Trophy key={ index } src={ getTrophyInfo.list[item].icon } text={ getTrophyInfo.list[item].name } hint={ getTrophyInfo.list[item].hint } id={ getTrophyInfo.list[item].id } have/>) }
+                            { this.state.bothTrophy.map((item, index) => {
+                                const trophy = getTrophyInfo.getInfoById(item);
+                                if(trophy) return <Trophy key={ index } src={ trophy.icon } text={ trophy.name } hint={ trophy.hint } id={ trophy.id } have/>
+                                else return <></>
+                            }) }
                         </div>
                     </Container>
                 </div>
