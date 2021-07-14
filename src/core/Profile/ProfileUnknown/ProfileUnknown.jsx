@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import svgUnknown from './svg_unknown.svg';
 import Footer from '../../Frame/Footer/Footer';
@@ -15,7 +15,8 @@ const BtnBack = (props) => {
         paddingLeft: '25px', paddingRight: '25px', borderRadius: '23px', border: '2px solid rgb(120,120,120)',
         color: 'rgb(80,80,80)', fontSize: '16px', fontWeight: '300',
     };
-    const onClickEvent = () => { window.history.back() };
+    const history = useHistory();
+    const onClickEvent = () => { history.goBack() };
     return (
         <animated.span onClick={ onClickEvent } onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }
         className="BTNC" style={{ ...style, ...background }}>이전 페이지</animated.span>

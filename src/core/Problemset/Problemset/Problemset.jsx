@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from '../../Tool/axios';
 import Top from '../../Frame/Top/Top';
+import SearchBox from '../../Search/SearchBox/SearchBox';
 import imgBackground from './img_background.png';
 import Loading from '../../Frame/Loading/Loading';
 import ProblemTable from '../ProblemTable';
@@ -60,6 +61,9 @@ const TopFixedLay = (props) => {
             <Link to="/problemset/list/tag"><TopBtn name="태그" selected={ props.category === 'tag' }/></Link>
             <Link to="/problemset/list/level"><TopBtn name="코딩마법서" selected={ props.category === 'level' }/></Link>
             <Link to="/problemset/list/number"><TopBtn name="문제 번호" selected={ props.category === 'number' }/></Link>
+            <div style={{ position: 'absolute', width: '250px', top: '12px', right: '0px' }}>
+                <SearchBox/>
+            </div>
         </div>
     );
 }

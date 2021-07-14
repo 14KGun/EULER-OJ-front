@@ -1,7 +1,9 @@
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Page5 = (props) => {
-    return <Redirect to={ props.data.redirect }/>;
+    const history = useHistory();
+    history.push(props.data.redirect);
+    return <div/>;
 }
 
 export default Page5;
