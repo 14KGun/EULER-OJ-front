@@ -15,7 +15,6 @@ class Problem extends Component {
             return <></>;
         }
         else{
-            console.log(this.state);
             if(this.state.setting === 'editor'){
                 return <></>;
             }

@@ -4,8 +4,9 @@ import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
 import HeaderPopup from './HeaderPopup/HeaderPopup';
-import './Header.css';
 import eulerLogo from '../svg_eulerlogo.svg';
+import svgTheme from './svg_theme.svg';
+import './Header.css';
 
 const HeaderBtn = (props) => {
     const [isHover, setHover] = useState(false);
@@ -100,16 +101,16 @@ const HeaderMaker = (props) => {
                 <div id="header_btn0line"/>
                 { urlList.map((item, index) => <HeaderBtn key={ index } url={ item.url } txtStyle={ headerTxtStyle } name={ item.name }/>) }
 
-                <Link to={ getHref.loginCurrentUrl() }><animated.button id="header_login" className="BTNC"
-                onClick={ () => setRightPopup(!isRightPopup) }
-                onMouseEnter={ () => setLoginHover(true) }
-                onMouseLeave={ () => setLoginHover(false) }
-                style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo===undefined || props.loginInfo.id!=='' ? 'none' : 'block' }}>로그인</animated.button></Link>
+                <Link to={ getHref.loginCurrentUrl() }>
+                    <animated.button id="header_login" className="BTNC"
+                    onClick={ () => setRightPopup(!isRightPopup) }
+                    onMouseEnter={ () => setLoginHover(true) } onMouseLeave={ () => setLoginHover(false) }
+                    style={{ ...headerTxtStyle, ...loginStyle, display: props.loginInfo===undefined || props.loginInfo.id!=='' ? 'none' : 'block' }}>로그인</animated.button>
+                </Link>
 
                 <animated.button id="header_prof" className="BTNC"
                 onClick={ () => setRightPopup(!isRightPopup) }
-                onMouseEnter={ () => setLoginHover(true) }
-                onMouseLeave={ () => setLoginHover(false) }
+                onMouseEnter={ () => setLoginHover(true) } onMouseLeave={ () => setLoginHover(false) }
                 style={{ ...loginStyle, display: props.loginInfo===undefined || props.loginInfo.id==='' ? 'none' : 'block' }}>
                     <div id="header_prof_imgborder">
                         <img className="FULLIMG" src={`/profile-img/${ props.loginInfo ? props.loginInfo.id : 'none' }.webp?size=100`} alt=""/>
@@ -119,11 +120,11 @@ const HeaderMaker = (props) => {
         </>
     );
 }
-const Header = ({ location, match, history, txtColor }) => {
+const Header = ({ location, match, history, theme, setTheme, txtColor }) => {
     const urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
         { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
     
-    const theme = { r: 255, g: 255, b: 255 };
+    const theme2 = { r: 255, g: 255, b: 255 };
     const [loginInfo, setLoginInfo] = useState(undefined);
     const [pathname, setPathname] = useState(undefined);
 
@@ -142,7 +143,7 @@ const Header = ({ location, match, history, txtColor }) => {
         });
     }
 
-    return <HeaderMaker urlList={ urlList } theme={ theme } loginInfo={ loginInfo } txtColor={ txtColor }/>;
+    return <HeaderMaker urlList={ urlList } theme={ theme2 } loginInfo={ loginInfo } txtColor={ txtColor }/>;
 }
 
 export default withRouter(Header);

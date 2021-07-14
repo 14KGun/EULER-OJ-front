@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
+import { useSpring, animated } from 'react-spring';
 import Header from './Header/Header';
 
-class Frame extends Component {
-    render() {
-        return (
-            <div style={{ width: '100%', height: '100%', background: 'rgb(250,251,252)' }}>
-                { this.props.children }
-                <Header txtColor={ this.props.headerTxtColor }/>
-            </div>
-        );
-    }
+const Frame = (props) => {
+    const background = useSpring({
+        background: props.theme === 'dark' ? 'red' : 'rgb(250,251,252)'
+    }).background;
+
+    return (
+        <animated.div style={{ width: '100%', height: '100%', background: background }}>
+            { props.children }
+            <Header theme={ props.theme } setTheme={ props.setTheme } txtColor={ props.headerTxtColor }/>
+        </animated.div>
+    );
+
 }
 
-Frame.defaultProps = { headerTxtColor: 'white' }
+Frame.defaultProps = { theme: 'light', headerTxtColor: 'white' }
 
 export default Frame;
