@@ -38,4 +38,5 @@ const getInfoById = (id) => {
     return undefined;
 }
 
-export default { list: trophySet, getInfoById: getInfoById }
+const exp = { list: trophySet, getInfoById: getInfoById };
+export default exp;

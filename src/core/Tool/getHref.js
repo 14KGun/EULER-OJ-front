@@ -20,4 +20,5 @@ const loginCurrentUrl = () => {
     return loginUrl(_href.slice(pos,_href.length));
 }
 
-export default { href, hrefParse, encode, decode, decodeOld, loginUrl, loginCurrentUrl };
+const exp = { href, hrefParse, encode, decode, decodeOld, loginUrl, loginCurrentUrl }
+export default exp;

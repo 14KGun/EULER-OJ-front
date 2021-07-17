@@ -11,4 +11,5 @@ const date = (t) => {
     return `${ t.getFullYear() }년 ${ t.getMonth()+1 }월 ${ t.getDate() }일 ${ t.getHours() }시 ${ t.getMinutes() }분`;
 }
 
-export default { timeParsePositive, date }
+const exp = { timeParsePositive, date };
+export default exp;

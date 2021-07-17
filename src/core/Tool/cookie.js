@@ -11,4 +11,5 @@ const deleteCookie = (name) => {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-export default { setCookie, getCookie, deleteCookie };
+const exp = { setCookie, getCookie, deleteCookie }
+export default exp;
