@@ -10,7 +10,7 @@ import svgClock from './svg_clock.svg';
 
 const Title = (props) => {
     return (
-        <div style={{ fontSize: '27px', fontWeight: 700, color: 'black', marginBottom: '6px' }}>{ props.children }</div>
+        <div style={{ fontSize: '27px', fontWeight: 700, color: (props.theme==='light' ? 'black' : 'white'), marginBottom: '6px' }}>{ props.children }</div>
     )
 }
 const SubTitle = (props) => {
@@ -24,7 +24,7 @@ const SubTitle = (props) => {
 }
 const Container = (props) => {
     return (
-        <div style={{ borderRadius: '10px', background: 'rgb(230,230,230)', padding: '20px' }}>
+        <div style={{ borderRadius: '10px', background: (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'), padding: '20px', overflow: 'hidden' }}>
             <div style={{ position: 'relative' }}>
                 { props.children }
             </div>
@@ -44,10 +44,10 @@ const Trophy = (props) => {
     }
     let styleTxt = {
         marginLeft: '15px', marginRight: '15px', marginTop: '10px', textAlign: 'center',
-        fontSize: '15px', fontWeight: 300, color: 'black'
+        fontSize: '15px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white')
     }
     const background = useSpring({
-        background: isHover ? 'rgba(220,220,220,1)' : 'rgba(220,220,220,0)',
+        background: isHover ? (props.theme==='light' ? 'rgba(220,220,220,1)' : 'rgba(60,60,60,1)') : (props.theme==='light' ? 'rgba(220,220,220,0)' : 'rgba(60,60,60,0)'),
         config: { duration: 200 }
     })
 
@@ -78,7 +78,7 @@ const ActitvityLine = (props) => {
     }
     const styleText = {
         position: 'absolute', top: '0px', left: '45px', height: '40px', lineHeight: '40px',
-        fontSize: '16px', fontWeight: 300, color: 'black'
+        fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white')
     }
     const styleClock = {
         position: 'absolute', top: '12px', right: '220px',
@@ -90,7 +90,7 @@ const ActitvityLine = (props) => {
         fontSize: '16px', fontWeight: 300, color: 'rgb(100,100,100)'
     }
     const background = useSpring({
-        background: isHover ? 'rgba(220,220,220,1)' : 'rgba(220,220,220,0)',
+        background: isHover ? (props.theme==='light' ? 'rgba(220,220,220,1)' : 'rgba(60,60,60,1)') : (props.theme==='light' ? 'rgba(220,220,220,0)' : 'rgba(60,60,60,0)'),
         config: { duration: 200 }
     })
 
@@ -135,20 +135,20 @@ class Page1 extends Component {
 
         return (
             <div className="FRAME_MAIN ND" style={{ paddingTop: '50px' }}>
-                <Title>업적<SubTitle>{ trophyList1.length }</SubTitle></Title>
-                <Container>
+                <Title theme={ this.props.theme }>업적<SubTitle>{ trophyList1.length }</SubTitle></Title>
+                <Container theme={ this.props.theme }>
                     <div style={{ textAlign: 'center' }}>
                         { trophyList1.map((item, index) => {
-                            return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id } have/>
+                            return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id } theme={ this.props.theme } have/>
                         }) }
                         { trophyList2.map((item, index) => {
-                            return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id }/>
+                            return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id } theme={ this.props.theme }/>
                         }) }
                     </div>
                 </Container>
                 <div style={{ height: '40px' }}/>
-                <Title>활동<SubTitle>{ activityR.length }</SubTitle></Title>
-                <Container>
+                <Title theme={ this.props.theme }>활동<SubTitle>{ activityR.length }</SubTitle></Title>
+                <Container theme={ this.props.theme }>
                     { activityR.map((item, index) => {
                         let text = '', time = '', link = '', type = '';
                         if(item.type === 'trophy'){
@@ -170,7 +170,7 @@ class Page1 extends Component {
                         const timeDate = new Date(item.time);
                         time = trans.date(timeDate);
 
-                        return <ActitvityLine text={ text } time={ time } link={ link } type={ type } noline={ index === activityR.length-1 }/>
+                        return <ActitvityLine text={ text } time={ time } link={ link } type={ type } noline={ index === activityR.length-1 } theme={ this.props.theme }/>
                     }) }
                 </Container>
             </div>

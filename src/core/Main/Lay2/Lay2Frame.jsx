@@ -16,9 +16,9 @@ class Frame extends Component {
     }
     render() {
         return (
-            <span style={ this.FrameStyle }>
+            <span style={{ ...this.FrameStyle, background: (this.props.theme === 'light' ? 'white' : 'rgb(30,31,32)') }}>
                 <div style={{ paddingLeft: '25px', paddingRight: '25px', paddingTop: '20px' }}>
-                    <div style={ this.TitleStyle }>{ this.props.title }</div>
+                    <div style={{ ...this.TitleStyle, color: (this.props.theme === 'light' ? 'black' : 'white') }}>{ this.props.title }</div>
                     { this.props.children }
                 </div>
             </span>

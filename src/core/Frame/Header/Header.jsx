@@ -5,7 +5,8 @@ import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
 import HeaderPopup from './HeaderPopup/HeaderPopup';
 import svgEulerLogo from '../svg_eulerlogo.svg';
-import svgTheme from './svg_theme.svg';
+import svgThemeDark from './svg_theme_dark.svg';
+import svgThemeLight from './svg_theme_light4.svg';
 import './Header.css';
 
 const HeaderBtn = (props) => {
@@ -86,10 +87,31 @@ const BtnProfile = (props) => {
     return (
         <animated.button id="header_prof" className="BTNC"
         onClick={ props.onClick } style={{ ...background }}
-        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => isHover(false) }>
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <div id="header_prof_imgborder">
                 <img className="FULLIMG" src={`/profile-img/${ props.loginInfo.id }.webp?size=100`} alt=""/>
             </div>
+        </animated.button>
+    )
+}
+const BtnTheme = (props) => {
+    const [isHover, setHover] = useState(false);
+    const background = useSpring({
+        background: isHover ? props.background[0] : props.background[1]
+    });
+    const onClick = () => {
+        if(props.theme === 'light') props.setTheme('dark');
+        else props.setTheme('light');
+    }
+
+    let img = <img src={ svgThemeLight } alt="theme" className="header_theme_img1"/>;
+    if(props.theme === 'dark') img = <img src={ svgThemeDark } alt="theme" className="header_theme_img2"/>;
+
+    return (
+        <animated.button id="header_theme" className="BTNC"
+        onClick={ () => onClick() } style={{ ...background }}
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            { img }
         </animated.button>
     )
 }
@@ -98,7 +120,7 @@ const HeaderMaker = (props) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const scrollevent = () => {
         const scrolledHeight = document.documentElement.scrollTop;
-        if(scrolledHeight > 0) setIsScrolled(true);
+        if(scrolledHeight >= 20) setIsScrolled(true);
         else setIsScrolled(false);
     };
     useEffect(() => {
@@ -128,7 +150,7 @@ const HeaderMaker = (props) => {
         boxShadow: `0 0 10px 5px rgba(0,0,0,${ isScrolled ? 0.1 : 0 })`
     });
     const headerTxtStyle = useSpring({
-        color: isScrolled ? 'black' : props.txtColor
+        color: isScrolled ? props.txtColorWithBgd : props.txtColor
     });
 
     /* Right */
@@ -153,6 +175,7 @@ const HeaderMaker = (props) => {
                     return <HeaderBtn key={ index } url={ item.url } txtStyle={ headerTxtStyle } name={ item.name }/>
                 }) }
                 { rightLay }
+                <BtnTheme background={ [hoverBgd, hoverBgdNone] } setTheme={ props.setTheme } theme={ props.getTheme }/>
             </animated.div>
         </>
     );
@@ -168,13 +191,17 @@ class Header extends Component {
         this.lastPath = 'none';
     }
     requestLogininfo(){
+        console.log('!');
         axios.get('/json/logininfo').then((userInfo) => {
             this.setState({ loginInfo: userInfo.data });
         })
     }
     render(){
         const currentUrl = window.location.pathname;
-        if(currentUrl !== this.lastPath) this.requestLogininfo();
+        if(currentUrl !== this.lastPath){
+            this.lastPath = currentUrl;
+            this.requestLogininfo();
+        }
 
         let theme = { r: 255, g: 255, b: 255 };
         if(this.props.theme === 'dark') theme = { r: 50, g: 50, b: 50 };
@@ -182,11 +209,22 @@ class Header extends Component {
         if(this.props.theme === 'dark') color1 = { r: 255, g: 255, b: 255 };
         let color2 = { r: 255, g: 255, b: 255 };
 
+        let txtColor = 'white';
+        if(this.props.theme === 'light' && this.props.txtColor === 'none') txtColor = 'black';
+        if(this.props.txtColor !== 'none' && this.props.txtColor !== 'auto') txtColor = this.props.txtColor;
+
+        let txtColorWithBgd = 'black';
+        if(this.props.theme === 'dark') txtColorWithBgd = 'white';
+
         return (
-            <HeaderMaker theme={ { r: 255, g: 255, b: 255 } } txtColor={ this.props.txtColor }
-            urlList={ this.urlList } loginInfo={ this.state.loginInfo }/>
+            <HeaderMaker theme={ theme } txtColor={ txtColor } txtColorWithBgd={ txtColorWithBgd }
+            urlList={ this.urlList } loginInfo={ this.state.loginInfo }
+            setTheme={ this.props.setTheme } getTheme={ this.props.theme }/>
         )
     }
 }
 
+Header.defaultProps = {
+    txtColor: 'auto'
+}
 export default Header;

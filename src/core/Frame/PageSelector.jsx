@@ -2,15 +2,15 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 
-const pageStyle = {
+let pageStyle = {
     display: 'inline-block', fontSize: '16px', fontWeight: '300', fontFamily: 'Nanum Gothic',
     height: '30px', lineHeight: '30px', minWidth: '10px',
     paddingLeft: '10px', paddingRight: '10px', borderRadius: '15px'
 }
 const Page = (props) => {
     const [isHover, setHover] = useState(false);
-    const backgroundColor = (props.selected ? 'rgb(200,200,200)' : 'rgba(227,227,227,0)');
-    const backgroundColorHover = (props.selected ? 'rgb(200,200,200)' : 'rgba(227,227,227,1)');
+    const backgroundColor = (props.selected ? `rgba(${ props.colorSelected },${ props.colorSelected },${ props.colorSelected },1)` : `rgba(${ props.color },${ props.color },${ props.color },0)`);
+    const backgroundColorHover = (props.selected ? `rgba(${ props.colorSelected },${ props.colorSelected },${ props.colorSelected },1)` : `rgba(${ props.color },${ props.color },${ props.color },1)`);
     const background = useSpring({
         background: isHover ? backgroundColorHover : backgroundColor,
         config: { duration: 100 }
@@ -27,7 +27,7 @@ const Page = (props) => {
 const PageLeft = (props) => {
     const [isHover, setHover] = useState(false);
     const background = useSpring({
-        background: isHover ? 'rgba(227,227,227,1)' : 'rgba(227,227,227,0)',
+        background: isHover ? `rgba(${ props.color },${ props.color },${ props.color },1)` : `rgba(${ props.color },${ props.color },${ props.color },0)`,
         config: { duration: 100 }
     }).background;
 
@@ -42,7 +42,7 @@ const PageLeft = (props) => {
 const PageRight = (props) => {
     const [isHover, setHover] = useState(false);
     const background = useSpring({
-        background: isHover ? 'rgba(227,227,227,1)' : 'rgba(227,227,227,0)',
+        background: isHover ? `rgba(${ props.color },${ props.color },${ props.color },1)` : `rgba(${ props.color },${ props.color },${ props.color },0)`,
         config: { duration: 100 }
     }).background;
 
@@ -61,6 +61,9 @@ class PageSelector extends Component {
         var left = Math.max(1, page-4);
         var right = Math.min(this.props.max, page+4);
 
+        if(this.props.theme === 'dark') pageStyle.color = 'white';
+        else pageStyle.color = 'black';
+
         while(true){
             var keep = false;
             if(right < this.props.max && right-left < 8){ right++; keep = true; }
@@ -72,15 +75,19 @@ class PageSelector extends Component {
 
         const content = [];
         if(left < page){
-            content.push(<PageLeft key="left" page={ Math.max(1, left-1) } url={ this.props.get(Math.max(1, left-1)) }/>)
+            const color = (this.props.theme === 'light' ? 227 : 50);
+            content.push(<PageLeft key="left" page={ Math.max(1, left-1) } url={ this.props.get(Math.max(1, left-1)) } color={ color }/>)
             content.push(<span key="left-sp">&nbsp;</span>)
         }
         for(var i=left; i<=right; i++){
-            content.push(<Page key={ i*2-1 } page={ i } url={ this.props.get(i) } selected={ i === page }/>);
+            const colorSelected = (this.props.theme === 'light' ? 200 : 70);
+            const color = (this.props.theme === 'light' ? 227 : 50);
+            content.push(<Page key={ i*2-1 } page={ i } url={ this.props.get(i) } selected={ i === page } color={ color } colorSelected={ colorSelected }/>);
             content.push(<span key={ i*2 }>&nbsp;</span>)
         }
         if(page < right){
-            content.push(<PageRight key="right" page={ Math.min(this.props.max, right+1) } url={ this.props.get(Math.min(this.props.max, right+1)) }/>)
+            const color = (this.props.theme === 'light' ? 227 : 50);
+            content.push(<PageRight key="right" page={ Math.min(this.props.max, right+1) } url={ this.props.get(Math.min(this.props.max, right+1)) } color={ color }/>)
         }
 
         return (
@@ -91,4 +98,7 @@ class PageSelector extends Component {
     }
 }
 
+PageSelector.defaultProps = {
+    theme: 'light'
+}
 export default PageSelector;

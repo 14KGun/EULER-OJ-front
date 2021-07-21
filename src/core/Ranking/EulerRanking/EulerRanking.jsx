@@ -146,8 +146,8 @@ class EulerRanking extends Component {
             container = (
                 <div className="FRAME_MAIN">
                     <div style={{ height: '50px' }}/>
-                    <RankingTable list={ this.state.list }/>
-                    <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) }/>
+                    <RankingTable list={ this.state.list } theme={ this.props.theme }/>
+                    <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) } theme={ this.props.theme }/>
                 </div>
             );
         }
@@ -166,7 +166,7 @@ class EulerRanking extends Component {
                 <Top icon={ <Icon/> } title="순위" background={ <TopBackground top3={ this.state.top3 }/> } fixedLay={ <TopFixedLay/> }/>
                 { container }
                 <div className="BTM_EMPTY"/>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }

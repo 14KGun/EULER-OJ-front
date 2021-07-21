@@ -4,7 +4,7 @@ import { useSpring, animated } from 'react-spring';
 
 const Title = (props) => {
     return (
-        <div style={{ fontSize: '27px', fontWeight: 700, color: 'black', marginBottom: '6px' }}>{ props.children }</div>
+        <div style={{ fontSize: '27px', fontWeight: 700, color: (props.theme==='light' ? 'black' : 'white'), marginBottom: '6px' }}>{ props.children }</div>
     )
 }
 const SubTitle = (props) => {
@@ -18,7 +18,7 @@ const SubTitle = (props) => {
 }
 const Container = (props) => {
     return (
-        <div style={{ borderRadius: '10px', background: 'rgb(230,230,230)', padding: '20px', overflow: 'hidden' }}>
+        <div style={{ borderRadius: '10px', background: (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'), padding: '20px', overflow: 'hidden' }}>
             <div style={{ position: 'relative' }}>
                 { props.children }
             </div>
@@ -141,8 +141,8 @@ class Page2 extends Component {
     render() {
         return (
             <div className="FRAME_MAIN ND" style={{ paddingTop: '50px' }}>
-                <Title>분석</Title>
-                <Container>
+                <Title theme={ this.props.theme }>분석</Title>
+                <Container theme={ this.props.theme }>
                     <BoxTable data={ this.props.data.table } count={ this.props.data.tableLength }/>
                     <div style={{ position: 'absolute', top: '0px', bottom: '0px', left: '860px', right: '0px', textAlign: 'center' }}>
                         <div style={{ paddingTop: '30px', fontSize: '15px', fontWeight: 300, color: 'rgb(40,40,40)' }}>최근 1년 간</div>
@@ -155,8 +155,8 @@ class Page2 extends Component {
                 </Container>
 
                 <div style={{ height: '40px' }}/>
-                <Title>맞은 문제<SubTitle>{ this.props.data.solve.length }</SubTitle></Title>
-                <Container>
+                <Title theme={ this.props.theme }>맞은 문제<SubTitle>{ this.props.data.solve.length }</SubTitle></Title>
+                <Container theme={ this.props.theme }>
                     <div style={{ textAlign: 'center', lineHeight: '33px' }}>
                         { this.props.data.solve.map((item, index) => <IdContainer key={ item } id={ item }/>) }
                     </div>
