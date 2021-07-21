@@ -191,13 +191,17 @@ class Header extends Component {
         this.lastPath = 'none';
     }
     requestLogininfo(){
+        console.log('!');
         axios.get('/json/logininfo').then((userInfo) => {
             this.setState({ loginInfo: userInfo.data });
         })
     }
     render(){
         const currentUrl = window.location.pathname;
-        if(currentUrl !== this.lastPath) this.requestLogininfo();
+        if(currentUrl !== this.lastPath){
+            this.lastPath = currentUrl;
+            this.requestLogininfo();
+        }
 
         let theme = { r: 255, g: 255, b: 255 };
         if(this.props.theme === 'dark') theme = { r: 50, g: 50, b: 50 };
