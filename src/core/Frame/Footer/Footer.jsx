@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import imgEulerLogoBlack from '../svg_eulerlogo-black.svg';
+import imgEulerLogoWhite from '../svg_eulerlogo-white.svg';
 import imgBtn2 from './img_icon2.png';
 import imgBtn3 from './img_icon3.png';
 import imgBtn4 from './img_icon4.png';
@@ -44,8 +45,8 @@ class Footer extends Component {
                         <div style={ this.lay1Style }>
                             <div>
                                 <div style={{ display: this.state.bodyWidth > 600 ? 'block' : 'none' }}>
-                                    <img style={ this.logoStyle } src={ imgEulerLogoBlack } alt="EULER"/>
-                                    <span style={ this.logoTitleStyle }>오일러</span>
+                                    <img style={ this.logoStyle } src={ this.props.theme === 'light' ? imgEulerLogoBlack : imgEulerLogoWhite } alt="EULER"/>
+                                    <span style={{ ...this.logoTitleStyle, color: (this.props.theme === 'light' ? 'black' : 'white') }}>오일러</span>
                                 </div>
                                 <div style={{ ...this.copyRightStyle, textAlign: this.state.bodyWidth > 600 ? 'left' : 'center' }}>Copyright ⓒ 2001 EULER. All right reserved.</div>
                             </div>
@@ -68,4 +69,7 @@ class Footer extends Component {
     }
 }
 
+Footer.defaultProps = {
+    theme: 'light'
+}
 export default Footer;

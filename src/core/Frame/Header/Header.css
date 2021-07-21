@@ -66,3 +66,10 @@
 .FULLIMG{
     width: 100%; height: 100%;
 }
+
+#header_theme{
+    float: right; position: relative;
+    height: 100%; width: 36px;
+}
+.header_theme_img1{ width: 17px; }
+.header_theme_img2{ width: 15px; }

@@ -4,7 +4,7 @@ import { useSpring, animated } from 'react-spring';
 
 const Title = (props) => {
     return (
-        <div style={{ fontSize: '27px', fontWeight: 700, color: 'black', marginBottom: '6px' }}>{ props.children }</div>
+        <div style={{ fontSize: '27px', fontWeight: 700, color: (props.theme==='light' ? 'black' : 'white'), marginBottom: '6px' }}>{ props.children }</div>
     )
 }
 const SubTitle = (props) => {
@@ -18,7 +18,7 @@ const SubTitle = (props) => {
 }
 const Container = (props) => {
     return (
-        <div style={{ borderRadius: '10px', background: 'rgb(230,230,230)', padding: '20px', overflow: 'hidden' }}>
+        <div style={{ borderRadius: '10px', background: (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'), padding: '20px', overflow: 'hidden' }}>
             <div style={{ position: 'relative' }}>
                 { props.children }
             </div>
@@ -69,8 +69,8 @@ class Page3 extends Component {
     render() {
         return (
             <div className="FRAME_MAIN ND" style={{ paddingTop: '50px' }}>
-                <Title>틀린 문제<SubTitle>{ this.props.data.submit.length }</SubTitle></Title>
-                <Container>
+                <Title theme={ this.props.theme }>틀린 문제<SubTitle>{ this.props.data.submit.length }</SubTitle></Title>
+                <Container theme={ this.props.theme }>
                     <div style={{ textAlign: 'center', lineHeight: '33px' }}>
                         { this.props.data.submit.map((item, index) => <IdContainer key={ item } id={ item }/>) }
                     </div>

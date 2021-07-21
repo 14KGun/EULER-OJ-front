@@ -21,7 +21,7 @@ const RankSubItem = (props) => {
     const styleTxt = {
         position: 'absolute', top: '0px', left: '25px',
         height: '20px', lineHeight: '20px',
-        fontSize: '16px', fontWeight: 300, color: 'rgb(70,70,70)'
+        fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'rgb(70,70,70)' : 'rgb(180,180,180)')
     }
     return (
         <div style={{ width: '100%', height: '100%', position: 'relative' }} className="ND">
@@ -37,7 +37,8 @@ const RankItem = (props) => {
     }
     const styleLay1 = {
         position: 'absolute', top: '0px', left: '15px', height: '80px', lineHeight: '80px',
-        fontSize: '16px', fontWeight: 300, color: 'black', width: '40px', textAlign: 'center'
+        fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'black' : 'white'),
+        width: '40px', textAlign: 'center'
     }
     const styleLay2 = {
         position: 'absolute', top: '15px', left: '70px', overflow: 'hidden',
@@ -45,11 +46,11 @@ const RankItem = (props) => {
     }
     const styleLay3 = {
         position: 'absolute', top: '17px', left: '135px',
-        fontSize: '16px', fontWeight: 500, color: 'black'
+        fontSize: '16px', fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
     }
     const styleLay4 = {
         position: 'absolute', bottom: '20px', left: '135px',
-        fontSize: '13px', fontWeight: 300, color: 'rgb(70,70,70)'
+        fontSize: '13px', fontWeight: 300, color: (props.theme === 'light' ? 'rgb(70,70,70)' : 'rgb(180,180,180)')
     }
     const styleLay5 = {
         position: 'absolute', top: '30px', right: '150px', width: '70px', height: '20px'
@@ -73,11 +74,11 @@ const RankItem = (props) => {
                 </div>
                 <div style={ styleLay3 }>{ props.id }</div>
                 <div style={ styleLay4 }>{ props.msg }</div>
-                <div style={ styleLay5 }><RankSubItem icon={ svgAccept } txt={ props.solve }/></div>
-                <div style={ styleLay6 }><RankSubItem icon={ svgTrophy } txt={ props.trophy }/></div>
-                <div style={ styleLay7 }><RankSubItem icon={ svgActivity } txt={ props.activity }/></div>
-                { props.time === 'online' ? <div style={ styleLay8 }><RankSubItem icon={ svgClock } txt={ props.time }/></div>
-                : <div style={ styleLay8 }><RankSubItem icon={ svgClock } txt={ `${ trans.timeParsePositive(props.time) } 전` }/></div> }
+                <div style={ styleLay5 }><RankSubItem icon={ svgAccept } txt={ props.solve } theme={ props.theme }/></div>
+                <div style={ styleLay6 }><RankSubItem icon={ svgTrophy } txt={ props.trophy } theme={ props.theme }/></div>
+                <div style={ styleLay7 }><RankSubItem icon={ svgActivity } txt={ props.activity } theme={ props.theme }/></div>
+                { props.time === 'online' ? <div style={ styleLay8 }><RankSubItem icon={ svgClock } txt={ props.time } theme={ props.theme }/></div>
+                : <div style={ styleLay8 }><RankSubItem icon={ svgClock } txt={ `${ trans.timeParsePositive(props.time) } 전` } theme={ props.theme }/></div> }
             </animated.div>
         </Link>
     )
@@ -87,9 +88,12 @@ const RankingTable = (props) => {
     return (
         <div>
             <RangkingTop/>
-            { props.list.map((item, index) => <RankItem rank={ item.rank } id={ item.id } solve={ item.solve } trophy={ item.trophy } activity={ item.activity } time={ item.time } msg={ item.msg }/>) }
+            { props.list.map((item, index) => <RankItem rank={ item.rank } id={ item.id } solve={ item.solve } trophy={ item.trophy } activity={ item.activity } time={ item.time } msg={ item.msg } theme={ props.theme }/>) }
         </div>
     )
 }
 
+RankingTable.defaultProps = {
+    theme: 'light'
+}
 export default RankingTable;

@@ -22,7 +22,7 @@ import './App.css';
 const getThemeFromCookie = () => {
   const theme = cookie.getCookie('theme');
   if(theme === 'dark') return 'dark';
-  else return 'white';
+  else return 'light';
 }
 function App() {
   const [theme, themeHandler] = useState(getThemeFromCookie());
@@ -33,25 +33,25 @@ function App() {
   }
 
   const FindmypasswordWithId = () => <LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame>
-  const ProblemsetWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
-  const ProblemWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="black"><Problem id={ useParams().Pnum }/></Frame>
-  const ProblemViewerWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="black"><ProblemViewer id={ useParams().Pnum }/></Frame>
-  const ProblemSubmitWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="black"><ProblemSubmit id={ useParams().Pnum }/></Frame>
-  const TagWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag id={ useParams().Pnum } page={1}/></Frame>
-  const TagWithIdPage = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
-  const EulerRankingWithIdPage = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><EulerRanking page={ useParams().Pnum }/></Frame>
-  const CompareWithIdId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Compare id1={useParams().Pnum1} id2={ useParams().Pnum2 }/></Frame>
-  const ProfileWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Profile id={ useParams().Pnum }/></Frame>
+  const ProblemsetWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
+  const ProblemWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
+  const ProblemViewerWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProblemViewer theme={ theme } id={ useParams().Pnum }/></Frame>
+  const ProblemSubmitWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProblemSubmit id={ useParams().Pnum }/></Frame>
+  const TagWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag theme={ theme } id={ useParams().Pnum } page={1}/></Frame>
+  const TagWithIdPage = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag theme={ theme } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
+  const EulerRankingWithIdPage = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><EulerRanking theme={ theme } page={ useParams().Pnum }/></Frame>
+  const CompareWithIdId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Compare theme={ theme } id1={ useParams().Pnum1 } id2={ useParams().Pnum2 }/></Frame>
+  const ProfileWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Profile theme={ theme } id={ useParams().Pnum }/></Frame>
 
   return (
     <Router>
       <Switch>
-        <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main/></Frame></Route>
+        <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword/:Pnum"><FindmypasswordWithId/></Route>
 
-        <Route exact path="/problemset"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset/></Frame></Route>
+        <Route exact path="/problemset"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme }/></Frame></Route>
         <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2"><ProblemsetWithId/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId/></Route>
@@ -59,15 +59,15 @@ function App() {
         <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId/></Route>
         {/*<Route exact path="/problemset/submit/:Pnum" component={ ProblemSubmitWithId }/>*/}
 
-        <Route exact path="/tags"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag id={0} page={1}/></Frame></Route>
+        <Route exact path="/tags"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag theme={ theme } id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum"><TagWithId/></Route>
         <Route exact path="/tags/:Pnum1/:Pnum2"><TagWithIdPage/></Route>
 
-        <Route exact path="/ranking"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><EulerRanking page={1}/></Frame></Route>
+        <Route exact path="/ranking"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><EulerRanking theme={ theme } page={1}/></Frame></Route>
         <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage/></Route>
         <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId/></Route>
 
-        <Route path="/profile/unknown"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="black"><ProfileUnknown/></Frame></Route>
+        <Route path="/profile/unknown"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId/></Route>
 
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
@@ -82,7 +82,7 @@ function App() {
         <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
         <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>
 
-        <Route path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="black"><PageNotFound/></Frame></Route>
+        <Route path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
     </Router>
   );

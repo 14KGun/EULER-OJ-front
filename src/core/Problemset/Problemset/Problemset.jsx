@@ -126,8 +126,8 @@ class Problemset extends Component {
                 <div className="FRAME_MAIN">
                     <SelectLay items={ this.state.nav } selected={ propsCategory[1] } category1={ propsCategory[0] }/>
                     <div style={{ height: '30px' }}/>
-                    <ProblemTable content={ this.state.list }/>
-                    <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) }/>
+                    <ProblemTable content={ this.state.list } theme={ this.props.theme }/>
+                    <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) } theme={ this.props.theme }/>
                 </div>
             );
         }
@@ -147,7 +147,7 @@ class Problemset extends Component {
                 <Top icon={ <Icon/> } title="문제" background={ <TopBackground/> } fixedLay={ <TopFixedLay category={ propsCategory[0] }/> }/>
                 { container }
                 <div className="BTM_EMPTY"></div>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }

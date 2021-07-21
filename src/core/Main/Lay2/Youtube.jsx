@@ -12,7 +12,8 @@ const YoutubeItem = (props) => {
     const itemStyle = useSpring({
         position: 'absolute', overflow: 'hidden',
         textAlign: 'left', textAlignLast: 'left',
-        background: 'rgb(240,240,240)', borderRadius: '15px',
+        background: ( props.theme === 'light' ? 'rgb(240,240,240)' : 'rgb(45,45,45)' ),
+        borderRadius: '15px',
         top: isHover ? `${top-3}px` : `${top}px`,
         left: isHover ? `${left-3}px` : `${left}px`,
         width: isHover ? `166px` : `160px`,
@@ -28,13 +29,13 @@ const YoutubeItem = (props) => {
     const titleStyle = useSpring({
         position: 'absolute', overflow: 'hidden', textOverflow: 'ellipsis', 
         top: `${100 + (isHover ? 6 : 0)}px`, bottom: '30px', left: '15px', right: '15px',
-        fontSize: '14px', fontWeight: '400', color: 'black',
+        fontSize: '14px', fontWeight: '400', color: (props.theme === 'light' ? 'black' : 'white'),
     });
     const timeStyle = {
         position: 'absolute',
         bottom: '10px', right: '15px',
         textAlign: 'right', textAlignLast: 'right',
-        fontSize: '13px', fontWeight: '300', color: 'gray'
+        fontSize: '13px', fontWeight: '300', color: (props.theme === 'light' ? 'gray' : 'white')
     };
 
     return (
@@ -60,7 +61,7 @@ class Youtube extends Component {
     render() {
         if(this.state.youtubeList === undefined){
             return (
-                <Frame title="오일러TV">
+                <Frame title="오일러TV" theme={ this.props.theme }>
                     <div style={{ position: 'relative', paddingTop: '100px' }}>
                         <Loading/>
                     </div>
@@ -69,12 +70,12 @@ class Youtube extends Component {
         }
         else{
             return (
-                <Frame title="오일러TV">
+                <Frame title="오일러TV" theme={ this.props.theme }>
                     <div style={{ position: 'relative' }}>
                         { this.state.youtubeList.map((item, index) => {
                             const y = parseInt(index/2);
                             const x = index - y*2;
-                            return <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={[y,x]}/>;
+                            return <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={[y,x]} theme={ this.props.theme }/>;
                         }) }
                     </div>
                 </Frame>

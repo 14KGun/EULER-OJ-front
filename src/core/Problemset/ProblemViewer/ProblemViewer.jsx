@@ -96,6 +96,10 @@ const BtnSubmit = (props) => {
     )
 }
 const BoxLink = (props) => {
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)')
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
     const urlYoutube = props.youtube ? props.youtube : '';
     const urlBlog = props.blog ? props.blog : '';
     
@@ -111,7 +115,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipYoutube);
     }
     const youtubeStyle = useSpring({
-        background: isYoutubeHover ? 'rgb(235,235,235)' : 'white',
+        background: isYoutubeHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
         config: { duration: 150 }
     })
     const youtubeNextStyle = useSpring({
@@ -131,7 +135,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipBlog);
     }
     const blogStyle = useSpring({
-        background: isBlogHover ? 'rgb(235,235,235)' : 'white',
+        background: isBlogHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
         config: { duration: 150 }
     })
     const blogNextStyle = useSpring({
@@ -144,7 +148,7 @@ const BoxLink = (props) => {
             <animated.div className="right_TOBBOX-BTN" id="btnYoutube" style={ youtubeStyle }
             onMouseEnter={ YoutubeHover } onMouseLeave={ YoutubeHoverOut }>
                 <img className="right_TOBBOX-BTN-LOGO1" src={ imgYoutube } alt=""/>
-                <div className="right_TOBBOX-BTN-TXT">유튜브</div>
+                <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>유튜브</div>
                 <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ youtubeNextStyle }/>
             </animated.div>
         </a>
@@ -154,7 +158,7 @@ const BoxLink = (props) => {
             <animated.div className="right_TOBBOX-BTN" id="btnBlog" style={ blogStyle }
             onMouseEnter={ BlogHover } onMouseLeave={ BlogHoverOut }>
                 <img className="right_TOBBOX-BTN-LOGO1" src={ imgBlog } alt=""/>
-                <div className="right_TOBBOX-BTN-TXT">블로그</div>
+                <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>블로그</div>
                 <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ blogNextStyle }/>
             </animated.div>
         </a>
@@ -162,21 +166,26 @@ const BoxLink = (props) => {
 
     if(urlYoutube === '' && urlBlog === '') return <></>;
     return (
-        <div className="right_TOPBOX">
-            <div className="right_TOPBOX-TITLE">해설 바로가기</div>
+        <div className="right_TOPBOX" style={{ background: background, border: border }}>
+            <div className="right_TOPBOX-TITLE" style={{ color: color }}>해설 바로가기</div>
             { urlYoutube !== '' ? BtnYoutube : <></> }
             { urlBlog !== '' ? BtnBlog : <></> }
         </div>
     )
 }
 const BoxStat = (props) => {
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const subcolor = (props.theme === 'light' ? 'rgb(60,60,60)' : 'rgb(190,190,190)');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
     const solveInt = parseInt(props.solve);
     const submitInt = parseInt(props.submit);
     const dataPercent = isNaN(solveInt / submitInt) ? 'NaN' : (solveInt / submitInt * 100.0).toFixed(1);
 
     const [isHover, setHover] = useState(false);
     const style = useSpring({
-        background: isHover ? 'rgb(245,245,245)' : 'white',
+        background: isHover ? (props.theme === 'light' ? 'rgb(245,245,245)' : 'rgb(30,30,30)') : background,
         config: { duration: 100 }
     })
 
@@ -188,8 +197,8 @@ const BoxStat = (props) => {
                         const donutchart = document.getElementById('donutchart');
                         new EasyPieChart(donutchart, {
                             barColor: 'rgb(240,100,40)', //차트가 그려질 색 
-                            trackColor: 'rgb(230,230,230)', // 차트가 그려지는 트랙의 기본 배경색(chart1 의 회색부분) 
-                            scaleColor: 'rgb(240,240,240)', // 차트 테두리에 그려지는 기준선 (chart2 의 테두리 선) 
+                            trackColor: '${ props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(40,40,40)' }', // 차트가 그려지는 트랙의 기본 배경색(chart1 의 회색부분) 
+                            scaleColor: '${ background }', // 차트 테두리에 그려지는 기준선 (chart2 의 테두리 선) 
                             lineCap: 'round', // 차트 선의 모양 chart1 butt / chart2 round / chart3 square 
                             lineWidth: 20, // 차트 선의 두께 
                             size: 130, // 차트크기 
@@ -198,8 +207,8 @@ const BoxStat = (props) => {
                     });
                 `}</script>
             </Helmet>
-            <div className="right_TOPBOX">
-                <div className="right_TOPBOX-TITLE">통계</div>
+            <div className="right_TOPBOX" style={{ background: background, border: border }}>
+                <div className="right_TOPBOX-TITLE" style={{ color: color }}>통계</div>
                 <a href={`/problemset/stats/${ props.id }`}>
                     <animated.div id="donutchart-container" style={ style }
                     onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
@@ -209,26 +218,30 @@ const BoxStat = (props) => {
                     </animated.div>
                 </a>
                 <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                    <div className="right_TOPBOX-L-LEFT">맞은 사람</div>
-                    <div className="right_TOPBOX-L-RIGHT">{ props.solve }</div>
+                    <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>맞은 사람</div>
+                    <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.solve }</div>
                 </div>
                 <div className="right_TOPBOX-L">
-                    <div className="right_TOPBOX-L-LEFT">제출 횟수</div>
-                    <div className="right_TOPBOX-L-RIGHT">{ props.submit }</div>
+                    <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>제출 횟수</div>
+                    <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.submit }</div>
                 </div>
             </div>
         </>
     )
 }
 const BoxStatus = (props) => {
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
     const [isHover1, setHover1] = useState(false);
     const [isHover2, setHover2] = useState(false);
     const background1 = useSpring({
-        background: isHover1 ? 'rgb(235,235,235)' : 'white',
+        background: isHover1 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
         config: { duration: 100 }
     }).background;
     const background2 = useSpring({
-        background: isHover2 ? 'rgb(235,235,235)' : 'white',
+        background: isHover2 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
         config: { duration: 100 }
     }).background;
     const next1Style = useSpring({
@@ -241,13 +254,13 @@ const BoxStatus = (props) => {
     })
 
     return (
-        <div className="right_TOPBOX">
-            <div className="right_TOPBOX-TITLE">채점 기록</div>
+        <div className="right_TOPBOX" style={{ background: background, border: border }}>
+            <div className="right_TOPBOX-TITLE" style={{ color: color }}>채점 기록</div>
             <a href={`/status?pid=${props.id}`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background1 }}
                 onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard3 } alt=""/>
-                    <div className="right_TOBBOX-BTN-TXT">전체 채점 기록</div>
+                    <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>전체 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
                 </animated.div>
             </a>
@@ -255,7 +268,7 @@ const BoxStatus = (props) => {
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
-                    <div className="right_TOBBOX-BTN-TXT">내 채점 기록</div>
+                    <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>내 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
             </a>
@@ -264,24 +277,29 @@ const BoxStatus = (props) => {
     )
 }
 const BoxLimit = (props) => {
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const subcolor = (props.theme === 'light' ? 'rgb(60,60,60)' : 'rgb(190,190,190)');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
     return (
-        <div className="right_TOPBOX">
-            <div className="right_TOPBOX-TITLE">제한</div>
+        <div className="right_TOPBOX" style={{ background: background, border: border }}>
+            <div className="right_TOPBOX-TITLE" style={{ color: color }}>제한</div>
             <div className="right_TOPBOX-L right_TOPBOX-L-BORDER" style={{ marginTop: '10px' }}>
-                <div className="right_TOPBOX-L-LEFT">시간</div>
-                <div className="right_TOPBOX-L-RIGHT">{ props.time }초</div>
+                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>시간</div>
+                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.time }초</div>
             </div>
             <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                <div className="right_TOPBOX-L-LEFT">메모리</div>
-                <div className="right_TOPBOX-L-RIGHT">{ props.memory }MB</div>
+                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>메모리</div>
+                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.memory }MB</div>
             </div>
             <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                <div className="right_TOPBOX-L-LEFT">입력 방식</div>
-                <div className="right_TOPBOX-L-RIGHT">{ props.input }</div>
+                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>입력 방식</div>
+                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.input }</div>
             </div>
             <div className="right_TOPBOX-L">
-                <div className="right_TOPBOX-L-LEFT">출력 방식</div>
-                <div className="right_TOPBOX-L-RIGHT">{ props.output }</div>
+                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>출력 방식</div>
+                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.output }</div>
             </div>
         </div>
     )
@@ -383,20 +401,29 @@ class ProblemViewer extends Component {
             const problems = htmlParser(this.state.problemHtml);
             const samples = [];
 
+            let styleTop = { background: 'rgb(200,200,200)' };
+            let styleTopTxt = { color: 'black' };
+            let styleContent = { background: 'rgb(230,230,230)' };
+            if(this.props.theme === 'dark'){
+                styleTop.background = 'rgb(80,80,80)';
+                styleTopTxt.color = 'white';
+                styleContent.background = 'rgb(50,50,50)';
+            }
+
             for(var i=0; i<this.state.sampleInput.length; i++){
                 samples.push(
                     <div key={ i } className="content EX-BORDER">
-                        <span className="EXBOX EXBOX-INPUT">
-                            <div className="EXBOX-TOP ND">
-                                <div className="EXBOX-TOP-TXT">예제{ i+1 } - 입력</div>
+                        <span className="EXBOX EXBOX-INPUT" style={ styleContent }>
+                            <div className="EXBOX-TOP ND" style={ styleTop }>
+                                <div className="EXBOX-TOP-TXT" style={ styleTopTxt }>예제{ i+1 } - 입력</div>
                                 <CopyBtn index={ i } tooltip={ this.tooltip } txt={ this.state.sampleInput[i] }/>
                             </div>
                             <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleInput[i]) }}/>
                         </span>
                         <span className="ND">&nbsp;</span>
-                        <span className="EXBOX EXBOX-OUTPUT">
-                            <div className="EXBOX-TOP ND">
-                                <div className="EXBOX-TOP-TXT">예제{ i+1 } - 출력</div>
+                        <span className="EXBOX EXBOX-OUTPUT" style={ styleContent }>
+                            <div className="EXBOX-TOP ND" style={ styleTop }>
+                                <div className="EXBOX-TOP-TXT" style={ styleTopTxt }>예제{ i+1 } - 출력</div>
                             </div>
                             <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
                         </span>
@@ -434,15 +461,15 @@ class ProblemViewer extends Component {
                         <div id="lay_right" className="ND">
                             <BtnEditor id={ this.props.id }/>
                             <BtnSubmit id={ this.props.id }/>
-                            <BoxLink id={ this.props.id } youtube={ this.state.youtube } blog={ this.state.blog } tooltip={ this.tooltip }/>
-                            <BoxStat id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
-                            <BoxStatus id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
-                            <BoxLimit time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
+                            <BoxLink theme={ this.props.theme } id={ this.props.id } youtube={ this.state.youtube } blog={ this.state.blog } tooltip={ this.tooltip }/>
+                            <BoxStat theme={ this.props.theme } id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
+                            <BoxStatus theme={ this.props.theme } id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
+                            <BoxLimit theme={ this.props.theme } time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
                         </div>
                     </div>
                 </div>
                 <div className="BTM_EMPTY"/>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </>
         );
     }
@@ -476,14 +503,33 @@ class ProblemViewer extends Component {
         } catch(error){
         }
     }
+    repainting(theme){
+        const contents = document.getElementsByClassName('content');
+        for(var i=0; i<contents.length; i++){
+            if(theme === 'dark' && contents[i].style.color === ''){
+                contents[i].style.color = 'white'
+            }
+            if(theme === 'dark' && contents[i].style.color === 'black'){
+                contents[i].style.color = 'white'
+            }
+            if(theme === 'light' && contents[i].style.color === ''){
+                contents[i].style.color = 'black'
+            }
+            if(theme === 'light' && contents[i].style.color === 'white'){
+                contents[i].style.color = 'black'
+            }
+        }
+    }
     componentDidMount(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
+        this.repainting(this.props.theme);
     }
     componentDidUpdate(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+        this.repainting(this.props.theme);
     }
     componentWillUnmount(){
         this.tooltip.clear();

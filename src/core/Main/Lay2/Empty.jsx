@@ -4,7 +4,7 @@ import Frame from './Lay2Frame';
 class Empty extends Component {
     render() {
         return (
-            <Frame title=" "/>
+            <Frame title=" " theme={ this.props.theme }/>
         );
     }
 }

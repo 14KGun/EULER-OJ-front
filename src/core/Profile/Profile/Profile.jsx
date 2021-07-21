@@ -63,7 +63,7 @@ class Profile extends Component {
                     });
                 }
             }
-            else container = <Page1 data={ this.state.trophy }/>;
+            else container = <Page1 data={ this.state.trophy } theme={ this.props.theme }/>;
         }
         else if(this.state.page === 2){
             if(this.state.solve.id !== this.props.id){
@@ -76,7 +76,7 @@ class Profile extends Component {
                     });
                 }
             }
-            else container = <Page2 data={ this.state.solve }/>;
+            else container = <Page2 data={ this.state.solve } theme={ this.props.theme }/>;
         }
         else if(this.state.page === 3){
             if(this.state.solve.id !== this.props.id){
@@ -89,7 +89,7 @@ class Profile extends Component {
                     });
                 }
             }
-            else container = <Page3 data={ this.state.solve }/>;
+            else container = <Page3 data={ this.state.solve } theme={ this.props.theme }/>;
         }
         else if(this.state.page === 4){
             if(this.state.subinfo.id !== this.props.id){
@@ -102,7 +102,7 @@ class Profile extends Component {
                     });
                 }
             }
-            else container = <Page4 data={ this.state.subinfo }/>;
+            else container = <Page4 data={ this.state.subinfo } theme={ this.props.theme }/>;
         }
         else if(this.state.page === 5){
             if(this.state.compare.id !== this.props.id){
@@ -124,7 +124,7 @@ class Profile extends Component {
                 <ProfileTop id={ this.props.id } data={ this.state.top } page={ this.state.page } changePage={ (x) => this.changePage(x) }/>
                 { container }
                 <div className="BTM_EMPTY"/>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }

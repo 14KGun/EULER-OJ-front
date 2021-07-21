@@ -3,7 +3,8 @@ import Header from './Header/Header';
 
 const Frame = (props) => {
     const background = useSpring({
-        background: props.theme === 'dark' ? 'red' : 'rgb(250,251,252)'
+        background: props.theme === 'dark' ? 'rgb(30,31,33)' : 'rgb(250,251,252)',
+        config: { duration: 250 }
     }).background;
 
     return (

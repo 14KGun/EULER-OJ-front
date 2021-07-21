@@ -58,8 +58,8 @@ const LoadingLay = () => {
 const TableLay = (props) => {
     return (
         <div style={{ paddingTop: '50px' }}>
-            <TagTable content={ props.tags }/>
-            <ProblemTable content={ props.problems }/>
+            <TagTable content={ props.tags } theme={ props.theme }/>
+            <ProblemTable content={ props.problems } theme={ props.theme }/>
         </div>
     );
 }
@@ -109,12 +109,12 @@ class Tag extends Component {
                 
                 <div className="FRAME_MAIN ND">
                     { this.state.err ? <ErrorLay msg={ this.state.msg }/> : 
-                        (this.state.tagChild || this.state.problemChild ? <TableLay tags={ this.state.tagChild } problems={ this.state.problemChild }/> : <LoadingLay/>)  
+                        (this.state.tagChild || this.state.problemChild ? <TableLay tags={ this.state.tagChild } problems={ this.state.problemChild } theme={ this.props.theme }/> : <LoadingLay/>)  
                     }
-                    {  this.state.maxPage ? <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ this.makeGetPageUrl(this.state.id) }/> : <></> }
+                    {  this.state.maxPage ? <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ this.makeGetPageUrl(this.state.id) } theme={ this.props.theme }/> : <></> }
                     <div className="BTM_EMPTY"></div>
                 </div>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }
