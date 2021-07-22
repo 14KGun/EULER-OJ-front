@@ -3,6 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from '../../Tool/axios';
+import smoothScroll from '../../Tool/smoothScroll';
 import Top from '../../Frame/Top/Top';
 import SearchBox from '../../Search/SearchBox/SearchBox';
 import imgBackground from './img_background.png';
@@ -109,7 +110,7 @@ class Problemset extends Component {
     static getDerivedStateFromProps(nextProps, prevState){
         const propsCategory = getCategory(nextProps.category1, nextProps.category2, nextProps.page);
         if(String(propsCategory[0]) !== String(prevState.category1) || String(propsCategory[1]) !== String(prevState.category2) || String(propsCategory[2]) !== String(prevState.requestPage)){
-            window.scrollTo(0,0);
+            smoothScroll();
             return { ...defaultState };
         }
         return prevState;
