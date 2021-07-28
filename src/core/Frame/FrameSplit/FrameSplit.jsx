@@ -16,7 +16,7 @@ const NavigatorBtn = (props) => {
         marginLeft: '50px', lineHeight: '40px',
         fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'rgb(80,80,80)' : 'rgb(150,150,150)')
     }
-    const backgroundColor = (props.theme==='light' ? 220 : 50);
+    const backgroundColor = (props.theme==='light' ? 220 : 60);
     const background = useSpring({
         background: `rgba(${backgroundColor},${backgroundColor},${backgroundColor},${ isHover ? 1 : 0 })`,
         config: { duration: 150 }
@@ -34,7 +34,7 @@ const Navigator = (props) => {
     const style = {
         marginLeft: '20px', marginRight: '10px', borderRadius: '15px',
     }
-    const background = useSpring({ background: props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(40,40,41)' })
+    const background = useSpring({ background: props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)' })
     const styleTxt1 = {
         marginLeft: '20px', marginRight: '20px', marginBottom: '5px',
         fontSize: '15px', fontWeight: 300, color: 'gray'

@@ -103,7 +103,7 @@ class Langsort extends Component {
     render(){
         const styleTable = {
             padding: '20px', borderRadius: '15px',
-            background: (this.props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(40,40,41)')
+            background: (this.props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)')
         }
         return (
             <div className="ND">

@@ -30,7 +30,7 @@ const Input = (props) => {
     }).border
 
     return (
-        <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
+        <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border, maxWidth: '600px' }}>
             <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
             style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}/>
         </animated.div>

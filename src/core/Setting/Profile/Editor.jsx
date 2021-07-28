@@ -38,7 +38,7 @@ const FontSetting = (props) => {
         borderRadius: '15px', padding: '15px'
     }
     const background = useSpring({
-        background: props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(40,40,41)'
+        background: props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'
     })
     const font = 'D2Coding';
 
