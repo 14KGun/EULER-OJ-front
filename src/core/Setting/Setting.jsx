@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Helmet } from "react-helmet";
+import axios from '../Tool/axios';
 import smoothScroll from '../Tool/smoothScroll';
 import FrameSplit from '../Frame/FrameSplit/FrameSplit';
 import Me from './Profile/Me';
