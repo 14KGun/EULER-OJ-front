@@ -15,6 +15,7 @@ import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
 import ProfileUnknown from './core/Profile/ProfileUnknown/ProfileUnknown';
 import Setting from './core/Setting/Setting';
+import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
 import cookie from './core/Tool/cookie';
 import './Font.css';
@@ -80,6 +81,8 @@ function App() {
         <Route exact path="/setting/profile/editor"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="editor"/></Frame></Route>
         <Route exact path="/setting/profile/short"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="short"/></Frame></Route>
         <Route exact path="/setting/profile/logout"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="logout"/></Frame></Route>
+
+        <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme }/></Frame></Route>
 
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>

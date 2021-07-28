@@ -3,10 +3,6 @@ import { Helmet } from "react-helmet";
 import codeEditorScript from './codeEditorScript';
 
 class Editor extends Component {
-    constructor(props){
-        super(props);
-        this.style = { width: '100%', height: '500px' }
-    }
     shouldComponentUpdate(nextProps, nextState){
         if(this.props !== nextProps){
 
@@ -18,14 +14,14 @@ class Editor extends Component {
         return (
             <>
                 <Helmet><script>{ script }</script></Helmet>
-                <div id="code-editor" style={ this.style }></div>
+                <div id="code-editor" style={{ width: '100%', height: this.props.height }}></div>
             </>
         );
     }
 }
 
 Editor.defaultProps = {
-    lang: 'cpp', theme: 'vs-dark',
+    lang: 'cpp', theme: 'vs-dark', height: '500px',
     letterSpacing: 0, fontSize: 16, tabSize: 4
 }
 export default Editor;
