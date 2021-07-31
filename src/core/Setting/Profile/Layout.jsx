@@ -30,7 +30,7 @@ const Input = (props) => {
     }).border
 
     return (
-        <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border, maxWidth: '600px' }}>
+        <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
             <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
             style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}/>
         </animated.div>
@@ -100,9 +100,66 @@ Switch.defaultProps = {
     onChange: () => {}
 }
 
+const SubmitBtn = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = {
+        display: 'inline-block', height: '40px', lineHeight: '40px',
+        paddingLeft: '18px', paddingRight: '18px', borderRadius: '20px',
+        fontSize: '16px', fontWeight: 300, color: 'white'
+    }
+    const backgrond = useSpring({
+        background: props.background[isHover ? 1 : 0],
+        config: { duration: 150 }
+    })
+    return (
+        <animated.span style={{ ...style, ...backgrond }} className="BTNC" onClick={ props.onClick }
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            { props.children }
+        </animated.span>
+    )
+}
+SubmitBtn.defaultProps = {
+    children: '저장하기', onClick: () => {},
+    background: ['rgb(50,140,250)', 'rgb(30,110,220)']
+}
+
+const SubmitBtnLay = (props) => {
+    return (
+        <div style={{ textAlign: 'right' }}>
+            <SubmitBtn { ...props }/>
+        </div>
+    )
+}
+
+const SubmitBtnAutoLay = (props) => {
+    let background = 'rgb(50,140,250)', backgroundHover = 'rgb(30,110,220)';
+    let text = '저장하기';
+    if(false){
+        background = 'rgb(120,120,120)'; backgroundHover = 'rgb(120,120,120)';
+        text = '저장 중...';
+    }
+    if(false){
+        background = 'rgb(34,177,76)'; backgroundHover = 'rgb(34,177,76)';
+        text = '저장 완료';
+    }
+    if(false){
+        background = 'rgb(237,28,36)'; backgroundHover = 'rgb(237,28,36)';
+        text = '저장 실패';
+    }
+
+    const onClick = () => {
+        
+    }
+    return (
+        <SubmitBtnLay background={ [background, backgroundHover] } onClick={ () => onClick() }>
+            { text }
+        </SubmitBtnLay>
+    )
+}
+
 const Margin = () => {
     return <div style={{ height: '50px' }}/>
 }
 
-const res = { Title, Content, Input, Switch, Margin };
+const res = { Title, Content, Input, Switch, SubmitBtn, SubmitBtnLay, SubmitBtnAutoLay, Margin };
 export default res;

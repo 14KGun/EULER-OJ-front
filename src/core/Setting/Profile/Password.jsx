@@ -10,12 +10,15 @@ class Password extends Component {
                 <Layout.Content theme={ this.props.theme }>비밀번호를 변경할 수 있습니다. 비밀번호는 최소 6자, 최대 20자까지 입력 가능합니다.</Layout.Content>
                 <div style={{ height: '20px' }}/>
                 <Layout.Content theme={ this.props.theme }>기존 비밀번호를 입력하세요.</Layout.Content>
+                <div style={{ height: '10px' }}/>
                 <Layout.Input type="password" theme={ this.props.theme }/>
                 <div style={{ height: '20px' }}/>
                 <Layout.Content theme={ this.props.theme }>새로운 비밀번호를 입력하세요.</Layout.Content>
+                <div style={{ height: '10px' }}/>
                 <Layout.Input type="password" theme={ this.props.theme }/>
                 <div style={{ height: '20px' }}/>
                 <Layout.Content theme={ this.props.theme }>새로운 비밀번호를 다시 한번 입력하세요.</Layout.Content>
+                <div style={{ height: '10px' }}/>
                 <Layout.Input type="password" theme={ this.props.theme }/>
             </div>
         )
