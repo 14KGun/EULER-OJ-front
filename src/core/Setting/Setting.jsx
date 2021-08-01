@@ -1,8 +1,11 @@
 import { Component } from 'react';
 import { Helmet } from "react-helmet";
+import { Redirect } from 'react-router-dom';
 import axios from '../Tool/axios';
+import getHref from '../Tool/getHref';
 import smoothScroll from '../Tool/smoothScroll';
 import FrameSplit from '../Frame/FrameSplit/FrameSplit';
+import Loading from '../Frame/Loading/Loading';
 import Me from './Profile/Me';
 import Password from './Profile/Password';
 import Social from './Profile/Social';
@@ -20,9 +23,19 @@ import svgEditor from './svg_editor.svg';
 import svgShort from './svg_short.svg';
 import svgLogout from './svg_logout.svg';
 
+const LoadingLay = () => {
+    return (
+        <div style={{ paddingTop: '100px', height: '300px' }}>
+            <Loading/>
+            <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
+        </div>
+    )
+}
 class Setting extends Component {
     constructor(props){
         super(props);
+        this.state = { data: undefined }
+        this.onload = false;
 
         this.navigator = [
             {
@@ -40,31 +53,53 @@ class Setting extends Component {
             }
         ]
     }
+    stateDataHandler(key, value, callback){
+        const data = this.state.data;
+        data[key] = value;
+        this.setState({ data: data }, () => {
+            if(callback) callback();
+        });
+    }
     render(){
         let container = <div/>;
         
-        if(this.props.page === 'me'){
-            container = <Me theme={ this.props.theme }/>
+        if(!this.onload){
+            this.onload = true;
+            axios.get(`/json/setting/profile/getdata`).then((result) => {
+                this.setState({ data: result.data });
+            });
         }
-        if(this.props.page === 'password'){
+        
+        if(this.state.data === undefined){
+            container = <LoadingLay/>;
+        }
+        else if(this.state.data.err){
+            if(this.state.data.err === 'login'){
+                container = <Redirect to={ getHref.loginCurrentUrl() }/>
+            }
+        }
+        else if(this.props.page === 'me'){
+            container = <Me theme={ this.props.theme } data={ this.state.data } stateHandler={ (x,y,cb) => this.stateDataHandler(x,y,cb) }/>
+        }
+        else if(this.props.page === 'password'){
             container = <Password theme={ this.props.theme }/>
         }
-        if(this.props.page === 'social'){
-            container = <Social theme={ this.props.theme }/>
+        else if(this.props.page === 'social'){
+            container = <Social theme={ this.props.theme } data={ this.state.data }/>
         }
-        if(this.props.page === 'theme'){
+        else if(this.props.page === 'theme'){
             container = <Theme theme={ this.props.theme } setTheme={ this.props.setTheme }/>
         }
-        if(this.props.page === 'langsort'){
-            container = <Langsort theme={ this.props.theme }/>
+        else if(this.props.page === 'langsort'){
+            container = <Langsort theme={ this.props.theme } data={ this.state.data }/>
         }
-        if(this.props.page === 'editor'){
+        else if(this.props.page === 'editor'){
             container = <Editor theme={ this.props.theme }/>
         }
-        if(this.props.page === 'short'){
+        else if(this.props.page === 'short'){
             container = <Short theme={ this.props.theme }/>
         }
-        if(this.props.page === 'logout'){
+        else if(this.props.page === 'logout'){
             container = <Logout theme={ this.props.theme }/>
         }
 

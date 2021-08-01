@@ -20,6 +20,8 @@ class Password extends Component {
                 <Layout.Content theme={ this.props.theme }>새로운 비밀번호를 다시 한번 입력하세요.</Layout.Content>
                 <div style={{ height: '10px' }}/>
                 <Layout.Input type="password" theme={ this.props.theme }/>
+                <div style={{ height: '10px' }}/>
+                <Layout.SubmitBtnLay href="/json/setting/profile/me/profimg"/>
             </div>
         )
     }

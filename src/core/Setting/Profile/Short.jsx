@@ -1,13 +1,35 @@
 import { Component } from 'react';
+import { useSpring, animated } from 'react-spring';
 import Layout from './Layout';
 import svgShort from './svg_short.svg';
 
+const SwitchBox = (props) => {
+    const style = {
+        position: 'relative', borderRadius: '15px'
+    }
+    const styleTxt = {
+        marginLeft: '20px', marginRight: '70px', paddingTop: '10px', paddingBottom: '10px',
+        fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'black' : 'white')
+    }
+    const background = useSpring({
+        background: props.theme === 'light' ? 'rgba(230,230,230,0.2)' : 'rgba(50,50,50,0.2)',
+        border: `1px solid ${ props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)' }`
+    });
+    return (
+        <animated.div style={{ ...style, ...background }}>
+            <div style={ styleTxt }>{ props.children }</div>
+            <div style={{ position: 'absolute', bottom: '11px', right: '20px' }}>
+                <Layout.Switch theme={ props.theme } value={ 'off' } onChange={ (x) => {} }/>
+            </div>
+        </animated.div>
+    )
+}
 class Short extends Component {
     render(){
         return (
             <div className="ND">
                 <Layout.Title icon={ svgShort } theme={ this.props.theme }>문제 클릭시 에디터로 바로 이동</Layout.Title>
-                <Layout.Content theme={ this.props.theme }>문제 클릭시 에디터로 바로 이동합니다</Layout.Content>
+                <SwitchBox theme={ this.props.theme }>문제 클릭시 에디터로 바로 이동합니다</SwitchBox>
             </div>
         )
     }

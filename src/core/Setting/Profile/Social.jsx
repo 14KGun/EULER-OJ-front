@@ -1,5 +1,6 @@
 import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { useHistory } from 'react-router-dom';
 import Layout from './Layout';
 import svgSocial from './svg_social.svg';
 import imgGoogle from './img_google.png';
@@ -32,8 +33,11 @@ const SocialBox = (props) => {
     })
 
     const [value, valueHandler] = useState(props.initValue);
+    const history = useHistory();
     const onChange = (x) => {
-        valueHandler(x);
+        valueHandler('center');
+        if(x === 'on') history.push(`/login/auth/${ props.id }`);
+        if(x === 'off') history.push(`/login/unlink/step1/${ props.id }`);
     }
 
     return (
@@ -54,9 +58,9 @@ class Social extends Component {
                 <Layout.Title icon={ svgSocial } theme={ this.props.theme }>소셜 계정 연동</Layout.Title>
                 <Layout.Content theme={ this.props.theme }>소셜 계정을 연동하여 소셜 로그인을 사용할 수 있습니다.<br/>버튼을 눌러 계정 연동을 활성화 또는 비활성화 할 수 있습니다.</Layout.Content>
                 <div style={{ paddingTop: '10px' }}>
-                    <SocialBox img={ imgGoogle } txt="구글" initValue={ 'off' } theme={ this.props.theme }/>
-                    <SocialBox img={ imgNaver } txt="네이버" initValue={ 'off' } theme={ this.props.theme }/>
-                    <SocialBox img={ imgKakao } txt="카카오" initValue={ 'off' } theme={ this.props.theme }/>
+                    <SocialBox img={ imgGoogle } txt="구글" initValue={ this.props.data.social.google ? 'on' : 'off' } theme={ this.props.theme } id="google"/>
+                    <SocialBox img={ imgNaver } txt="네이버" initValue={ this.props.data.social.naver ? 'on' : 'off' } theme={ this.props.theme } id="naver"/>
+                    <SocialBox img={ imgKakao } txt="카카오" initValue={ this.props.data.social.kakao ? 'on' : 'off' } theme={ this.props.theme } id="kakao"/>
                 </div>
             </div>
         )

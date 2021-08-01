@@ -10,14 +10,19 @@ import svgEmail from './svg_email.svg';
 class Me extends Component {
     constructor(props) {
       super(props);
-      this.state = { picture: undefined, pictureUrl: undefined };
+      this.state = { picture: undefined, pictureUrl: undefined, feeling: undefined };
     }
     onDrop(pictureFile, pictureDataURLs){
         console.log(pictureFile, pictureDataURLs);
         this.setState({ picture: pictureFile[0], pictureUrl: pictureDataURLs[0] })
     }
+    onChange(key, value){
+        const obj = {};
+        obj[key] = value;
+        this.setState(obj);
+    }
     render(){
-        console.log(this.state.picture);
+        //console.log(this.state.picture);
         const styleUploader = {
             boxShadow: 'none', border: 'none', outline: 'none', borderRadius: '15px',
             background: (this.props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)')
@@ -37,6 +42,9 @@ class Me extends Component {
             width: '100px', height: '100px', borderRadius: '52px', margin: 'auto', marginTop: '10px',
             background: 'white', overflow: 'hidden'
         };
+
+        if(this.state.feeling === undefined) this.state.feeling = this.props.data.feeling;
+
         return (
             <div className="ND">
                 <Layout.Title icon={ svgProfile } theme={ this.props.theme }>프로필 이미지</Layout.Title>
@@ -46,7 +54,7 @@ class Me extends Component {
                     <div style={ styleProf }>
                         <div style={ styleProfTxt }>{ this.state.pictureUrl ? '업로드 된 이미지' : '현재 프로필 이미지' }</div>
                         <div style={ styleProfContainer }>
-                            <img src={ this.state.pictureUrl ? this.state.pictureUrl : `https://euleroj.io/profile-img/supernova.webp?size=100` } alt="profile-img" style={{ width: '100%', height: '100%' }}/>
+                            <img src={ this.state.pictureUrl ? this.state.pictureUrl : `https://euleroj.io/profile-img/${ this.props.data.id }.webp?size=100` } alt="profile-img" style={{ width: '100%', height: '100%' }}/>
                         </div>
                     </div>
                     <div style={{ marginLeft: '180px' }}>
@@ -64,27 +72,28 @@ class Me extends Component {
                 <Layout.Title icon={ svgStatus } theme={ this.props.theme }>상태</Layout.Title>
                 <Layout.Content theme={ this.props.theme }>순위 및 내 프로필 페이지에 공개됩니다. 최대 30자까지 입력할 수 있습니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
-                <Layout.Input type="text" theme={ this.props.theme }/>
+                <Layout.Input type="text" theme={ this.props.theme } value={ this.state.feeling } onChange={ (x) => this.onChange('feeling', x) }/>
                 <div style={{ height: '10px' }}/>
-                <Layout.SubmitBtnAutoLay href="/json/setting/profile/me/profimg" ori="" value=""/>
+                <Layout.SubmitBtnAutoLay href="/json/setting/profile/me/feeling" ori={ this.props.data.feeling } value={ this.state.feeling }
+                handler={ (x, cb) => this.props.stateHandler('feeling', x, cb) }/>
                 <Layout.Margin/>
 
                 <Layout.Title icon={ svgSchool } theme={ this.props.theme }>학교 또는 소속</Layout.Title>
-                <Layout.Content theme={ this.props.theme }>재학 중인 학교나 자신의 소속을 입력해 주세요. 최대 10자까지 입력할 수 있습니다.</Layout.Content>
+                <Layout.Content theme={ this.props.theme }>변경 불가능 합니다. 내 프로필 페이지에 공개됩니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
-                <Layout.Input type="text" theme={ this.props.theme }/>
+                <Layout.Input type="text" theme={ this.props.theme } value={ this.props.data.school }/>
                 <Layout.Margin/>
 
                 <Layout.Title icon={ svgName } theme={ this.props.theme }>이름</Layout.Title>
                 <Layout.Content theme={ this.props.theme }>변경 불가능 합니다. 내 프로필 페이지에 공개됩니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
-                <Layout.Input type="text" theme={ this.props.theme }/>
+                <Layout.Input type="text" theme={ this.props.theme } value={ this.props.data.name }/>
                 <Layout.Margin/>
 
                 <Layout.Title icon={ svgEmail } theme={ this.props.theme }>이메일</Layout.Title>
                 <Layout.Content theme={ this.props.theme }>비밀번호 찾기에 사용됩니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
-                <Layout.Input type="text" theme={ this.props.theme }/>
+                <Layout.Input type="text" theme={ this.props.theme } value={ this.props.data.email }/>
             </div>
         )
     }

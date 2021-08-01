@@ -92,6 +92,9 @@ function App() {
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
         <Route path="/login/auth/naver" component={ () => { window.location.href = 'https://euleroj.io/login/auth/naver'; return null; } }/>
         <Route path="/login/auth/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/auth/kakao'; return null; } }/>
+        <Route path="/login/unlink/step1/google" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/google'; return null; } }/>
+        <Route path="/login/unlink/step1/naver" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/naver'; return null; } }/>
+        <Route path="/login/unlink/step1/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/kakao'; return null; } }/>
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
         <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
         <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>

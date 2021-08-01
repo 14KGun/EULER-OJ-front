@@ -72,14 +72,7 @@ const DragItem = (props) => {
 class Langsort extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            items: [
-                { id: "cpp", name: "C++17", hidden: true },
-                { id: "use", name: "python3", hidden: true },
-                { id: "java", name: "Java", hidden: false },
-                { id: "pypy3", name: "Pypy3", hidden: false }
-            ]
-        };
+        this.state = { items: [] };
     }
     getItemStyle(isDragging, draggableStyle, theme){
         return {
@@ -105,6 +98,18 @@ class Langsort extends Component {
             padding: '20px', borderRadius: '15px',
             background: (this.props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)')
         }
+
+        if(this.state.items.length <= 0){
+            const hiddenCheck = {};
+            this.props.data.langSort.forEach(element => {
+                hiddenCheck[element.id] = true;
+                this.state.items.push({ id: element.id, name: element.name, hidden: false })
+            });
+            this.props.data.langList.forEach(element => {
+                if(!hiddenCheck[element.id]) this.state.items.push({ id: element.id, name: element.name, hidden: true })
+            });
+        }
+
         return (
             <div className="ND">
                 <Layout.Title icon={ svgSort } theme={ this.props.theme }>언어 정렬</Layout.Title>

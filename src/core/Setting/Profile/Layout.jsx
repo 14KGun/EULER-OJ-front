@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import axios from '../../Tool/axios';
 
 const Title = (props) => {
     return (
@@ -29,10 +30,15 @@ const Input = (props) => {
         border: `2px solid ${ isFocus ? borderFocus : borderDefault }`
     }).border
 
+    const onChange = (e) => {
+        if(props.onChange) props.onChange(e.target.value);
+    }
+
     return (
         <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
             <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
-            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}/>
+            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}
+            value={ props.value } onChange={ (e) => onChange(e) }/>
         </animated.div>
     )
 }
@@ -134,21 +140,30 @@ const SubmitBtnLay = (props) => {
 const SubmitBtnAutoLay = (props) => {
     let background = 'rgb(50,140,250)', backgroundHover = 'rgb(30,110,220)';
     let text = '저장하기';
-    if(false){
+
+    if(props.ori === null){
         background = 'rgb(120,120,120)'; backgroundHover = 'rgb(120,120,120)';
         text = '저장 중...';
     }
-    if(false){
+    if(props.ori === props.value){
         background = 'rgb(34,177,76)'; backgroundHover = 'rgb(34,177,76)';
         text = '저장 완료';
     }
-    if(false){
+    if(props.ori === undefined){
         background = 'rgb(237,28,36)'; backgroundHover = 'rgb(237,28,36)';
         text = '저장 실패';
     }
 
     const onClick = () => {
-        
+        if(props.ori != null){
+            props.handler(null, () => {
+                axios.post(props.href, { content: props.value }, (result) => {
+                    console.log(result.data);
+                    if(result.data.err) props.handler(undefined);
+                    else props.handler(result.data.content);
+                })
+            });
+        }
     }
     return (
         <SubmitBtnLay background={ [background, backgroundHover] } onClick={ () => onClick() }>
