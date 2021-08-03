@@ -24,8 +24,8 @@ const Content = (props) => {
 
 const Input = (props) => {
     const [isFocus, setFocus] = useState(false);
-    const borderFocus = 'gray';
-    const borderDefault = 'rgb(200,200,200)';
+    const borderFocus = (props.theme === 'light' ? 'gray' : 'gray');
+    const borderDefault = (props.theme === 'light' ? 'rgb(200,200,200)' : 'rgb(80,80,80)');
     const border = useSpring({
         border: `2px solid ${ isFocus ? borderFocus : borderDefault }`
     }).border
@@ -37,7 +37,9 @@ const Input = (props) => {
     return (
         <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
             <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
-            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}
+            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none',
+            fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'black' : 'white'),
+            letterSpacing: (props.type === 'password' ? '3px' : undefined) }}
             value={ props.value } onChange={ (e) => onChange(e) }/>
         </animated.div>
     )
@@ -145,23 +147,32 @@ const SubmitBtnAutoLay = (props) => {
         background = 'rgb(120,120,120)'; backgroundHover = 'rgb(120,120,120)';
         text = '저장 중...';
     }
-    if(props.ori === props.value){
-        background = 'rgb(34,177,76)'; backgroundHover = 'rgb(34,177,76)';
-        text = '저장 완료';
-    }
-    if(props.ori === undefined){
+    else if(props.ori === undefined){
         background = 'rgb(237,28,36)'; backgroundHover = 'rgb(237,28,36)';
         text = '저장 실패';
     }
+    else if(props.ori === props.value){
+        background = 'rgb(34,177,76)'; backgroundHover = 'rgb(34,177,76)';
+        text = '저장 완료';
+    }
+    else if(Array.isArray(props.ori) && Array.isArray(props.value) && props.ori.join(';and;') === props.value.join(';and;')){
+        background = 'rgb(34,177,76)'; backgroundHover = 'rgb(34,177,76)';
+        text = '저장 완료';
+    }
+    else if(props.possible && !props.possible(props.value)){
+        background = 'rgb(237,28,36)'; backgroundHover = 'rgb(237,28,36)';
+        text = '불가능한 입력';
+    }
 
     const onClick = () => {
-        if(props.ori != null){
+        if(props.ori !== null && props.ori !== props.value){
+            if(props.possible && !props.possible(props.value)) return;
+            if(Array.isArray(props.ori) && Array.isArray(props.value) && props.ori.join(';and;') === props.value.join(';and;')) return;
             props.handler(null, () => {
-                axios.post(props.href, { content: props.value }, (result) => {
-                    console.log(result.data);
+                axios.post(props.href, { content: (Array.isArray(props.value) ? props.value.join(';and;') : props.value) }).then((result) => {
                     if(result.data.err) props.handler(undefined);
                     else props.handler(result.data.content);
-                })
+                });
             });
         }
     }

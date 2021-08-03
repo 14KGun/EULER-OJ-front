@@ -93,6 +93,23 @@ class Langsort extends Component {
         items[index].hidden = hidden;
         this.setState({ items: items })
     }
+    transForSubmit(listBefore){
+        const listAfter = [];
+        listBefore.forEach(x => {
+            if(x.hidden === false) listAfter.push(x.id);
+        })
+        return listAfter;
+    }
+    transForHandler(list){
+        if(!Array.isArray(list)) return list;
+
+        const mapping = {}, result = [];
+        this.props.data.langList.forEach(x => mapping[x.id] = x.name);
+        list.forEach(x => {
+            if(mapping[x]) result.push({ id: x, name: mapping[x] });
+        })
+        return result;
+    }
     render(){
         const styleTable = {
             padding: '20px', borderRadius: '15px',
@@ -138,6 +155,11 @@ class Langsort extends Component {
                         ) }
                     </Droppable>
                 </DragDropContext>
+                <div style={{ height: '10px' }}/>
+                <Layout.SubmitBtnAutoLay href="/json/setting/profile/langsort/edit"
+                ori={ Array.isArray(this.props.data.langSort) ? this.props.data.langSort.map(x => x.id) : this.props.data.langSort }
+                value={ this.transForSubmit(this.state.items) }
+                handler={ (x, cb) => this.props.stateHandler('langSort', this.transForHandler(x), cb) }/>
             </div>
         )
     }

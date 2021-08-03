@@ -12,8 +12,8 @@ const SwitchBox = (props) => {
         fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'black' : 'white')
     }
     const background = useSpring({
-        background: props.theme === 'light' ? 'rgba(230,230,230,0.2)' : 'rgba(50,50,50,0.2)',
-        border: `1px solid ${ props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)' }`
+        background: props.theme === 'light' ? 'white' : 'rgb(20,20,20)',
+        border: `1px solid ${ props.theme === 'light' ? 'rgb(200,200,200)' : 'rgb(35,35,35)' }`
     });
     return (
         <animated.div style={{ ...style, ...background }}>

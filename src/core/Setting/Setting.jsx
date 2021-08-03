@@ -91,7 +91,7 @@ class Setting extends Component {
             container = <Theme theme={ this.props.theme } setTheme={ this.props.setTheme }/>
         }
         else if(this.props.page === 'langsort'){
-            container = <Langsort theme={ this.props.theme } data={ this.state.data }/>
+            container = <Langsort theme={ this.props.theme } data={ this.state.data } stateHandler={ (x,y,cb) => this.stateDataHandler(x,y,cb) }/>
         }
         else if(this.props.page === 'editor'){
             container = <Editor theme={ this.props.theme }/>
