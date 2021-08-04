@@ -1,4 +1,4 @@
-const makdeCode = (lang) => {
+const toArray = (lang) => {
     const source_cpp = ['#include <iostream>','','int main() {','\tprintf("Hello Euler!");','\treturn 0;','}'];
     const source_python2 = ['print "Hello Euler!"'];
     const source_python3 = ['print("Hello Euler!")'];
@@ -8,13 +8,16 @@ const makdeCode = (lang) => {
     let source = [];
     
     if(lang.indexOf('Python2')!=-1) source = source_python2;
-    else if(lang.indexOf('Python')!=-1 || lang_show.indexOf('PyPy')!=-1) source = source_python3;
+    else if(lang.indexOf('Python')!=-1 || lang.indexOf('PyPy')!=-1) source = source_python3;
     else if(lang.indexOf('Java')!=-1) source = source_java;
     else if(lang.indexOf('C++')!=-1) source = source_cpp;
     else if(lang.indexOf('C')!=-1) source = source_c;
     else if(lang.indexOf('R')!=-1) source = source_r;
     
-    return source.join('\n');
+    return source;
 }
 
-export default makeCode;
+const toString = (lang) => toArray(lang).join('\n');
+
+const defaultCode = { toArray, toString };
+export default defaultCode;

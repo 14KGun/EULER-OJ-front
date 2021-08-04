@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom';
 import Layout from './Layout';
 import svgLogout from './svg_logout.svg';
 
-
 const Logout = (props) => {
     const history = useHistory();
     const onClick = () => history.push('/logout');

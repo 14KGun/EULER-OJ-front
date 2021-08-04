@@ -94,10 +94,10 @@ class Setting extends Component {
             container = <Langsort theme={ this.props.theme } data={ this.state.data } stateHandler={ (x,y,cb) => this.stateDataHandler(x,y,cb) }/>
         }
         else if(this.props.page === 'editor'){
-            container = <Editor theme={ this.props.theme }/>
+            container = <Editor theme={ this.props.theme } data={ this.state.data } stateHandler={ (x,y,cb) => this.stateDataHandler(x,y,cb) }/>
         }
         else if(this.props.page === 'short'){
-            container = <Short theme={ this.props.theme }/>
+            container = <Short theme={ this.props.theme } data={ this.state.data } stateHandler={ (x,y,cb) => this.stateDataHandler(x,y,cb) }/>
         }
         else if(this.props.page === 'logout'){
             container = <Logout theme={ this.props.theme }/>
