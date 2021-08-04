@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../Tool/axios';
+import smoothScroll from '../Tool/smoothScroll';
 import Top from '../Frame/Top/Top';
 import TopBackground from './TagTopBackground/TagTopBackground';
 import TagIcon from './TagIcon/TagIcon';
@@ -79,7 +80,7 @@ class Tag extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id || nextProps.page !== prevState.page){
-            window.scrollTo(0,0);
+            smoothScroll();
             return { ...tagDefaultState, id: nextProps.id, page: nextProps.page, loaded: false };
         }
         return prevState;

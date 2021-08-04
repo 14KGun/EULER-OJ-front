@@ -34,8 +34,39 @@
         url("./fonts/NotoSansKR-900-Black.otf") format("opentype");
     font-weight: 900;
 }
+
 @font-face{
     font-family: "D2Coding";
     src: local('D2Coding'),
         url("./fonts/D2Coding.ttc") format("truetype");
+}
+@font-face{
+    font-family: "Consolas";
+    src: local('Consolas'),
+        url("./fonts/Consolas.ttf") format("truetype");
+}
+@font-face{
+    font-family: "Monaco";
+    src: local('Monaco'),
+        url("./fonts/Monaco.ttf") format("truetype");
+}
+@font-face{
+    font-family: "UbuntuMono";
+    src: local('Ubuntu Mono'),
+        url("./fonts/Monospace-Ubuntu.ttf") format("opentype");
+}
+@font-face{
+    font-family: "IbmPlex";
+    src: local('IBM Plex Mono'),
+        url("./fonts/PlexMono.ttf") format("opentype");
+}
+@font-face{
+    font-family: "Menlo";
+    src: local('Menlo'),
+        url("./fonts/Menlo.woff") format("woff");
+}
+@font-face{
+    font-family: "SourceCodePro";
+    src: local('Source Code Pro'),
+        url("./fonts/SourceCodePro.ttf") format("opentype");
 }

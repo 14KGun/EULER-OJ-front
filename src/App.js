@@ -14,6 +14,8 @@ import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
 import ProfileUnknown from './core/Profile/ProfileUnknown/ProfileUnknown';
+import Setting from './core/Setting/Setting';
+import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
 import cookie from './core/Tool/cookie';
 import './Font.css';
@@ -70,6 +72,18 @@ function App() {
         <Route path="/profile/unknown"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId/></Route>
 
+        <Route exact path="/setting/profile"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="me"/></Frame></Route>
+        <Route exact path="/setting/profile/me"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="me"/></Frame></Route>
+        <Route exact path="/setting/profile/password"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="password"/></Frame></Route>
+        <Route exact path="/setting/profile/social"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="social"/></Frame></Route>
+        <Route exact path="/setting/profile/theme"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } setTheme={ (x) => setTheme(x) } page="theme"/></Frame></Route>
+        <Route exact path="/setting/profile/langsort"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="langsort"/></Frame></Route>
+        <Route exact path="/setting/profile/editor"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="editor"/></Frame></Route>
+        <Route exact path="/setting/profile/short"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="short"/></Frame></Route>
+        <Route exact path="/setting/profile/logout"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="logout"/></Frame></Route>
+
+        <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme }/></Frame></Route>
+
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
         <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
@@ -78,6 +92,9 @@ function App() {
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
         <Route path="/login/auth/naver" component={ () => { window.location.href = 'https://euleroj.io/login/auth/naver'; return null; } }/>
         <Route path="/login/auth/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/auth/kakao'; return null; } }/>
+        <Route path="/login/unlink/step1/google" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/google'; return null; } }/>
+        <Route path="/login/unlink/step1/naver" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/naver'; return null; } }/>
+        <Route path="/login/unlink/step1/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/kakao'; return null; } }/>
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
         <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
         <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>

@@ -1,31 +1,85 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
+import Loading from '../Loading/Loading';
 import codeEditorScript from './codeEditorScript';
+import defaultCode from './defaultCode';
+
+const LoadingLay = () => {
+    return (
+        <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', textAlign: 'center' }}>
+            <div style={{ paddingTop: '80px' }}>
+                <Loading/>
+            </div>
+            <div style={{ paddingTop: '100px' }}>에디터 불러오는 중...</div>
+        </div>
+    )
+}
 
 class Editor extends Component {
-    constructor(props){
-        super(props);
-        this.style = { width: '100%', height: '500px' }
-    }
     shouldComponentUpdate(nextProps, nextState){
-        if(this.props !== nextProps){
-
+        const editor = document.getElementById('code-editor').editor;
+        const monaco = document.getElementById('code-editor').monaco;
+        
+        if(!editor) return false;
+        if(!monaco) return false;
+        if(this.props.lang !== nextProps.lang){
+            monaco.editor.setModelLanguage(editor.getModel(), this.langForEditor(nextProps.lang));
+        }
+        if(this.props.theme !== nextProps.theme){
+            monaco.editor.setTheme(nextProps.theme);
+        }
+        if(this.props.letterSpacing !== nextProps.letterSpacing){
+            editor.updateOptions({ letterSpacing: nextProps.letterSpacing });
+        }
+        if(this.props.fontSize !== nextProps.fontSize){
+            editor.updateOptions({ fontSize: nextProps.fontSize });
+        }
+        if(this.props.tabSize !== nextProps.tabSize){
+            editor.updateOptions({ tabSize: nextProps.tabSize });
         }
         return false;
     }
+    langForEditor(lang){
+        if(lang.indexOf('Py')!=-1)  return 'python';
+        else if(lang.indexOf('Java')!=-1) return 'java';
+        else if(lang.indexOf('C++')!=-1) return 'cpp';
+        else if(lang.indexOf('C')!=-1) return 'c';
+        else if(lang.indexOf('R')!=-1) return 'r';
+    }
     render() {
-        const script = codeEditorScript(this.props.lang, this.props.theme, this.props.letterSpacing, this.props.fontSize, this.props.tabSize);
+        let initCode = defaultCode.toString(this.props.lang);
+
+        const script = codeEditorScript(this.langForEditor(this.props.lang), this.props.theme, this.props.letterSpacing, this.props.fontSize, this.props.tabSize, initCode);
         return (
-            <>
+            <div style={{ width: '100%', height: this.props.height, position: 'relative', background: 'rgb(230,230,230)', overflow: 'hidden' }}>
                 <Helmet><script>{ script }</script></Helmet>
-                <div id="code-editor" style={ this.style }></div>
-            </>
+                <LoadingLay/>
+                <div id="code-editor" style={{ width: '100%', height: '100%' }}></div>
+            </div>
         );
     }
 }
-
 Editor.defaultProps = {
-    lang: 'cpp', theme: 'vs-dark',
-    letterSpacing: 0, fontSize: 16, tabSize: 4
+    lang: 'C++', theme: 'vs-dark', height: '500px',
+    letterSpacing: 0, fontSize: 16, tabSize: 4,
+    font: 'D2Coding'
 }
-export default Editor;
+
+const EditorFont = (props) => {
+    return (
+        <Helmet>
+            <style>{ `.view-line > span > span{ font-family: "${ props.font }", sans-serif; }` }</style>
+        </Helmet>
+    )
+}
+
+const EditorCombiner = (props) => {
+    return (
+        <>
+            <Editor { ...props }/>
+            <EditorFont { ...props }/>
+        </>
+    )
+}
+
+export default EditorCombiner;

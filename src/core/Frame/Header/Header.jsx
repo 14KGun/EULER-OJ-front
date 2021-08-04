@@ -191,7 +191,6 @@ class Header extends Component {
         this.lastPath = 'none';
     }
     requestLogininfo(){
-        console.log('!');
         axios.get('/json/logininfo').then((userInfo) => {
             this.setState({ loginInfo: userInfo.data });
         })
