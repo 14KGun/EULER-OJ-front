@@ -78,21 +78,6 @@ class Findmypassword extends Component {
 
         container = (
             <>
-                <div style={ this.styleTitle }>내 비밀번호 찾기</div>
-                
-                <div style={ this.styleTxt2 }>비밀번호를 찾고자 하는 아이디와 이메일을 입력해주세요.</div>
-
-                <div style={{ ...this.styleTxt1, marginTop: '30px' }}>ID</div>
-                <div style={ this.styleInputContainer }>
-                    <input id="input-id" type="txt" style={ this.styleInput }
-                    value={ this.state.inputId } onChange={ (e) => this.handleInputId(e) }/>
-                </div>
-                <div style={{ ...this.styleTxt1, marginTop: '30px' }}>EMAIL</div>
-                <div style={ this.styleInputContainer }>
-                    <input id="input-email" type="txt" style={ this.styleInput }
-                    value={ this.state.inputEmail } onChange={ (e) => this.handleInputEmail(e) }/>
-                </div>
-                <BtnSet left="이전" leftHref="/login" right="다음" rightHref={ `/login/findmypassword/${ this.state.inputId }` }/>
             </>
         )
 
