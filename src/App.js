@@ -5,6 +5,7 @@ import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
 import Login from './core/Login/Login';
 import Findmypassword from './core/Login/Findmypassword/Findmypassword';
+import Resetpassword from './core/Login/Findmypassword/Resetpassword';
 import Problemset from './core/Problemset/Problemset/Problemset';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
@@ -34,7 +35,7 @@ function App() {
     themeHandler(_theme);
   }
 
-  const FindmypasswordWithId = () => <LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame>
+  const FindmypasswordWithId = () => <LoginBoxFrame background="none"><Resetpassword/></LoginBoxFrame>
   const ProblemsetWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
   const ProblemWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
   const ProblemViewerWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProblemViewer theme={ theme } id={ useParams().Pnum }/></Frame>

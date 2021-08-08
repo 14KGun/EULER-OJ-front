@@ -78,19 +78,33 @@ class Findmypassword extends Component {
 
         container = (
             <>
+                <div style={ this.styleTitle }>비밀번호 바꾸기</div>
+                <div style={ this.styleTxt2 }>비밀번호를 다시 설정합니다. 새롭게 사용할 비밀번호를 입력해주세요.</div>
+
+                <div style={{ ...this.styleTxt1, marginTop: '30px' }}>PASSWORD</div>
+                <div style={ this.styleInputContainer }>
+                    <input id="input-id" type="txt" style={ this.styleInput }
+                    value={ this.state.inputId } onChange={ (e) => this.handleInputId(e) }/>
+                </div>
+
+                <div style={{ ...this.styleTxt1, marginTop: '30px' }}>Confirm PASSWORD</div>
+                <div style={ this.styleInputContainer }>
+                    <input id="input-id" type="txt" style={ this.styleInput }
+                    value={ this.state.inputId } onChange={ (e) => this.handleInputId(e) }/>
+                </div>
             </>
         )
 
         container = (
             <>
-                <div style={ this.styleTitle }>비밀번호 찾기</div>
-                <div style={ this.styleTxt2 }>{ this.state.inputEmail }으로 이메일이 전송되었습니다. 이메일 인증 후 비밀번호를 재설정 할 수 있습니다.</div>
+                <div style={ this.styleTitle }>비밀번호 바꾸기</div>
+                <div style={ this.styleTxt2 }>비밀번호가 성공적으로 변경되었습니다. 다시 로그인 해주세요.</div>
             </>
         )
 
         return (
             <div style={ this.styleLay } className="ND">
-                <Helmet><title>내 비밀번호 찾기 : 오일러OJ</title></Helmet>
+                <Helmet><title>내 비밀번호 바꾸기 : 오일러OJ</title></Helmet>
                 { container }
             </div>
         );
