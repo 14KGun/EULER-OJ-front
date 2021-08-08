@@ -2,6 +2,7 @@ import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import axios from '../../Tool/axios';
 
 const BtnSet = (props) => {
     const [isLeftHover, setLeftHover] = useState(false);
@@ -18,11 +19,11 @@ const BtnSet = (props) => {
     }
     const leftBackground = useSpring({
         background: isLeftHover ? 'rgb(215,215,215)' : 'rgb(235,235,235)',
-        config: { duration: 200 }
+        config: { duration: 150 }
     });
-    const rightBackground = ({
+    const rightBackground = useSpring({
         background: isRightHover ? 'rgb(30,120,230)' : 'rgb(50,140,250)',
-        config: { duration: 200 }
+        config: { duration: 150 }
     });
 
     return (
@@ -31,10 +32,8 @@ const BtnSet = (props) => {
                 <animated.div onMouseEnter={ () => setLeftHover(true) } onMouseLeave={ () => setLeftHover(false) }
                 style={{ ...styleBtnLeft, ...leftBackground }}>{ props.left }</animated.div>
             </Link>
-            <Link to={ props.rightHref }>
-                <animated.div onMouseEnter={ () => setRightHover(true) } onMouseLeave={ () => setRightHover(false) }
-                style={{ ...styleBtnRight, ...rightBackground }}>{ props.right }</animated.div>
-            </Link>
+            <animated.div onMouseEnter={ () => setRightHover(true) } onMouseLeave={ () => setRightHover(false) }
+            style={{ ...styleBtnRight, ...rightBackground }} className="BTNC" onClick={ props.rightOnClick }>{ props.right }</animated.div>
         </>
     )
 }
@@ -65,18 +64,32 @@ class Findmypassword extends Component {
             borderBottom: '2px solid rgb(200,200,200)'
         }
 
-        this.state = { inputId: '', inputEmail: '' }
+        this.state = { inputId: '', inputEmail: '', msg: '', done: false }
+        this.onCall = false;
     }
     handleInputId(event){
-        this.setState({ inputId: event.target.value });
+        if(this.onCall) return;
+        this.setState({ inputId: event.target.value, msg: '' });
     }
     handleInputEmail(event){
-        this.setState({ inputEmail: event.target.value });
+        if(this.onCall) return;
+        this.setState({ inputEmail: event.target.value, msg: '' });
+    }
+    onClick(){
+        if(this.state.inputId === '') this.setState({ msg: '아이디를 입력해주세요.' });
+        else if(this.state.inputEmail === '') this.setState({ msg: '이메일을 입력해주세요.' });
+        else if(this.onCall) this.setState({ msg: '기존의 요청을 처리 중 입니다.' });
+        else{
+            this.onCall = true;
+            axios.post('/json/login/findmypassword', { id: this.state.inputId, email: this.state.inputEmail }).then(result => {
+                this.onCall = false;
+                if(result.data.err) this.setState({ msg: '입력한 아이디와 이메일을 가지고 있는 사용자를 찾을 수 없습니다.' });
+                else this.setState({ done: true });
+            })
+        }
     }
     render() {
-        let container = '';
-
-        container = (
+        let container = (
             <>
                 <div style={ this.styleTitle }>내 비밀번호 찾기</div>
                 
@@ -92,16 +105,20 @@ class Findmypassword extends Component {
                     <input id="input-email" type="txt" style={ this.styleInput }
                     value={ this.state.inputEmail } onChange={ (e) => this.handleInputEmail(e) }/>
                 </div>
-                <BtnSet left="이전" leftHref="/login" right="다음" rightHref={ `/login/findmypassword/${ this.state.inputId }` }/>
-            </>
-        )
 
-        container = (
-            <>
-                <div style={ this.styleTitle }>비밀번호 찾기</div>
-                <div style={ this.styleTxt2 }>{ this.state.inputEmail }으로 이메일이 전송되었습니다. 이메일 인증 후 비밀번호를 재설정 할 수 있습니다.</div>
+                <div style={{ ...this.styleTxt2, color: 'red' }}>{ this.state.msg }</div>
+                <BtnSet left="이전" leftHref="/login" right="다음" rightOnClick={ () => this.onClick() }/>
             </>
-        )
+        );
+
+        if(this.state.done){
+            container = (
+                <>
+                    <div style={ this.styleTitle }>비밀번호 찾기</div>
+                    <div style={ this.styleTxt2 }>{ this.state.inputEmail }으로 이메일이 전송되었습니다. 이메일 인증 후 비밀번호를 재설정 할 수 있습니다. 이메일을 확인해주세요.</div>
+                </>
+            );
+        }
 
         return (
             <div style={ this.styleLay } className="ND">

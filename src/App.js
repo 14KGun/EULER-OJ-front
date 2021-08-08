@@ -35,7 +35,7 @@ function App() {
     themeHandler(_theme);
   }
 
-  const FindmypasswordWithId = () => <LoginBoxFrame background="none"><Resetpassword/></LoginBoxFrame>
+  const FindmypasswordWithIdKey = () => <LoginBoxFrame background="none"><Resetpassword id={ useParams().Pnum1 } SecurityKey={ useParams().Pnum2 }/></LoginBoxFrame>
   const ProblemsetWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
   const ProblemWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
   const ProblemViewerWithId = () => <Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProblemViewer theme={ theme } id={ useParams().Pnum }/></Frame>
@@ -52,7 +52,7 @@ function App() {
         <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
-        <Route exact path="/login/findmypassword/:Pnum"><FindmypasswordWithId/></Route>
+        <Route exact path="/login/findmypassword/:Pnum1/:Pnum2"><FindmypasswordWithIdKey/></Route>
 
         <Route exact path="/problemset"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme }/></Frame></Route>
         <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId/></Route>
