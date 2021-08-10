@@ -17,6 +17,10 @@ const password = (x) => {
     else if(x.length<6 || x.length>20) { return false }
     else return true;
 }
+const source = (x) => {
+    if(x.length > 100000){ return false; }
+    return true;
+}
 
-const possibleInput = { feeling, name, school, password }
+const possibleInput = { feeling, name, school, password, source }
 export default possibleInput;

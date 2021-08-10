@@ -41,20 +41,34 @@ class Editor extends Component {
     }
     langForEditor(lang){
         if(lang.indexOf('Py')!=-1)  return 'python';
+        else if(lang.indexOf('py')!=-1)  return 'python';
         else if(lang.indexOf('Java')!=-1) return 'java';
+        else if(lang.indexOf('java')!=-1) return 'java';
         else if(lang.indexOf('C++')!=-1) return 'cpp';
+        else if(lang.indexOf('c++')!=-1) return 'cpp';
         else if(lang.indexOf('C')!=-1) return 'c';
+        else if(lang.indexOf('c')!=-1) return 'c';
         else if(lang.indexOf('R')!=-1) return 'r';
+        else if(lang.indexOf('r')!=-1) return 'r';
+    }
+    onChange(){
+        const editor = document.getElementById('code-editor').editor;
+        if(!editor) return;
+        if(this.props.onChange){
+            this.props.onChange(editor.getValue());
+        }
     }
     render() {
         let initCode = defaultCode.toString(this.props.lang);
+        if(this.props.initCode !== undefined) initCode = this.props.initCode;
 
         const script = codeEditorScript(this.langForEditor(this.props.lang), this.props.theme, this.props.letterSpacing, this.props.fontSize, this.props.tabSize, initCode);
         return (
             <div style={{ width: '100%', height: this.props.height, position: 'relative', background: 'rgb(230,230,230)', overflow: 'hidden' }}>
                 <Helmet><script>{ script }</script></Helmet>
                 <LoadingLay/>
-                <div id="code-editor" style={{ width: '100%', height: '100%' }}></div>
+                <div id="code-editor" style={{ width: '100%', height: '100%' }}
+                onKeyUp={ () => this.onChange() } onKeyDown={ () => this.onChange() }/>
             </div>
         );
     }
