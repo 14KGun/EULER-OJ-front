@@ -5,6 +5,7 @@ import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
 import Login from './core/Login/Login';
 import Findmypassword from './core/Login/Findmypassword/Findmypassword';
+import Resetpassword from './core/Login/Findmypassword/Resetpassword';
 import Problemset from './core/Problemset/Problemset/Problemset';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
@@ -21,10 +22,9 @@ import cookie from './core/Tool/cookie';
 import './Font.css';
 import './App.css';
 
-const FindmypasswordWithId = () => <LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame>
+const FindmypasswordWithIdKey = () => <LoginBoxFrame background="none"><Resetpassword id={ useParams().Pnum1 } SecurityKey={ useParams().Pnum2 }/></LoginBoxFrame>
 const ProblemsetWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Problemset theme={ props.theme } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
 const ProblemWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
-/* Bug!! */
 const ProblemSubmitWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) } headerTxtColor="none"><ProblemSubmit theme={ props.theme } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Tag theme={ props.theme } id={ useParams().Pnum } page={1}/></Frame>
 const TagWithIdPage = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Tag theme={ props.theme } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
@@ -53,7 +53,7 @@ function App() {
         <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
-        <Route exact path="/login/findmypassword/:Pnum"><FindmypasswordWithId/></Route>
+        <Route exact path="/login/findmypassword/:Pnum1/:Pnum2"><FindmypasswordWithIdKey/></Route>
 
         <Route exact path="/problemset"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme }/></Frame></Route>
         <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
