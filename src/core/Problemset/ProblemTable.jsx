@@ -38,7 +38,8 @@ const ProblemItem = (props) => {
         float: 'left',
         width: 'auto', marginLeft: '20px',
         height: '60px', lineHeight: '60px',
-        fontSize: '16px', fontWeight: '300', color: 'rgb(70,70,70)'
+        fontSize: '16px', fontWeight: '300',
+        color: props.theme === 'light' ? 'rgb(70,70,70)' : 'rgb(150,150,150)'
     }
     const Item3Style = {
         position: 'absolute', top: '0px', left: '130px',
@@ -48,7 +49,8 @@ const ProblemItem = (props) => {
     const Item3TxtStyle = {
         display: 'inline-block',
         height: '60px', lineHeight: '60px',
-        fontSize: '16px', fontWeight: '500', color: 'black'
+        fontSize: '16px', fontWeight: '500',
+        color: props.theme === 'light' ? 'black' : 'white'
     }
     const Item3ImgStyle = {
         width: '20px', height: '20px',
@@ -63,7 +65,8 @@ const ProblemItem = (props) => {
     }
     const Item4Txtstye = {
         position: 'absolute', top: '0px', left: '22px',
-        height: '60px', lineHeight: '60px'
+        height: '60px', lineHeight: '60px',
+        color: props.theme === 'light' ? 'black' : 'white'
     }
     
     const [ isHover, setHover ] = useState(false);
@@ -99,10 +102,13 @@ class ProblemTable extends Component {
         return (
             <>
                 { this.props.content.length > 0 ? <ProblemTop/> : <></> }
-                { this.props.content.map((item, index) => <ProblemItem key={ index } id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res } tags={ item.tags }/>) }
+                { this.props.content.map((item, index) => <ProblemItem key={ index } id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res } tags={ item.tags } theme={ this.props.theme }/>) }
             </>
         );
     }
 }
 
+ProblemTable.defaultProps = {
+    theme: 'light'
+}
 export default ProblemTable;

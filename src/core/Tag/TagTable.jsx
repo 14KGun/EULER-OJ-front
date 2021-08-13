@@ -28,12 +28,12 @@ const TagItem = (props) => {
     const Item2Style = {
         left: '64px', top: '0px',
         height: '60px', lineHeight: '60px',
-        fontSize: '16px', fontWeight: '500', color: 'black'
+        fontSize: '16px', fontWeight: '500', color: (props.theme==='light' ? 'black' : 'white')
     }
     const Item3Style = {
         right: '24px', top: '0px',
         height: '60px', lineHeight: '60px',
-        fontSize: '16px', fontWeight: '300', color: 'rgb(70,70,70)'
+        fontSize: '16px', fontWeight: '300', color: (props.theme==='light' ? 'rgb(70,70,70)' : 'rgb(180,180,180)')
     }
 
     const [ isHover, setHover ] = useState(false);
@@ -60,10 +60,13 @@ class TagTable extends Component {
         return (
             <>
                 { this.props.content.length > 0 ? <TagTop/> : <></> }
-                { this.props.content.map((item, index) => <TagItem key={ index } id={ item.id } type={ item.icon } name={ item.name } sub={{ tag: item.subTagLength, problem: item.subProblemLength }}/>) }
+                { this.props.content.map((item, index) => <TagItem key={ index } id={ item.id } type={ item.icon } name={ item.name } sub={{ tag: item.subTagLength, problem: item.subProblemLength }} theme={ this.props.theme }/>) }
             </>
         );
     }
 }
 
+TagTable.defaultProps = {
+    theme: 'light'
+}
 export default TagTable;

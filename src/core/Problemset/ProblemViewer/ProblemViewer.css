@@ -46,7 +46,7 @@ body{ background: rgb(250,251,252); }
 .right_TOPBOX{
     border-radius: 20px; background: white; margin-top: 15px;
     box-shadow: 0 0 2px 1px rgba(0,0,0,0.05); padding: 17px;
-    border: 1px solid rgb(220,220,220);
+    border: 1px solid rgb(220,220,220); overflow: hidden;
 }
 .right_TOPBOX > .right_TOPBOX-TITLE{
     font-size: 16px; font-weight: 500; color: rgb(50,50,50);

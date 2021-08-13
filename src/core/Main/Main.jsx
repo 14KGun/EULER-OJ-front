@@ -4,7 +4,7 @@ import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
 import Lay2Empty from './Lay2/Empty';
-import Footer from '../Frame/Footer'
+import Footer from '../Frame/Footer/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
 import imgCard2 from './img_card2.png';
@@ -35,7 +35,7 @@ const Lay1Item = (props) => {
         onMouseMove={ (e) => setXys(calc(e)) }
         onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
         style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
-            <div className="CARD-NAME">{ props.name }</div>
+            <div className="CARD-NAME" style={{ color: (props.theme === 'light' ? 'black' : 'white') }}>{ props.name }</div>
             <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
         </animated.div>
     );
@@ -79,18 +79,18 @@ class Main extends Component {
                 <Gallery pageIndex={ this.state.pageIndex } setPage={ this.setPage.bind(this) } pageFix={ this.state.pageFix }/>
                 <div id="lay1" className="ND">
                     <div className="FRAME_MAIN" style={{ height: '200px' }}>
-                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset"/></span>
-                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" newTab/></span>
-                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" newTab/></span>
-                        <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" newTab/>
+                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset" theme={ this.props.theme }/></span>
+                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" theme={ this.props.theme } newTab/></span>
+                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/></span>
+                        <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" theme={ this.props.theme } newTab/>
                     </div>
                 </div>
                 <div id="lay2" style={{ background: 'rgba(120,120,120,0.2)' }}>
                     <div className="FRAME_MAIN ND" style={{ textAlign: 'justify', textAlignLast: 'justify', verticalAlign: 'top' }}>
-                    <Lay2Problem/> <Lay2Youtube/> <Lay2Empty/>
+                    <Lay2Problem theme={ this.props.theme }/> <Lay2Youtube theme={ this.props.theme }/> <Lay2Empty theme={ this.props.theme }/>
                     </div>
                 </div>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }

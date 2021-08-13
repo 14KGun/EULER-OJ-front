@@ -17,12 +17,6 @@ const TitleLay = (props) => {
 }
 class Top extends Component {
     state = { scrolledTop: 0 }
-    constructor(props){
-        super(props);
-        this.fixedBarStyle = {
-
-        };
-    }
     componentDidMount(){
         this.scrollevent();
         document.addEventListener('scroll', () => this.scrollevent());

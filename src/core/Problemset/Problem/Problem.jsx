@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from '../../Tool/axios';
+import Loading from '../../Frame/Loading/Loading';
 
+const LoadingLay = () => {
+    return (
+        <div style={{ paddingTop: '200px', height: '300px' }}>
+            <Loading/>
+            <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
+        </div>
+    )
+}
 class Problem extends Component {
     constructor(props){
         super(props);
-        this.state = { onload: false, setting: undefined }
+        this.state = { env: 'undefined' }
+        this.onCall = false;
     }
     render() {
-        if(this.state.onload == false){
-            axios.get(`/json/problems/usersetting`).then((settingInfo) => {
-                this.setState({ onload: true, setting: settingInfo.data.setting });
+        if(!this.onCall){
+            this.onCall = true;
+            axios.get(`/json/problems/quickeditor`).then(result => {
+                this.setState({ env: result.data.content });
             });
-            return <></>;
         }
-        else{
-            console.log(this.state);
-            if(this.state.setting === 'editor'){
-                return <></>;
-            }
-            else{
-                return <Redirect to={ '/problemset/viewer/'+this.props.id }/>;
-            }
+
+        if(this.state.env === 'true'){
+            window.location.href = `https://euleroj.io/problemset/editor/${ this.props.id }`;
+            return <LoadingLay/>;
         }
+        if(this.state.env === 'false'){
+            return <Redirect to={ '/problemset/viewer/'+this.props.id }/>;
+        }
+        return <LoadingLay/>;
     }
 }
 

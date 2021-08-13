@@ -1,4 +1,4 @@
-import { Component, useState, useEffect } from 'react';
+import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../../Tool/axios';
 import svgChecked from './svg_checked.svg';
@@ -34,7 +34,7 @@ const Bookmark = (props) => {
     return (
         <animated.div id="btnBookmark" style={{ ...style, background }} className="BTNC ND"
         onMouseEnter={ onMouseEnter } onMouseLeave={ onMouseLeave } onClick={ props.onClick }>
-            <img style={ styleImg } src={ props.check ? svgChecked : svgUnchecked }/>
+            <img style={ styleImg } src={ props.check ? svgChecked : svgUnchecked } alt="bookmark"/>
         </animated.div>
     );
 }
@@ -52,7 +52,7 @@ class bookmarkMaker extends Component {
         return prevState;
     }
     onClick(){
-        if(this.state.available == true){
+        if(this.state.available === true){
             this.setState({ available: false });
             if(this.state.check){
                 axios.get(`/json/problems/bookmark/delete/${ this.state.id }`).then(res => {
@@ -71,7 +71,7 @@ class bookmarkMaker extends Component {
         }
     }
     render(){
-        if(this.state.loaded == false){
+        if(this.state.loaded === false){
             axios.get(`/json/problems/bookmark/check/${ this.state.id }`).then(bookmarkInfo => {
                 this.setState({
                     loaded: true, available: bookmarkInfo.data.available, check: bookmarkInfo.data.check

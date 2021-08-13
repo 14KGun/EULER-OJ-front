@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../Tool/axios';
+import smoothScroll from '../Tool/smoothScroll';
 import Top from '../Frame/Top/Top';
 import TopBackground from './TagTopBackground/TagTopBackground';
 import TagIcon from './TagIcon/TagIcon';
@@ -9,7 +10,7 @@ import TagTable from './TagTable';
 import ProblemTable from '../Problemset/ProblemTable'
 import Loading from '../Frame/Loading/Loading';
 import PageSelector from '../Frame/PageSelector';
-import Footer from '../Frame/Footer'
+import Footer from '../Frame/Footer/Footer';
 import svgArrow from './svg_arrow.svg';
 
 const TopFixedLayIcon = (props) => {
@@ -58,8 +59,8 @@ const LoadingLay = () => {
 const TableLay = (props) => {
     return (
         <div style={{ paddingTop: '50px' }}>
-            <TagTable content={ props.tags }/>
-            <ProblemTable content={ props.problems }/>
+            <TagTable content={ props.tags } theme={ props.theme }/>
+            <ProblemTable content={ props.problems } theme={ props.theme }/>
         </div>
     );
 }
@@ -79,7 +80,7 @@ class Tag extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id || nextProps.page !== prevState.page){
-            window.scrollTo(0,0);
+            smoothScroll();
             return { ...tagDefaultState, id: nextProps.id, page: nextProps.page, loaded: false };
         }
         return prevState;
@@ -109,12 +110,12 @@ class Tag extends Component {
                 
                 <div className="FRAME_MAIN ND">
                     { this.state.err ? <ErrorLay msg={ this.state.msg }/> : 
-                        (this.state.tagChild || this.state.problemChild ? <TableLay tags={ this.state.tagChild } problems={ this.state.problemChild }/> : <LoadingLay/>)  
+                        (this.state.tagChild || this.state.problemChild ? <TableLay tags={ this.state.tagChild } problems={ this.state.problemChild } theme={ this.props.theme }/> : <LoadingLay/>)  
                     }
-                    {  this.state.maxPage ? <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ this.makeGetPageUrl(this.state.id) }/> : <></> }
+                    {  this.state.maxPage ? <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ this.makeGetPageUrl(this.state.id) } theme={ this.props.theme }/> : <></> }
                     <div className="BTM_EMPTY"></div>
                 </div>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }
