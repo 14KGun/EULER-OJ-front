@@ -54,9 +54,9 @@ class Youtube extends Component {
     constructor(props){
         super(props);
 
-        /*axios.get('/json/main/youtubelist').then((youtubeList) => {
+        axios.get('/json/main/youtubelist').then((youtubeList) => {
             this.setState({ youtubeList: youtubeList.data });
-        });*/
+        });
     }
     render() {
         if(this.state.youtubeList === undefined){
@@ -74,8 +74,15 @@ class Youtube extends Component {
                     <div style={{ position: 'relative' }}>
                         { this.state.youtubeList.map((item, index) => {
                             const y = parseInt(index/2);
-                            const x = index - y*2;
-                            return <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={[y,x]} theme={ this.props.theme }/>;
+                            const pos = [y, index - y*2];
+                            let comp;
+
+                            try{
+                                comp = <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={ pos } theme={ this.props.theme }/>;
+                            } catch(e){
+                                comp = '';
+                            }
+                            return comp;
                         }) }
                     </div>
                 </Frame>

@@ -1,29 +1,30 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
+import { useSpring, animated } from 'react-spring';
 
-class Frame extends Component {
-    constructor(props){
-        super(props);
-
-        this.FrameStyle = {
-            display: 'inline-block', position: 'relative', overflow: 'hidden',
-            width: '32%', height: '490px',
-            background: 'white', borderRadius: '20px',
-            marginTop: '30px', textAlign: 'left', textAlignLast: 'left'
-        };
-        this.TitleStyle = {
-            fontSize: '25px', fontWeight: '700', marginBottom: '15px'
-        }
+const Frame = (props) => {
+    const style = {
+        width: '32%', height: '490px', marginTop: '30px',
+        borderRadius: '20px', overflow: 'hidden'
+    };
+    const styleTitle = {
+        fontSize: '25px', fontWeight: 700, marginBottom: '15px',
+        color: (props.theme === 'light' ? 'black' : 'white')
     }
-    render() {
-        return (
-            <span style={{ ...this.FrameStyle, background: (this.props.theme === 'light' ? 'white' : 'rgb(30,31,32)') }}>
-                <div style={{ paddingLeft: '25px', paddingRight: '25px', paddingTop: '20px' }}>
-                    <div style={{ ...this.TitleStyle, color: (this.props.theme === 'light' ? 'black' : 'white') }}>{ this.props.title }</div>
-                    { this.props.children }
+    const background = useSpring({
+        background: props.theme === 'light' ? 'white' : 'rgb(30,31,32)',
+        config: { duration: 100 }
+    })
+
+    return (
+        <animated.div style={{ ...style, ...background }}>
+            <div style={{ paddingLeft: '25px', paddingRight: '25px', paddingTop: '20px' }}>
+                <div style={ styleTitle }>
+                    { props.title }
                 </div>
-            </span>
-        );
-    }
+                { props.children }
+            </div>
+        </animated.div>
+    );
 }
 
 export default Frame;

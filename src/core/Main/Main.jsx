@@ -86,8 +86,10 @@ class Main extends Component {
                     </div>
                 </div>
                 <div id="lay2" style={{ background: 'rgba(120,120,120,0.2)' }}>
-                    <div className="FRAME_MAIN ND" style={{ textAlign: 'justify', textAlignLast: 'justify', verticalAlign: 'top' }}>
-                    <Lay2Problem theme={ this.props.theme }/> <Lay2Youtube theme={ this.props.theme }/> <Lay2Empty theme={ this.props.theme }/>
+                    <div className="FRAME_MAIN ND" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
+                        <Lay2Problem theme={ this.props.theme }/>
+                        <Lay2Youtube theme={ this.props.theme }/>
+                        <Lay2Empty theme={ this.props.theme }/>
                     </div>
                 </div>
                 <Footer theme={ this.props.theme }/>
