@@ -16,6 +16,7 @@ import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
 import ProfileUnknown from './core/Profile/ProfileUnknown/ProfileUnknown';
 import Setting from './core/Setting/Setting';
+import About from './core/About/About';
 import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
 import cookie from './core/Tool/cookie';
@@ -84,7 +85,15 @@ function App() {
         <Route exact path="/setting/profile/short"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="short"/></Frame></Route>
         <Route exact path="/setting/profile/logout"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="logout"/></Frame></Route>
 
-        <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme }/></Frame></Route>
+        <Route exact path="/about"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme }/></Frame></Route>
+
+        <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="none"/></Frame></Route>
+        <Route exact path="/nadmin/problem/add"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/add"/></Frame></Route>
+        <Route exact path="/nadmin/problem/list"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/list"/></Frame></Route>
+        <Route exact path="/nadmin/problem/gitpull"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/gitpull"/></Frame></Route>
+        <Route exact path="/nadmin/tag/tree"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="tag/tree"/></Frame></Route>
+        <Route exact path="/nadmin/contest/make"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="contest/make"/></Frame></Route>
+        <Route exact path="/nadmin/contest/list"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="contest/list"/></Frame></Route>
 
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
