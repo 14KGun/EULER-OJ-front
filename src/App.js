@@ -85,7 +85,11 @@ function App() {
         <Route exact path="/setting/profile/short"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="short"/></Frame></Route>
         <Route exact path="/setting/profile/logout"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="logout"/></Frame></Route>
 
-        <Route exact path="/about"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme }/></Frame></Route>
+        <Route exact path="/about"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/manual"/></Frame></Route>
+        <Route exact path="/about/oj/manual"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/manual"/></Frame></Route>
+        <Route exact path="/about/oj/stat"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/stat"/></Frame></Route>
+        <Route exact path="/about/oj/update"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/update"/></Frame></Route>
+        <Route exact path="/about/policy/privacy"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="policy/privacy"/></Frame></Route>
 
         <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="none"/></Frame></Route>
         <Route exact path="/nadmin/problem/add"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/add"/></Frame></Route>

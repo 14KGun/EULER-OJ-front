@@ -40,6 +40,7 @@ const TableItem = (props) => {
         </div>
     )
 }
+
 const MakeNewNode = (props) => {
     const style = {
         borderRadius: '15px', overflow: 'hidden',
@@ -58,11 +59,11 @@ const TagList = (props) => {
         background: (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)')
     };
     return (
-        <>
-            <div style={ style }>
-                <TableTop theme={ props.theme }/>
-            </div>
-        </>
+        <div style={ style }>
+            <TableTop theme={ props.theme }/>
+            <TableItem theme={ props.theme }/>
+            <TableItem theme={ props.theme }/>
+        </div>
     )
 }
 class Tree extends Component {

@@ -97,13 +97,19 @@ class Frame extends Component {
     componentDidMount(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+
+        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
     }
     componentDidUpdate(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+
+        clearInterval(this.resizeEventInterval);
+        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.resizeEvent);
+        clearInterval(this.resizeEventInterval);
     }
 }
 
