@@ -29,25 +29,9 @@ const Content2 = (props) => {
     )
 }
 
-const Input = (props) => {
-    const [isFocus, setFocus] = useState(false);
-    const borderFocus = 'gray';
-    const borderDefault = 'rgb(200,200,200)';
-    const border = useSpring({
-        border: `2px solid ${ isFocus ? borderFocus : borderDefault }`
-    }).border
-
-    return (
-        <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
-            <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
-            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}/>
-        </animated.div>
-    )
-}
-
 const Margin = () => {
     return <div style={{ height: '50px' }}/>
 }
 
-const res = { Title, Content, Content2, Input, Margin };
+const res = { Title, Content, Content2, Margin };
 export default res;

@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet";
 import { Redirect } from 'react-router-dom';
 import axios from '../Tool/axios';
 import getHref from '../Tool/getHref';
-import smoothScroll from '../Tool/smoothScroll';
 import FrameSplit from '../Frame/FrameSplit/FrameSplit';
 import Loading from '../Frame/Loading/Loading';
 import Me from './Profile/Me';
@@ -104,7 +103,7 @@ class Setting extends Component {
         }
 
         return (
-            <FrameSplit navigator={ this.navigator } theme={ this.props.theme }>
+            <FrameSplit navigator={ this.navigator } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>계정 설정 : 오일러OJ</title></Helmet>
                 { container }
             </FrameSplit>

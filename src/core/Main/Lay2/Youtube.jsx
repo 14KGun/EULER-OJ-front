@@ -14,26 +14,22 @@ const YoutubeItem = (props) => {
         textAlign: 'left', textAlignLast: 'left',
         background: ( props.theme === 'light' ? 'rgb(240,240,240)' : 'rgb(45,45,45)' ),
         borderRadius: '15px',
-        top: isHover ? `${top-3}px` : `${top}px`,
-        left: isHover ? `${left-3}px` : `${left}px`,
-        width: isHover ? `166px` : `160px`,
-        height: isHover ? `196px` : `190px`,
+        top: `${ top }px`, left: `${ left }px`,
+        width: `160px`, height: `190px`,
         boxShadow: isHover ? '0 0 5px 5px rgba(0,0,0,0.1)' : '0 0 5px 5px rgba(0,0,0,0)',
-        border: isHover ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(0,0,0,0)'
+        border: isHover ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(0,0,0,0)',
+        transform: `scale(${ isHover ? 1.03 : 1.0 })`
     });
     const imgStyle = useSpring({
-        width: '100%',
-        height: `${90 + (isHover ? 6 : 0)}px`,
-        objectFit: 'cover'
+        width: '100%', height: '90px', objectFit: 'cover'
     });
     const titleStyle = useSpring({
         position: 'absolute', overflow: 'hidden', textOverflow: 'ellipsis', 
-        top: `${100 + (isHover ? 6 : 0)}px`, bottom: '30px', left: '15px', right: '15px',
+        top: '100px', bottom: '30px', left: '15px', right: '15px',
         fontSize: '14px', fontWeight: '400', color: (props.theme === 'light' ? 'black' : 'white'),
     });
     const timeStyle = {
-        position: 'absolute',
-        bottom: '10px', right: '15px',
+        position: 'absolute', bottom: '10px', right: '15px',
         textAlign: 'right', textAlignLast: 'right',
         fontSize: '13px', fontWeight: '300', color: (props.theme === 'light' ? 'gray' : 'white')
     };
@@ -74,8 +70,15 @@ class Youtube extends Component {
                     <div style={{ position: 'relative' }}>
                         { this.state.youtubeList.map((item, index) => {
                             const y = parseInt(index/2);
-                            const x = index - y*2;
-                            return <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={[y,x]} theme={ this.props.theme }/>;
+                            const pos = [y, index - y*2];
+                            let comp;
+
+                            try{
+                                comp = <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={ pos } theme={ this.props.theme }/>;
+                            } catch(e){
+                                comp = '';
+                            }
+                            return comp;
                         }) }
                     </div>
                 </Frame>

@@ -25,11 +25,11 @@ const BtnVisibility = (props) => {
     }
     const styleImg = { width: '18px', height: '18px', margin: '1px' }
 
-    let img = <img src={ svgVisibility } style={ styleImg }/>
-    if(!props.isHidden && props.theme==='light') img = <img src={ svgVisibility } style={ styleImg }/>;
-    else if(props.isHidden && props.theme==='light') img = <img src={ svgVisibilityOff } style={ styleImg }/>;
-    else if(!props.isHidden) img = <img src={ svgVisibilityDark } style={ styleImg }/>;
-    else img = <img src={ svgVisibilityOffDark } style={ styleImg }/>;
+    let img = <img src={ svgVisibility } style={ styleImg } alt=""/>
+    if(!props.isHidden && props.theme==='light') img = <img src={ svgVisibility } style={ styleImg } alt=""/>;
+    else if(props.isHidden && props.theme==='light') img = <img src={ svgVisibilityOff } style={ styleImg } alt=""/>;
+    else if(!props.isHidden) img = <img src={ svgVisibilityDark } style={ styleImg } alt=""/>;
+    else img = <img src={ svgVisibilityOffDark } style={ styleImg } alt=""/>;
 
     const onClick = () => {
         props.handler(!props.isHidden);

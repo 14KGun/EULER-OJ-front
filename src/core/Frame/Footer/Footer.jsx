@@ -24,17 +24,6 @@ class Footer extends Component {
         this.minibtnStyle = { height: '30px', borderRadius: '10px', marginLeft: '5px' }
         this.personalRightStyle = { fontSize: '15px', fontWeight: '300', color: 'gray', marginTop: '6px' }
     }
-    componentDidMount(){
-        this.reposition();
-        window.addEventListener('resize', () => this.reposition());
-    }
-    reposition(){
-        const bodyWidth = document.body.clientWidth;
-        const bodyHeight = window.innerHeight;
-
-        this.setState({ bodyWidth: bodyWidth });
-        this.setState({ bodyHeight: bodyHeight });
-    }
     render() {
         return (
             <>
@@ -66,6 +55,25 @@ class Footer extends Component {
                 </div>
             </>
         );
+    }
+    reposition(){
+        const bodyWidth = document.body.clientWidth;
+        const bodyHeight = window.innerHeight;
+
+        if(this.state.bodyWidth !== bodyWidth || this.state.bodyHeight !== bodyHeight){
+            this.setState({ bodyWidth: bodyWidth, bodyHeight: bodyHeight });
+        }
+    }
+    componentDidMount(){
+        this.reposition();
+        window.addEventListener('resize', () => this.reposition());
+    }
+    componentDidUpdate(){
+        this.reposition();
+        window.addEventListener('resize', () => this.reposition());
+    }
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.reposition);
     }
 }
 

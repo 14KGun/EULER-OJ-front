@@ -20,7 +20,6 @@ const Icon = () => {
     )
 }
 const TopBackground = (props) => {
-
     return (
         <div className="eulerranking-topbackground" style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
         </div>
@@ -96,7 +95,7 @@ const UserBox = (props) => {
                 <div style={{ textAlign: 'center', paddingTop: '17px' }}>
                     <span style={{ display: 'inline-block', width: '50px', height: '50px', background: 'white', borderRadius: '25px',
                     verticalAlign: 'middle', marginRight: '10px', overflow: 'hidden' }}>
-                        <img src={ `https://euleroj.io/profile-img/${ props.id }.webp?size=50` } style={{ width: '100%', height: '100%' }}/>
+                        <img src={ `https://euleroj.io/profile-img/${ props.id }.webp?size=50` } style={{ width: '100%', height: '100%' }} alt=""/>
                     </span>
                     <span style={{ display: 'inline-block', fontSize: '18px', fontWeight: 700, color: 'black', height: '50px', lineHeight: '50px' }}>{ props.id }</span>
                 </div>
@@ -313,6 +312,9 @@ class Compare extends Component {
                 <Footer/>
             </div>
         );
+    }
+    componentDidUpdate(){
+        this.props.reFooter();
     }
 }
 

@@ -2,7 +2,6 @@ import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../Tool/axios';
-import smoothScroll from '../Tool/smoothScroll';
 import Top from '../Frame/Top/Top';
 import TopBackground from './TagTopBackground/TagTopBackground';
 import TagIcon from './TagIcon/TagIcon';
@@ -80,7 +79,6 @@ class Tag extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id || nextProps.page !== prevState.page){
-            smoothScroll();
             return { ...tagDefaultState, id: nextProps.id, page: nextProps.page, loaded: false };
         }
         return prevState;
@@ -120,6 +118,7 @@ class Tag extends Component {
         );
     }
     componentDidUpdate(){
+        this.props.reFooter();
         if(this.state.info && this.state.info.name) document.title = `${ this.state.info.name } : 오일러OJ`;
         else document.title = "태그 : 오일러OJ";
     }

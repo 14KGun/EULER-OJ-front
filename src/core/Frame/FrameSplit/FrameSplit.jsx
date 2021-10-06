@@ -42,6 +42,7 @@ const Navigator = (props) => {
 
     const container = [];
     for(var i=0; i<props.items.length; i++){
+        if(i>0) container.push(<div style={{ height: '20px' }}/>);
         container.push(<div key={ -1 } style={ styleTxt1 }>{ props.items[i].title }</div>);
         props.items[i].list.map((item, index) => {
             container.push(<NavigatorBtn key={ index } icon={ item.icon } name={ item.name } href={ item.href } theme={ props.theme }/>)
@@ -97,13 +98,21 @@ class Frame extends Component {
     componentDidMount(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+
+        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
+        if(this.props.reFooter) this.props.reFooter();
     }
     componentDidUpdate(){
         this.resizeEvent()
         window.addEventListener('resize', this.resizeEvent);
+
+        clearInterval(this.resizeEventInterval);
+        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
+        if(this.props.reFooter) this.props.reFooter();
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.resizeEvent);
+        clearInterval(this.resizeEventInterval);
     }
 }
 

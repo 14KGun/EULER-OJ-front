@@ -184,11 +184,17 @@ const HeaderMaker = (props) => {
 class Header extends Component {
     constructor(props){
         super(props);
-        this.urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
-        { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
-
         this.state = { loginInfo: undefined }
         this.lastPath = 'none';
+    }
+    urlList(adminCheck = false){
+        const urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
+        { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
+
+        if(adminCheck){
+            urlList.push({ url: '/nadmin', name: '관리(Demo)' });
+        }
+        return urlList;
     }
     requestLogininfo(){
         axios.get('/json/logininfo').then((userInfo) => {
@@ -201,6 +207,8 @@ class Header extends Component {
             this.lastPath = currentUrl;
             this.requestLogininfo();
         }
+
+        const urlList = this.urlList(this.state.loginInfo && this.state.loginInfo.level >= 5);
 
         let theme = { r: 255, g: 255, b: 255 };
         if(this.props.theme === 'dark') theme = { r: 50, g: 50, b: 50 };
@@ -217,7 +225,7 @@ class Header extends Component {
 
         return (
             <HeaderMaker theme={ theme } txtColor={ txtColor } txtColorWithBgd={ txtColorWithBgd }
-            urlList={ this.urlList } loginInfo={ this.state.loginInfo }
+            urlList={ urlList } loginInfo={ this.state.loginInfo }
             setTheme={ this.props.setTheme } getTheme={ this.props.theme }/>
         )
     }

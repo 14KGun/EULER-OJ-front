@@ -5,7 +5,6 @@ import { useSpring, animated } from 'react-spring';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
-import smoothScroll from '../../Tool/smoothScroll';
 import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
@@ -363,7 +362,6 @@ class ProblemViewer extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id){
-            smoothScroll();
             return { ...problemDefaultState, id: nextProps.id, loaded: false };
         }
         return prevState;
@@ -522,15 +520,17 @@ class ProblemViewer extends Component {
         }
     }
     componentDidMount(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
         this.repainting(this.props.theme);
+        //this.props.reFooter();
     }
     componentDidUpdate(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
         this.repainting(this.props.theme);
+        //this.props.reFooter();
     }
     componentWillUnmount(){
         this.tooltip.clear();
