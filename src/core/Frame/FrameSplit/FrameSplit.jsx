@@ -42,6 +42,7 @@ const Navigator = (props) => {
 
     const container = [];
     for(var i=0; i<props.items.length; i++){
+        if(i>0) container.push(<div style={{ height: '20px' }}/>);
         container.push(<div key={ -1 } style={ styleTxt1 }>{ props.items[i].title }</div>);
         props.items[i].list.map((item, index) => {
             container.push(<NavigatorBtn key={ index } icon={ item.icon } name={ item.name } href={ item.href } theme={ props.theme }/>)

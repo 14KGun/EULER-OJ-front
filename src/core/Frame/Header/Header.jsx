@@ -192,7 +192,7 @@ class Header extends Component {
         { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
 
         if(adminCheck){
-            urlList.push({ url: '/nadmin', name: '관리' });
+            urlList.push({ url: '/nadmin', name: '관리(Demo)' });
         }
         return urlList;
     }
