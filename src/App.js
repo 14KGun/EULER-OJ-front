@@ -51,7 +51,6 @@ function App() {
 
   return (
     <Router>
-      <RouterScroll/>
       <Switch>
         <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
@@ -119,6 +118,7 @@ function App() {
 
         <Route path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
+      <RouterScroll/>
     </Router>
   );
 }
