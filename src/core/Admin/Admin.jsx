@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { Helmet } from "react-helmet";
-import smoothScroll from '../Tool/smoothScroll';
 import FrameSplit from '../Frame/FrameSplit/FrameSplit';
 import Empty from './Empty/Empty';
 import ProblemList from './Problem/List';

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 import { useState } from 'react';
+import RouterScroll from './ReactScrollAuto';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
@@ -50,6 +51,7 @@ function App() {
 
   return (
     <Router>
+      <RouterScroll/>
       <Switch>
         <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>

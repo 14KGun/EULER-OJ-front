@@ -5,7 +5,6 @@ import { useSpring, animated } from 'react-spring';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
-import smoothScroll from '../../Tool/smoothScroll';
 import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
@@ -363,7 +362,6 @@ class ProblemViewer extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id){
-            smoothScroll();
             return { ...problemDefaultState, id: nextProps.id, loaded: false };
         }
         return prevState;
