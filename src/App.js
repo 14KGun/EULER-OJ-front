@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RouterScroll from './ReactScrollAuto';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
@@ -25,14 +25,14 @@ import './Font.css';
 import './App.css';
 
 const FindmypasswordWithIdKey = () => <LoginBoxFrame background="none"><Resetpassword id={ useParams().Pnum1 } SecurityKey={ useParams().Pnum2 }/></LoginBoxFrame>
-const ProblemsetWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Problemset theme={ props.theme } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
-const ProblemWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
-const ProblemSubmitWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) } headerTxtColor="none"><ProblemSubmit theme={ props.theme } id={ useParams().Pnum }/></Frame>
-const TagWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Tag theme={ props.theme } id={ useParams().Pnum } page={1}/></Frame>
-const TagWithIdPage = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Tag theme={ props.theme } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
-const EulerRankingWithIdPage = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><EulerRanking theme={ props.theme } page={ useParams().Pnum }/></Frame>
-const CompareWithIdId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Compare theme={ props.theme } id1={ useParams().Pnum1 } id2={ useParams().Pnum2 }/></Frame>
-const ProfileWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) }><Profile theme={ props.theme } id={ useParams().Pnum }/></Frame>
+const ProblemsetWithId = (props) => <Frame { ...props }><Problemset { ...props } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
+const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
+const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
+const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
+const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
+const EulerRankingWithIdPage = (props) => <Frame { ...props }><EulerRanking { ...props } page={ useParams().Pnum }/></Frame>
+const CompareWithIdId = (props) => <Frame { ...props }><Compare { ...props } id1={ useParams().Pnum1 } id2={ useParams().Pnum2 }/></Frame>
+const ProfileWithId = (props) => <Frame { ...props }><Profile { ...props } id={ useParams().Pnum }/></Frame>
 
 const getThemeFromCookie = () => {
   const theme = cookie.getCookie('theme');
@@ -40,65 +40,81 @@ const getThemeFromCookie = () => {
   else return 'light';
 }
 function App() {
+  /* Theme */
   const [theme, themeHandler] = useState(getThemeFromCookie());
-
   const setTheme = (_theme) => {
     cookie.setCookie('theme',_theme,1000);
     themeHandler(_theme);
   }
   
-  const ProblemViewerWithId = (props) => <Frame theme={ props.theme } setTheme={ (x) => props.setTheme(x) } headerTxtColor="none"><ProblemViewer theme={ props.theme } id={ useParams().Pnum }/></Frame>
+  /* Footer */
+  const [appHeight, setAppHeight] = useState(0);
+  const reFooter = () => {
+    const ojFooter = document.getElementById('footer-empty');
+    if(ojFooter){
+      const height = ojFooter.offsetTop;
+      if(height !== appHeight) setAppHeight(height);
+    }
+  };
 
+  const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
+
+  /* Router */
+  const params = {
+    theme: theme,
+    setTheme: (x) => setTheme(x),
+    reFooter: () => reFooter()
+  };
   return (
     <Router>
       <Switch>
-        <Route exact path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Main theme={ theme }/></Frame></Route>
+        <Route exact path="/"><Frame { ...params }><Main { ...params }/></Frame></Route>
         <Route exact path="/login"><LoginBoxFrame scalable background="img1"><Login/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword"><LoginBoxFrame background="none"><Findmypassword/></LoginBoxFrame></Route>
         <Route exact path="/login/findmypassword/:Pnum1/:Pnum2"><FindmypasswordWithIdKey/></Route>
 
-        <Route exact path="/problemset"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Problemset theme={ theme }/></Frame></Route>
-        <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/problemset/list/:Pnum1/:Pnum2"><ProblemsetWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/problemset/problem/:Pnum"><ProblemWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
+        <Route exact path="/problemset"><Frame { ...params }><Problemset { ...params }/></Frame></Route>
+        <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId { ...params }/></Route>
+        <Route exact path="/problemset/list/:Pnum1/:Pnum2"><ProblemsetWithId { ...params }/></Route>
+        <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId { ...params }/></Route>
+        <Route exact path="/problemset/problem/:Pnum"><ProblemWithId { ...params }/></Route>
+        <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId { ...params }/></Route>
+        <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
 
-        <Route exact path="/tags"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><Tag theme={ theme } id={0} page={1}/></Frame></Route>
-        <Route exact path="/tags/:Pnum"><TagWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/tags/:Pnum1/:Pnum2"><TagWithIdPage theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
+        <Route exact path="/tags"><Frame { ...params }><Tag { ...params } id={0} page={1}/></Frame></Route>
+        <Route exact path="/tags/:Pnum"><TagWithId { ...params }/></Route>
+        <Route exact path="/tags/:Pnum1/:Pnum2"><TagWithIdPage { ...params }/></Route>
 
-        <Route exact path="/ranking"><Frame theme={ theme } setTheme={ (x) => setTheme(x) }><EulerRanking theme={ theme } page={1}/></Frame></Route>
-        <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
-        <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
+        <Route exact path="/ranking"><Frame { ...params }><EulerRanking { ...params } page={1}/></Frame></Route>
+        <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage { ...params }/></Route>
+        <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId { ...params }/></Route>
 
-        <Route path="/profile/unknown"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
-        <Route path="/profile/:Pnum"><ProfileWithId theme={ theme } setTheme={ (x) => setTheme(x) }/></Route>
+        <Route path="/profile/unknown"><Frame { ...params } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
+        <Route path="/profile/:Pnum"><ProfileWithId { ...params }/></Route>
 
-        <Route exact path="/setting/profile"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="me"/></Frame></Route>
-        <Route exact path="/setting/profile/me"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="me"/></Frame></Route>
-        <Route exact path="/setting/profile/password"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="password"/></Frame></Route>
-        <Route exact path="/setting/profile/social"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="social"/></Frame></Route>
-        <Route exact path="/setting/profile/theme"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } setTheme={ (x) => setTheme(x) } page="theme"/></Frame></Route>
-        <Route exact path="/setting/profile/langsort"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="langsort"/></Frame></Route>
-        <Route exact path="/setting/profile/editor"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="editor"/></Frame></Route>
-        <Route exact path="/setting/profile/short"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="short"/></Frame></Route>
-        <Route exact path="/setting/profile/logout"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Setting theme={ theme } page="logout"/></Frame></Route>
+        <Route exact path="/setting/profile"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="me"/></Frame></Route>
+        <Route exact path="/setting/profile/me"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="me"/></Frame></Route>
+        <Route exact path="/setting/profile/password"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="password"/></Frame></Route>
+        <Route exact path="/setting/profile/social"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="social"/></Frame></Route>
+        <Route exact path="/setting/profile/theme"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="theme"/></Frame></Route>
+        <Route exact path="/setting/profile/langsort"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="langsort"/></Frame></Route>
+        <Route exact path="/setting/profile/editor"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="editor"/></Frame></Route>
+        <Route exact path="/setting/profile/short"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="short"/></Frame></Route>
+        <Route exact path="/setting/profile/logout"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="logout"/></Frame></Route>
 
-        <Route exact path="/about"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/manual"/></Frame></Route>
-        <Route exact path="/about/oj/manual"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/manual"/></Frame></Route>
-        <Route exact path="/about/oj/stat"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/stat"/></Frame></Route>
-        <Route exact path="/about/oj/update"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="oj/update"/></Frame></Route>
-        <Route exact path="/about/policy/privacy"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><About theme={ theme } page="policy/privacy"/></Frame></Route>
+        <Route exact path="/about"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/manual"/></Frame></Route>
+        <Route exact path="/about/oj/manual"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/manual"/></Frame></Route>
+        <Route exact path="/about/oj/stat"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/stat"/></Frame></Route>
+        <Route exact path="/about/oj/update"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/update"/></Frame></Route>
+        <Route exact path="/about/policy/privacy"><Frame { ...params } headerTxtColor="none"><About { ...params } page="policy/privacy"/></Frame></Route>
 
-        <Route exact path="/nadmin"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="none"/></Frame></Route>
-        <Route exact path="/nadmin/problem/add"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/add"/></Frame></Route>
-        <Route exact path="/nadmin/problem/list"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/list"/></Frame></Route>
-        <Route exact path="/nadmin/problem/gitpull"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="problem/gitpull"/></Frame></Route>
-        <Route exact path="/nadmin/tag/tree"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="tag/tree"/></Frame></Route>
-        <Route exact path="/nadmin/contest/make"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="contest/make"/></Frame></Route>
-        <Route exact path="/nadmin/contest/list"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><Admin theme={ theme } page="contest/list"/></Frame></Route>
+        <Route exact path="/nadmin"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="none"/></Frame></Route>
+        <Route exact path="/nadmin/problem/add"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/add"/></Frame></Route>
+        <Route exact path="/nadmin/problem/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/list"/></Frame></Route>
+        <Route exact path="/nadmin/problem/gitpull"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/gitpull"/></Frame></Route>
+        <Route exact path="/nadmin/tag/tree"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="tag/tree"/></Frame></Route>
+        <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
+        <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>
 
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
@@ -116,9 +132,9 @@ function App() {
         <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
         <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>
 
-        <Route path="/"><Frame theme={ theme } setTheme={ (x) => setTheme(x) } headerTxtColor="none"><PageNotFound/></Frame></Route>
+        <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
-      <RouterScroll/>
+      <RouterScroll { ...params } height={ appHeight }/>
     </Router>
   );
 }

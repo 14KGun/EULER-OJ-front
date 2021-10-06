@@ -54,7 +54,7 @@ class About extends Component {
         }
 
         return (
-            <FrameSplit navigator={ this.navigator } theme={ this.props.theme }>
+            <FrameSplit navigator={ this.navigator } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>{ title }</title></Helmet>
                 { container }
             </FrameSplit>

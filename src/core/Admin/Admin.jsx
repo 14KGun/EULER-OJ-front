@@ -83,7 +83,7 @@ class Admin extends Component {
         }
 
         return (
-            <FrameSplit navigator={ this.navigator(adminLevel) } theme={ this.props.theme }>
+            <FrameSplit navigator={ this.navigator(adminLevel) } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>{ title }</title></Helmet>
                 { container }
             </FrameSplit>

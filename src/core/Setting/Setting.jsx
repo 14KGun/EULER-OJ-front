@@ -103,7 +103,7 @@ class Setting extends Component {
         }
 
         return (
-            <FrameSplit navigator={ this.navigator } theme={ this.props.theme }>
+            <FrameSplit navigator={ this.navigator } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>계정 설정 : 오일러OJ</title></Helmet>
                 { container }
             </FrameSplit>

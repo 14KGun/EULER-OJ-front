@@ -520,15 +520,17 @@ class ProblemViewer extends Component {
         }
     }
     componentDidMount(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
         this.repainting(this.props.theme);
+        //this.props.reFooter();
     }
     componentDidUpdate(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
         this.repainting(this.props.theme);
+        //this.props.reFooter();
     }
     componentWillUnmount(){
         this.tooltip.clear();
