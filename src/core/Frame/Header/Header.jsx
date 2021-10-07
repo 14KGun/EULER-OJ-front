@@ -189,7 +189,7 @@ class Header extends Component {
     }
     urlList(adminCheck = false){
         const urlList = [{ url: '/problemset', name: '문제' }, { url: '/tags', name: '태그' }, { url: '/contest', name: '대회' },
-        { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/board', name: '공지' }];
+        { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/about', name: '페이지' }];
 
         if(adminCheck){
             urlList.push({ url: '/nadmin', name: '관리(Demo)' });

@@ -8,6 +8,7 @@ import Login from './core/Login/Login';
 import Findmypassword from './core/Login/Findmypassword/Findmypassword';
 import Resetpassword from './core/Login/Findmypassword/Resetpassword';
 import Problemset from './core/Problemset/Problemset/Problemset';
+import ProblemsetBooks from './core/Problemset/Problemset/Books/Books';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
@@ -74,6 +75,7 @@ function App() {
         <Route exact path="/login/findmypassword/:Pnum1/:Pnum2"><FindmypasswordWithIdKey/></Route>
 
         <Route exact path="/problemset"><Frame { ...params }><Problemset { ...params }/></Frame></Route>
+        <Route exact path="/problemset/list/books"><Frame { ...params }><ProblemsetBooks { ...params }/></Frame></Route>
         <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId { ...params }/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2"><ProblemsetWithId { ...params }/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId { ...params }/></Route>
