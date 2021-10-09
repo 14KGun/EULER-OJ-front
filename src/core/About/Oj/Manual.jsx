@@ -33,8 +33,10 @@ const Manual = (props) => {
         <div className="ND">
             <Layout.Title icon={ svgIn } theme={ props.theme }>오일러OJ 회원가입 하기</Layout.Title>
             
+            <div style={{ height: '60px' }}/>
             <Layout.Title icon={ svgCode } theme={ props.theme }>로그인 후 소스 코드 제출하기</Layout.Title>
             
+            <div style={{ height: '60px' }}/>
             <Layout.Title icon={ svgOff } theme={ props.theme }>온라인 채점 시 정답으로 인정되지 않는 경우</Layout.Title>
             <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '15px' }}>
                 <div style={{ width: 'calc(60% - 15px)' }}>
@@ -102,7 +104,11 @@ const Manual = (props) => {
             
             <div style={{ height: '60px' }}/>
             <Layout.Title icon={ svgCode } theme={ props.theme }>본인이 제출한 소스 코드 확인하기</Layout.Title>
-            
+            <div style={{ paddingLeft: '15px' }}>
+                <Layout.Content theme={ props.theme }>제출한 소스코드의 확인은 본인이 작성한 코드만 가능합니다.</Layout.Content>
+            </div>
+
+            <div style={{ height: '60px' }}/>
             <Layout.Title icon={ svgInfo } theme={ props.theme }>그 밖의 메뉴 소개하기</Layout.Title>
         </div>
     );

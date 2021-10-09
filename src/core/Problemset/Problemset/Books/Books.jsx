@@ -6,6 +6,7 @@ import Top from '../ProblemsetTop';
 import ImgBook from './Img/Img';
 import PurchaseLink from './PurchaseLink/PurchaseLink'
 import Footer from '../../../Frame/Footer/Footer';
+import axios from '../../../Tool/axios';
 
 import imgExp1 from './img_exp1.png';
 import imgExp2 from './img_exp2.png';
@@ -110,7 +111,17 @@ const Book = (props) => {
 }
 
 class BooksList extends Component {
+    constructor(props){
+        super(props);
+
+        this.onCall = false;
+        this.state = {};
+    }
     render(){
+        if(this.onCall == false){
+
+        }
+
         return (
             <div className="ND">
                 <Helmet><title>코딩마법서 : 오일러OJ</title></Helmet>
