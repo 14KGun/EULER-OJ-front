@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useLocation } from "react-router-dom";
 
@@ -12,19 +12,8 @@ const ReactScrollAuto = (props) => {
         background: props.theme === 'dark' ? 'rgb(30,31,33)' : 'rgb(250,251,252)',
         config: { duration: 250 }
     });
-    
-    useEffect(() => {
-        smoothScroll(); props.reFooter();
-    }, [pathname]);
-    useEffect(() => {
-        props.reFooter();
-        window.addEventListener('resize', props.reFooter);
-        return () => {
-            window.removeEventListener('resize', props.reFooter);
-        }
-    });
 
-    const bodyHeight = document.body.clientHeight;
+    const [bodyHeight, setBodyHeight] = useState(document.body.clientHeight);
     const appHeight = useSpring({
         height: props.height,
         config: { duration: 100 }
@@ -32,6 +21,22 @@ const ReactScrollAuto = (props) => {
     const getFooterHeight = (x) => {
         return Math.max(bodyHeight - x, 0);
     }
+    
+    const resizeEvent = () => {
+        if(bodyHeight !== document.body.clientHeight) setBodyHeight(document.body.clientHeight);
+    }
+    useEffect(() => {
+        smoothScroll(); props.reFooter();
+    }, [pathname]);
+    useEffect(() => {
+        props.reFooter();
+        window.addEventListener('resize', props.reFooter);
+        window.addEventListener('resize', resizeEvent);
+        return () => {
+            window.removeEventListener('resize', props.reFooter);
+            window.removeEventListener('resize', resizeEvent);
+        }
+    });
 
     return <animated.div id="footer-empty" style={{ ...background, height: appHeight.to(getFooterHeight) }}/>;
 }

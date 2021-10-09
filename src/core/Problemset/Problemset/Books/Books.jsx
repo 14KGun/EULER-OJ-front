@@ -66,16 +66,28 @@ const LevLisEle = (props) => {
 
 const Progress = (props) => {
     const style = {
-        position: 'absolute', left: '10px', bottom: '10px', width: 'calc(100% - 20px)', height: '10px',
+        position: 'absolute', left: '15px', bottom: '15px', width: 'calc(100% - 30px)', height: '10px',
         overflow: 'hidden', borderRadius: '5px', border: `1px solid ${ props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)' }`
     }
     const stylePer = {
         height: '100%', background: 'rgb(0, 134, 191)'
     }
+    const styleTxt = {
+        position: 'absolute', right: '15px', bottom: '27px',
+        fontSize: '13px', color: 'gray'
+    }
+    const width = useSpring({
+        width: `${ props.value ? props.value[0]/props.value[1]*100 : 0 }%`
+    })
+
+    if(props.value === undefined) return <></>
     return (
-        <div style={{ ...style }}>
-            <div style={{ ...stylePer, width: '50%' }}/>
-        </div>
+        <>
+            <div style={ styleTxt }>{ props.value[0] } / { props.value[1] }</div>
+            <div style={{ ...style }}>
+                <animated.div style={{ ...stylePer, ...width }}/>
+            </div>
+        </>
     )
 }
 const Book = (props) => {
@@ -97,6 +109,7 @@ const Book = (props) => {
         marginLeft: '15px', marginTop: '2px', marginRight: '15px', textAlign: 'right',
         fontSize: '14px', fontWeight: 300, color: 'gray',
     }
+
     return (
         <Link to={ props.to }>
             <animated.div style={ style } onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
@@ -104,7 +117,7 @@ const Book = (props) => {
                 <div style={ styleName } dangerouslySetInnerHTML={{ __html: props.name }}/>
                 <div style={ styleSub }>{ props.subname }</div>
 
-                <Progress theme={ props.theme } value="10%"/>
+                <Progress theme={ props.theme } value={ props.progress }/>
             </animated.div>
         </Link>
     )
@@ -119,7 +132,14 @@ class BooksList extends Component {
     }
     render(){
         if(this.onCall == false){
-
+            this.onCall = true;
+            axios.get('/json/problems-books/progress').then(({ data }) => {
+                for(let i=0; i<data.array.length; i++){
+                    if(data.array[i].id == 'c++_stone') this.setState({ prog1: data.array[i].progress }); 
+                    if(data.array[i].id == 'python_stone') this.setState({ prog2: data.array[i].progress }); 
+                    if(data.array[i].id == 'c++_iron') this.setState({ prog3: data.array[i].progress }); 
+                }
+            })
         }
 
         return (
@@ -132,13 +152,13 @@ class BooksList extends Component {
                         <Title theme={ this.props.theme }>코딩마법서 문제 모음</Title>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px 20px' }}>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img01 theme={ this.props.theme }/> }
-                            name="코딩마법서 1권<br>STONE VERSION" subname="C/C++" to="/"/>
+                            name="코딩마법서 1권<br>STONE VERSION" subname="C/C++" to="/problemset/list/books/c++_stone" progress={ this.state.prog1 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img02 theme={ this.props.theme }/> }
-                            name="코딩마법서 1권<br>STONE VERSION" subname="파이썬" to="/"/>
+                            name="코딩마법서 1권<br>STONE VERSION" subname="파이썬" to="/problemset/list/books/python_stone" progress={ this.state.prog2 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img03 theme={ this.props.theme }/> }
-                            name="코딩마법서 1권<br>IRON VERSION" subname="C/C++" to=""/>
+                            name="코딩마법서 2권<br>IRON VERSION" subname="C/C++" to="/problemset/list/books/c++_iron" progress={ this.state.prog3 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img03 theme={ this.props.theme }/> }
-                            name="기존 목록" to="/problemset/list/level"/>
+                            name="기존 목록" to="/problemset/list/level" progress={ undefined }/>
                         </div>
                     </div>
                     <div style={{ height: '50px' }}/>

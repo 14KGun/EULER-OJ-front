@@ -9,6 +9,7 @@ import Findmypassword from './core/Login/Findmypassword/Findmypassword';
 import Resetpassword from './core/Login/Findmypassword/Resetpassword';
 import Problemset from './core/Problemset/Problemset/Problemset';
 import ProblemsetBooks from './core/Problemset/Problemset/Books/Books';
+import ProblemsetBookList from './core/Problemset/Problemset/Books/BookList/BookList';
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
@@ -27,6 +28,7 @@ import './App.css';
 
 const FindmypasswordWithIdKey = () => <LoginBoxFrame background="none"><Resetpassword id={ useParams().Pnum1 } SecurityKey={ useParams().Pnum2 }/></LoginBoxFrame>
 const ProblemsetWithId = (props) => <Frame { ...props }><Problemset { ...props } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
+const BookListWithId = (props) => <Frame { ...props }><ProblemsetBookList { ...props } category={ useParams().Pnum1 }/></Frame>
 const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
@@ -76,6 +78,7 @@ function App() {
 
         <Route exact path="/problemset"><Frame { ...params }><Problemset { ...params }/></Frame></Route>
         <Route exact path="/problemset/list/books"><Frame { ...params }><ProblemsetBooks { ...params }/></Frame></Route>
+        <Route exact path="/problemset/list/books/:Pnum"><Frame { ...params }><BookListWithId { ...params }/></Frame></Route>
         <Route exact path="/problemset/list/:Pnum1"><ProblemsetWithId { ...params }/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2"><ProblemsetWithId { ...params }/></Route>
         <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId { ...params }/></Route>
