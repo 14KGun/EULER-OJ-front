@@ -25,7 +25,7 @@ const RankSubItem = (props) => {
     }
     return (
         <div style={{ width: '100%', height: '100%', position: 'relative' }} className="ND">
-            <img src={ props.icon } style={ styleImg }/>
+            <img src={ props.icon } style={ styleImg } alt=""/>
             <div style={ styleTxt }>{ props.txt }</div>
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import { Component, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
@@ -218,7 +218,7 @@ const Lay2 = (props) => {
 
 const Editor = (props) => {
     const [isHover, setHover] = useState(false);
-    const [height, setHeight] = useState('500px')
+    const [height, setHeight] = useState('500px');
     const [tooltipId, settooltipId] = useState('undefined');
     const background = useSpring({
         background: isHover ? 'rgba(100,100,100,1)' : 'rgba(100,100,100,0)',
@@ -255,6 +255,10 @@ const Editor = (props) => {
         const newHeight = Math.max(500, codeHeight*22+200);
         if(`${ newHeight }px` !== height) setHeight(`${ newHeight }px`);
     }
+
+    useEffect(() => {
+        props.reFooter();
+    });
 
     if(!props.option){
         return (
@@ -343,7 +347,7 @@ class ProblemSubmit extends Component {
                         setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning } langHandler={ (x) => this.setState({ lang: x }) }/>
                     </div>
                     { this.state.python3Warning && <Python3DengerMsg/> }
-                    <Editor option={ this.state.editor } lang={ this.state.lang } tooltip={ this.tooltip }/>
+                    <Editor option={ this.state.editor } lang={ this.state.lang } tooltip={ this.tooltip } reFooter={ this.props.reFooter }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer theme={ this.props.theme }/>

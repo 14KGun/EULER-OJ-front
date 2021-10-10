@@ -3,7 +3,6 @@ import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from '../../Tool/axios';
-import smoothScroll from '../../Tool/smoothScroll';
 import Top from '../../Frame/Top/Top';
 import Loading from '../../Frame/Loading/Loading';
 import RankingTable from '../RankingTable';
@@ -133,7 +132,6 @@ class EulerRanking extends Component {
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(String(nextProps.page) !== String(prevState.requestPage)){
-            smoothScroll();
             return { ...defaultState };
         }
         return prevState;
@@ -170,6 +168,9 @@ class EulerRanking extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         );
+    }
+    componentDidUpdate(){
+        this.props.reFooter();
     }
 }
 

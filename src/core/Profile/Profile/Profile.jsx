@@ -128,6 +128,9 @@ class Profile extends Component {
             </div>
         );
     }
+    componentDidUpdate(){
+        this.props.reFooter();
+    }
 }
 
 export default Profile;

@@ -3,17 +3,17 @@ const feeling = (x) => {
     else return true;
 }
 const name = (x) => {
-    if(x == '') return false;
+    if(x === '') return false;
     else if(x.length > 10) return false;
     else return true;
 }
 const school = (x) => {
-    if(x == '') return false;
+    if(x === '') return false;
     else if(x.length > 10) return false;
     return true;
 }
 const password = (x) => {
-    if(x.length == 0) { return false }
+    if(x.length === 0) { return false }
     else if(x.length<6 || x.length>20) { return false }
     else return true;
 }
