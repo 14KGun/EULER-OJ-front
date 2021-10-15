@@ -17,9 +17,9 @@ class About extends Component {
 
         this.navigator = [
             {
-                title: '통계',
+                title: 'OJ',
                 list: [
-                    { name: '간단 OJ 사용법', icon: svgInfo, href: '/about/oj/manual' },
+                    //{ name: '간단 OJ 사용법', icon: svgInfo, href: '/about/oj/manual' },
                     { name: '통계', icon: svgChart, href: '/about/oj/stat' },
                     { name: '업데이트 기록', icon: svgUpdate, href: '/about/oj/update' },
                 ]
