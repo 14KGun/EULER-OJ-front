@@ -107,7 +107,7 @@ function App() {
         <Route exact path="/setting/profile/short"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="short"/></Frame></Route>
         <Route exact path="/setting/profile/logout"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="logout"/></Frame></Route>
 
-        <Route exact path="/about"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/manual"/></Frame></Route>
+        <Route exact path="/about"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/update"/></Frame></Route>
         <Route exact path="/about/oj/manual"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/manual"/></Frame></Route>
         <Route exact path="/about/oj/stat"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/stat"/></Frame></Route>
         <Route exact path="/about/oj/update"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/update"/></Frame></Route>

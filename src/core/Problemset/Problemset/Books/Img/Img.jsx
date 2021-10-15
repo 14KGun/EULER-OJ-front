@@ -23,7 +23,22 @@ const Img02 = (props) => {
     return <ImgSkeleton img={ imgBook02 } Num="02" theme={ props.theme }/>
 }
 const Img03 = (props) => {
-    return <ImgSkeleton img={ imgBook02 } Num="03" theme={ props.theme }/>
+    const style = {
+        width: '100%', height: '100%', overflow: 'hidden', position: 'relative'
+    }
+    return (
+        <div style={ style } className={ `problemset-books-img-03-light` }>
+        </div>
+    )
+}
+const Img04 = (props) => {
+    const style = {
+        width: '100%', height: '100%', overflow: 'hidden', position: 'relative'
+    }
+    return (
+        <div style={ style } className={ `problemset-books-img-03-light` }>
+        </div>
+    )
 }
 
-export default { Img01, Img02, Img03 }
+export default { Img01, Img02, Img03, Img04 }

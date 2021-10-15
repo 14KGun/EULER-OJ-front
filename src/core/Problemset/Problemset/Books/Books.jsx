@@ -157,7 +157,7 @@ class BooksList extends Component {
                             name="코딩마법서 1권<br>STONE VERSION" subname="파이썬" to="/problemset/list/books/python_stone" progress={ this.state.prog2 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img03 theme={ this.props.theme }/> }
                             name="코딩마법서 2권<br>IRON VERSION" subname="C/C++" to="/problemset/list/books/c++_iron" progress={ this.state.prog3 }/>
-                            <Book theme={ this.props.theme } img={ <ImgBook.Img03 theme={ this.props.theme }/> }
+                            <Book theme={ this.props.theme } img={ <ImgBook.Img04 theme={ this.props.theme }/> }
                             name="기존 목록" to="/problemset/list/level" progress={ undefined }/>
                         </div>
                     </div>
