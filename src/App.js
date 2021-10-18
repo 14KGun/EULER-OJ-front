@@ -30,6 +30,7 @@ const FindmypasswordWithIdKey = () => <LoginBoxFrame background="none"><Resetpas
 const ProblemsetWithId = (props) => <Frame { ...props }><Problemset { ...props } category1={ useParams().Pnum1 } category2={ useParams().Pnum2 } page={ useParams().Pnum3 }/></Frame>
 const BookListWithId = (props) => <Frame { ...props }><ProblemsetBookList { ...props } category={ useParams().Pnum }/></Frame>
 const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
+const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
 const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
@@ -59,8 +60,6 @@ function App() {
       if(height !== appHeight) setAppHeight(height);
     }
   };
-
-  const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 
   /* Router */
   const params = {

@@ -8,6 +8,7 @@ import axios from '../../Tool/axios';
 import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
+import DonutStat from './DonutStat/DonutStat';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
@@ -181,42 +182,39 @@ const BoxStat = (props) => {
 
     const solveInt = parseInt(props.solve);
     const submitInt = parseInt(props.submit);
-    const dataPercent = isNaN(solveInt / submitInt) ? 'NaN' : (solveInt / submitInt * 100.0).toFixed(1);
 
+    let donutContainer = <div style={{ height: '10px' }}/>;
     const [isHover, setHover] = useState(false);
     const style = useSpring({
         background: isHover ? (props.theme === 'light' ? 'rgb(245,245,245)' : 'rgb(30,30,30)') : background,
         config: { duration: 100 }
     })
+    if (!isNaN(solveInt / submitInt)) {
+        const dataPercent = (solveInt / submitInt * 100.0).toFixed(1);
+        const stylePercent = {
+            position: 'absolute', width: '100%', textAlign: 'center',
+            top: '52px', left: '0px',
+            fontSize: '16px', fontWeight: 900,
+            color: 'gray'
+        }
+        donutContainer = (
+            <a href={`/problemset/stats/${ props.id }`}>
+                <div style={{ position: 'relative' }}>
+                    <animated.div id="donutchart-container" style={ style }
+                    onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                        <DonutStat percent={ dataPercent }/>
+                    </animated.div>
+                    <div style={ stylePercent }>{ dataPercent }%</div>
+                </div>
+            </a>
+        )
+    }
 
     return (
         <>
-            <Helmet>
-                <script>{`
-                    require(['https://euleroj.io/exposure/scripts/easypiechart.min.js'], () => {
-                        const donutchart = document.getElementById('donutchart');
-                        new EasyPieChart(donutchart, {
-                            barColor: 'rgb(240,100,40)', //차트가 그려질 색 
-                            trackColor: '${ props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(40,40,40)' }', // 차트가 그려지는 트랙의 기본 배경색(chart1 의 회색부분) 
-                            scaleColor: '${ background }', // 차트 테두리에 그려지는 기준선 (chart2 의 테두리 선) 
-                            lineCap: 'round', // 차트 선의 모양 chart1 butt / chart2 round / chart3 square 
-                            lineWidth: 20, // 차트 선의 두께 
-                            size: 130, // 차트크기 
-                            animate: 1000, // 그려지는 시간 
-                        });
-                    });
-                `}</script>
-            </Helmet>
             <div className="right_TOPBOX" style={{ background: background, border: border }}>
                 <div className="right_TOPBOX-TITLE" style={{ color: color }}>통계</div>
-                <a href={`/problemset/stats/${ props.id }`}>
-                    <animated.div id="donutchart-container" style={ style }
-                    onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                        <div id="donutchart" data-percent={ dataPercent }>
-                            <div id="percent">{ dataPercent }%</div>
-                        </div>
-                    </animated.div>
-                </a>
+                { donutContainer }
                 <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
                     <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>맞은 사람</div>
                     <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.solve }</div>
