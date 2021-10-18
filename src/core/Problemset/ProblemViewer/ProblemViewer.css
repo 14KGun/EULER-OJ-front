@@ -72,11 +72,6 @@ body{ background: rgb(250,251,252); }
     border-radius: 10px; overflow: hidden;
 }
 #donutchart{ width: 130px; margin: auto; }
-#percent{
-    position: absolute; width: 130px; height: 130px;
-    text-align: center; line-height: 130px;
-    font-size: 16px; font-weight: 900; color: rgb(120,120,120);
-}
 #res{ margin-top: 10px; margin-left: 10px; margin-right: 10px; }
 .right_TOPBOX-L{ position: relative; height: 20px; }
 .right_TOPBOX-L-BORDER{ border-bottom: 1px solid rgb(220,220,220); }
