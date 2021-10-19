@@ -9,6 +9,7 @@ import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
 import DonutStat from './DonutStat/DonutStat';
 import CopyBtn from './CopyBtn/CopyBtn'
+import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
@@ -325,16 +326,23 @@ class ProblemViewer extends Component {
         this.state = problemDefaultState;
         this.tooltip = new Tooltip();
 
+        this.styleExboxBorder = {
+            display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px 0px'
+        }
+        this.styleExbox = {
+            overflow: 'hidden', borderRadius: '10px'
+        }
         this.styleExboxTop = {
             position: 'relative', width: '100%', height: '40px', overflow: 'hidden',
             display: 'flex', justifyContent: 'space-between'
         }
         this.styleExboxTopText = {
             height: '40px', lineHeight: '40px', paddingLeft: '13px',
-            fontSize: '16px', fontWeight: 400
+            fontSize: '15px', fontWeight: 400
         }
         this.styleExboxTopRLay = {
-            paddingRight: '13px', height: '40px', display: 'flex', justifyContent: 'flex-end'
+            paddingRight: '6px', height: '40px',
+            display: 'flex', justifyContent: 'flex-end'
         }
     }
     static getDerivedStateFromProps(nextProps, prevState){
@@ -377,38 +385,42 @@ class ProblemViewer extends Component {
             const problems = htmlParser(this.state.problemHtml);
             const samples = [];
 
-            let styleContent = { background: 'rgb(230,230,230)' };
             if(this.props.theme === 'dark'){
-                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(80,80,80)' };
+                this.styleExbox = { ...this.styleExbox, background: 'rgb(20,20,22)', border: '1px solid rgb(10,11,12)'  }
+                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(10,11,12)' };
                 this.styleExboxTopText = { ...this.styleExboxTopText, color: 'white' };
-                styleContent.background = 'rgb(50,50,50)';
             }
             else{
-                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(200,200,200)' };
+                this.styleExbox = { ...this.styleExbox, background: 'rgb(240,240,240)', border: '1px solid rgb(220,220,220)'  }
+                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(220,220,220)' };
                 this.styleExboxTopText = { ...this.styleExboxTopText, color: 'black' };
             }
 
             for(var i=0; i<this.state.sampleInput.length; i++){
                 samples.push(
-                    <div key={ i } className="content EX-BORDER">
-                        <span className="EXBOX EXBOX-INPUT" style={ styleContent }>
+                    <div key={ i } className="content EX-BORDER" style={ this.styleExboxBorder }>
+                        <div className="EXBOX EXBOX-INPUT" style={ this.styleExbox }>
                             <div className="ND" style={ this.styleExboxTop }>
                                 <div style={ this.styleExboxTopText }>예제{ i+1 } - 입력</div>
                                 <div style={ this.styleExboxTopRLay }>
-                                    <CopyBtn text={ this.state.sampleInput[i] }/>
+                                    <CopyBtn text={ this.state.sampleInput[i] } theme={ this.props.theme }/>
+                                    <TxtscreenBtn text={ this.state.sampleInput[i] } title={ `예제${ i+1 } - 입력` } theme={ this.props.theme }/>
                                 </div>
                             </div>
-                            <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleInput[i]) }}/>
-                        </span>
-                        <span className="ND">&nbsp;</span>
-                        <span className="EXBOX EXBOX-OUTPUT" style={ styleContent }>
+                            <div className="EXBOX-CONTENT content-d"
+                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleInput[i]) }}/>
+                        </div>
+
+                        <div className="EXBOX EXBOX-OUTPUT" style={ this.styleExbox }>
                             <div className="ND" style={ this.styleExboxTop }>
                                 <div style={ this.styleExboxTopText }>예제{ i+1 } - 출력</div>
-                                <div>
+                                <div style={ this.styleExboxTopRLay }>
+                                    <TxtscreenBtn text={ this.state.sampleOutput[i] } title={ `예제${ i+1 } - 출력` } theme={ this.props.theme }/>
                                 </div>
                             </div>
-                            <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
-                        </span>
+                            <div className="EXBOX-CONTENT content-d"
+                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
+                        </div>
                     </div>
                 );
             }
@@ -460,21 +472,18 @@ class ProblemViewer extends Component {
 
         const clist = document.getElementsByClassName('EX-BORDER');
         for(var i=0; i<clist.length; i++){
-            const item = clist[i];
-            const inputElement = item.getElementsByClassName('EXBOX-INPUT')[0];
-            const outputElement = item.getElementsByClassName('EXBOX-OUTPUT')[0];
+            const inputElement = clist[i].getElementsByClassName('EXBOX-INPUT')[0];
+            const outputElement = clist[i].getElementsByClassName('EXBOX-OUTPUT')[0];
 
             inputElement.style.height = 'auto'; outputElement.style.height = 'auto';
 
             if(bodyWidth >= 1140){
                 const height = Math.max(inputElement.clientHeight, outputElement.clientHeight);
-                inputElement.style.width = '48%'; outputElement.style.width = '48%';
-                inputElement.style.height = `${height}px`; outputElement.style.height = `${height}px`;
-                outputElement.style.marginTop = '0px';
+                inputElement.style.width = 'calc(50% - 7px)'; outputElement.style.width = 'calc(50% - 7px)';
+                inputElement.style.height = `${ height }px`; outputElement.style.height = `${ height }px`;
             }
             else{
                 inputElement.style.width = '100%'; outputElement.style.width = '100%';
-                outputElement.style.marginTop = '-20px';
             }
         }
 

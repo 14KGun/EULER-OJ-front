@@ -106,12 +106,6 @@ body{ background: rgb(250,251,252); }
 }
 center > img{ max-width: 100%; }
 
-.EXBOX{
-    display: inline-block; vertical-align: top;
-    width: 48%;
-    overflow: hidden; border-radius: 12px;
-    background: rgb(230,230,230);
-}
 .EXBOX-CONTENT{
     padding-left: 13px; padding-right: 13px;
     margin-top: 10px; margin-bottom: 10px;
