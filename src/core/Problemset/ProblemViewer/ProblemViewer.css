@@ -112,25 +112,6 @@ center > img{ max-width: 100%; }
     overflow: hidden; border-radius: 12px;
     background: rgb(230,230,230);
 }
-.EXBOX-TOP{
-    position: relative;
-    width: 100%; height: 40px;
-    background: rgb(200,200,200);
-}
-.EXBOX-TOP-TXT{
-    position: absolute; top: 0px; left: 13px;
-    height: 40px; line-height: 40px;
-    font-size: 16px; font-weight: 500; color: black;
-}
-.EXBTN-TOP-COPYBTN{
-    position: absolute; top: 7px; right: 7px;
-    height: 26px; width: 40px; border-radius: 9px;
-    background: rgb(165,165,165);
-}
-.EXBTN-TOP-COPYBTN > img{
-    width: 16px; height: 16px;
-    position: absolute; top: 5px; left: 12px;
-}
 .EXBOX-CONTENT{
     padding-left: 13px; padding-right: 13px;
     margin-top: 10px; margin-bottom: 10px;
