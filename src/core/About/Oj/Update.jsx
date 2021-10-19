@@ -38,6 +38,9 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2021.10.20">
+                <UpdateTxt theme={ props.theme }>문제 페이지의 버그가 고쳐졌습니다. 문제 페이지에서 입출력 예제를 넓게 볼 수 있습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2021.10.15">
                 <UpdateTxt theme={ props.theme }>문제/코딩마법서 페이지가 수정되었습니다. 각 코딩마법서 별 진도 현황을 확인할 수 있습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>페이지가 추가되었습니다. 페이지에서 '통계', '업데이트 기록', '개인정보 처리방침'을 확인할 수 있습니다.</UpdateTxt>
