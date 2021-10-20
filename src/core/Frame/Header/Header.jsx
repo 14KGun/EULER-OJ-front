@@ -3,7 +3,10 @@ import { Link, withRouter } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
+import BtnAlarm from './Alarm/BtnAlarm';
+import AlarmPopup from './Alarm/AlarmPopup';
 import HeaderPopup from './HeaderPopup/HeaderPopup';
+
 import svgEulerLogo from '../svg_eulerlogo.svg';
 import svgThemeDark from './svg_theme_dark.svg';
 import svgThemeLight from './svg_theme_light4.svg';
@@ -108,8 +111,7 @@ const BtnTheme = (props) => {
     if(props.theme === 'dark') img = <img src={ svgThemeDark } alt="theme" className="header_theme_img2"/>;
 
     return (
-        <animated.button id="header_theme" className="BTNC"
-        onClick={ () => onClick() } style={{ ...background }}
+        <animated.button id="header_theme" className="BTNC" onClick={ () => onClick() } style={{ ...background }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             { img }
         </animated.button>
@@ -164,10 +166,20 @@ const HeaderMaker = (props) => {
         loginInfo={ props.loginInfo }/>;
     }
 
+    /* Alarm */
+    let btnAlarmLay = '';
+    if(props.loginInfo && props.loginInfo.id !== ''){
+        btnAlarmLay = (
+            <BtnAlarm background={ [hoverBgd, hoverBgdNone] } color={ isScrolled ? props.txtColorWithBgd : props.txtColor }
+            theme={ props.theme }/>
+        )
+    }
+
     return (
         <>
             <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
             leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
+            <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup }/>
 
             <animated.div id="header" className="ND" style={ headerStyle }>
                 <BtnLogo background={ [hoverBgd, hoverBgdNone] } onClick={ () => onClickLeft() }/>
@@ -176,6 +188,7 @@ const HeaderMaker = (props) => {
                 }) }
                 { rightLay }
                 <BtnTheme background={ [hoverBgd, hoverBgdNone] } setTheme={ props.setTheme } theme={ props.getTheme }/>
+                { btnAlarmLay }
             </animated.div>
         </>
     );
