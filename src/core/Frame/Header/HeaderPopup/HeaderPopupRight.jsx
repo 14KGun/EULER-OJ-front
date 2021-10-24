@@ -7,7 +7,7 @@ import svgLogout from './svg_logout.svg';
 
 const HeaderRight = (props) => {
     const style = {
-        position: 'fixed', top: '80px', right: '10px', width: '300px', zIndex: 89,
+        position: 'fixed', top: '80px', right: '10px', width: '300px', zIndex: 91,
         borderRadius: '10px', overflow: 'hidden',
         background: 'white'
     };

@@ -18,16 +18,17 @@ const YoutubeItem = (props) => {
         width: `160px`, height: `190px`,
         boxShadow: isHover ? '0 0 5px 5px rgba(0,0,0,0.1)' : '0 0 5px 5px rgba(0,0,0,0)',
         border: isHover ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(0,0,0,0)',
-        transform: `scale(${ isHover ? 1.03 : 1.0 })`
+        transform: `scale(${ isHover ? 1.03 : 1.0 })`,
+        config: { duration: 150 }
     });
-    const imgStyle = useSpring({
+    const imgStyle = {
         width: '100%', height: '90px', objectFit: 'cover'
-    });
-    const titleStyle = useSpring({
+    };
+    const titleStyle = {
         position: 'absolute', overflow: 'hidden', textOverflow: 'ellipsis', 
         top: '100px', bottom: '30px', left: '15px', right: '15px',
         fontSize: '14px', fontWeight: '400', color: (props.theme === 'light' ? 'black' : 'white'),
-    });
+    };
     const timeStyle = {
         position: 'absolute', bottom: '10px', right: '15px',
         textAlign: 'right', textAlignLast: 'right',
@@ -38,8 +39,8 @@ const YoutubeItem = (props) => {
         <a href={ `https://youtu.be/${ props.id }` } target="_blank" rel="noreferrer">
             <animated.div style={ itemStyle }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                <animated.img style={ imgStyle } src={ props.imgSrc }/>
-                <animated.div style={ titleStyle }>{ props.title }</animated.div>
+                <img style={ imgStyle } src={ props.imgSrc }/>
+                <div style={ titleStyle }>{ props.title }</div>
                 <div style={ timeStyle }>{ props.time }</div>
             </animated.div>
         </a>

@@ -8,7 +8,7 @@ const ProblemItem = (props) => {
     const [isHover, setHover] = useState(false);
 
     const itemStyle = useSpring({
-        height: '40px', position: 'relative',
+        height: '40px', position: 'relative', overflow: 'hidden',
         borderBottom: `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(60,60,60)' }`,
         background: isHover ? 'rgba(150,150,150,0.15)' : 'rgba(150,150,150,0)'
     });

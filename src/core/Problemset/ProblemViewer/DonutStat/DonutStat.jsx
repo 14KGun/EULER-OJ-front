@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet"
 class DonutStat extends Component {
     constructor(props){
         super(props);
-        console.log(props.percent)
     }
     shouldComponentUpdate(nextProps, nextState){
         return false;
