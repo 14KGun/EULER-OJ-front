@@ -26,7 +26,7 @@ const BtnAlarm = (props) => {
     });
 
     return (
-        <animated.div style={ style } className="BTNC"
+        <animated.div style={ style } className="BTNC" onClick={ () => props.onClick() }
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <ImgAlarm color={ props.color }/>
         </animated.div>

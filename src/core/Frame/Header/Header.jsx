@@ -168,10 +168,10 @@ const HeaderMaker = (props) => {
 
     /* Alarm */
     let btnAlarmLay = '';
-    if(props.loginInfo && props.loginInfo.id !== ''){
+    if(props.alarmList.length > 0/*props.loginInfo && props.loginInfo.id !== ''*/){
         btnAlarmLay = (
-            <BtnAlarm background={ [hoverBgd, hoverBgdNone] } color={ isScrolled ? props.txtColorWithBgd : props.txtColor }
-            theme={ props.theme }/>
+            <BtnAlarm background={ [hoverBgd, hoverBgdNone] } theme={ props.theme } color={ isScrolled ? props.txtColorWithBgd : props.txtColor }
+            onClick={ () => props.setAlarmVisible(!props.alarmVisible) }/>
         )
     }
 
@@ -179,7 +179,7 @@ const HeaderMaker = (props) => {
         <>
             <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
             leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
-            <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup }/>
+            { /* <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup } list={ props.alarmList } setList={ props.setAlarmList } visible={ props.alarmVisible }/> */ }
 
             <animated.div id="header" className="ND" style={ headerStyle }>
                 <BtnLogo background={ [hoverBgd, hoverBgdNone] } onClick={ () => onClickLeft() }/>
@@ -188,7 +188,7 @@ const HeaderMaker = (props) => {
                 }) }
                 { rightLay }
                 <BtnTheme background={ [hoverBgd, hoverBgdNone] } setTheme={ props.setTheme } theme={ props.getTheme }/>
-                { btnAlarmLay }
+                { /*btnAlarmLay*/ }
             </animated.div>
         </>
     );
@@ -239,7 +239,9 @@ class Header extends Component {
         return (
             <HeaderMaker theme={ theme } txtColor={ txtColor } txtColorWithBgd={ txtColorWithBgd }
             urlList={ urlList } loginInfo={ this.state.loginInfo }
-            setTheme={ this.props.setTheme } getTheme={ this.props.theme }/>
+            setTheme={ this.props.setTheme } getTheme={ this.props.theme }
+            alarmList={ this.props.alarmList } setAlarmList={ this.props.setAlarmList }
+            alarmVisible={ this.props.alarmVisible } setAlarmVisible={ this.props.setAlarmVisible }/>
         )
     }
 }

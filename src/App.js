@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import RouterScroll from './ReactScrollAuto';
+import Socket from './Socket';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
@@ -61,11 +62,17 @@ function App() {
     }
   };
 
+  /* Alarm */
+  const [alarmList, setAlarmList] = useState([]);
+  const [alarmVisible, setAlarmVisible] = useState(false);
+
   /* Router */
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
-    reFooter: () => reFooter()
+    reFooter: () => reFooter(),
+    alarmList: alarmList, setAlarmList: setAlarmList,
+    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
   };
   return (
     <Router>
@@ -139,6 +146,7 @@ function App() {
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
       <RouterScroll { ...params } height={ appHeight }/>
+      <Socket { ...params }/>
     </Router>
   );
 }
