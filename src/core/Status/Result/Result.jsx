@@ -2,6 +2,8 @@ import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
+import TaskTable from './ResultTaskTable';
+import Editor from './ResultEditor';
 import Footer from '../../Frame/Footer/Footer';
 
 import imgSubmit from './img_submit.png';
@@ -23,10 +25,10 @@ const Title = (props) => {
 }
 
 const Lay1 = (props) => {
-    const style = {
-        position: 'relative', borderRadius: '15px',
+    const style = useSpring({
+        position: 'relative', borderRadius: '15px', overflow: 'hidden',
         background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'
-    }
+    })
     const styleTxt1 = {
         display: 'inline-block', width: '100px',
         color: 'gray', fontSize: '15px', fontWeight: 400
@@ -122,34 +124,6 @@ const Lay1 = (props) => {
     )
 }
 
-const TaskTableItem = (props) => {
-    const style = {
-        height: '60px', position: 'relative',
-        borderBottom: '1px solid rgba(100,100,100,0.3)'
-    }
-
-    return (
-        <animated.div style={ style }>
-        </animated.div>
-    )
-}
-const TaskTable = (props) => {
-    const styleTop = {
-        height: '60px', borderTop: '2px solid rgb(0,150,200)',
-        borderBottom: '2px solid rgb(0, 150, 200)', position: 'relative'
-    }
-    return (
-        <>
-            <div style={ styleTop }>
-
-            </div>
-            <TaskTableItem/>
-            <TaskTableItem/>
-            <TaskTableItem/>
-        </>
-    )
-}
-
 class Result extends Component {
     render() {
         return (
@@ -166,6 +140,7 @@ class Result extends Component {
                     
                     <div style={{ height: '90px' }}/>
                     <Title theme={ this.props.theme } img={ imgSubmit } title={ '소스 코드' }/>
+                    <Editor theme={ this.props.theme }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer theme={ this.props.theme }/>
