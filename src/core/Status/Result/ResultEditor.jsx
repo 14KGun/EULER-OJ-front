@@ -3,7 +3,38 @@ import { useSpring, animated } from 'react-spring';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 
 import svgUnvisibility from './svg_unvisibility.svg';
+import svgDownload from './svg_download.svg';
+import svgEditor from './svg_editor.svg';
+// import svgSend from './svg_send.svg';
 
+const Btn = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = {
+        float: 'right', height: '30px',
+        paddingLeft: '5px', paddingRight: '5px', marginLeft: '6px',
+        borderRadius: '7px'
+    };
+    const styleImg = {
+        width: '25px', height: '25px',
+        verticalAlign: 'middle'
+    }
+    const styleText = {
+        color: 'white', fontSize: '14px', fontWeight: 300,
+        verticalAlign: 'middle', marginLeft: '5px'
+    }
+    const background = useSpring({
+        background: `rgba(200,200,200,${ isHover ? 0.4 : 0.2 })`,
+        config: { duration: 100 }
+    })
+
+    return (
+        <animated.div style={{ ...style, ...background }} className="BTNC"
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            <img style={ styleImg } src={ props.img } alt=""/>
+            <span style={ styleText }>{ props.text }</span>
+        </animated.div>
+    )
+}
 const Editor = (props) => {
     const [height, setHeight] = useState('500px');
 
@@ -26,8 +57,14 @@ const Editor = (props) => {
     return (
         <div style={ style }>
             <div style={ styleTxt }>소스 코드</div>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', height: '30px', width: '300px' }}>
+                <Btn img={ svgDownload } text="다운로드"/>
+                <Btn img={ svgEditor } text="에디터로 가져가기"/>
+            </div>
             <div style={{ width: '100%', height: height }}>
-                <CodeEditor initCode="" height="100%" onChange={ (x) => onChange(x) }/>
+                <CodeEditor theme={ props.option.theme } letterSpacing={ props.option.letterSpacing } fontSize={ props.option.size }
+                tabSize={ props.option.tab } font={ props.option.font } lang={ props.lang }
+                initCode={ props.source.split('\r\n').join('\n') } height="100%" onChange={ (x) => onChange(x) }/>
             </div>
         </div>
     )
@@ -47,7 +84,9 @@ const None = (props) => {
 }
 
 const Wrap = (props) => {
-    return <Editor theme={ props.theme }/>
+    if(!props.source) return <None theme={ props.theme }/>
+    if(props.source === '') return <None theme={ props.theme }/>
+    return <Editor theme={ props.theme } lang={ props.lang } option={ props.option } source={ props.source }/>
 }
 
 export default Wrap;

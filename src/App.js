@@ -24,6 +24,7 @@ import Setting from './core/Setting/Setting';
 import About from './core/About/About';
 import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
+import socketio from 'socket.io-client';
 import cookie from './core/Tool/cookie';
 import './Font.css';
 import './App.css';
@@ -68,13 +69,22 @@ function App() {
   const [alarmList, setAlarmList] = useState([]);
   const [alarmVisible, setAlarmVisible] = useState(false);
 
+  /* Socket */
+  const [socket, setSocket] = useState(undefined);
+
+  useEffect(() => {
+    const _socket = socketio.connect('https://euleroj.io');
+    setSocket(_socket);
+  }, [])
+
   /* Router */
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
     reFooter: () => reFooter(),
     alarmList: alarmList, setAlarmList: setAlarmList,
-    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
+    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible,
+    socket: socket
   };
   return (
     <Router>
@@ -150,7 +160,7 @@ function App() {
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
       <RouterScroll { ...params } height={ appHeight }/>
-      <Socket { ...params }/>
+      { /* <Socket { ...params }/> */ }
     </Router>
   );
 }
