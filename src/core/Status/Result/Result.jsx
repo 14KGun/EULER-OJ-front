@@ -154,13 +154,20 @@ class Result extends Component {
                         task: data.task, source: data.source, editor: data.editor
                     }, () => {
                         this.load = false;
-                        console.log(this.props.socket);
                         if(this.props.socket){
                             this.props.socket.emit('joinRoom', `status_res_${ this.props.id }`);
                             this.props.socket.emit('status_res_reload', this.props.id);
                             this.props.socket.off('update_status_restask');
                             this.props.socket.on('update_status_restask', (msg) => {
-                                console.log(msg);
+                                if(this.state.id !== msg.id) return;
+                                if(this.state.status.indexOf('wait') !== -1){
+                                    if(msg.res.indexOf('wait') !== -1){
+                                        const prev = Number(this.state.status.substr(5));
+                                        const next = Number(msg.res.substr(5));
+                                        if(prev >= next) return;
+                                    }
+                                    this.setState({ status: msg.res, task: msg.task });
+                                }
                             });
                         }
                         this.props.reFooter();
