@@ -73,7 +73,7 @@ function App() {
   const [socket, setSocket] = useState(undefined);
 
   useEffect(() => {
-    const _socket = socketio.connect('https://euleroj.io');
+    const _socket = socketio('https://euleroj.io');
     setSocket(_socket);
   }, [])
 

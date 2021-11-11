@@ -107,8 +107,8 @@ const Lay1 = (props) => {
                     </div>
                     <div style={{ paddingTop: '10px', paddingLeft: '10px', position: 'relative', marginTop: '10px' }}>
                         <span style={ styleTxt1 }>결과</span>
-                        <div style={{ position: 'absolute', top: '10px', left: '100px', width: '230px' }}>
-                            <Res res={ props.res }/>
+                        <div style={{ position: 'absolute', top: '10px', left: '110px', width: '230px' }}>
+                            <Res res={ props.res } theme={ props.theme }/>
                         </div>
                     </div>
                 </div>
@@ -154,9 +154,12 @@ class Result extends Component {
                         task: data.task, source: data.source, editor: data.editor
                     }, () => {
                         this.load = false;
+                        console.log(this.props.socket);
                         if(this.props.socket){
                             this.props.socket.emit('joinRoom', `status_res_${ this.props.id }`);
-                            this.props.socket.on('update_res', (msg) => {
+                            this.props.socket.emit('status_res_reload', this.props.id);
+                            this.props.socket.off('update_status_restask');
+                            this.props.socket.on('update_status_restask', (msg) => {
                                 console.log(msg);
                             });
                         }
@@ -218,6 +221,9 @@ class Result extends Component {
                 </>
             );
         }
+    }
+    componentWillUnmount(){
+        this.props.socket.off('update_status_restask');
     }
 }
 
