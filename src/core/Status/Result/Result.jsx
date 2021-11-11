@@ -4,6 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
 import TaskTable from './ResultTaskTable';
 import Editor from './ResultEditor';
+import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer/Footer';
 import Loading from '../../Frame/Loading/Loading';
 import axios from '../../Tool/axios';
@@ -59,7 +60,13 @@ const Lay1 = (props) => {
     const background2 = useSpring({
         background: `rgba(120,120,120,${ isHover2 ? 0.1 : 0 })`,
         config: { duration: 100 }
-    })
+    });
+
+    // get byte from source
+    const strByteLength = (s,b,i,c) => {
+        for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+        return b
+    }
 
     return (
         <>
@@ -97,9 +104,11 @@ const Lay1 = (props) => {
                         <span style={ styleTxt1 }>제출 언어</span>
                         <span style={ styleTxt2 }>{ props.compile }</span>
                     </div>
-                    <div style={{ paddingTop: '10px', paddingLeft: '10px' }}>
+                    <div style={{ paddingTop: '10px', paddingLeft: '10px', position: 'relative', marginTop: '10px' }}>
                         <span style={ styleTxt1 }>결과</span>
-                        <span style={ styleTxt2 }>{ props.res }</span>
+                        <div style={{ position: 'absolute', top: '10px', left: '100px', width: '230px' }}>
+                            <Res res={ props.res }/>
+                        </div>
                     </div>
                 </div>
             </animated.div>
@@ -119,7 +128,7 @@ const Lay1 = (props) => {
                 <div style={{ position: 'absolute', top: '10px', right: '10px', width: 'calc(33.3% - 13px)', height: 'calc(100% - 20px)' }}>
                     <div style={{ padding: '10px' }}>
                         <span style={ styleTxt1 }>소스코드 크기</span>
-                        <span style={ styleTxt2 }>10123 자</span>
+                        <span style={ styleTxt2 }>{ strByteLength(props.source) } Bytes</span>
                     </div>
                 </div>
             </animated.div>
@@ -184,7 +193,8 @@ class Result extends Component {
                         <div style={{ height: '100px' }}/>
                         <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
                         <Lay1 theme={ this.props.theme } id={ this.state.id } problem={ this.state.problem } lid={ this.state.lid }
-                        date={ this.state.date } compile={ this.state.compile } res={ this.state.status } task={ this.state.task }/>
+                        date={ this.state.date } compile={ this.state.compile } res={ this.state.status }
+                        task={ this.state.task } source={ this.state.source }/>
                         
                         <div style={{ height: '70px' }}/>
                         <Title theme={ this.props.theme } img={ imgSubmit } title={ 'Task' }/>
@@ -192,7 +202,8 @@ class Result extends Component {
                         
                         <div style={{ height: '90px' }}/>
                         <Title theme={ this.props.theme } img={ imgSubmit } title={ '소스 코드' }/>
-                        <Editor theme={ this.props.theme } lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
+                        <Editor theme={ this.props.theme } reFooter={ this.props.reFooter }
+                        lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
                     </div>
                     <div className="BTM_EMPTY"/>
                     <Footer theme={ this.props.theme }/>

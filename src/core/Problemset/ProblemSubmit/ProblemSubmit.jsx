@@ -2,6 +2,7 @@ import { Component, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 import Popup from './ProblemSubmitPopup';
 import TopMessage from '../ProblemViewer/TopMessage';
@@ -218,7 +219,7 @@ const Lay2 = (props) => {
 
 const Editor = (props) => {
     const [isHover, setHover] = useState(false);
-    const [height, setHeight] = useState('500px');
+    const [height, setHeight] = useStateWithCallbackLazy('500px');
     const [tooltipId, settooltipId] = useState('undefined');
     const background = useSpring({
         background: isHover ? 'rgba(100,100,100,1)' : 'rgba(100,100,100,0)',
@@ -251,9 +252,17 @@ const Editor = (props) => {
     }
 
     const onChange = (code) => {
+        let lineHeight = 22;
+        const lines = document.getElementsByClassName('view-line');
+        if(lines.length > 0){
+            lineHeight = lines[0].clientHeight;
+        }
+
         const codeHeight = code.split('\n').length;
-        const newHeight = Math.max(500, codeHeight*22+200);
-        if(`${ newHeight }px` !== height) setHeight(`${ newHeight }px`);
+        const newHeight = Math.max(500, codeHeight*lineHeight+200);
+        if(`${ newHeight }px` !== height){
+            setHeight(`${ newHeight }px`, () => props.reFooter());
+        }
     }
 
     useEffect(() => {

@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
+import { Link } from 'react-router-dom';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 
 import svgUnvisibility from './svg_unvisibility.svg';
 import svgDownload from './svg_download.svg';
 import svgEditor from './svg_editor.svg';
+import svgSetting from './svg_setting.svg';
 // import svgSend from './svg_send.svg';
 
 const Btn = (props) => {
@@ -15,7 +18,7 @@ const Btn = (props) => {
         borderRadius: '7px'
     };
     const styleImg = {
-        width: '25px', height: '25px',
+        width: '20px', height: '20px',
         verticalAlign: 'middle'
     }
     const styleText = {
@@ -36,7 +39,7 @@ const Btn = (props) => {
     )
 }
 const Editor = (props) => {
-    const [height, setHeight] = useState('500px');
+    const [height, setHeight] = useStateWithCallbackLazy('500px');
 
     const style = {
         marginTop: '10px', position: 'relative',
@@ -49,22 +52,31 @@ const Editor = (props) => {
     }
 
     const onChange = (code) => {
+        let lineHeight = 22;
+        const lines = document.getElementsByClassName('view-line');
+        if(lines.length > 0){
+            lineHeight = lines[0].clientHeight;
+        }
+
         const codeHeight = code.split('\n').length;
-        const newHeight = Math.max(500, codeHeight*22+200);
-        if(`${ newHeight }px` !== height) setHeight(`${ newHeight }px`);
+        const newHeight = Math.max(500, codeHeight*lineHeight+200);
+        if(`${ newHeight }px` !== height) {
+            setHeight(`${ newHeight }px`, () => props.reFooter());
+        }
     }
 
     return (
         <div style={ style }>
             <div style={ styleTxt }>소스 코드</div>
-            <div style={{ position: 'absolute', top: '10px', right: '10px', height: '30px', width: '300px' }}>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', height: '30px', width: '400px' }}>
                 <Btn img={ svgDownload } text="다운로드"/>
                 <Btn img={ svgEditor } text="에디터로 가져가기"/>
+                <Link to="/setting/profile/editor"><Btn img={ svgSetting } text="에디터 설정"/></Link>
             </div>
             <div style={{ width: '100%', height: height }}>
                 <CodeEditor theme={ props.option.theme } letterSpacing={ props.option.letterSpacing } fontSize={ props.option.size }
                 tabSize={ props.option.tab } font={ props.option.font } lang={ props.lang }
-                initCode={ props.source.split('\r\n').join('\n') } height="100%" onChange={ (x) => onChange(x) }/>
+                initCode={ props.source } height="100%" onChange={ (x) => onChange(x) }/>
             </div>
         </div>
     )
@@ -86,7 +98,7 @@ const None = (props) => {
 const Wrap = (props) => {
     if(!props.source) return <None theme={ props.theme }/>
     if(props.source === '') return <None theme={ props.theme }/>
-    return <Editor theme={ props.theme } lang={ props.lang } option={ props.option } source={ props.source }/>
+    return <Editor theme={ props.theme } reFooter={ props.reFooter } lang={ props.lang } option={ props.option } source={ props.source }/>
 }
 
 export default Wrap;
