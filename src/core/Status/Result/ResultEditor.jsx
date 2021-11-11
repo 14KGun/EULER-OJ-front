@@ -10,6 +10,17 @@ import svgEditor from './svg_editor.svg';
 import svgSetting from './svg_setting.svg';
 // import svgSend from './svg_send.svg';
 
+const fileSrc = (id, lang) => {
+    let exts = 'cpp';
+    if(lang.indexOf('Python2')!=-1) exts = 'py';
+    else if(lang.indexOf('Python')!=-1 || lang.indexOf('PyPy')!=-1) exts = 'py';
+    else if(lang.indexOf('Java')!=-1) exts = 'java';
+    else if(lang.indexOf('C++')!=-1) exts = 'cpp';
+    else if(lang.indexOf('C')!=-1) exts = 'c';
+    else if(lang.indexOf('R')!=-1) exts = 'r';
+
+    return `https://euleroj.io/json/status/downloadSource/${ id }/euleroj_${ id }.${ exts }`;
+}
 const Btn = (props) => {
     const [isHover, setHover] = useState(false);
     const style = {
@@ -69,9 +80,15 @@ const Editor = (props) => {
         <div style={ style }>
             <div style={ styleTxt }>소스 코드</div>
             <div style={{ position: 'absolute', top: '10px', right: '10px', height: '30px', width: '400px' }}>
-                <Btn img={ svgDownload } text="다운로드"/>
-                <Btn img={ svgEditor } text="에디터로 가져가기"/>
-                <Link to="/setting/profile/editor"><Btn img={ svgSetting } text="에디터 설정"/></Link>
+                <a href={ fileSrc(props.id, props.lang) } target="_blank" download>
+                    <Btn img={ svgDownload } text="다운로드"/>
+                </a >
+                <a href={ `/problemset/editor/${ props.problem.id }/${ props.id }` }>
+                    <Btn img={ svgEditor } text="에디터로 가져가기"/>
+                </a>
+                <Link to="/setting/profile/editor">
+                    <Btn img={ svgSetting } text="에디터 설정"/>
+                </Link>
             </div>
             <div style={{ width: '100%', height: height }}>
                 <CodeEditor theme={ props.option.theme } letterSpacing={ props.option.letterSpacing } fontSize={ props.option.size }
@@ -98,7 +115,8 @@ const None = (props) => {
 const Wrap = (props) => {
     if(!props.source) return <None theme={ props.theme }/>
     if(props.source === '') return <None theme={ props.theme }/>
-    return <Editor theme={ props.theme } reFooter={ props.reFooter } lang={ props.lang } option={ props.option } source={ props.source }/>
+    return <Editor theme={ props.theme } reFooter={ props.reFooter } id={ props.id } problem={ props.problem }
+    lang={ props.lang } option={ props.option } source={ props.source }/>
 }
 
 export default Wrap;

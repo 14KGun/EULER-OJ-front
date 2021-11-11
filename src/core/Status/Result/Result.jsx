@@ -9,6 +9,7 @@ import Footer from '../../Frame/Footer/Footer';
 import Loading from '../../Frame/Loading/Loading';
 import axios from '../../Tool/axios';
 import trans from '../../Tool/trans';
+import resultSummary from './resultSummary';
 
 import imgSubmit from './img_submit.png';
 
@@ -116,13 +117,13 @@ const Lay1 = (props) => {
                 <div style={{ position: 'absolute', top: '10px', left: '10px', width: 'calc(33.3% - 13px)', height: 'calc(100% - 20px)' }}>
                     <div style={{ padding: '10px' }}>
                         <span style={ styleTxt1 }>실행 시간</span>
-                        <span style={ styleTxt2 }>0.01 초</span>
+                        <span style={ styleTxt2 }>{ resultSummary(props.res, props.task)[0] }</span>
                     </div>
                 </div>
                 <div style={{ position: 'absolute', top: '10px', left: 'calc(33.3% + 20px)', width: 'calc(33.3% - 13px)', height: 'calc(100% - 20px)' }}>
                     <div style={{ padding: '10px' }}>
                         <span style={ styleTxt1 }>메모리 사용량</span>
-                        <span style={ styleTxt2 }>0.01 초</span>
+                        <span style={ styleTxt2 }>{ resultSummary(props.res, props.task)[1] }</span>
                     </div>
                 </div>
                 <div style={{ position: 'absolute', top: '10px', right: '10px', width: 'calc(33.3% - 13px)', height: 'calc(100% - 20px)' }}>
@@ -153,6 +154,13 @@ class Result extends Component {
                         task: data.task, source: data.source, editor: data.editor
                     }, () => {
                         this.load = false;
+                        if(this.props.socket){
+                            this.props.socket.emit('joinRoom', `status_res_${ this.props.id }`);
+                            this.props.socket.on('update_res', (msg) => {
+                                console.log(msg);
+                            });
+                        }
+                        this.props.reFooter();
                     });
                 });
             }
@@ -202,7 +210,7 @@ class Result extends Component {
                         
                         <div style={{ height: '90px' }}/>
                         <Title theme={ this.props.theme } img={ imgSubmit } title={ '소스 코드' }/>
-                        <Editor theme={ this.props.theme } reFooter={ this.props.reFooter }
+                        <Editor theme={ this.props.theme } reFooter={ this.props.reFooter } id={ this.state.id } problem={ this.state.problem }
                         lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
                     </div>
                     <div className="BTM_EMPTY"/>
