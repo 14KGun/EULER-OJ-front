@@ -14,6 +14,7 @@ import ProblemsetBookList from './core/Problemset/Problemset/Books/BookList/Book
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
+import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
 import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import Compare from './core/Ranking/Compare/Compare';
@@ -23,6 +24,7 @@ import Setting from './core/Setting/Setting';
 import About from './core/About/About';
 import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
+import socketio from 'socket.io-client';
 import cookie from './core/Tool/cookie';
 import './Font.css';
 import './App.css';
@@ -33,6 +35,7 @@ const BookListWithId = (props) => <Frame { ...props }><ProblemsetBookList { ...p
 const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
 const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
+const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
 const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
 const EulerRankingWithIdPage = (props) => <Frame { ...props }><EulerRanking { ...props } page={ useParams().Pnum }/></Frame>
@@ -66,13 +69,22 @@ function App() {
   const [alarmList, setAlarmList] = useState([]);
   const [alarmVisible, setAlarmVisible] = useState(false);
 
+  /* Socket */
+  const [socket, setSocket] = useState(undefined);
+
+  useEffect(() => {
+    const _socket = socketio('https://euleroj.io');
+    setSocket(_socket);
+  }, [])
+
   /* Router */
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
     reFooter: () => reFooter(),
     alarmList: alarmList, setAlarmList: setAlarmList,
-    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
+    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible,
+    socket: socket
   };
   return (
     <Router>
@@ -91,6 +103,8 @@ function App() {
         <Route exact path="/problemset/problem/:Pnum"><ProblemWithId { ...params }/></Route>
         <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
+
+        <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
 
         <Route exact path="/tags"><Frame { ...params }><Tag { ...params } id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum"><TagWithId { ...params }/></Route>
@@ -127,6 +141,8 @@ function App() {
         <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
         <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>
 
+        <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
+        <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
@@ -146,7 +162,7 @@ function App() {
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
       <RouterScroll { ...params } height={ appHeight }/>
-      <Socket { ...params }/>
+      { /* <Socket { ...params }/> */ }
     </Router>
   );
 }
