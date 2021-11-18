@@ -12,12 +12,12 @@ import svgSetting from './svg_setting.svg';
 
 const fileSrc = (id, lang) => {
     let exts = 'cpp';
-    if(lang.indexOf('Python2')!=-1) exts = 'py';
-    else if(lang.indexOf('Python')!=-1 || lang.indexOf('PyPy')!=-1) exts = 'py';
-    else if(lang.indexOf('Java')!=-1) exts = 'java';
-    else if(lang.indexOf('C++')!=-1) exts = 'cpp';
-    else if(lang.indexOf('C')!=-1) exts = 'c';
-    else if(lang.indexOf('R')!=-1) exts = 'r';
+    if(lang.indexOf('Python2') !== -1) exts = 'py';
+    else if(lang.indexOf('Python') !== -1 || lang.indexOf('PyPy') !== -1) exts = 'py';
+    else if(lang.indexOf('Java') !== -1) exts = 'java';
+    else if(lang.indexOf('C++') !== -1) exts = 'cpp';
+    else if(lang.indexOf('C') !== -1) exts = 'c';
+    else if(lang.indexOf('R') !== -1) exts = 'r';
 
     return `https://euleroj.io/json/status/downloadSource/${ id }/euleroj_${ id }.${ exts }`;
 }
