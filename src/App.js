@@ -14,6 +14,7 @@ import ProblemsetBookList from './core/Problemset/Problemset/Books/BookList/Book
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
+import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
 import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
@@ -35,6 +36,7 @@ const BookListWithId = (props) => <Frame { ...props }><ProblemsetBookList { ...p
 const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
 const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
+const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props }/></Frame>
 const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
 const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
@@ -105,6 +107,7 @@ function App() {
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
 
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
+        { /*<Route exact path="/status"><StatusWithIdPage { ...params }/></Route> */ }
 
         <Route exact path="/tags"><Frame { ...params }><Tag { ...params } id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum"><TagWithId { ...params }/></Route>
@@ -147,7 +150,6 @@ function App() {
         <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
         <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
-        <Route path="/board" component={ () => { window.location.href = 'https://euleroj.io/board'; return null; } }/>
         <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
         <Route path="/login/auth/naver" component={ () => { window.location.href = 'https://euleroj.io/login/auth/naver'; return null; } }/>
