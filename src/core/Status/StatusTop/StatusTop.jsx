@@ -61,8 +61,32 @@ const TopBackground = () => {
         </div>
     )
 }
+const TopBtn = (props) => {
+    const [isHover, setHover] = useState(false);
+    const background = useSpring({
+        background: isHover ? 'rgba(150,150,150,0.15)' : 'rgba(150,150,150,0)',
+        config: { duration: 150 }
+    });
+    const opacity = useSpring({
+        opacity : props.selected ? 1 : 0,
+        config: { duration: 150 }
+    });
+    return (
+        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }
+        style={{ height: '50px', float: 'left', ...background }}>
+            <div style={{ height: '46px', lineHeight: '46px', paddingLeft: '14px', paddingRight: '14px',
+            fontSize: '17px', fontWeight: 300, color: 'rgb(250,250,250)' }}>{ props.name }</div>
+            <animated.div style={{ width: '100%', height: '4px', background: 'rgb(0,150,200)', ...opacity }}/>
+        </animated.div>
+    )
+}
 const TopFixedLay = (props) => {
-    return <div></div>
+    return (
+        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <TopBtn name="모든 채점 기록" selected/>
+            <TopBtn name="내 채점 기록"/>
+        </div>
+    )
 }
 const StatusTop = (props) => {
     return (
