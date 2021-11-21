@@ -41,15 +41,15 @@ const TopBackground = () => {
         left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.7+(1-y)*1000) }px`)
     }
     const styleItem2 = {
-        position: 'absolute', top: '-180px', left: '0px', width: '1300px',
+        position: 'absolute', top: '-180px', width: '1300px',
         left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.5+(1-y)*800) }px`)
     }
     const styleItem3 = {
-        position: 'absolute', top: `-330px`, left: '0px', width: '1600px',
+        position: 'absolute', top: `-330px`, width: '1600px',
         left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.3+(1-y)*600) }px`)
     }
     const styleItem4 = {
-        position: 'absolute', top: '-600px', left: '0px', width: '2000px',
+        position: 'absolute', top: '-600px', width: '2000px',
         left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.1+(1-y)*400) }px`)
     }
     return (

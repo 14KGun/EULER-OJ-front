@@ -5,6 +5,7 @@ import Empty from './Empty/Empty';
 import ProblemList from './Problem/List';
 import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
+import BloggingPull from './Blogging/Pull';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
@@ -32,11 +33,12 @@ class Admin extends Component {
                 ]
             });
         }
-        if(level >= 10){
+        if(level >= 5){
             navigator.push({
-                title: '태그',
+                title: '블로깅',
                 list: [
-                    { name: '태그 추가 및 수정', icon: svgTree, href: '/nadmin/tag/tree' },
+                    { name: '요청된 블로깅 링크', icon: svgAdd, href: '/nadmin/blogging/pull' },
+                    { name: '블로깅 링크 관리', icon: svgList, href: '/nadmin/blogging/list' },
                 ]
             });
         }
@@ -46,6 +48,14 @@ class Admin extends Component {
                 list: [
                     { name: '새로운 대회 만들기', icon: svgAdd, href: '/nadmin/contest/make' },
                     { name: '내 대회 관리', icon: svgList, href: '/nadmin/contest/list' },
+                ]
+            });
+        }
+        if(level >= 10){
+            navigator.push({
+                title: '태그',
+                list: [
+                    { name: '태그 추가 및 수정', icon: svgTree, href: '/nadmin/tag/tree' },
                 ]
             });
         }
@@ -77,6 +87,9 @@ class Admin extends Component {
         }
         else if(this.props.page === 'tag/tree' && adminLevel >= 10){
             container = <TagTree theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'blogging/pull' && adminLevel >= 10){
+            container = <BloggingPull theme={ this.props.theme }/>
         }
         else if(adminLevel >= 5){
             container = <Empty theme={ this.props.theme }/>;

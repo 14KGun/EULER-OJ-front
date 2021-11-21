@@ -14,6 +14,7 @@ import ProblemsetBookList from './core/Problemset/Problemset/Books/BookList/Book
 import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
+import ProblemBlogging from './core/Problemset/Blogging/Blogging';
 import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
@@ -36,6 +37,7 @@ const BookListWithId = (props) => <Frame { ...props }><ProblemsetBookList { ...p
 const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Problem id={ useParams().Pnum }/></Frame>
 const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
+const ProblemBloggingWithId = (props) => <Frame { ...props }><ProblemBlogging { ...props } id={ useParams().Pnum }/></Frame>
 const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props }/></Frame>
 const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
@@ -104,8 +106,8 @@ function App() {
         <Route exact path="/problemset/list/:Pnum1/:Pnum2/:Pnum3"><ProblemsetWithId { ...params }/></Route>
         <Route exact path="/problemset/problem/:Pnum"><ProblemWithId { ...params }/></Route>
         <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId { ...params }/></Route>
+        <Route exact path="/problemset/blogging/:Pnum"><ProblemBloggingWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
-
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
         { /*<Route exact path="/status"><StatusWithIdPage { ...params }/></Route> */ }
 
@@ -143,6 +145,8 @@ function App() {
         <Route exact path="/nadmin/tag/tree"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="tag/tree"/></Frame></Route>
         <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
         <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>
+        <Route exact path="/nadmin/blogging/pull"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/pull"/></Frame></Route>
+        <Route exact path="/nadmin/blogging/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/list"/></Frame></Route>
 
         <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
