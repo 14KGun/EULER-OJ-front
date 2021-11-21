@@ -107,7 +107,7 @@ function App() {
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
 
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
-        <Route exact path="/status"><StatusWithIdPage { ...params }/></Route>
+        { /*<Route exact path="/status"><StatusWithIdPage { ...params }/></Route> */ }
 
         <Route exact path="/tags"><Frame { ...params }><Tag { ...params } id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum"><TagWithId { ...params }/></Route>

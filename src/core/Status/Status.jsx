@@ -43,7 +43,7 @@ const Filter = (props) => {
         borderRadius: '15px', overflow: 'hidden', position: 'relative',
         width: '100%',
         marginTop: (isOpen ? '10px' : '0px'), opacity: (isOpen ? 1 : 0),
-        height: (isOpen ? '100px' : '0px'),
+        height: (isOpen ? '107px' : '0px'),
     });
     const styleBoxBtn = useSpring({
         background: (isHover2 ? 'rgb(0,110,170)' : 'rgb(0,134,191)'),
@@ -51,6 +51,26 @@ const Filter = (props) => {
         fontSize: '16px', fontWeight: 300, color: 'white', borderRadius: '15px',
         config: { duration: 100 }
     })
+    const styleInput = {
+        border: '1px solid gray', outline: 'none', borderRadius: '5px', verticalAlign: 'top',
+        background: (props.theme==='light' ? 'white' : 'black'),
+        paddingLeft: '8px', paddingRight: '8px',
+        fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white'),
+        height: '30px', lineHeight: '30px'
+    }
+    const styleSelect = {
+        border: 'none', outline: 'none',
+        background: (props.theme==='light' ? 'white' : 'black'),
+        paddingLeft: '8px', paddingRight: '8px',
+        fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white'),
+        width: '100%', height: '30px', lineHeight: '30px'
+    }
+    const styleSelectBorder = {
+        border: '1px solid gray', outline: 'none', borderRadius: '5px',
+        display: 'inline-block', verticalAlign: 'top',
+        background: (props.theme==='light' ? 'white' : 'black'),
+        height: '30px', overflow: 'hidden'
+    }
 
     return (
         <>
@@ -62,6 +82,33 @@ const Filter = (props) => {
                 </animated.div>
             </div>
             <animated.div style={ styleBox } className="ND">
+                <div style={{ marginTop: '15px', marginLeft: '15px', marginRight: '15px' }}>
+                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '120px' }} type="txt" placeholder="문제 번호(#)"/>
+                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '200px' }} type="txt" placeholder="아이디"/>
+                    <animated.span style={{ ...styleSelectBorder, width: '170px', marginRight: '6px' }}>
+                        <select style={{ ...styleSelect }}>
+                            <option>모든 결과</option>
+                            <option>맞았습니다</option>
+                            <option>부분 점수</option>
+                            <option>시간 초과</option>
+                            <option>메모리 초과</option>
+                            <option>출력 초과</option>
+                            <option>런타임 에러</option>
+                            <option>컴파일 에러</option>
+                            <option>채점 대기중</option>
+                        </select>
+                    </animated.span>
+                    <animated.span style={{ ...styleSelectBorder, width: '170px' }}>
+                        <select style={{ ...styleSelect }}>
+                            <option>모든 언어</option>
+                            <option>C</option>
+                            <option>C++</option>
+                            <option>Python</option>
+                            <option>Java</option>
+                            <option>R</option>
+                        </select>
+                    </animated.span>
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'row-reverse', margin: '15px' }}>
                     <Link>
                         <animated.div style={ styleBoxBtn }
@@ -84,9 +131,6 @@ class Status extends Component {
                     <Filter theme={ this.props.theme }/>
                     <div style={{ height: '30px' }}/>
                     <StatusTable theme={ this.props.theme } list={ [123] }/>
-                    <div className="BTM_EMPTY"></div>
-                    <div className="BTM_EMPTY"></div>
-                    <div className="BTM_EMPTY"></div>
                     <div className="BTM_EMPTY"></div>
                 </div>
             )

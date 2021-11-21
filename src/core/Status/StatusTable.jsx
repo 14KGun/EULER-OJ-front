@@ -47,6 +47,15 @@ const StatusItem = (props) => {
         left: '92px', width: '52px', textAlign: 'center',
         fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
     }
+    const Item3ImgStyle = {
+        top: '12px', left: '174px', width: '36px', height: '36px',
+        border: '1px solid rgba(100,100,100,0.3)',
+        borderRadius: '19px', overflow: 'hidden', background: 'white'
+    }
+    const Item3Style = {
+        left: '220px', right: '595px',
+        fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
+    }
     const Item4Style = {
         right: '510px', width: '65px', textAlign: 'center',
         fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
@@ -55,14 +64,30 @@ const StatusItem = (props) => {
         right: '290px', width: '200px', textAlign: 'center',
         fontWeight: 300, color: 'rgb(120,120,120)'
     };
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(120,120,120,0.05)' : 'rgba(120,120,120,0)', config: { duration: 100 } });
+    const Item6Style = {
+        right: '20px', top: '17px', width: '250px', height: '26px'
+    }
+    const ItemBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } });
 
     return (
         <animated.div style={{ ...style, ...ItemBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <Link><div style={{ ...ItemStyle, ...Item1Style }}>12345</div></Link>
             <Link><div style={{ ...ItemStyle, ...Item2Style }}>#2038</div></Link>
-            <div style={{ ...ItemStyle, ...Item4Style }}>C++17</div>
+            <Link>
+                <div style={{ ...ItemStyle, ...Item3ImgStyle }}>
+                    <img style={{ width: '100%', height: '100%', verticalAlign: 'top' }} alt=""/>
+                </div>
+            </Link>
+            <Link>
+                <div style={{ ...ItemStyle, ...Item3Style }}>supernova</div>
+            </Link>
+            <Link><div style={{ ...ItemStyle, ...Item4Style }}>C++17</div></Link>
             <div style={{ ...ItemStyle, ...Item5Style }}>2021년 10월 30일 12시 6분</div>
+            <Link>
+                <div style={{ ...ItemStyle, ...Item6Style }} className="ND">
+                    <Res theme={ props.theme } res="100"/>
+                </div>
+            </Link>
         </animated.div>
     )
 }
