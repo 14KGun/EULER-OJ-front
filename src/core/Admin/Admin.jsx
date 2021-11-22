@@ -6,12 +6,14 @@ import ProblemList from './Problem/List';
 import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
 import BloggingPull from './Blogging/Pull';
+import UserList from './User/List';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
 import svgClouddown from './svg_clouddown.svg';
 import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
+import svgPeople from './svg_people.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -30,6 +32,14 @@ class Admin extends Component {
                     { name: '새로운 문제 추가', icon: svgAdd, href: '/nadmin/problem/add' },
                     { name: '모든 문제', icon: svgList, href: '/nadmin/problem/list' },
                     { name: 'Git Pull', icon: svgClouddown, href: '/nadmin/problem/gitpull' },
+                ]
+            });
+        }
+        if(level >= 5){
+            navigator.push({
+                title: '유저',
+                list: [
+                    { name: '유저 정보 수정', icon: svgPeople, href: '/nadmin/user/list' },
                 ]
             });
         }
@@ -88,8 +98,11 @@ class Admin extends Component {
         else if(this.props.page === 'tag/tree' && adminLevel >= 10){
             container = <TagTree theme={ this.props.theme }/>
         }
-        else if(this.props.page === 'blogging/pull' && adminLevel >= 10){
+        else if(this.props.page === 'blogging/pull' && adminLevel >= 5){
             container = <BloggingPull theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'user/list' && adminLevel >= 5){
+            container = <UserList theme={ this.props.theme }/>
         }
         else if(adminLevel >= 5){
             container = <Empty theme={ this.props.theme }/>;
