@@ -2,6 +2,7 @@ import { Component, useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
 import './Top.css';
+import axios from '../../Tool/axios';
 
 import svgPattern from './svg_pattern.svg';
 
@@ -69,7 +70,7 @@ const FixedLay = (props) => {
     return (
         <div>
             <Link to={ `/problemset/problem/${ props.id }` }><TopBtn name="문제" selected={ props.type === 'problem' }/></Link>
-            <a href={ `/problemset/stats/${ props.id }` }><TopBtn name="통계" selected={ props.type === 'stats' }/></a>
+            <Link to={ `/problemset/stats/${ props.id }` }><TopBtn name="통계" selected={ props.type === 'stats' }/></Link>
             <Link to={ `/problemset/blogging/${ props.id }` }><TopBtn name="블로깅" selected={ props.type === 'blogging' }/></Link>
             <Link to={ `/problemset/submit/${ props.id }` }><TopBtn name="제출" selected={ props.type === 'submit' }/></Link>
         </div>
@@ -79,14 +80,18 @@ const FixedLay = (props) => {
 class Top extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { title: '' };
+        this.onCall = false;
         this.scrollevent = this.scrollevent.bind(this);
     }
-    scrollevent(){
-        const scrolledHeight = document.documentElement.scrollTop;
-        if(scrolledHeight !== this.state.scrolledTop) this.setState({ scrolledTop: scrolledHeight });
-    }
     render() {
+        if(!this.onCall){
+            this.onCall = true;
+            axios.get(`/json/stats/header/${ this.props.id }`).then(({ data }) => {
+                this.setState({ id: data.id, title: data.title });
+            })
+        }
+
         return (
             <div>
                 <div className="ND" style={{ height: '322px', position: 'relative' }}>
@@ -113,9 +118,13 @@ class Top extends Component {
                     </div>
                 </div>
 
-                <TitleLay id={ this.props.id } title={ '문제푸는 남자' } scrolledTop={ this.state.scrolledTop }/>
+                <TitleLay id={ this.props.id } title={ this.state.title } scrolledTop={ this.state.scrolledTop }/>
             </div>
         )
+    }
+    scrollevent(){
+        const scrolledHeight = document.documentElement.scrollTop;
+        if(scrolledHeight !== this.state.scrolledTop) this.setState({ scrolledTop: scrolledHeight });
     }
     componentDidMount() {
         this.scrollevent();

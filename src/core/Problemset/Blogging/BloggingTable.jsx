@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
+import axios from '../../Tool/axios';
 
 import svgGood from './svg_good.svg';
 import svgGoodFill from './svg_good_fill.svg';
@@ -12,21 +13,10 @@ const TableTop = () => {
     )
 }
 
-const TableItem = (props) => {
-    const [isHover, setHover] = useState(false);
+const Good = (props) => {
     const [isHoverGood, setHoverGood] = useState(false);
+    const [pushed, setPushed] = useState(props.pushed);
 
-    const style = {
-        height: '70px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden'
-    }
-    const styleTitle = {
-        position: 'absolute', top: '13px', left: '20px',
-        height: '25px'
-    }
-    const styleTitleText = {
-        display: 'inline-block', height: '25px', lineHeight: '25px',
-        fontSize: '16px', fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
-    }
     const styleGood = useSpring({
         display: 'inline-block', height: '25px', borderRadius: '13px',
         marginLeft: '3px', paddingLeft: '10px', paddingRight: '10px',
@@ -39,6 +29,35 @@ const TableItem = (props) => {
     const styleGoodText = {
         display: 'inline-block', verticalAlign: 'top', height: '25px', lineHeight: '25px',
         fontSize: '15px', fontWeight: 500, color: 'orange'
+    }
+    const onClick = () => {
+        
+    }
+
+    return (
+        <Link to="#">
+            <animated.span style={ styleGood } className="BTNC ND" onClick={ () => onClick() }
+            onMouseEnter={ () => setHoverGood(true) } onMouseLeave={ () => setHoverGood(false) }>
+                <img style={ styleGoodImg } src={ pushed ? svgGoodFill : svgGood }/>
+                <span style={ styleGoodText }>{ props.good }</span>
+            </animated.span>
+        </Link>
+    )
+}
+
+const TableItem = (props) => {
+    const [isHover, setHover] = useState(false);
+
+    const style = {
+        height: '70px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden'
+    }
+    const styleTitle = {
+        position: 'absolute', top: '13px', left: '20px',
+        height: '25px'
+    }
+    const styleTitleText = {
+        display: 'inline-block', height: '25px', lineHeight: '25px',
+        fontSize: '16px', fontWeight: 500, color: (props.theme === 'light' ? 'black' : 'white')
     }
     const styleSubtitle = {
         position: 'absolute', bottom: '13px', left: '20px',
@@ -59,30 +78,31 @@ const TableItem = (props) => {
     const styleBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } });
     
     return (
-        <animated.div style={{ ...style, ...styleBackground }}
-        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <div style={ styleTitle }>
-                <Link>
-                    <span style={ styleTitleText }>새로운 미지의 영역을 찾아서</span>
-                </Link>
-                <animated.span style={ styleGood } className="BTNC ND"
-                onMouseEnter={ () => setHoverGood(true) } onMouseLeave={ () => setHoverGood(false) }>
-                    <img style={ styleGoodImg } src={ svgGood }/>
-                    <span style={ styleGoodText }>123</span>
-                </animated.span>
-            </div>
-            <div style={ styleSubtitle } className="ND">#1023 - 블로깅</div>
-            <Link>
-                <div style={ styleProf } className="ND">
-                    <img style={{ width: '100%', height: '100%' }} alt="profile image"
-                    src={ `/profile-img/supernova.webp?size=40` }/>
+        <a href={ props.url } target="_blank" rel="noreferrer">
+            <animated.div style={{ ...style, ...styleBackground }}
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <div style={ styleTitle }>
+                    <a href={ props.url } target="_blank" rel="noreferrer">
+                        <span style={ styleTitleText }>{ props.name }</span>
+                    </a>
+                    <Good good={ props.good } pushed={ props.dogood }/>
                 </div>
-            </Link>
-            <Link>
-                <div style={ styleLoginId }>supernova</div>
-            </Link>
-            <div style={ styleDate } className="ND">2021년 12월 30일</div>
-        </animated.div>
+                <div style={ styleSubtitle } className="ND">{ props.subname }</div>
+                { props.loginId ? <>
+                    <Link to={ `/profile/${ props.loginId }` }>
+                        <div style={ styleProf } className="ND">
+                            <img style={{ width: '100%', height: '100%' }} alt="profile image"
+                            src={ `/profile-img/${ props.loginId }.webp?size=40` }/>
+                        </div>
+                    </Link>
+                    <Link to={ `/profile/${ props.loginId }` }>
+                        <div style={ styleLoginId }>{ props.loginId }</div>
+                    </Link>
+                </> : '' }
+                
+                <div style={ styleDate } className="ND">2021년 12월 30일</div>
+            </animated.div>
+        </a>
     )
 }
 
@@ -91,7 +111,9 @@ const Table = (props) => {
     return (
         <div>
             <TableTop/>
-            { props.list.map((item, index) => <TableItem key={ index } theme={ props.theme }/>) }
+            { props.list.map((item, index) => <TableItem key={ index } theme={ props.theme }
+            name={ item.name } subname={ item.subname } good={ item.good } dogood={ item.dogood }
+            loginId={ item.loginId } date={ item.date } url={ item.url }/>) }
         </div>
     )
 }

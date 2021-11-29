@@ -303,6 +303,11 @@ const BoxLimit = (props) => {
         </div>
     )
 }
+const BoxBlogging = (props) => {
+    return (
+        <div></div>
+    )
+}
 
 const LoadingLay = () => {
     return (

@@ -14,6 +14,7 @@ import svgClouddown from './svg_clouddown.svg';
 import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
 import svgPeople from './svg_people.svg';
+import svgBlog from './svg_blog.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -48,7 +49,7 @@ class Admin extends Component {
                 title: '블로깅',
                 list: [
                     { name: '요청된 블로깅 링크', icon: svgAdd, href: '/nadmin/blogging/pull' },
-                    { name: '블로깅 링크 관리', icon: svgList, href: '/nadmin/blogging/list' },
+                    { name: '블로깅 링크 수정', icon: svgBlog, href: '/nadmin/blogging/list' },
                 ]
             });
         }

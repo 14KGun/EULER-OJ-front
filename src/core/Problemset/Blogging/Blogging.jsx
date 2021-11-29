@@ -16,14 +16,29 @@ const LoadingLay = () => {
 }
 
 class Blogging extends Component {
+    constructor(props){
+        super(props);
+        this.state = {}
+        this.onCall = false;
+    }
     render() {
+        if(!this.onCall){
+            this.onCall = true;
+            axios.get(`/json/stats/blogging/${ this.props.id }`).then(({ data }) => {
+                this.setState({ id: data.id, list: data.list }, () => {
+                    this.onCall = false;
+                    console.log(data.list);
+                })
+            })
+        }
+
         let container = <LoadingLay/>
 
-        if(true){
+        if(this.state.list){
             container = (
                 <div>
                     <div style={{ height: '50px' }}/>
-                    <Table theme={ this.props.theme } list={ [123] }/>
+                    <Table theme={ this.props.theme } list={ this.state.list }/>
                 </div>
             )
         }

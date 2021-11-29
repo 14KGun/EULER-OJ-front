@@ -146,11 +146,13 @@ function App() {
         <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
         <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>
         <Route exact path="/nadmin/blogging/pull"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/pull"/></Frame></Route>
+        <Route exact path="/nadmin/blogging/fetch"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/fetch"/></Frame></Route>
         <Route exact path="/nadmin/blogging/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/list"/></Frame></Route>
         <Route exact path="/nadmin/user/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="user/list"/></Frame></Route>
 
         <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
+        <Route path="/problemset/stats/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/stats/'+props.match.params.pnum; return null; } }/>
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
         <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>

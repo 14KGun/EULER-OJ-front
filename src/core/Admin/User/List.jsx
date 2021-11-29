@@ -41,13 +41,15 @@ class List extends Component {
         this.state = { inputValue: '', resultValue: '', list: [] }
     }
     onSearch(str){
-        if (str.length <= 30 && str.length >= 1) {
+        if (str.length <= 30) {
             this.setState({ inputValue: str, list: [] }, () => {
-                axios.get(`/json/admin/user/search/${ str }`).then(({ data }) => {
-                    if(data.str === str){
-                        this.setState({ resultValue: data.str, list: data.list });
-                    }
-                })
+                if(str.length >= 1){
+                    axios.get(`/json/admin/user/search/${ str }`).then(({ data }) => {
+                        if(data.str === str){
+                            this.setState({ resultValue: data.str, list: data.list });
+                        }
+                    })
+                }
             });
         }
     }
