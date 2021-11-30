@@ -83,6 +83,15 @@ body{ background: rgb(250,251,252); }
     position: absolute; top: 0px; left: 40%;
     font-size: 13px; font-weight: 300; color: rgb(60,60,60);
 }
+.right_TOPBOX-blogging-lay1{
+    position: absolute; top: 6px; left: 6px;
+    width: 26px; height: 26px; border-radius: 14px;
+    overflow: hidden; background: white;
+    border: 1px solid rgba(120,120,120,0.5);
+}
+.right_TOPBOX-blogging-lay1 > img{
+    width: 100%; height: 100%;
+}
 
 .content{
     position: relative;

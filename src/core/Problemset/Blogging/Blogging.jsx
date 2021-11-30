@@ -6,6 +6,8 @@ import Loading from '../../Frame/Loading/Loading';
 import Footer from '../../Frame/Footer/Footer';
 import axios from '../../Tool/axios';
 
+import svgBlog from './svg_blog.svg';
+
 const LoadingLay = () => {
     return (
         <div style={{ paddingTop: '100px', height: '300px' }}>
@@ -22,12 +24,11 @@ class Blogging extends Component {
         this.onCall = false;
     }
     render() {
-        if(!this.onCall){
+        if((!this.onCall) && this.state.id !== this.props.id){
             this.onCall = true;
             axios.get(`/json/stats/blogging/${ this.props.id }`).then(({ data }) => {
                 this.setState({ id: data.id, list: data.list }, () => {
                     this.onCall = false;
-                    console.log(data.list);
                 })
             })
         }
@@ -35,12 +36,26 @@ class Blogging extends Component {
         let container = <LoadingLay/>
 
         if(this.state.list){
-            container = (
-                <div>
-                    <div style={{ height: '50px' }}/>
-                    <Table theme={ this.props.theme } list={ this.state.list }/>
-                </div>
-            )
+            if(this.state.list.length === 0){
+                container = (
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ height: '50px' }}/>
+                        <div>
+                            <img src={ svgBlog } alt="" style={{ height: '40px' }}/>
+                        </div>
+                        <div style={{ fontSize: '16px', fontWeight: 300, 
+                        color: (this.props.theme==='light' ? 'black' : 'white') }}>블로깅이 없습니다.</div>
+                    </div>
+                )
+            }
+            else{
+                container = (
+                    <div>
+                        <div style={{ height: '50px' }}/>
+                        <Table theme={ this.props.theme } list={ this.state.list }/>
+                    </div>
+                )
+            }
         }
 
         return (
