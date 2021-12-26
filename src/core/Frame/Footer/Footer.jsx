@@ -15,7 +15,7 @@ class Footer extends Component {
 
         this.footerTopStyle = {
             width: '100%', height: '30px',
-            background: 'rgba(120,120,120,0.2)'
+            background: 'rgba(120,120,120,0.1)'
         }
         this.lay1Style = { height: '85px', position: 'relative' }
         this.logoStyle = { height: '47px', verticalAlign: 'top' }

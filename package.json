@@ -20,6 +20,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-spring": "^9.0.0",
+    "socket.io-client": "^4.3.2",
+    "use-state-with-callback": "^2.0.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

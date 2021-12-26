@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
-import Lay2Empty from './Lay2/Empty';
+import Lay2Blogging from './Lay2/Blogging';
 import Footer from '../Frame/Footer/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
@@ -22,7 +22,7 @@ const Lay1Item = (props) => {
 
     const [xys, setXys] = useState([0, 0, 1]);
     const [isHover, setHover] = useState(false);
-    const cardStyleXys = useSpring({ xys: xys, config: { mass: 5, tension: 350, friction: 40 } });
+    const cardStyleXys = useSpring({ xys: xys, config: { mass: 5, tension: 350, friction: 40, duration: 100 } });
     const cardStyle = useSpring({
         background: isHover ? 'rgba(220,220,220,0)' : 'rgba(220,220,220,0)',
         boxShadow: isHover ? '0px 10px 30px -5px rgba(0,0,0,0.3)' : '0px 10px 30px -5px rgba(0,0,0,0)',
@@ -85,11 +85,11 @@ class Main extends Component {
                         <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" theme={ this.props.theme } newTab/>
                     </div>
                 </div>
-                <div id="lay2" style={{ background: 'rgba(120,120,120,0.2)' }}>
+                <div id="lay2" style={{ background: 'rgba(120,120,120,0.1)' }}>
                     <div className="FRAME_MAIN ND" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
                         <Lay2Problem theme={ this.props.theme }/>
                         <Lay2Youtube theme={ this.props.theme }/>
-                        <Lay2Empty theme={ this.props.theme }/>
+                        <Lay2Blogging theme={ this.props.theme }/>
                     </div>
                 </div>
                 <Footer theme={ this.props.theme }/>

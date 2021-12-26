@@ -31,16 +31,23 @@ const Content2 = (props) => {
 
 const Input = (props) => {
     const [isFocus, setFocus] = useState(false);
-    const borderFocus = 'gray';
-    const borderDefault = 'rgb(200,200,200)';
+    const borderFocus = (props.theme === 'light' ? 'gray' : 'gray');
+    const borderDefault = (props.theme === 'light' ? 'rgb(200,200,200)' : 'rgb(80,80,80)');
     const border = useSpring({
         border: `2px solid ${ isFocus ? borderFocus : borderDefault }`
     }).border
 
+    const onChange = (e) => {
+        if(props.onChange) props.onChange(e.target.value);
+    }
+
     return (
         <animated.div style={{ paddingBottom: '5px', paddingTop: '5px', borderBottom: border }}>
             <input type={ props.type } onFocus={ () => setFocus(true) } onBlur={ () => setFocus(false) }
-            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none', fontSize: '16px' }}/>
+            style={{ width: 'calc(100% - 14px)', border: 'none', outline: 'none', paddingLeft: '7px', paddingRight: '7px', background: 'none',
+            fontSize: '16px', fontWeight: 300, color: (props.theme === 'light' ? 'black' : 'white'),
+            letterSpacing: (props.type === 'password' ? '3px' : undefined) }}
+            value={ props.value } onChange={ (e) => onChange(e) }/>
         </animated.div>
     )
 }

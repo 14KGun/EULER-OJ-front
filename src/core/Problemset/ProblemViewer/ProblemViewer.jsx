@@ -2,23 +2,24 @@ import React, { Component, useState } from 'react';
 import { Helmet } from "react-helmet"
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from  '../../Tool/tooltip';
 import axios from '../../Tool/axios';
 import Loading from '../../Frame/Loading/Loading';
 import TopMessage from './TopMessage';
 import Bookmark from './Bookmark/Bookmark';
 import DonutStat from './DonutStat/DonutStat';
+import CopyBtn from './CopyBtn/CopyBtn'
+import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
 import './ProblemViewer.css';
+
 import imgEditor from './img_editor.png';
 import imgSubmit from './img_submit.png';
 import imgBoard1 from './img_board1.png';
 import imgBoard3 from './img_board3.png';
 import imgNext from './img_next.png';
-import imgCopy from './img_copy.png';
 import imgYoutube from '../../Tag/TagIcon/img_youtubeLight.png';
 import imgBlog from '../../Tag/TagIcon/img_blogLight.png';
 
@@ -116,7 +117,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipYoutube);
     }
     const youtubeStyle = useSpring({
-        background: isYoutubeHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isYoutubeHover ? 0.15 : 0 })`,
         config: { duration: 150 }
     })
     const youtubeNextStyle = useSpring({
@@ -136,7 +137,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipBlog);
     }
     const blogStyle = useSpring({
-        background: isBlogHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isBlogHover ? 0.15 : 0 })`,
         config: { duration: 150 }
     })
     const blogNextStyle = useSpring({
@@ -198,7 +199,7 @@ const BoxStat = (props) => {
             color: 'gray'
         }
         donutContainer = (
-            <a href={`/problemset/stats/${ props.id }`}>
+            <Link to={`/problemset/stats/${ props.id }`}>
                 <div style={{ position: 'relative' }}>
                     <animated.div id="donutchart-container" style={ style }
                     onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
@@ -206,7 +207,7 @@ const BoxStat = (props) => {
                     </animated.div>
                     <div style={ stylePercent }>{ dataPercent }%</div>
                 </div>
-            </a>
+            </Link>
         )
     }
 
@@ -235,11 +236,11 @@ const BoxStatus = (props) => {
     const [isHover1, setHover1] = useState(false);
     const [isHover2, setHover2] = useState(false);
     const background1 = useSpring({
-        background: isHover1 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isHover1 ? 0.15 : 0 })`,
         config: { duration: 100 }
     }).background;
     const background2 = useSpring({
-        background: isHover2 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isHover2 ? 0.15 : 0 })`,
         config: { duration: 100 }
     }).background;
     const next1Style = useSpring({
@@ -302,38 +303,40 @@ const BoxLimit = (props) => {
         </div>
     )
 }
-const CopyBtn = (props) => {
+const BoxBlogging = (props) => {
     const [isHover, setHover] = useState(false);
-    const [tooltipId, settooltipId] = useState('undefined');
-    const onMouseEnter = () => {
-        setHover(true);
-        const id = props.tooltip.create(document.getElementById(`copyBtn-${ props.index }`), 'top', '클립보드에 복사하기');
-        settooltipId(id);
-    }
-    const onMouseLeave = () => {
-        setHover(false);
-        props.tooltip.remove(tooltipId);
-    }
-    const onClick = () => {
-        props.tooltip.remove(tooltipId);
-        const id = props.tooltip.create(document.getElementById(`copyBtn-${ props.index }`), 'top', '클립보드에 복사되었습니다', 'rgb(34,177,76)');
-        settooltipId(id);
-    }
-    const style = useSpring({
-        background: isHover ? 'rgb(145,145,145)' : 'rgb(165,165,165)',
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
+    const btnStyle = useSpring({
+        background: `rgba(120,120,120,${ isHover ? 0.15 : 0 })`,
+        height: '40px', config: { duration: 100 }
+    })
+    const nextStyle = useSpring({
+        opacity: isHover ? 1 : 0, top: '12px',
         config: { duration: 100 }
     })
 
+    if(props.list.length <= 0) return null;
+    const userList = props.list.map((item, index) => (
+        <div key={ index } className="right_TOPBOX-blogging-lay1" style={{ left: `${ 6 + index*20 }px` }}>
+            <img src={ `/profile-img/${ item }.webp?size=26` } alt={ item }/>
+        </div>
+    ))
+
     return (
-        <>
-            <CopyToClipboard text={ props.txt } onCopy={ onClick }>
-                <animated.div id={ `copyBtn-${ props.index }` } className="EXBTN-TOP-COPYBTN BTNC" style={ style }
-                onMouseEnter={ onMouseEnter } onMouseLeave={ onMouseLeave }>
-                    <img src={ imgCopy } alt="copy"/>
+        <div className="right_TOPBOX" style={{ background: background, border: border }}>
+            <div className="right_TOPBOX-TITLE" style={{ color: color }}>블로깅</div>
+            <Link to={ `/problemset/blogging/${ props.id }` }>
+                <animated.div className="right_TOBBOX-BTN" id="btnBlogging" style={ btnStyle }
+                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                    { userList }
+                    <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ nextStyle }/>
                 </animated.div>
-            </CopyToClipboard>
-        </>
-    );
+            </Link>
+        </div>
+    )
 }
 
 const LoadingLay = () => {
@@ -348,7 +351,7 @@ const LoadingLay = () => {
 const problemDefaultState = {
     id: undefined, loaded: false, err: false,
     title: undefined, problemHtml: undefined, tags: [], loginId: undefined,
-    sampleInput: [], sampleOutput: [], youtube: '', blog: '',
+    sampleInput: [], sampleOutput: [], youtube: '', blog: '', blogging: [],
     solve: '', submit: '', timelimit: '', memorylimit: '', inputmethod: '', outputmethod: '',
     res: undefined
 }
@@ -357,6 +360,25 @@ class ProblemViewer extends Component {
         super(props);
         this.state = problemDefaultState;
         this.tooltip = new Tooltip();
+
+        this.styleExboxBorder = {
+            display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px 0px'
+        }
+        this.styleExbox = {
+            overflow: 'hidden', borderRadius: '10px'
+        }
+        this.styleExboxTop = {
+            position: 'relative', width: '100%', height: '40px', overflow: 'hidden',
+            display: 'flex', justifyContent: 'space-between'
+        }
+        this.styleExboxTopText = {
+            height: '40px', lineHeight: '40px', paddingLeft: '13px',
+            fontSize: '15px', fontWeight: 400
+        }
+        this.styleExboxTopRLay = {
+            paddingRight: '6px', height: '40px',
+            display: 'flex', justifyContent: 'flex-end'
+        }
     }
     static getDerivedStateFromProps(nextProps, prevState){
         if(nextProps.id !== prevState.id){
@@ -378,18 +400,23 @@ class ProblemViewer extends Component {
 
     render() {
         if(this.state.loaded === false){
-            axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
-                this.setState({
-                    loaded: true, err: probInfo.data.err,
-                    title: probInfo.data.title, problemHtml: probInfo.data.problemHtml, tags: probInfo.data.tags, loginId: probInfo.data.loginId,
-                    sampleInput: probInfo.data.sampleInput, sampleOutput: probInfo.data.sampleOutput, youtube: probInfo.data.youtube, blog: probInfo.data.blog,
-                    solve: probInfo.data.solve, submit: probInfo.data.submit,
-                    timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
+            if(!this.onCall){
+                this.onCall = true;
+                axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
+                    this.setState({
+                        loaded: true, err: probInfo.data.err,
+                        title: probInfo.data.title, problemHtml: probInfo.data.problemHtml, tags: probInfo.data.tags, loginId: probInfo.data.loginId,
+                        sampleInput: probInfo.data.sampleInput, sampleOutput: probInfo.data.sampleOutput, youtube: probInfo.data.youtube, blog: probInfo.data.blog,
+                        solve: probInfo.data.solve, submit: probInfo.data.submit, blogging: probInfo.data.blogging,
+                        timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
+                    }, () => {
+                        this.onCall = false;
+                    });
                 });
-            });
-            axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
-                this.setState({ res: resInfo.data.res });
-            });
+                axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
+                    this.setState({ res: resInfo.data.res });
+                });
+            }
         }
         if(this.state.err) return <PageNotFound msg={ `요청하신 문제 #${this.props.id}는 존재하지 않거나 관리자에 의하여 비공개된 문제일 수 있습니다.` }/>;
 
@@ -398,32 +425,42 @@ class ProblemViewer extends Component {
             const problems = htmlParser(this.state.problemHtml);
             const samples = [];
 
-            let styleTop = { background: 'rgb(200,200,200)' };
-            let styleTopTxt = { color: 'black' };
-            let styleContent = { background: 'rgb(230,230,230)' };
             if(this.props.theme === 'dark'){
-                styleTop.background = 'rgb(80,80,80)';
-                styleTopTxt.color = 'white';
-                styleContent.background = 'rgb(50,50,50)';
+                this.styleExbox = { ...this.styleExbox, background: 'rgb(20,20,22)', border: '1px solid rgb(10,11,12)'  }
+                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(10,11,12)' };
+                this.styleExboxTopText = { ...this.styleExboxTopText, color: 'white' };
+            }
+            else{
+                this.styleExbox = { ...this.styleExbox, background: 'rgb(240,240,240)', border: '1px solid rgb(220,220,220)'  }
+                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(220,220,220)' };
+                this.styleExboxTopText = { ...this.styleExboxTopText, color: 'black' };
             }
 
             for(var i=0; i<this.state.sampleInput.length; i++){
                 samples.push(
-                    <div key={ i } className="content EX-BORDER">
-                        <span className="EXBOX EXBOX-INPUT" style={ styleContent }>
-                            <div className="EXBOX-TOP ND" style={ styleTop }>
-                                <div className="EXBOX-TOP-TXT" style={ styleTopTxt }>예제{ i+1 } - 입력</div>
-                                <CopyBtn index={ i } tooltip={ this.tooltip } txt={ this.state.sampleInput[i] }/>
+                    <div key={ i } className="content EX-BORDER" style={ this.styleExboxBorder }>
+                        <div className="EXBOX EXBOX-INPUT" style={ this.styleExbox }>
+                            <div className="ND" style={ this.styleExboxTop }>
+                                <div style={ this.styleExboxTopText }>예제{ i+1 } - 입력</div>
+                                <div style={ this.styleExboxTopRLay }>
+                                    <CopyBtn text={ this.state.sampleInput[i] } theme={ this.props.theme }/>
+                                    <TxtscreenBtn text={ this.state.sampleInput[i] } title={ `예제${ i+1 } - 입력` } theme={ this.props.theme }/>
+                                </div>
                             </div>
-                            <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleInput[i]) }}/>
-                        </span>
-                        <span className="ND">&nbsp;</span>
-                        <span className="EXBOX EXBOX-OUTPUT" style={ styleContent }>
-                            <div className="EXBOX-TOP ND" style={ styleTop }>
-                                <div className="EXBOX-TOP-TXT" style={ styleTopTxt }>예제{ i+1 } - 출력</div>
+                            <div className="EXBOX-CONTENT content-d"
+                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleInput[i]) }}/>
+                        </div>
+
+                        <div className="EXBOX EXBOX-OUTPUT" style={ this.styleExbox }>
+                            <div className="ND" style={ this.styleExboxTop }>
+                                <div style={ this.styleExboxTopText }>예제{ i+1 } - 출력</div>
+                                <div style={ this.styleExboxTopRLay }>
+                                    <TxtscreenBtn text={ this.state.sampleOutput[i] } title={ `예제${ i+1 } - 출력` } theme={ this.props.theme }/>
+                                </div>
                             </div>
-                            <div className="EXBOX-CONTENT content-d" dangerouslySetInnerHTML={{  __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
-                        </span>
+                            <div className="EXBOX-CONTENT content-d"
+                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
+                        </div>
                     </div>
                 );
             }
@@ -462,6 +499,7 @@ class ProblemViewer extends Component {
                             <BoxStat theme={ this.props.theme } id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
                             <BoxStatus theme={ this.props.theme } id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
                             <BoxLimit theme={ this.props.theme } time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
+                            <BoxBlogging theme={ this.props.theme } id={ this.props.id } list={ this.state.blogging }/>
                         </div>
                     </div>
                 </div>
@@ -475,21 +513,18 @@ class ProblemViewer extends Component {
 
         const clist = document.getElementsByClassName('EX-BORDER');
         for(var i=0; i<clist.length; i++){
-            const item = clist[i];
-            const inputElement = item.getElementsByClassName('EXBOX-INPUT')[0];
-            const outputElement = item.getElementsByClassName('EXBOX-OUTPUT')[0];
+            const inputElement = clist[i].getElementsByClassName('EXBOX-INPUT')[0];
+            const outputElement = clist[i].getElementsByClassName('EXBOX-OUTPUT')[0];
 
             inputElement.style.height = 'auto'; outputElement.style.height = 'auto';
 
             if(bodyWidth >= 1140){
                 const height = Math.max(inputElement.clientHeight, outputElement.clientHeight);
-                inputElement.style.width = '48%'; outputElement.style.width = '48%';
-                inputElement.style.height = `${height}px`; outputElement.style.height = `${height}px`;
-                outputElement.style.marginTop = '0px';
+                inputElement.style.width = 'calc(50% - 7px)'; outputElement.style.width = 'calc(50% - 7px)';
+                inputElement.style.height = `${ height }px`; outputElement.style.height = `${ height }px`;
             }
             else{
                 inputElement.style.width = '100%'; outputElement.style.width = '100%';
-                outputElement.style.marginTop = '-20px';
             }
         }
 
@@ -522,13 +557,13 @@ class ProblemViewer extends Component {
         window.addEventListener('resize', this.resizeEvent);
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
         this.repainting(this.props.theme);
-        //this.props.reFooter();
+        this.props.reFooter();
     }
     componentDidUpdate(){
         this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
         this.repainting(this.props.theme);
-        //this.props.reFooter();
+        this.props.reFooter();
     }
     componentWillUnmount(){
         this.tooltip.clear();

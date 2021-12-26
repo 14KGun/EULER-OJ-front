@@ -10,6 +10,9 @@ const timeParsePositive = (t) => {
 const date = (t) => {
     return `${ t.getFullYear() }년 ${ t.getMonth()+1 }월 ${ t.getDate() }일 ${ t.getHours() }시 ${ t.getMinutes() }분`;
 }
+const date2 = (t) => {
+    return `${ t.getFullYear() }년 ${ t.getMonth()+1 }월 ${ t.getDate() }일`;
+}
 
-const exp = { timeParsePositive, date };
+const exp = { timeParsePositive, date, date2 };
 export default exp;

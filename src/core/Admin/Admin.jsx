@@ -5,12 +5,16 @@ import Empty from './Empty/Empty';
 import ProblemList from './Problem/List';
 import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
+import BloggingPull from './Blogging/Pull';
+import UserList from './User/List';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
 import svgClouddown from './svg_clouddown.svg';
 import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
+import svgPeople from './svg_people.svg';
+import svgBlog from './svg_blog.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -32,11 +36,20 @@ class Admin extends Component {
                 ]
             });
         }
-        if(level >= 10){
+        if(level >= 5){
             navigator.push({
-                title: '태그',
+                title: '유저',
                 list: [
-                    { name: '태그 추가 및 수정', icon: svgTree, href: '/nadmin/tag/tree' },
+                    { name: '유저 정보 수정', icon: svgPeople, href: '/nadmin/user/list' },
+                ]
+            });
+        }
+        if(level >= 5){
+            navigator.push({
+                title: '블로깅',
+                list: [
+                    { name: '요청된 블로깅 링크', icon: svgAdd, href: '/nadmin/blogging/pull' },
+                    { name: '블로깅 링크 수정', icon: svgBlog, href: '/nadmin/blogging/list' },
                 ]
             });
         }
@@ -46,6 +59,14 @@ class Admin extends Component {
                 list: [
                     { name: '새로운 대회 만들기', icon: svgAdd, href: '/nadmin/contest/make' },
                     { name: '내 대회 관리', icon: svgList, href: '/nadmin/contest/list' },
+                ]
+            });
+        }
+        if(level >= 10){
+            navigator.push({
+                title: '태그',
+                list: [
+                    { name: '태그 추가 및 수정', icon: svgTree, href: '/nadmin/tag/tree' },
                 ]
             });
         }
@@ -77,6 +98,12 @@ class Admin extends Component {
         }
         else if(this.props.page === 'tag/tree' && adminLevel >= 10){
             container = <TagTree theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'blogging/pull' && adminLevel >= 5){
+            container = <BloggingPull theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'user/list' && adminLevel >= 5){
+            container = <UserList theme={ this.props.theme }/>
         }
         else if(adminLevel >= 5){
             container = <Empty theme={ this.props.theme }/>;

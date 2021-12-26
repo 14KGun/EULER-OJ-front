@@ -20,31 +20,36 @@ const Res = (props) => {
         imgSrc = imgAccept;
     }
     else if(props.res === 'time'){
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '시간 초과';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgTime;
     }
     else if(props.res === 'memory'){
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '메모리 초과';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgMemory;
     }
     else if(props.res === 'output'){
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '출력 초과';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgError;
     }
     else if(props.res === 'runtime'){
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '런타임 에러';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgError;
     }
     else if(props.res === 'compile'){
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '컴파일 에러';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgError;
@@ -76,12 +81,18 @@ const Res = (props) => {
         imgSrc = undefined;
     }
     else{
-        ST.width = '100%'; ST.background = 'rgb(90,90,90)';
+        ST.width = '100%';
+        ST.background = (props.theme==='light' ? 'rgb(90,90,90)' : 'rgb(70,70,70)');
         txt = '알 수 없는 에러';
         IMGBOX.background = 'rgba(0,0,0,0.5)';
         imgSrc = imgUnknown;
     }
 
+    const style = useSpring({
+        width: '100%', height: '26px', position: 'relative', overflow: 'hidden',
+        borderRadius: '13px',
+        background: (props.theme==='light' ? 'rgb(200,200,200)' : 'rgb(100,100,100)')
+    })
     const styleST = useSpring({
         background: ST.background, width: ST.width
     });
@@ -90,15 +101,19 @@ const Res = (props) => {
     });
 
     return (
-        <div className="RES_BOX ND">
+        <animated.div style={ style } className="RES_BOX ND">
             <animated.div className="RES_ST" style={ styleST }/>
             <animated.div className="RES_TXT">{ txt }</animated.div>
             <animated.div className="RES_IMGBOX" style={ styleIMGBOX }>
                 <div className="RES_PENDING"></div>
                 { imgSrc ? <img src={ imgSrc } alt=""/> : <></> }
             </animated.div>
-        </div>
+        </animated.div>
     )
+}
+
+Res.defaultProps = {
+    theme: 'light'
 }
 
 export default Res;
