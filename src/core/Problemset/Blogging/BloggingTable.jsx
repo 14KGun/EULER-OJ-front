@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
 import Tooltip from '../../Tool/tooltip';
+import trans from '../../Tool/trans';
 
 import svgGood from './svg_good.svg';
 import svgGoodFill from './svg_good_fill.svg';
@@ -138,7 +139,7 @@ const TableItem = (props) => {
                     </Link>
                 </> : '' }
                 
-                <div style={ styleDate } className="ND">2021년 12월 30일</div>
+                <div style={ styleDate } className="ND">{ trans.date2(new Date(props.date)) }</div>
             </animated.div>
         </a>
     )
