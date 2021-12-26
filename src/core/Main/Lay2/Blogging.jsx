@@ -29,7 +29,7 @@ const Item = (props) => {
     const styleTxt = {
         position: 'absolute', top: '3px', left: '50px', right: '10px', overflow: 'hidden',
         height: '44px', lineHeight: '22px', textOverflow: 'ellipsis', /*whiteSpace: 'nowrap',*/
-        fontSize: '16px', fotnWeight: 300, color: (props.theme==='light' ? 'black' : 'white')
+        fontSize: '15px', fotnWeight: 300, color: (props.theme==='light' ? 'black' : 'white')
     }
 
     return (

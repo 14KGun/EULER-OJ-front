@@ -149,7 +149,6 @@ const Table = (props) => {
     const tooltip = useRef(new Tooltip());
 
     useEffect(() => {
-        console.log(123);
         return () => {
             tooltip.current.clear();
         }
