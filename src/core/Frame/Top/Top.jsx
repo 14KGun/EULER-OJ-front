@@ -30,7 +30,7 @@ class Top extends Component {
             <>
                 <div className="ND" style={{ height: '322px', position: 'relative' }}>
                     <div style={{
-                        position: 'absolute', left: '0xp', bottom: '0px', width: '100%',
+                        position: 'absolute', left: '0px', bottom: '0px', width: '100%',
                         height: `${ Math.max(322-this.state.scrolledTop, 120) }px`
                     }}>{ this.props.background }</div>
                 </div>

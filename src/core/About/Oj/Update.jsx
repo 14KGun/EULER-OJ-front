@@ -38,6 +38,9 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2021.11.30">
+                <UpdateTxt theme={ props.theme }>블로깅이 추가되었습니다. 오일러OJ 메인에서 새로운 블로깅을 확인할 수 있으며 문제 페이지에서 블로깅 페이지에 접근이 가능합니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2021.11.11">
                 <UpdateTxt theme={ props.theme }>채점 결과 페이지가 리모델링되었습니다. '에디터로 가져가기', '소스코드 다운로드'가 가능합니다.</UpdateTxt>
             </UpdateBox>

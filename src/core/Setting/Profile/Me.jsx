@@ -3,11 +3,13 @@ import possibleInput from '../../Tool/possibleInput';
 import ImageUploader from "react-images-upload";
 import Layout from './Layout';
 import axios from '../../Tool/axios';
+
 import svgProfile from './svg_profile.svg';
 import svgStatus from './svg_status.svg';
 import svgSchool from './svg_school.svg';
 import svgName from './svg_name.svg';
 import svgEmail from './svg_email.svg';
+import svgBlog from './svg_blog.svg';
 
 class Me extends Component {
     constructor(props) {
@@ -122,6 +124,12 @@ class Me extends Component {
                 <Layout.Content theme={ this.props.theme }>비밀번호 찾기에 사용됩니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
                 <Layout.Input type="text" theme={ this.props.theme } value={ this.props.data.email }/>
+                <Layout.Margin/>
+
+                <Layout.Title icon={ svgBlog } theme={ this.props.theme }>블로그</Layout.Title>
+                <Layout.Content theme={ this.props.theme }>블로깅 자동 검색 대상에 포함됩니다. 새로운 글을 블로그에 올리면, 블로깅에 자동으로 추가되어질 수 있습니다.</Layout.Content>
+                <div style={{ height: '10px' }}/>
+                <Layout.Input type="text" theme={ this.props.theme } value={ '' }/>
             </div>
         )
     }

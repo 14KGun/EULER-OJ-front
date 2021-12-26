@@ -131,7 +131,6 @@ class Status extends Component {
                     <Filter theme={ this.props.theme }/>
                     <div style={{ height: '30px' }}/>
                     <StatusTable theme={ this.props.theme } list={ [123] }/>
-                    <div className="BTM_EMPTY"></div>
                 </div>
             )
         }

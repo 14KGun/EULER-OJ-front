@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
-import Lay2Empty from './Lay2/Empty';
+import Lay2Blogging from './Lay2/Blogging';
 import Footer from '../Frame/Footer/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
@@ -89,7 +89,7 @@ class Main extends Component {
                     <div className="FRAME_MAIN ND" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
                         <Lay2Problem theme={ this.props.theme }/>
                         <Lay2Youtube theme={ this.props.theme }/>
-                        <Lay2Empty theme={ this.props.theme }/>
+                        <Lay2Blogging theme={ this.props.theme }/>
                     </div>
                 </div>
                 <Footer theme={ this.props.theme }/>

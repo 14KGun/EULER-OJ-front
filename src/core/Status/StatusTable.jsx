@@ -67,10 +67,10 @@ const StatusItem = (props) => {
     const Item6Style = {
         right: '20px', top: '17px', width: '250px', height: '26px'
     }
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } });
+    const styleBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } });
 
     return (
-        <animated.div style={{ ...style, ...ItemBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+        <animated.div style={{ ...style, ...styleBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <Link><div style={{ ...ItemStyle, ...Item1Style }}>12345</div></Link>
             <Link><div style={{ ...ItemStyle, ...Item2Style }}>#2038</div></Link>
             <Link>
