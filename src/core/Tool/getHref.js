@@ -20,5 +20,8 @@ const loginCurrentUrl = () => {
     return loginUrl(_href.slice(pos,_href.length));
 }
 
-const exp = { href, hrefParse, encode, decode, decodeOld, loginUrl, loginCurrentUrl }
+const encodeObject = (x) => encodeURIComponent(JSON.stringify(x))
+const decodeObject = (x) => JSON.parse(decodeURIComponent(x))
+
+const exp = { href, hrefParse, encode, decode, decodeOld, loginUrl, loginCurrentUrl, encodeObject, decodeObject }
 export default exp;

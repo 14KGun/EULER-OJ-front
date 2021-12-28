@@ -59,7 +59,8 @@ class Add extends Component {
             ex3in: this.state.sample3Input, ex3out: this.state.sample3Output, ex4in: this.state.sample4Input, ex4out: this.state.sample4Output,
             ez5in: this.state.sample5Input, ex5out: this.state.sample5Output, youtube: this.state.youtube, blog: this.state.blog,
             cansubmit: this.state.canSubmit, data: this.state.check.cdata }).then(({data}) => {
-
+                if(data.result) alert('문제 추가를 성공하였습니다.')
+                else alert('문제 추가를 실패하였습니다.')
             })
         }
     }
@@ -71,11 +72,13 @@ class Add extends Component {
                 className="BTNC" onClick={ () => this.onCheck() }>검사 진행하기</span>
             </div>
         )
-
-        if(this.state.checkId == this.state.id && this.state.check.cid && this.state.check.chtml && this.state.cdata > 0){
+        
+        if(this.state.checkId === this.state.id && this.state.check.cid && this.state.check.chtml && this.state.check.cdata > 0){
             bottom = (
-                <div>
-
+                <div style={{ textAlign: 'right' }}>
+                    <span style={{ display: 'inline-block', height: '30px', lineHeight: '30px', color: 'white',
+                    background: 'rgb(50,140,250)', paddingLeft: '13px', paddingRight: '13px', borderRadius: '15px' }}
+                    className="BTNC" onClick={ () => this.onAdd() }>문제 추가하기</span>
                 </div>
             )
         }
@@ -166,11 +169,11 @@ class Add extends Component {
                         <label style={{ color: (this.props.theme==='light'?'black':'white'), marginLeft: '5px', verticalAlign: 'middle' }}>ID 중복 검사</label>
                     </div>
                     <div>
-                        <img src={ this.state.checkId == this.state.id && this.state.check.chtml ? svgTrue : svgFalse } alt="" style={{ verticalAlign: 'middle', height: '20px' }}/>
+                        <img src={ this.state.checkId == this.state.id && this.state.check.cdata > 0 ? svgTrue : svgFalse } alt="" style={{ verticalAlign: 'middle', height: '20px' }}/>
                         <label style={{ color: (this.props.theme==='light'?'black':'white'), marginLeft: '5px', verticalAlign: 'middle' }}>채점 서버에 데이터 존재 여부 검사</label>
                     </div>
                     <div>
-                        <img src={ this.state.checkId == this.state.id && this.state.check.cdata > 0 ? svgTrue : svgFalse } alt="" style={{ verticalAlign: 'middle', height: '20px' }}/>
+                        <img src={ this.state.checkId == this.state.id && this.state.check.chtml ? svgTrue : svgFalse } alt="" style={{ verticalAlign: 'middle', height: '20px' }}/>
                         <label style={{ color: (this.props.theme==='light'?'black':'white'), marginLeft: '5px', verticalAlign: 'middle' }}>문제 HTML 파일 존재 여부 검사</label>
                     </div>
                 </div>
@@ -178,7 +181,7 @@ class Add extends Component {
                 <div style={{ height: '50px' }}/>
                 <Layout.Content2 theme={ this.props.theme }>데이터 개수</Layout.Content2>
                 <Layout.Content theme={ this.props.theme }>(검사 후 자동 측정됨)</Layout.Content>
-                <Layout.Input theme={ this.props.theme } value={ this.state.dataLen } onChange={ () => {} }/>
+                <Layout.Input theme={ this.props.theme } value={ this.state.check.cdata } onChange={ () => {} }/>
                 
                 <div style={{ height: '30px' }}/>
                 { bottom }

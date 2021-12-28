@@ -8,6 +8,7 @@ import PageSelector from '../Frame/PageSelector';
 import Footer from '../Frame/Footer/Footer';
 import Loading from '../Frame/Loading/Loading';
 import axios from '../Tool/axios';
+import getHref from '../Tool/getHref';
 
 import svgFilter from './svg_filter.svg';
 
@@ -24,6 +25,10 @@ const Filter = (props) => {
     const [isHover, setHover] = useState(false);
     const [isHover2, setHover2] = useState(false);
     const [isOpen, setOpen] = useState(false);
+    const [problemId, setProblemId] = useState(props.problemId);
+    const [loginId, setLoginId] = useState(props.loginId);
+    const [result, setResult] = useState(props.result);
+    const [lang, setLang] = useState(props.lang);
 
     let background = (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)');
     if(isHover || isOpen) background = (props.theme==='light' ? 'rgb(215,215,215)' : 'rgb(60,60,60)');
@@ -83,34 +88,36 @@ const Filter = (props) => {
             </div>
             <animated.div style={ styleBox } className="ND">
                 <div style={{ marginTop: '15px', marginLeft: '15px', marginRight: '15px' }}>
-                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '120px' }} type="txt" placeholder="문제 번호(#)"/>
-                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '200px' }} type="txt" placeholder="아이디"/>
+                    <input style={{ ...styleInput, marginRight: '6px', width: '120px' }} type="txt" placeholder="문제 번호(#)"
+                    value={ problemId } onChange={ (e) => setProblemId(e.target.value) }/>
+                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '200px' }} type="txt" placeholder="아이디"
+                    value={ loginId } onChange={ (e) => setLoginId(e.target.value) }/>
                     <animated.span style={{ ...styleSelectBorder, width: '170px', marginRight: '6px' }}>
-                        <select style={{ ...styleSelect }}>
-                            <option>모든 결과</option>
-                            <option>맞았습니다</option>
-                            <option>부분 점수</option>
-                            <option>시간 초과</option>
-                            <option>메모리 초과</option>
-                            <option>출력 초과</option>
-                            <option>런타임 에러</option>
-                            <option>컴파일 에러</option>
-                            <option>채점 대기중</option>
+                        <select style={{ ...styleSelect }} value={ result } onChange={ (e) => setResult(e.target.value) }>
+                            <option value="">모든 결과</option>
+                            <option value="accepted">맞았습니다</option>
+                            <option value="partial">부분 점수</option>
+                            <option value="time">시간 초과</option>
+                            <option value="memory">메모리 초과</option>
+                            <option value="output">출력 초과</option>
+                            <option value="runtime">런타임 에러</option>
+                            <option value="compile">컴파일 에러</option>
+                            <option value="wait">채점 대기중</option>
                         </select>
                     </animated.span>
                     <animated.span style={{ ...styleSelectBorder, width: '170px' }}>
-                        <select style={{ ...styleSelect }}>
-                            <option>모든 언어</option>
-                            <option>C</option>
-                            <option>C++</option>
-                            <option>Python</option>
-                            <option>Java</option>
-                            <option>R</option>
+                        <select style={{ ...styleSelect }} value={ lang } onChange={ (e) => setLang(e.target.value) }>
+                            <option value="">모든 언어</option>
+                            <option value="c">C</option>
+                            <option value="cpp">C++</option>
+                            <option value="python">Python</option>
+                            <option value="java">Java</option>
+                            <option value="r">R</option>
                         </select>
                     </animated.span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row-reverse', margin: '15px' }}>
-                    <Link>
+                    <Link to={ `/status/${ getHref.encodeObject({ problemId: problemId, loginId: loginId, result: result, lang: lang }) }` }>
                         <animated.div style={ styleBoxBtn }
                         onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>적용</animated.div>
                     </Link>
@@ -121,24 +128,65 @@ const Filter = (props) => {
 }
 
 class Status extends Component {
+    constructor(props){
+        super(props);
+        this.state = { myLoginId: undefined, problemId: undefined, loginId: undefined, result: undefined, lang: undefined, page: 1 }
+    }
     render() {
-        let container = <LoadingLay/>
+        /* query */
+        let query = {};
+        try { query = getHref.decodeObject(this.props.id); }
+        catch(e){ query = {}; }
+        if(query.problemId && query.problemId[0] !== '#') query.problemId = '#'+query.problemId;
+        if(!query.problemId || query.problemId.length > 30) query.problemId = '';
+        if(!query.loginId || query.loginId.length > 30) query.loginId = '';
+        if(!query.result || query.result.length > 30) query.result = '';
+        if(!query.lang || query.lang.length > 30) query.lang = '';
+        if(!query.page) query.page = 1;
 
-        if(true){
+        /* login-id */
+        if(!this.onCallLoginId){
+            this.onCallLoginId = true;
+            axios.get('/json/logininfo').then(({ data }) => {
+                this.setState({ myLoginId: data.id });
+            })
+        }
+
+        /* container */
+        const needLoad = (query.problemId !== this.state.problemId || query.loginId !== this.state.loginId || query.result !== this.state.result ||
+            query.lang !== this.state.lang || query.page !== this.state.page);
+        let container = <LoadingLay/>
+        if(needLoad){
+            if(!this.onCall){
+                this.setState({ problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page }, () => {
+                    this.onCall = false;
+                })
+            }
+        }
+        else{
             container = (
                 <div>
                     <div style={{ height: '30px' }}/>
-                    <Filter theme={ this.props.theme }/>
+                    <Filter theme={ this.props.theme } problemId={ this.state.problemId } loginId={ this.state.loginId }
+                    result={ this.state.result } lang={ this.state.lang }/>
                     <div style={{ height: '30px' }}/>
                     <StatusTable theme={ this.props.theme } list={ [123] }/>
                 </div>
             )
         }
 
+        /* top layout */
+        const link1 = `/status/${ getHref.encodeObject({ problemId: query.problemId, result: query.result, lang: query.lang }) }`;
+        const link2 = (this.state.myLoginId ? `/status/${ getHref.encodeObject({ problemId: query.problemId, result: query.result, lang: query.lang, loginId: this.state.myLoginId }) }` : undefined);
+        let subtitle = '';
+        if(query.problemId) subtitle = ` - ${ query.problemId }`;
+        else if(query.loginId) subtitle = ` - ${ query.loginId }`;
+        // else if(query.loginId) subtitle = ` - ${ query.loginId }`;
+
         return (
             <div>
                 <Helmet><title>채점 : 오일러OJ</title></Helmet>
-                <Top/>
+                <Top category1={ query.loginId==='' } category2={ query.loginId===this.state.myLoginId } link1={ link1 } link2={ link2 } subtitle={ subtitle }/>
                 <div className="FRAME_MAIN">{ container }</div>
                 <div className="BTM_EMPTY"></div>
                 <Footer theme={ this.props.theme }/>

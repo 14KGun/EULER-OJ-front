@@ -38,7 +38,7 @@ const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Prob
 const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemBloggingWithId = (props) => <Frame { ...props }><ProblemBlogging { ...props } id={ useParams().Pnum }/></Frame>
-const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props }/></Frame>
+const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props } id={ useParams().Pnum }/></Frame>
 const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
 const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum1 } page={ useParams().Pnum2 }/></Frame>
@@ -109,7 +109,8 @@ function App() {
         <Route exact path="/problemset/blogging/:Pnum"><ProblemBloggingWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
-        { /*<Route exact path="/status"><StatusWithIdPage { ...params }/></Route> */ }
+        { /*<Route exact path="/status"><StatusWithIdPage { ...params }/></Route>
+        <Route exact path="/status/:Pnum"><StatusWithIdPage { ...params }/></Route> */ }
 
         <Route exact path="/tags"><Frame { ...params }><Tag { ...params } id={0} page={1}/></Frame></Route>
         <Route exact path="/tags/:Pnum"><TagWithId { ...params }/></Route>
