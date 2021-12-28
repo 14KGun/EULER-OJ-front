@@ -7,6 +7,7 @@ import axios from '../../Tool/axios';
 
 import svgList from '../svg_list.svg';
 import svgEdit from './svg_edit.svg';
+import svgEditSp from './svg_editSp.svg';
 import svgMove from './svg_move.svg';
 
 const LoadingLay = () => {
@@ -53,8 +54,8 @@ const ProblemItem = (props) => {
                 <Link to={ `/problemset/problem/${ props.id }` }>
                     <ProblemItemBtn theme={ props.theme } icon={ svgMove } name="문제로 이동"/>
                 </Link>
-                <Link to={ `/nadmin/problem/editSp/${ props.id }` }>
-                    <ProblemItemBtn theme={ props.theme } icon={ svgEdit } name="비허용 수정"/>
+                <Link to={ `/nadmin/problem/editSp?id=${ props.id }` }>
+                    <ProblemItemBtn theme={ props.theme } icon={ svgEditSp } name="비허용 수정"/>
                 </Link>
                 <a href={ `/newadmin/problem/edit?id=${ props.id }` }>
                     <ProblemItemBtn theme={ props.theme } icon={ svgEdit } name="수정"/>

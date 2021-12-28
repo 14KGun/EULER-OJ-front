@@ -4,6 +4,7 @@ import FrameSplit from '../Frame/FrameSplit/FrameSplit';
 import Empty from './Empty/Empty';
 import ProblemAdd from './Problem/Add';
 import ProblemList from './Problem/List';
+import ProblemEditSp from './Problem/EditSp';
 import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
 import BloggingPull from './Blogging/Pull';
@@ -96,6 +97,9 @@ class Admin extends Component {
         }
         else if(this.props.page === 'problem/list' && adminLevel >= 8){
             container = <ProblemList theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'problem/editSp' && adminLevel >= 10){
+            container = <ProblemEditSp theme={ this.props.theme }/>
         }
         else if(this.props.page === 'problem/gitpull' && adminLevel >= 10){
             container = <ProblemGitpull theme={ this.props.theme }/>
