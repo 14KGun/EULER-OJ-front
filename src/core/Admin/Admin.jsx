@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Helmet } from "react-helmet";
 import FrameSplit from '../Frame/FrameSplit/FrameSplit';
 import Empty from './Empty/Empty';
+import ProblemAdd from './Problem/Add';
 import ProblemList from './Problem/List';
 import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
@@ -26,7 +27,7 @@ class Admin extends Component {
     navigator(level){
         const navigator = [];
 
-        if(level >= 10){
+        if(level >= 8){
             navigator.push({
                 title: '문제',
                 list: [
@@ -90,7 +91,10 @@ class Admin extends Component {
         const title = (adminLevel >= 5 ? '관리 : 오일러OJ' : '오일러OJ');
 
         let container = <div/>;
-        if(this.props.page === 'problem/list' && adminLevel >= 10){
+        if(this.props.page === 'problem/add' && adminLevel >= 8){
+            container = <ProblemAdd theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'problem/list' && adminLevel >= 8){
             container = <ProblemList theme={ this.props.theme }/>
         }
         else if(this.props.page === 'problem/gitpull' && adminLevel >= 10){
