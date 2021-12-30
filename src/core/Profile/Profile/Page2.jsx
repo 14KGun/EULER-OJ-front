@@ -1,6 +1,7 @@
 import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
+import getHref from '../../Tool/getHref';
 
 const Title = (props) => {
     return (
@@ -127,10 +128,10 @@ const BtnSearch = (props) => {
         config: { duration: 200 }
     })
     return (
-        <a href={ `/status/?lid=${ props.id }&status=accepted` }>
+        <Link to={ `/status/${ getHref.encodeObject({ loginId: props.id, result: 'accepted' }) }` }>
             <animated.span style={{ ...style, ...background }}
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>채점 기록으로 보기</animated.span>
-        </a>
+        </Link>
     )
 }
 

@@ -11,6 +11,7 @@ import axios from '../Tool/axios';
 import getHref from '../Tool/getHref';
 
 import svgFilter from './svg_filter.svg';
+import svgClose from './svg_close.svg';
 
 const LoadingLay = () => {
     return (
@@ -21,6 +22,32 @@ const LoadingLay = () => {
     )
 }
 
+const FilterBtn = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = useSpring({
+        borderRadius: '10px', overflow: 'hidden', position: 'relative',
+        height: '30px',
+        background: `rgba(120,120,120,${ isHover ? 0.2 : 0 })`,
+        config: { duration: 100 }
+    });
+    const styleTxt = {
+        height: '30px', lineHeight: '30px', paddingLeft: '8px', paddingRight: '25px',
+        fontSize: '16px', fontWeight: 400, color: (props.theme==='light' ? 'black' : 'white')
+    }
+    const styleClose = {
+        position: 'absolute', top: '6px', right: '5px',
+        width: '20px', height: '20px',
+    }
+
+    return (
+        <Link to={ props.to }>
+            <animated.div style={ style } onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <div style={ styleTxt }>{ props.text }</div>
+                <img src={ svgClose } alt="close" style={ styleClose }/>
+            </animated.div>
+        </Link>
+    )
+}
 const Filter = (props) => {
     const [isHover, setHover] = useState(false);
     const [isHover2, setHover2] = useState(false);
@@ -36,7 +63,7 @@ const Filter = (props) => {
     const style = useSpring({
         background: background,
         borderRadius: '10px', overflow: 'hidden', position: 'relative',
-        width: '100px', height: '30px',
+        width: '100px', height: '30px', marginRight: '7px',
         config: { duration: 100 }
     });
     const styleFilterText = {
@@ -77,6 +104,35 @@ const Filter = (props) => {
         height: '30px', overflow: 'hidden'
     }
 
+    const FilterList = [];
+    if(props.problemId !== '') {
+        FilterList.push(<FilterBtn theme={ props.theme } text={ props.problemId } to={ `/status/${ getHref.encodeObject({ loginId: props.loginId, result: props.result, lang: props.lang }) }` }/>)
+    }
+    if(props.loginId !== '') {
+        FilterList.push(<FilterBtn theme={ props.theme } text={ props.loginId } to={ `/status/${ getHref.encodeObject({ problemId: props.problemId, result: props.result, lang: props.lang }) }` }/>)
+    }
+    if(props.result !== '') {
+        let text = props.result;
+        if(text === 'accepted') text = '맞았습니다';
+        else if(text === 'partial') text = '부분 점수';
+        else if(text === 'time') text = '시간 초과';
+        else if(text === 'memory') text = '메모리 초과';
+        else if(text === 'output') text = '출력 초과';
+        else if(text === 'runtime') text = '런타임 에러';
+        else if(text === 'compile') text = '컴파일 에러';
+        else if(text === 'wait') text = '채점 대기중';
+        FilterList.push(<FilterBtn theme={ props.theme } text={ text } to={ `/status/${ getHref.encodeObject({ problemId: props.problemId, loginId: props.loginId, lang: props.lang }) }` }/>)
+    }
+    if(props.lang !== '') {
+        let text = props.lang;
+        if(text === 'c') text = 'C';
+        else if(text === 'cpp') text = 'C++';
+        else if(text === 'python') text = 'Python';
+        else if(text === 'java') text = 'Java';
+        else if(text === 'r') text = 'R';
+        FilterList.push(<FilterBtn theme={ props.theme } text={ text } to={ `/status/${ getHref.encodeObject({ problemId: props.problemId, loginId: props.loginId, result: props.result }) }` }/>)
+    }
+
     return (
         <>
             <div style={{ display: 'flex' }} className="ND">
@@ -85,6 +141,7 @@ const Filter = (props) => {
                     <img src={ svgFilter } alt="" style={{ position: 'absolute', top: '4px', left: '4px', height: '22px' }}/>
                     <div style={ styleFilterText }>검색 필터</div>
                 </animated.div>
+                { FilterList }
             </div>
             <animated.div style={ styleBox } className="ND">
                 <div style={{ marginTop: '15px', marginLeft: '15px', marginRight: '15px' }}>
@@ -170,7 +227,7 @@ class Status extends Component {
                     <Filter theme={ this.props.theme } problemId={ this.state.problemId } loginId={ this.state.loginId }
                     result={ this.state.result } lang={ this.state.lang }/>
                     <div style={{ height: '30px' }}/>
-                    <StatusTable theme={ this.props.theme } list={ [123] }/>
+                    <StatusTable theme={ this.props.theme } list={ [123,123] }/>
                 </div>
             )
         }

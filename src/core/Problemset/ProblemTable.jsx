@@ -1,5 +1,8 @@
 import React, { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { Link } from 'react-router-dom';
+import getHref from '../Tool/getHref';
+
 import svgPersonGreen from './svg_personGreen.svg';
 import svgPersonGray from './svg_personGray.svg';
 import imgNosolve from '../Tag/TagIcon/img_nosolveLight.png'
@@ -81,19 +84,27 @@ const ProblemItem = (props) => {
         <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden', background: ItemBackground }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <a href="#"><div style={ Item1Style }></div></a>
-            <a href={`/problemset/problem/${ props.id }`}><div style={ Item2Style }>#{ props.id }</div></a>
-            <a href={`/problemset/problem/${ props.id }`}><div style={ Item3Style }>
-                <span style={ Item3TxtStyle }>{ props.title }</span>
-                { tagList }
-            </div></a>
-            <a href={`/problemset/stats/${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
-                <div style={ Item4Txtstye }>{ props.submit }</div>
-            </div></a>
-            <a href={`/status?pid=${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
-                <div style={ Item4Txtstye }>{ props.solve }</div>
-            </div></a>
+            <Link to={`/problemset/problem/${ props.id }`}>
+                <div style={ Item2Style }>#{ props.id }</div>
+            </Link>
+            <Link to={`/problemset/problem/${ props.id }`}>
+                <div style={ Item3Style }>
+                    <span style={ Item3TxtStyle }>{ props.title }</span>
+                    { tagList }
+                </div>
+            </Link>
+            <Link to={`/problemset/stats/${ props.id }`}>
+                <div style={{ ...Item4Style }}>
+                    <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
+                    <div style={ Item4Txtstye }>{ props.submit }</div>
+                </div>
+            </Link>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
+                <div style={{ ...Item4Style }}>
+                    <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
+                    <div style={ Item4Txtstye }>{ props.solve }</div>
+                </div>
+            </Link>
         </animated.div>
     )
 }

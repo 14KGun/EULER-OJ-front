@@ -13,6 +13,7 @@ import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
+import getHref from '../../Tool/getHref';
 import './ProblemViewer.css';
 
 import imgEditor from './img_editor.png';
@@ -255,22 +256,22 @@ const BoxStatus = (props) => {
     return (
         <div className="right_TOPBOX" style={{ background: background, border: border }}>
             <div className="right_TOPBOX-TITLE" style={{ color: color }}>채점 기록</div>
-            <a href={`/status?pid=${props.id}`}>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background1 }}
                 onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard3 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>전체 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
                 </animated.div>
-            </a>
-            <a href={`/status?pid=${props.id}&lid=${props.loginId ? props.loginId : ''}`}>
+            </Link>
+            <Link to={`/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>내 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
-            </a>
+            </Link>
             { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res }/></div> : <></> }
         </div>
     )
