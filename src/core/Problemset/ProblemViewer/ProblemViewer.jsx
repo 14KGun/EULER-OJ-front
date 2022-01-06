@@ -89,13 +89,13 @@ const BtnSubmit = (props) => {
     });
 
     return (
-        <a href={`/problemset/submit/${props.id}`}>
+        <Link to={`/problemset/submit/${props.id}`}>
             <animated.div className="right_TOPBTN" id="btn_submit" style={ style }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ imgSubmit } alt=""/>
                 <div>제출하기</div>
             </animated.div>
-        </a>
+        </Link>
     )
 }
 const BoxLink = (props) => {

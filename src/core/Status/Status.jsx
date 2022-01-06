@@ -12,6 +12,7 @@ import getHref from '../Tool/getHref';
 
 import svgFilter from './svg_filter.svg';
 import svgClose from './svg_close.svg';
+import svgRefresh from './svg_refresh.svg';
 
 const LoadingLay = () => {
     return (
@@ -184,6 +185,33 @@ const Filter = (props) => {
     )
 }
 
+const BtnReload = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = useSpring({
+        background: isHover ? 'rgb(0,120,170)' : 'rgb(0,134,191)',
+        height: '36px',
+        paddingLeft: '10px', paddingRight: '15px', borderRadius: '18px',
+        config: { duration: 100 }
+    })
+    const styleImg = {
+        verticalAlign: 'middle', marginRight: '5px'
+    }
+    const styleTxt = {
+        verticalAlign: 'middle', color: 'white',
+        height: '36px', lineHeight: '36px',
+        fontSize: '16px', fontWeight: 400
+    }
+    return (
+        <div style={{ display: 'flex', justifyContent: 'space-around' }} className="ND">
+            <animated.div style={ style } className="BTNC" onClick={ props.onClick }
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <img src={ svgRefresh } alt="" style={ styleImg }/>
+                <span style={ styleTxt }>다시 불러오기</span>
+            </animated.div>
+        </div>
+    )
+}
+
 class Status extends Component {
     constructor(props){
         super(props);
@@ -215,10 +243,34 @@ class Status extends Component {
         let container = <LoadingLay/>
         if(needLoad){
             if(!this.onCall){
-                this.setState({ problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page }, () => {
-                    this.onCall = false;
-                })
+                if(this.props.socket){
+                    this.loadFail = false;
+                    this.onCall = true;
+                    this.props.socket.off('load_status');
+                    this.props.socket.emit('status_load', { problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page });
+                    this.props.socket.on('load_status', (msg) => {
+                        this.setState({ problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page }, () => {
+                            this.onCall = false;
+                        })
+                    });
+                }
+                else{
+                    this.loadFail = true;
+                }
             }
+        }
+        else if(this.loadFail){
+            const onClick = () => {
+                this.setState({ problemId: 'undefiend', loginId: 'undefiend', result: 'undefined', lang: 'undefiend' });
+            }
+            container = (
+                <div>
+                    <div style={{ height: '50px' }}/>
+                    <div style={{ textAlign: 'center', color: (this.props.theme==='light'?'black':'white') }}>채점 불러오기에 실패하였습니다</div>
+                    <div style={{ height: '10px' }}/>
+                    <BtnReload onClick={ onClick }/>
+                </div>
+            )
         }
         else{
             container = (
