@@ -15,6 +15,7 @@ import Problem from './core/Problemset/Problem/Problem';
 import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
 import ProblemBlogging from './core/Problemset/Blogging/Blogging';
+import ProblemStat from './core/Problemset/Stats/Stats';
 import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
@@ -38,6 +39,7 @@ const ProblemWithId = (props) => <Frame { ...props } headerTxtColor="none"><Prob
 const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemViewer { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemBloggingWithId = (props) => <Frame { ...props }><ProblemBlogging { ...props } id={ useParams().Pnum }/></Frame>
+const ProblemStatWithId = (props) => <Frame { ...props }><ProblemStat { ...props } id={ useParams().Pnum }/></Frame>
 const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props } id={ useParams().Pnum }/></Frame>
 const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
@@ -108,6 +110,8 @@ function App() {
         <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId { ...params }/></Route>
         <Route exact path="/problemset/blogging/:Pnum"><ProblemBloggingWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
+        { /*<Route exact path="/problemset/stats/:Pnum"><ProblemStatWithId { ...params }/></Route> */ }
+
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
         <Route exact path="/status"><StatusWithIdPage { ...params }/></Route>
         <Route exact path="/status/:Pnum"><StatusWithIdPage { ...params }/></Route>
@@ -156,8 +160,6 @@ function App() {
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
         <Route path="/problemset/stats/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/stats/'+props.match.params.pnum; return null; } }/>
         <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
-        <Route path="/status/result/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/status/result/'+props.match.params.pnum; return null; } }/>
-        <Route path="/status" component={ () => { window.location.href = 'https://euleroj.io/status'; return null; } }/>
         <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
         <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
@@ -168,7 +170,6 @@ function App() {
         <Route path="/login/unlink/step1/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/kakao'; return null; } }/>
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
         <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
-        <Route path="/setting/profile" component={ () => { window.location.href = 'https://euleroj.io/setting/profile'; return null; } }/>
 
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>

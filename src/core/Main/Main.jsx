@@ -1,4 +1,5 @@
 import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
@@ -50,7 +51,7 @@ const Lay1Item = (props) => {
     else{
         return (
             <div style={{ width: '25%', height: '100%', float: 'left', position: 'relative' }}>
-                <a href={ props.url }>{ card }</a>
+                <Link to={ props.url }>{ card }</Link>
             </div>
         );
     }
@@ -79,9 +80,15 @@ class Main extends Component {
                 <Gallery pageIndex={ this.state.pageIndex } setPage={ this.setPage.bind(this) } pageFix={ this.state.pageFix }/>
                 <div id="lay1" className="ND">
                     <div className="FRAME_MAIN" style={{ height: '200px' }}>
-                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset" theme={ this.props.theme }/></span>
-                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" theme={ this.props.theme } newTab/></span>
-                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/></span>
+                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset" theme={ this.props.theme }/>
+                        </span>
+                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" theme={ this.props.theme } newTab/>
+                        </span>
+                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/>
+                        </span>
                         <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" theme={ this.props.theme } newTab/>
                     </div>
                 </div>

@@ -215,7 +215,10 @@ const BtnReload = (props) => {
 class Status extends Component {
     constructor(props){
         super(props);
-        this.state = { myLoginId: undefined, problemId: undefined, loginId: undefined, result: undefined, lang: undefined, page: 1 }
+        this.state = { myLoginId: undefined, problemId: undefined, loginId: undefined, result: undefined, lang: undefined, page: 1, list: [] }
+    }
+    makeGetPageUrl(page){
+        return  `/status/${ getHref.encodeObject({ problemId: this.state.problemId, loginId: this.state.loginId, result: this.state.result, lang: this.state.lang, page: page }) }`;
     }
     render() {
         /* query */
@@ -244,14 +247,49 @@ class Status extends Component {
         if(needLoad){
             if(!this.onCall){
                 if(this.props.socket){
+                    if(!this.joinRoom){
+                        this.props.socket.emit('joinRoom', 'status');
+                        this.joinRoom = true;
+
+                        this.props.socket.off('update_info');
+                        this.props.socket.off('update_res');
+                        this.props.socket.on('update_info', msg => {
+                            for(let i=0; i<this.state.list.length; i++){
+                                if(this.state.list[i].id == msg.id){
+                                    if(this.state.list[i].status.indexOf('wait')!=-1) this.state.list[i].status = msg.res;
+                                }
+                            }
+                            this.setState({ list: this.state.list });
+                        });
+                        this.props.socket.on('update_res', msg => {
+                            for(var i=0; i<msg.length; i++){
+                                for(let j=0; j<this.state.list.length; j++){
+                                    if(this.state.list[j].id == msg[i].id){
+                                        if(this.state.list[j].status.indexOf('wait')!=-1) this.state.list[j].status = msg[i].res;
+                                    }
+                                }
+                            }
+                            this.setState({ list: this.state.list });
+                        });
+                    }
                     this.loadFail = false;
                     this.onCall = true;
                     this.props.socket.off('load_status');
                     this.props.socket.emit('status_load', { problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page });
                     this.props.socket.on('load_status', (msg) => {
-                        this.setState({ problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page }, () => {
-                            this.onCall = false;
-                        })
+                        if(msg.problemId && msg.problemId.startsWith('#') === false) msg.problemId = '#'+msg.problemId;
+                        if(msg.err){
+                            this.setState({ err: true, list: [] }, () => {
+                                this.onCall = false;
+                            })
+                        }
+                        else{
+                            if(msg.problemId === query.problemId && msg.loginId === query.loginId && msg.result === query.result && msg.lang === query.lang && msg.page === query.page){
+                                this.setState({ err: false, problemId: msg.problemId, loginId: msg.loginId, result: msg.result, lang: msg.lang, page: msg.page, list: msg.list, maxPage: msg.maxPage }, () => {
+                                    this.onCall = false;
+                                })
+                            }
+                        }
                     });
                 }
                 else{
@@ -259,7 +297,7 @@ class Status extends Component {
                 }
             }
         }
-        else if(this.loadFail){
+        else if(this.loadFail || this.state.err){
             const onClick = () => {
                 this.setState({ problemId: 'undefiend', loginId: 'undefiend', result: 'undefined', lang: 'undefiend' });
             }
@@ -279,7 +317,8 @@ class Status extends Component {
                     <Filter theme={ this.props.theme } problemId={ this.state.problemId } loginId={ this.state.loginId }
                     result={ this.state.result } lang={ this.state.lang }/>
                     <div style={{ height: '30px' }}/>
-                    <StatusTable theme={ this.props.theme } list={ [123,123] }/>
+                    <StatusTable theme={ this.props.theme } list={ this.state.list }/>
+                    <PageSelector page={ this.state.page } max={ this.state.maxPage } theme={ this.props.theme } get={ (x) => this.makeGetPageUrl(x) }/>
                 </div>
             )
         }
@@ -301,6 +340,12 @@ class Status extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         );
+    }
+    componentWillUnmount(){
+        if(this.joinRoom){
+            this.joinRoom = false;
+            this.props.socket.emit('leaveRoom', 'status');
+        }
     }
 }
 

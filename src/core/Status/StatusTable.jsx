@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import Res from '../Frame/Res/Res';
+import trans from '../Tool/trans';
+
+import svgEmpty from './svg_empty.svg';
 
 const StatusTop = (props) => {
     const borderLine = '2px solid rgb(0,150,200)';
@@ -71,33 +74,50 @@ const StatusItem = (props) => {
 
     return (
         <animated.div style={{ ...style, ...styleBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <Link><div style={{ ...ItemStyle, ...Item1Style }}>12345</div></Link>
-            <Link><div style={{ ...ItemStyle, ...Item2Style }}>#2038</div></Link>
-            <Link>
+            <Link to={ `/status/result/${ props.id }` }>
+                <div style={{ ...ItemStyle, ...Item1Style }}>{ props.id }</div>
+            </Link>
+            <Link to={ `/problemset/problem/${ props.problemId }` }>
+                <div style={{ ...ItemStyle, ...Item2Style }}>#{ props.problemId }</div>
+            </Link>
+            <Link to={ `/profile/${ props.loginId }` }>
                 <div style={{ ...ItemStyle, ...Item3ImgStyle }}>
-                    <img style={{ width: '100%', height: '100%', verticalAlign: 'top' }} alt=""/>
+                    <img style={{ width: '100%', height: '100%', verticalAlign: 'top' }} alt="" src={ `/profile-img/${ props.loginId }.webp?size=60` }/>
                 </div>
             </Link>
-            <Link>
-                <div style={{ ...ItemStyle, ...Item3Style }}>supernova</div>
+            <Link to={ `/profile/${ props.loginId }` }>
+                <div style={{ ...ItemStyle, ...Item3Style }}>{ props.loginId }</div>
             </Link>
-            <Link><div style={{ ...ItemStyle, ...Item4Style }}>C++17</div></Link>
-            <div style={{ ...ItemStyle, ...Item5Style }}>2021년 10월 30일 12시 6분</div>
-            <Link>
+            <Link to={ `/status/result/${ props.id }` }>
+                <div style={{ ...ItemStyle, ...Item4Style }}>{ props.lang }</div>
+            </Link>
+            <div style={{ ...ItemStyle, ...Item5Style }}>{ trans.date(new Date(props.date)) }</div>
+            <Link to={ `/status/result/${ props.id }` }>
                 <div style={{ ...ItemStyle, ...Item6Style }} className="ND">
-                    <Res theme={ props.theme } res="100"/>
+                    <Res theme={ props.theme } res={ props.status }/>
                 </div>
             </Link>
         </animated.div>
     )
 }
 
+const Empty = (props) => {
+    return (
+        <div className="ND">
+            <div style={{ textAlign: 'center' }}>
+                <img src={ svgEmpty } alt="" style={{ width: '30px', height: '30px' }}/>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>일치하는 검색 결과가 없습니다.</div>
+        </div>
+    )
+}
+
 const StatusTable = (props) => {
-    if(props.list.length <= 0) return <div/>;
+    if(props.list.length <= 0) return <Empty theme={ props.theme }/>;
     return (
         <div>
             <StatusTop/>
-            { props.list.map((item, index) => <StatusItem theme={ props.theme }/>) }
+            { props.list.map((item, index) => <StatusItem key={ index } theme={ props.theme } { ...item }/>) }
         </div>
     )
 }

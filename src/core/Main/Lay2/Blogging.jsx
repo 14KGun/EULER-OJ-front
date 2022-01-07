@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import Frame from './Lay2Frame';
@@ -40,7 +40,7 @@ const BtnItem = (props) => {
     }
 
     return (
-        <animated.div style={ style }
+        <animated.div style={ style } className="BTNC"
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <img src={ props.icon } style={ styleImg } alt=""/>
             <span style={ styleTxt }>{ props.text }</span>
@@ -50,6 +50,10 @@ const BtnItem = (props) => {
 const Item = (props) => {
     const [isHover, setHover] = useState(false);
     const [layNum, setLayNum] = useState(0);
+
+    const onCall = useRef(false);
+    const [good, setGood] = useState(props.good);
+    const [goodMe, setGoodMe] = useState(props.goodMe);
 
     const style = useSpring({
         height: '54px', position: 'relative', overflow: 'hidden',
@@ -95,6 +99,17 @@ const Item = (props) => {
         display: 'flex'
     }
 
+    const onClickGood = () => {
+        if(!onCall.current){
+            onCall.current = true;
+            axios.get(`json/stats/blogging/good/${ props._id }`).then(({ data }) => {
+                setGood(data.tot);
+                setGoodMe(data.me);
+                onCall.current = false;
+            });
+        }
+    }
+
     return (
         <animated.div style={ style }
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => { setHover(false); setLayNum(0); } }>
@@ -114,7 +129,9 @@ const Item = (props) => {
                 </div>
                 <div style={ styleDate }>{ trans.date2(new Date(props.date)) }</div>
                 <div style={ styleLay2Top }>
-                    <BtnItem icon={ svgGood } text="123"/>
+                    <button onClick={ () => onClickGood() }>
+                        <BtnItem icon={ goodMe ? svgGoodFill : svgGood } text={ good }/>
+                    </button>
                     <a href={ props.url } target="_blank" rel="noreferrer">
                         <BtnItem icon={ svgLink } text=""/>
                     </a>
