@@ -14,6 +14,7 @@ class Footer extends Component {
     state = { bodyWidth: 0, bodyHeight: 0 }
     constructor(props) {
         super(props);
+        this.reposition = this.reposition.bind(this);
 
         this.footerTopStyle = {
             width: '100%', height: '30px',
@@ -68,11 +69,7 @@ class Footer extends Component {
     }
     componentDidMount(){
         this.reposition();
-        window.addEventListener('resize', () => this.reposition());
-    }
-    componentDidUpdate(){
-        this.reposition();
-        window.addEventListener('resize', () => this.reposition());
+        window.addEventListener('resize', this.reposition);
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.reposition);
