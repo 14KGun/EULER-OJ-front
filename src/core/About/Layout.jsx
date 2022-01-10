@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
-
 const Title = (props) => {
     return (
         <div style={{ position: 'relative', marginBottom: '10px' }}>

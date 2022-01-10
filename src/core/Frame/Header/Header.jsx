@@ -211,7 +211,7 @@ class Header extends Component {
     }
     requestLogininfo(){
         axios.get('/json/logininfo').then((userInfo) => {
-            this.setState({ loginInfo: userInfo.data });
+            if(!this.unmount) this.setState({ loginInfo: userInfo.data });
         })
     }
     render(){
@@ -243,6 +243,9 @@ class Header extends Component {
             alarmList={ this.props.alarmList } setAlarmList={ this.props.setAlarmList }
             alarmVisible={ this.props.alarmVisible } setAlarmVisible={ this.props.setAlarmVisible }/>
         )
+    }
+    componentWillUnmount(){
+        this.unmount = true;
     }
 }
 

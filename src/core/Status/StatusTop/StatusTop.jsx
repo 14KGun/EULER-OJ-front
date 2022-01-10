@@ -13,7 +13,7 @@ import svgItem4 from './svg_4.svg';
 const Icon = () => {
     return (
         <div style={{ width: '40px', height: '40px' }}>
-            <img src={ svgStatus } style={{ width: '32px', height: '32px', padding: '4px' }}/>
+            <img src={ svgStatus } style={{ width: '32px', height: '32px', padding: '4px' }} alt=""/>
         </div>
     )
 }

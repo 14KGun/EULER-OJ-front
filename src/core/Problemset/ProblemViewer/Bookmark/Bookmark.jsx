@@ -40,7 +40,7 @@ const Bookmark = (props) => {
 }
 
 const defaultState = { id: undefined, loaded: false, available: false, check: false }
-class bookmarkMaker extends Component {
+class BookmarkMaker extends Component {
     constructor(props){
         super(props);
         this.state = defaultState
@@ -82,4 +82,4 @@ class bookmarkMaker extends Component {
     }
 }
 
-export default bookmarkMaker;
+export default BookmarkMaker;

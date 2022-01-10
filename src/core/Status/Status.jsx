@@ -255,8 +255,8 @@ class Status extends Component {
                         this.props.socket.off('update_res');
                         this.props.socket.on('update_info', msg => {
                             for(let i=0; i<this.state.list.length; i++){
-                                if(this.state.list[i].id == msg.id){
-                                    if(this.state.list[i].status.indexOf('wait')!=-1) this.state.list[i].status = msg.res;
+                                if(this.state.list[i].id === msg.id){
+                                    if(this.state.list[i].status.indexOf('wait')!==-1) this.state.list[i].status = msg.res;
                                 }
                             }
                             this.setState({ list: this.state.list });
@@ -264,8 +264,8 @@ class Status extends Component {
                         this.props.socket.on('update_res', msg => {
                             for(var i=0; i<msg.length; i++){
                                 for(let j=0; j<this.state.list.length; j++){
-                                    if(this.state.list[j].id == msg[i].id){
-                                        if(this.state.list[j].status.indexOf('wait')!=-1) this.state.list[j].status = msg[i].res;
+                                    if(this.state.list[j].id === msg[i].id){
+                                        if(this.state.list[j].status.indexOf('wait')!==-1) this.state.list[j].status = msg[i].res;
                                     }
                                 }
                             }

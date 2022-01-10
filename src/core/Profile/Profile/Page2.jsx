@@ -136,9 +136,6 @@ const BtnSearch = (props) => {
 }
 
 class Page2 extends Component {
-    constructor(props){
-        super(props);
-    }
     render() {
         return (
             <div className="FRAME_MAIN ND" style={{ paddingTop: '50px' }}>
