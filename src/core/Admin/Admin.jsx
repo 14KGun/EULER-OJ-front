@@ -17,6 +17,7 @@ import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
 import svgPeople from './svg_people.svg';
 import svgBlog from './svg_blog.svg';
+import svgGroup from './svg_group.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -43,6 +44,7 @@ class Admin extends Component {
                 title: '유저',
                 list: [
                     { name: '유저 정보 수정', icon: svgPeople, href: '/nadmin/user/list' },
+                    { name: 'Brain 멤버십', icon: svgGroup, href: '/nadmin/user/group' },
                 ]
             });
         }
