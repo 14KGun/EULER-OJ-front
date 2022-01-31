@@ -5,6 +5,17 @@ import axios from '../../Tool/axios';
 
 import svgChart from '../svg_chart.svg';
 
+const getQuarter = (x) => {
+    const year = x.split('-')[0];
+    const month = x.split('-')[1];
+
+    if(['1','2','3'].indexOf(month) !== -1) return `${ year }년 1분기`;
+    if(['4','5','6'].indexOf(month) !== -1) return `${ year }년 2분기`;
+    if(['7','8','9'].indexOf(month) !== -1) return `${ year }년 3분기`;
+    if(['10','11','12'].indexOf(month) !== -1) return `${ year }년 4분기`;
+    return `${ year }년`;
+}
+
 class Stat extends Component {
     constructor(props) {
         super(props);
@@ -13,11 +24,20 @@ class Stat extends Component {
 
         axios.get('/json/about/oj/stat').then(result => {
             const category = [], data = [];
-            result.data.stat.pop();
+            
             for(const i of result.data.stat){
-                category.push(i.name);
-                data.push(i.value);
+                const categoryName = getQuarter(i.name);
+                
+                console.log(i);
+                if(category.length > 0 && category[category.length - 1] == categoryName){
+                    data[data.length - 1] += i.value;
+                }
+                else{
+                    category.push(categoryName);
+                    data.push(i.value);
+                }
             }
+            category.pop(); data.pop();
             this.setState({ category: category, data: data })
         })
     }
