@@ -74,7 +74,7 @@ const ProblemItem = (props) => {
     }
     
     const [ isHover, setHover ] = useState(false);
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(200,200,200,0.2)' : 'rgba(200,200,200,0)', config: { duration: 100 } }).background;
+    const ItemBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } }).background;
 
     const tagList = [];
     if(props.tags.nosolve){ tagList.push(<span key="sp1">&nbsp;</span>); tagList.push(<img key="nosolve" src={ imgNosolve } style={ Item3ImgStyle } alt="nosolve"/>); }

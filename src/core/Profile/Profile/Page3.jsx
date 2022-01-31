@@ -12,7 +12,7 @@ const SubTitle = (props) => {
     return (
         <span style={{
             display: 'inline-block', height: '28px', lineHeight: '28px', borderRadius: '14px',
-            background: 'rgb(180,180,180)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
+            background: 'rgba(120,120,120,0.5)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
             fontSize: '16px', fontWeight: 300, color: 'white'
         }}>{ props.children }</span>
     )
@@ -33,11 +33,12 @@ const IdContainer = (props) => {
         display: 'inline-block', height: '26px', lineHeight: '26px', borderRadius: '10px',
         paddingLeft: '7px', paddingRight: '7px', marginRight: '7px',
         fontSize: '16px', fontWeight: 300, color: 'black',
-        background: 'rgb(200,200,200)'
+        background: 'rgb(200,200,200)',
+        color: (props.theme==='light' ? 'black' : 'white')
     }
     const background = useSpring({
-        background: isHover ? 'rgb(180,180,180)' : 'rgb(200,200,200)',
-        config: { duration: 200 }
+        background: isHover ? (props.theme==='light' ? 'rgba(100,100,100,0.3)' : 'rgba(180,180,180,0.3)') : 'rgba(140,140,140,0.3)',
+        config: { duration: 100 }
     })
     return (
         <Link to={ `/problemset/problem/${ props.id }` }>
@@ -52,11 +53,12 @@ const BtnSearch = (props) => {
         display: 'inline-block', height: '28px', lineHeight: '28px', borderRadius: '18px',
         paddingLeft: '9px', paddingRight: '9px',
         fontSize: '16px', fontWeight: 300, color: 'black',
-        border: '2px solid rgb(200,200,200)'
+        border: '2px solid rgba(120,120,120,0.7)',
+        color: (props.theme==='light' ? 'rgb(110,110,110)' : 'rgb(140,140,140)')
     }
     const background = useSpring({
-        background: isHover ? 'rgba(220,220,220,1)' : 'rgba(220,220,220,0)',
-        config: { duration: 200 }
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
+        config: { duration: 100 }
     })
     return (
         <Link to={ `/status/${ getHref.encodeObject({ loginId: props.id }) }` }>
@@ -73,9 +75,11 @@ class Page3 extends Component {
                 <Title theme={ this.props.theme }>틀린 문제<SubTitle>{ this.props.data.submit.length }</SubTitle></Title>
                 <Container theme={ this.props.theme }>
                     <div style={{ textAlign: 'center', lineHeight: '33px' }}>
-                        { this.props.data.submit.map((item, index) => <IdContainer key={ item } id={ item }/>) }
+                        { this.props.data.submit.map((item, index) => <IdContainer key={ item } id={ item } theme={ this.props.theme }/>) }
                     </div>
-                    <div style={{ textAlign: 'right', marginTop: '10px' }}><BtnSearch id={ this.props.data.id }/></div>
+                    <div style={{ textAlign: 'right', marginTop: '10px' }}>
+                        <BtnSearch id={ this.props.data.id } theme={ this.props.theme }/>
+                        </div>
                 </Container>
             </div>
         );

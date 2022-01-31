@@ -177,7 +177,7 @@ const HeaderMaker = (props) => {
 
     return (
         <>
-            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
+            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo } theme={ props.getTheme }
             leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
             { /* <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup } list={ props.alarmList } setList={ props.setAlarmList } visible={ props.alarmVisible }/> */ }
 

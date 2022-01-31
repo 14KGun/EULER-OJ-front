@@ -40,6 +40,8 @@ const Update = (props) => {
 
             <UpdateBox theme={ props.theme } date="2022.01.31">
                 <UpdateTxt theme={ props.theme }>문제 테이블의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>나와 비교하기에서 둘 다 틀린 문제의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>일부 페이지의 다크 모드 색이 수정되었습니다.</UpdateTxt>
             </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.01.08">
                 <UpdateTxt theme={ props.theme }>메인 페이지의 새로운 블로깅에서 좋아요와 문제 바로가기 버튼이 추가되었습니다.</UpdateTxt>

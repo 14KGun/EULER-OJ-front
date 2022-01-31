@@ -40,7 +40,7 @@ const sampleTransfer = (html) => {
 const Tag = (props) => {
     const [isHover, setHover] = useState(false);
     const background = useSpring({
-        background: isHover ? 'rgb(230,230,230)' : 'white',
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
         config: { duration: 100 }
     }).background;
 
@@ -57,7 +57,7 @@ const TagsLay = (props) => {
             { props.tags.map((item, index) => {
                 const url = item.url;
                 const name = item.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
-                return <Tag key={ index } url={ url } name={ name }/>
+                return <Tag key={ index } url={ url } name={ name } theme={ props.theme }/>
             }) }
         </>
     );
@@ -272,7 +272,7 @@ const BoxStatus = (props) => {
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
             </Link>
-            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res }/></div> : <></> }
+            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res } theme={ props.theme }/></div> : <></> }
         </div>
     )
 }
@@ -471,7 +471,7 @@ class ProblemViewer extends Component {
                     <div id="prob-id">#{ this.state.id }</div>
                     <div id="prob-title">{ this.state.title }</div>
                     <div id="prob-tag" className="ND">
-                        <TagsLay tags={ this.state.tags }/>
+                        <TagsLay tags={ this.state.tags } theme={ this.props.theme }/>
                         <Bookmark tooltip={ this.tooltip } id={ this.state.id }/>
                     </div>
                     <div className="txt0">문제</div>

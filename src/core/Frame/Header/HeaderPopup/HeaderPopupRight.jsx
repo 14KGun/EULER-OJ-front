@@ -9,7 +9,7 @@ const HeaderRight = (props) => {
     const style = {
         position: 'fixed', top: '80px', right: '10px', width: '300px', zIndex: 91,
         borderRadius: '10px', overflow: 'hidden',
-        background: 'white'
+        background: (props.theme==='light' ? 'white' : 'rgb(35,37,39)')
     };
     const springStyle = useSpring({
         height: props.show ? '450px' : '0px'
@@ -27,7 +27,8 @@ const HeaderRight = (props) => {
     const Lay1IdStyle = {
         marginTop: '10px', textAlign: 'center',
         width: '100%', overflow: 'hidden',
-        fontSize: '20px', fontWeight: '500', color: 'white',
+        fontSize: '20px', fontWeight: '500',
+        color: (props.theme==='light' ? 'white' : 'black')
     };
 
     if(props.loginInfo === undefined) return <></>;
@@ -42,10 +43,10 @@ const HeaderRight = (props) => {
                     </div>
                     <div style={ Lay1IdStyle }>{ props.loginInfo.id }</div>
                 </div>
-                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } padding={ 3 }/>
-                <BtnItem icon={ svgBookmark } name="내 북마크" url="/tags/bookmark" close={ props.close } padding={ 4 }/>
-                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } padding={ 3 }/>
-                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } padding={ 4 }/>
+                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } padding={ 3 } theme={ props.theme }/>
+                <BtnItem icon={ svgBookmark } name="내 북마크" url="/tags/bookmark" close={ props.close } padding={ 4 } theme={ props.theme }/>
+                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } padding={ 3 } theme={ props.theme }/>
+                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } padding={ 4 } theme={ props.theme }/>
             </animated.div>
         );
     }
