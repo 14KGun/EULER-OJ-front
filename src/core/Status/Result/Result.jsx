@@ -108,7 +108,7 @@ const Lay1 = (props) => {
                     <div style={{ paddingTop: '10px', paddingLeft: '10px', position: 'relative', marginTop: '10px' }}>
                         <span style={ styleTxt1 }>결과</span>
                         <div style={{ position: 'absolute', top: '10px', left: '110px', width: '230px' }}>
-                            <Res res={ props.res } theme={ props.theme }/>
+                            <Res res={ props.res } theme={ props.theme } border={ props.theme==='light' ? '1px solid rgba(120,120,120,0)' : '1px solid rgba(120,120,120,0.8)' }/>
                         </div>
                     </div>
                 </div>

@@ -93,7 +93,8 @@ const Res = (props) => {
     const style = useSpring({
         width: '100%', height: '26px', position: 'relative', overflow: 'hidden',
         borderRadius: '13px',
-        background: (props.theme==='light' ? 'rgb(200,200,200)' : 'rgb(50,50,50)')
+        background: (props.theme==='light' ? 'rgb(200,200,200)' : 'rgb(50,50,50)'),
+        border: props.border
     })
     const styleST = useSpring({
         background: ST.background, width: ST.width
