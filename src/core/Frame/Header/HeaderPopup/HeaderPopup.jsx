@@ -22,7 +22,6 @@ const HeaderPopupMaker = (props) => {
 }
 class HeaderPopup extends Component {
     render() {
-        console.log(this.props.theme);
         return <HeaderPopupMaker loginInfo={ this.props.loginInfo } theme={ this.props.theme }
         left={ this.props.left } leftClose={ this.props.leftClose }
         right={ this.props.right } rightClose={ this.props.rightClose }/>;

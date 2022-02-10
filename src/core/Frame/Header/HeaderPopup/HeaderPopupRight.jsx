@@ -1,9 +1,11 @@
 import { useSpring, animated } from 'react-spring';
 import BtnItem from './HeaderPopupBtnItem';
-import svgProf from './svg_prof.svg';
+
+import svgProfile from './svg_profile.svg';
 import svgBookmark from './svg_bookmark.svg';
 import svgSetting from './svg_setting.svg';
 import svgLogout from './svg_logout.svg';
+import svgBrain from './svg_brain.svg';
 
 const HeaderRight = (props) => {
     const style = {
@@ -12,7 +14,7 @@ const HeaderRight = (props) => {
         background: (props.theme==='light' ? 'white' : 'rgb(35,37,39)')
     };
     const springStyle = useSpring({
-        height: props.show ? '450px' : '0px'
+        height: props.show ? (props.loginInfo.membershipPos ? '510px' : '450px') : '0px'
     });
     const lay1Style = {
         height: '180px', paddingTop: '30px',
@@ -43,10 +45,11 @@ const HeaderRight = (props) => {
                     </div>
                     <div style={ Lay1IdStyle }>{ props.loginInfo.id }</div>
                 </div>
-                <BtnItem icon={ svgProf } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } padding={ 3 } theme={ props.theme }/>
-                <BtnItem icon={ svgBookmark } name="내 북마크" url="/tags/bookmark" close={ props.close } padding={ 4 } theme={ props.theme }/>
-                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } padding={ 3 } theme={ props.theme }/>
-                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } padding={ 4 } theme={ props.theme }/>
+                <BtnItem icon={ svgProfile } name="내 프로필" url={ `/profile/${ props.loginInfo.id }` } close={ props.close } padding={ 1 } theme={ props.theme }/>
+                <BtnItem icon={ svgBookmark } name="내 북마크" url="/tags/bookmark" close={ props.close } padding={ 1 } theme={ props.theme }/>
+                { props.loginInfo.membershipPos ?  <BtnItem icon={ svgBrain } name="Brain 멤버십" url="/setting/membership" close={ props.close } padding={ 0 } theme={ props.theme }/> : null }
+                <BtnItem icon={ svgSetting } name="계정 설정" url="/setting/profile" close={ props.close } padding={ 1 } theme={ props.theme }/>
+                <BtnItem icon={ svgLogout } name="로그아웃" url="/logout" close={ props.close } padding={ 1 } theme={ props.theme }/>
             </animated.div>
         );
     }

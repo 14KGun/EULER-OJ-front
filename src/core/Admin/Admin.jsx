@@ -9,6 +9,10 @@ import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
 import BloggingPull from './Blogging/Pull';
 import UserList from './User/List';
+import MembershipGroup from './Membership/Group';
+import MembershipGroupAdd from './Membership/GroupAdd';
+import MembershipGroupEdit from './Membership/GroupEdit';
+import MembershipUser from './Membership/User';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
@@ -18,6 +22,7 @@ import svgTree from './svg_tree.svg';
 import svgPeople from './svg_people.svg';
 import svgBlog from './svg_blog.svg';
 import svgGroup from './svg_group.svg';
+import svgBrain from './svg_brain.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -44,7 +49,15 @@ class Admin extends Component {
                 title: '유저',
                 list: [
                     { name: '유저 정보 수정', icon: svgPeople, href: '/nadmin/user/list' },
-                    { name: 'Brain 멤버십', icon: svgGroup, href: '/nadmin/user/group' },
+                ]
+            });
+        }
+        if(level >= 5){
+            navigator.push({
+                title: 'Brain 멤버십',
+                list: [
+                    { name: '모든 멤버십 그룹', icon: svgBrain, href: '/nadmin/membership/group' },
+                    { name: '모든 멤버십 구성원', icon: svgBrain, href: '/nadmin/membership/user' },
                 ]
             });
         }
@@ -114,6 +127,18 @@ class Admin extends Component {
         }
         else if(this.props.page === 'user/list' && adminLevel >= 5){
             container = <UserList theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/group' && adminLevel >= 9){
+            container = <MembershipGroup theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/group/add' && adminLevel >= 9){
+            container = <MembershipGroupAdd theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/group/edit' && adminLevel >= 9){
+            container = <MembershipGroupEdit theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/user' && adminLevel >= 5){
+            container = <MembershipUser theme={ this.props.theme }/>
         }
         else if(adminLevel >= 5){
             container = <Empty theme={ this.props.theme }/>;
