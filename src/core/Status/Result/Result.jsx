@@ -11,7 +11,9 @@ import axios from '../../Tool/axios';
 import trans from '../../Tool/trans';
 import resultSummary from './resultSummary';
 
-import imgSubmit from './img_submit.png';
+import svgSubmit from './svg_submit.svg';
+import svgTask from './svg_task.svg';
+import svgCode from './svg_code.svg';
 
 const Title = (props) => {
     const txtStyle = {
@@ -19,7 +21,7 @@ const Title = (props) => {
         fontSize: '27px', fontWeight: 700, color: (props.theme === 'light' ? 'black' : 'white')
     }
     const styleImg = {
-        width: '50px', height: '50px', verticalAlign: 'middle', marginTop: '-13px'
+        width: '35px', height: '35px', verticalAlign: 'middle', marginTop: '-13px', marginRight: '7px'
     }
     return (
         <div style={{ marginBottom: '15px' }}>
@@ -182,7 +184,7 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <div style={{ height: '100px' }}/>
                         <Loading/>
                         <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
@@ -196,9 +198,9 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px',
-                        color: (this.props.theme==='light' ? 'black' : 'white') }}>해당 체점 결과는 존재하지 않습니다.</div>
+                        color: (this.props.theme==='light' ? 'black' : 'white') }}>해당 채점 결과는 존재하지 않습니다.</div>
                     </div>
                 </>
             )
@@ -209,17 +211,17 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <Lay1 theme={ this.props.theme } id={ this.state.id } problem={ this.state.problem } lid={ this.state.lid }
                         date={ this.state.date } compile={ this.state.compile } res={ this.state.status }
                         task={ this.state.task } source={ this.state.source }/>
                         
                         <div style={{ height: '70px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ 'Task' }/>
+                        <Title theme={ this.props.theme } img={ svgTask } title={ 'Task' }/>
                         <TaskTable theme={ this.props.theme } task={ this.state.task }/>
                         
                         <div style={{ height: '90px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '소스 코드' }/>
+                        <Title theme={ this.props.theme } img={ svgCode } title={ '소스 코드' }/>
                         <Editor theme={ this.props.theme } reFooter={ this.props.reFooter } id={ this.state.id } problem={ this.state.problem }
                         lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
                     </div>

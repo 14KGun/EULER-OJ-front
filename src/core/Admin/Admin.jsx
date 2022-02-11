@@ -31,7 +31,7 @@ class Admin extends Component {
         this.lastPath = 'none';
         this.state = { loginInfo: undefined };
     }
-    navigator(level){
+    navigator(level, membership){
         const navigator = [];
 
         if(level >= 8){
@@ -52,14 +52,11 @@ class Admin extends Component {
                 ]
             });
         }
-        if(level >= 5){
-            navigator.push({
-                title: 'Brain 멤버십',
-                list: [
-                    { name: '모든 멤버십 그룹', icon: svgBrain, href: '/nadmin/membership/group' },
-                    { name: '모든 멤버십 구성원', icon: svgBrain, href: '/nadmin/membership/user' },
-                ]
-            });
+        if(level >= 9 || membership){
+            const list = [];
+            if(level >= 9) list.push({ name: '모든 멤버십 그룹', icon: svgBrain, href: '/nadmin/membership/group' });
+            if(membership === 'leader') list.push({ name: '모든 멤버십 구성원', icon: svgBrain, href: '/nadmin/membership/user' });
+            navigator.push({ title: 'Brain 멤버십', list: list });
         }
         if(level >= 5){
             navigator.push({
@@ -101,10 +98,13 @@ class Admin extends Component {
             this.lastPath = currentUrl;
             this.requestLogininfo();
         }
-        let adminLevel = 0;
-        if(this.state.loginInfo) adminLevel = this.state.loginInfo.level;
+        let adminLevel = 0, membership = undefined;
+        if(this.state.loginInfo) {
+            adminLevel = this.state.loginInfo.level;
+            membership = this.state.loginInfo.membershipPos;
+        }
         
-        const title = (adminLevel >= 5 ? '관리 : 오일러OJ' : '오일러OJ');
+        const title = (adminLevel >= 5 || membership === 'leader' ? '관리 : 오일러OJ' : '오일러OJ');
 
         let container = <div/>;
         if(this.props.page === 'problem/add' && adminLevel >= 8){
@@ -145,7 +145,7 @@ class Admin extends Component {
         }
 
         return (
-            <FrameSplit navigator={ this.navigator(adminLevel) } theme={ this.props.theme } reFooter={ this.props.reFooter }>
+            <FrameSplit navigator={ this.navigator(adminLevel, membership) } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>{ title }</title></Helmet>
                 { container }
             </FrameSplit>

@@ -19,6 +19,7 @@ import ProblemStat from './core/Problemset/Stats/Stats';
 import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
+import Contest from './core/Contest/Contest';
 import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
@@ -124,6 +125,8 @@ function App() {
         <Route exact path="/ranking"><Frame { ...params }><EulerRanking { ...params } page={1}/></Frame></Route>
         <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage { ...params }/></Route>
         <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId { ...params }/></Route>
+        
+        { /*<Route exact path="/contest"><Frame { ...params }><Contest { ...params }/></Frame></Route>*/ }
 
         <Route path="/profile/unknown"><Frame { ...params } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId { ...params }/></Route>

@@ -157,7 +157,7 @@ const Manual = (props) => {
             <div style={{ paddingLeft: '15px' }}>
                 <Layout.Content theme={ props.theme }>오일러OJ에서는 다음 언어들을 제출과 채점이 가능합니다.</Layout.Content>
                 <div style={{ height: '10px' }}/>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Lang icon={ svgLangC } theme={ props.theme }>C</Lang>
                     <Lang icon={ svgLangCpp } theme={ props.theme }>C++</Lang>
                     <Lang icon={ svgLangPython } theme={ props.theme }>Python</Lang>

@@ -60,7 +60,7 @@ const Lay1Item = (props) => {
 class Main extends Component {
     constructor(props){
         super(props);
-        this.state = { pageIndex: 0/*Math.floor(Math.random() * 2)*/, pageFix: undefined };
+        this.state = { pageIndex: 2/*Math.floor(Math.random() * 2)*/, pageFix: undefined };
 
         const setPage = (pageIndex) => {
             this.setState({ pageIndex: pageIndex });

@@ -59,7 +59,8 @@ const Group = (props) => {
     const styleProf = {
         position: 'absolute', top: '10px', right: '60px', overflow: 'hidden',
         width: '30px', height: '30px', borderRadius: '16px',
-        border: '1px solid rgba(120,120,120,0.5)'
+        border: '1px solid rgba(120,120,120,0.5)',
+        background: 'white'
     }
     const styleEdit = {
         position: 'absolute', top: '7px', right: '13px',
