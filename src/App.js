@@ -153,7 +153,6 @@ function App() {
         <Route exact path="/nadmin/problem/add"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/add"/></Frame></Route>
         <Route exact path="/nadmin/problem/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/list"/></Frame></Route>
         <Route exact path="/nadmin/problem/editSp"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/editSp"/></Frame></Route>
-        <Route exact path="/nadmin/problem/gitpull"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/gitpull"/></Frame></Route>
         <Route exact path="/nadmin/tag/tree"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="tag/tree"/></Frame></Route>
         <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
         <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>

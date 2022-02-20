@@ -5,7 +5,6 @@ import Empty from './Empty/Empty';
 import ProblemAdd from './Problem/Add';
 import ProblemList from './Problem/List';
 import ProblemEditSp from './Problem/EditSp';
-import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
 import BloggingPull from './Blogging/Pull';
 import UserList from './User/List';
@@ -16,7 +15,6 @@ import MembershipUser from './Membership/User';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
-import svgClouddown from './svg_clouddown.svg';
 import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
 import svgPeople from './svg_people.svg';
@@ -39,8 +37,7 @@ class Admin extends Component {
                 title: '문제',
                 list: [
                     { name: '새로운 문제 추가', icon: svgAdd, href: '/nadmin/problem/add' },
-                    { name: '모든 문제', icon: svgList, href: '/nadmin/problem/list' },
-                    { name: 'Git Pull', icon: svgClouddown, href: '/nadmin/problem/gitpull' },
+                    { name: '모든 문제', icon: svgList, href: '/nadmin/problem/list' }
                 ]
             });
         }
@@ -115,9 +112,6 @@ class Admin extends Component {
         }
         else if(this.props.page === 'problem/editSp' && adminLevel >= 10){
             container = <ProblemEditSp theme={ this.props.theme }/>
-        }
-        else if(this.props.page === 'problem/gitpull' && adminLevel >= 10){
-            container = <ProblemGitpull theme={ this.props.theme }/>
         }
         else if(this.props.page === 'tag/tree' && adminLevel >= 10){
             container = <TagTree theme={ this.props.theme }/>
