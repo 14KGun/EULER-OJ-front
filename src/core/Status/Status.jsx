@@ -130,6 +130,8 @@ const Filter = (props) => {
         else if(text === 'cpp') text = 'C++';
         else if(text === 'python') text = 'Python';
         else if(text === 'java') text = 'Java';
+        else if(text === 'ruby') text = 'Ruby';
+        else if(text === 'golang') text = 'Go';
         else if(text === 'r') text = 'R';
         FilterList.push(<FilterBtn theme={ props.theme } text={ text } to={ `/status/${ getHref.encodeObject({ problemId: props.problemId, loginId: props.loginId, result: props.result }) }` }/>)
     }
@@ -170,6 +172,8 @@ const Filter = (props) => {
                             <option value="cpp">C++</option>
                             <option value="python">Python</option>
                             <option value="java">Java</option>
+                            <option value="ruby">Ruby</option>
+                            <option value="golang">Go</option>
                             <option value="r">R</option>
                         </select>
                     </animated.span>

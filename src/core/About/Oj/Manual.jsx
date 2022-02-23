@@ -14,6 +14,9 @@ import svgLangC from './langSvg/svg_lang_c.svg';
 import svgLangCpp from './langSvg/svg_lang_cpp.svg';
 import svgLangPython from './langSvg/svg_lang_python.svg';
 import svgLangJava from './langSvg/svg_lang_java.svg';
+import svgLangRuby from './langSvg/svg_lang_ruby.svg';
+import svgLangGo from './langSvg/svg_lang_go.svg';
+import svgLangR from './langSvg/svg_lang_r.svg';
 
 const Console = (props) => {
     const [isHover, setHover] = useState(false);
@@ -162,6 +165,9 @@ const Manual = (props) => {
                     <Lang icon={ svgLangCpp } theme={ props.theme }>C++</Lang>
                     <Lang icon={ svgLangPython } theme={ props.theme }>Python</Lang>
                     <Lang icon={ svgLangJava } theme={ props.theme }>Java</Lang>
+                    <Lang icon={ svgLangRuby } theme={ props.theme }>Ruby</Lang>
+                    <Lang icon={ svgLangGo } theme={ props.theme }>Go</Lang>
+                    <Lang icon={ svgLangR } theme={ props.theme }>R</Lang>
                 </div>
             </div>
 
