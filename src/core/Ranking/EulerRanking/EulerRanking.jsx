@@ -8,6 +8,7 @@ import Loading from '../../Frame/Loading/Loading';
 import RankingTable from '../RankingTable';
 import PageSelector from '../../Frame/PageSelector';
 import Footer from '../../Frame/Footer/Footer';
+
 import svgPodium from '../svg_podium.svg';
 import svgRanking from '../svg_ranking.svg';
 import '../EulerRanking.css';

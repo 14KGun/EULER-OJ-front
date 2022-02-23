@@ -19,7 +19,8 @@ const PageMaker = () => {
 
     const [isBtnHover, serBtnHover] = useState(false);
     const btnStyle = useSpring({
-        background:  isBtnHover ? 'rgb(54,54,57)' : 'rgb(94,94,97)'
+        background:  isBtnHover ? 'rgb(54,54,57)' : 'rgb(94,94,97)',
+        config: { duration: 100 }
     });
 
     return (

@@ -19,11 +19,13 @@ import ProblemStat from './core/Problemset/Stats/Stats';
 import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
+import Contest from './core/Contest/Contest';
 import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
 import ProfileUnknown from './core/Profile/ProfileUnknown/ProfileUnknown';
 import Setting from './core/Setting/Setting';
+import MembershipMain from './core/Setting/Membership/Main/Main';
 import About from './core/About/About';
 import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
@@ -123,6 +125,8 @@ function App() {
         <Route exact path="/ranking"><Frame { ...params }><EulerRanking { ...params } page={1}/></Frame></Route>
         <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage { ...params }/></Route>
         <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId { ...params }/></Route>
+        
+        { /*<Route exact path="/contest"><Frame { ...params }><Contest { ...params }/></Frame></Route>*/ }
 
         <Route path="/profile/unknown"><Frame { ...params } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId { ...params }/></Route>
@@ -137,6 +141,8 @@ function App() {
         <Route exact path="/setting/profile/short"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="short"/></Frame></Route>
         <Route exact path="/setting/profile/logout"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="logout"/></Frame></Route>
 
+        <Route exact path="/setting/membership"><Frame { ...params } headerTxtColor="none"><MembershipMain { ...params }/></Frame></Route>
+
         <Route exact path="/about"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/update"/></Frame></Route>
         <Route exact path="/about/oj/manual"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/manual"/></Frame></Route>
         <Route exact path="/about/oj/stat"><Frame { ...params } headerTxtColor="none"><About { ...params } page="oj/stat"/></Frame></Route>
@@ -147,7 +153,6 @@ function App() {
         <Route exact path="/nadmin/problem/add"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/add"/></Frame></Route>
         <Route exact path="/nadmin/problem/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/list"/></Frame></Route>
         <Route exact path="/nadmin/problem/editSp"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/editSp"/></Frame></Route>
-        <Route exact path="/nadmin/problem/gitpull"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="problem/gitpull"/></Frame></Route>
         <Route exact path="/nadmin/tag/tree"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="tag/tree"/></Frame></Route>
         <Route exact path="/nadmin/contest/make"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/make"/></Frame></Route>
         <Route exact path="/nadmin/contest/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="contest/list"/></Frame></Route>
@@ -155,6 +160,10 @@ function App() {
         <Route exact path="/nadmin/blogging/fetch"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/fetch"/></Frame></Route>
         <Route exact path="/nadmin/blogging/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="blogging/list"/></Frame></Route>
         <Route exact path="/nadmin/user/list"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="user/list"/></Frame></Route>
+        <Route exact path="/nadmin/membership/group"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="membership/group"/></Frame></Route>
+        <Route exact path="/nadmin/membership/group/add"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="membership/group/add"/></Frame></Route>
+        <Route exact path="/nadmin/membership/group/edit"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="membership/group/edit"/></Frame></Route>
+        <Route exact path="/nadmin/membership/user"><Frame { ...params } headerTxtColor="none"><Admin { ...params } page="membership/user"/></Frame></Route>
 
         <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>

@@ -38,6 +38,15 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2022.02.12">
+                <UpdateTxt theme={ props.theme }>코딩마법서 C/C++ IRON 출시가 사이트에 반영되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>에디터 스크롤 버그가 수정되었습니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2022.01.31">
+                <UpdateTxt theme={ props.theme }>문제 테이블의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>나와 비교하기에서 둘 다 틀린 문제의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>일부 페이지의 다크 모드 색이 수정되었습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.01.08">
                 <UpdateTxt theme={ props.theme }>메인 페이지의 새로운 블로깅에서 좋아요와 문제 바로가기 버튼이 추가되었습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>채점 페이지가 리모델링되었습니다. 기존보다 편한 검색 필터 사용을 할 수 있습니다.</UpdateTxt>

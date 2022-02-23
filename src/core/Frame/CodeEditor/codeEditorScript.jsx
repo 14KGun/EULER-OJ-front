@@ -18,7 +18,8 @@ const makeScript = (lang, theme, letterSpacing, fontSize, tabSize, initCode) => 
                 letterSpacing: ${ letterSpacing },
                 fontFamily: 'D2Coding',
                 fontSize: ${ fontSize },
-                tabSize: ${ tabSize }
+                tabSize: ${ tabSize },
+                scrollbar: { alwaysConsumeMouseWheel: false }
             });
             document.getElementById('code-editor').editor = editor;
             document.getElementById('code-editor').monaco = monaco;

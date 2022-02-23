@@ -5,18 +5,22 @@ import Empty from './Empty/Empty';
 import ProblemAdd from './Problem/Add';
 import ProblemList from './Problem/List';
 import ProblemEditSp from './Problem/EditSp';
-import ProblemGitpull from './Problem/Gitpull';
 import TagTree from './Tag/Tree';
 import BloggingPull from './Blogging/Pull';
 import UserList from './User/List';
+import MembershipGroup from './Membership/Group';
+import MembershipGroupAdd from './Membership/GroupAdd';
+import MembershipGroupEdit from './Membership/GroupEdit';
+import MembershipUser from './Membership/User';
 import axios from '../Tool/axios';
 
 import svgAdd from './svg_add.svg';
-import svgClouddown from './svg_clouddown.svg';
 import svgList from './svg_list.svg';
 import svgTree from './svg_tree.svg';
 import svgPeople from './svg_people.svg';
 import svgBlog from './svg_blog.svg';
+import svgGroup from './svg_group.svg';
+import svgBrain from './svg_brain.svg';
 
 class Admin extends Component {
     constructor(props){
@@ -25,7 +29,7 @@ class Admin extends Component {
         this.lastPath = 'none';
         this.state = { loginInfo: undefined };
     }
-    navigator(level){
+    navigator(level, membership){
         const navigator = [];
 
         if(level >= 8){
@@ -33,8 +37,7 @@ class Admin extends Component {
                 title: '문제',
                 list: [
                     { name: '새로운 문제 추가', icon: svgAdd, href: '/nadmin/problem/add' },
-                    { name: '모든 문제', icon: svgList, href: '/nadmin/problem/list' },
-                    { name: 'Git Pull', icon: svgClouddown, href: '/nadmin/problem/gitpull' },
+                    { name: '모든 문제', icon: svgList, href: '/nadmin/problem/list' }
                 ]
             });
         }
@@ -45,6 +48,12 @@ class Admin extends Component {
                     { name: '유저 정보 수정', icon: svgPeople, href: '/nadmin/user/list' },
                 ]
             });
+        }
+        if(level >= 9 || membership){
+            const list = [];
+            if(level >= 9) list.push({ name: '모든 멤버십 그룹', icon: svgBrain, href: '/nadmin/membership/group' });
+            if(membership === 'leader') list.push({ name: '모든 멤버십 구성원', icon: svgBrain, href: '/nadmin/membership/user' });
+            navigator.push({ title: 'Brain 멤버십', list: list });
         }
         if(level >= 5){
             navigator.push({
@@ -86,10 +95,13 @@ class Admin extends Component {
             this.lastPath = currentUrl;
             this.requestLogininfo();
         }
-        let adminLevel = 0;
-        if(this.state.loginInfo) adminLevel = this.state.loginInfo.level;
+        let adminLevel = 0, membership = undefined;
+        if(this.state.loginInfo) {
+            adminLevel = this.state.loginInfo.level;
+            membership = this.state.loginInfo.membershipPos;
+        }
         
-        const title = (adminLevel >= 5 ? '관리 : 오일러OJ' : '오일러OJ');
+        const title = (adminLevel >= 5 || membership === 'leader' ? '관리 : 오일러OJ' : '오일러OJ');
 
         let container = <div/>;
         if(this.props.page === 'problem/add' && adminLevel >= 8){
@@ -101,9 +113,6 @@ class Admin extends Component {
         else if(this.props.page === 'problem/editSp' && adminLevel >= 10){
             container = <ProblemEditSp theme={ this.props.theme }/>
         }
-        else if(this.props.page === 'problem/gitpull' && adminLevel >= 10){
-            container = <ProblemGitpull theme={ this.props.theme }/>
-        }
         else if(this.props.page === 'tag/tree' && adminLevel >= 10){
             container = <TagTree theme={ this.props.theme }/>
         }
@@ -113,12 +122,24 @@ class Admin extends Component {
         else if(this.props.page === 'user/list' && adminLevel >= 5){
             container = <UserList theme={ this.props.theme }/>
         }
+        else if(this.props.page === 'membership/group' && adminLevel >= 9){
+            container = <MembershipGroup theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/group/add' && adminLevel >= 9){
+            container = <MembershipGroupAdd theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/group/edit' && adminLevel >= 9){
+            container = <MembershipGroupEdit theme={ this.props.theme }/>
+        }
+        else if(this.props.page === 'membership/user' && adminLevel >= 5){
+            container = <MembershipUser theme={ this.props.theme }/>
+        }
         else if(adminLevel >= 5){
             container = <Empty theme={ this.props.theme }/>;
         }
 
         return (
-            <FrameSplit navigator={ this.navigator(adminLevel) } theme={ this.props.theme } reFooter={ this.props.reFooter }>
+            <FrameSplit navigator={ this.navigator(adminLevel, membership) } theme={ this.props.theme } reFooter={ this.props.reFooter }>
                 <Helmet><title>{ title }</title></Helmet>
                 { container }
             </FrameSplit>

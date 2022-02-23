@@ -177,7 +177,7 @@ const HeaderMaker = (props) => {
 
     return (
         <>
-            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
+            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo } theme={ props.getTheme }
             leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
             { /* <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup } list={ props.alarmList } setList={ props.setAlarmList } visible={ props.alarmVisible }/> */ }
 
@@ -205,7 +205,7 @@ class Header extends Component {
         { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/about', name: '페이지' }];
 
         if(adminCheck){
-            urlList.push({ url: '/nadmin', name: '관리(Demo)' });
+            urlList.push({ url: '/nadmin', name: '관리' });
         }
         return urlList;
     }
@@ -221,7 +221,7 @@ class Header extends Component {
             this.requestLogininfo();
         }
 
-        const urlList = this.urlList(this.state.loginInfo && this.state.loginInfo.level >= 5);
+        const urlList = this.urlList(this.state.loginInfo && (this.state.loginInfo.level >= 5 || this.state.loginInfo.mebershipPos === 'leader'));
 
         let theme = { r: 255, g: 255, b: 255 };
         if(this.props.theme === 'dark') theme = { r: 50, g: 50, b: 50 };
