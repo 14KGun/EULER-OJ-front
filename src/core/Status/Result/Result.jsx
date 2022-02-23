@@ -2,6 +2,7 @@ import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
+import PropTypes from 'prop-types';
 import TaskTable from './ResultTaskTable';
 import Editor from './ResultEditor';
 import Res from '../../Frame/Res/Res';
@@ -14,6 +15,7 @@ import resultSummary from './resultSummary';
 import svgSubmit from './svg_submit.svg';
 import svgTask from './svg_task.svg';
 import svgCode from './svg_code.svg';
+import svgError from './svg_error.svg';
 
 const Title = (props) => {
     const txtStyle = {
@@ -139,6 +141,45 @@ const Lay1 = (props) => {
     )
 }
 
+const ErrorBox = (props) => {
+    const style = useSpring({
+        position: 'relative', borderRadius: '15px', overflow: 'hidden',
+        background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)',
+        paddingTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px',
+        fontFamily: 'D2Coding', fontSize: '16px', fontWeight: 300,
+        color: (props.theme==='light' ? 'black' : 'white')
+    })
+
+    let text = props.stderr.split('\n').join('<br>').split(' ').join('&nbsp;');
+    
+    if(text.startsWith('&error;')){
+        text = text.substring(13);
+        if(text.startsWith('ERROR&nbsp;:&nbsp;runtime&nbsp;error')){
+            text = text.replace('ERROR&nbsp;:&nbsp;runtime&nbsp;error','런타임 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;error')){
+            text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;error','컴파일 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;output-limit&nbsp;error')){
+            text = text.replace('ERROR&nbsp;:&nbsp;output-limit&nbsp;error','출력 초과 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;timeout')){
+            text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;timeout','컴파일 시간 초과<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;time-limit&nbsp;error')){
+            text = text.replace('ERROR&nbsp;:&nbsp;time-limit&nbsp;error','시간 초과<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error')){
+            text = text.replace('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error','메모리 초과<br>');
+        }
+    }
+
+    return <animated.div style={ style } dangerouslySetInnerHTML={{ __html: text }}/>;
+}
+ErrorBox.propTypes = {
+    stderr: PropTypes.string, theme: PropTypes.string,
+}
+
 class Result extends Component {
     constructor(props) {
         super(props);
@@ -151,7 +192,7 @@ class Result extends Component {
                 
                 axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
                     this.setState({
-                        err: data.err, id: data.id, problem: data.problem,
+                        err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
                         lid: data.lid, compile: data.compile, status: data.status, date: data.time,
                         task: data.task, source: data.source, editor: data.editor
                     }, () => {
@@ -206,6 +247,16 @@ class Result extends Component {
             )
         }
         else{
+            let StderrSpace = null;
+            if (this.state.stderr){
+                StderrSpace = (
+                    <div>
+                        <div style={{ height: '70px' }}/>
+                        <Title theme={ this.props.theme } img={ svgError } title={ '경고 메시지' }/>
+                        <ErrorBox stderr={ this.state.stderr } theme={ this.props.theme }/>
+                    </div>
+                )
+            }
             return (
                 <>
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
@@ -215,9 +266,11 @@ class Result extends Component {
                         <Lay1 theme={ this.props.theme } id={ this.state.id } problem={ this.state.problem } lid={ this.state.lid }
                         date={ this.state.date } compile={ this.state.compile } res={ this.state.status }
                         task={ this.state.task } source={ this.state.source }/>
+
+                        { StderrSpace }
                         
                         <div style={{ height: '70px' }}/>
-                        <Title theme={ this.props.theme } img={ svgTask } title={ 'Task' }/>
+                        <Title theme={ this.props.theme } img={ svgTask } title={ '테스트 케이스' }/>
                         <TaskTable theme={ this.props.theme } task={ this.state.task }/>
                         
                         <div style={{ height: '90px' }}/>

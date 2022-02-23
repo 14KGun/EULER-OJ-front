@@ -24,7 +24,7 @@ const UpdateBox = (props) => {
 
 const UpdateTxt = (props) => {
     const style = {
-        fontSize: '16px', fontWeight: 300, marginBottom: '6px',
+        fontSize: '16px', fontWeight: 300, marginTottom: '5px', marginBottom: '5px',
         color: (props.theme==='light' ? 'black' : 'white')
     }
     return (
@@ -38,6 +38,15 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2022.02.24">
+                <UpdateTxt theme={ props.theme }>새로운 언어 Ruby, Go을 실행 및 채점할 수 있습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>계정 설정의 언어 정렬을 변경하지 않은 경우 기본 언어들이 선택됩니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 서버의 모든 언어들의 버전이 업데이트 되었습니다. 이제 gcc(11.2.0), python3(3.6.3), python2(2.7), pypy(3.8), openjdk(11), ruby(3.1), go(1.17.7), r(3.6.3) 을 사용합니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 시, 채점 결과 페이지의 메모리 사용량이 더 정확하게 측정됩니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 시, 채점 결과 페이지에서 채점 때 발생한 에러 메시지를 확인할 수 있습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>#4135, #4332, #5549, #5569, #6004 문제들의 채점 금지가 해제되었고 재채점 되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>에디터에서 코드 실행 시, 실행 시간 뿐만 아니라 메모리 사용량도 함께 출력됩니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.02.12">
                 <UpdateTxt theme={ props.theme }>코딩마법서 C/C++ IRON 출시가 사이트에 반영되었습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>에디터 스크롤 버그가 수정되었습니다.</UpdateTxt>
