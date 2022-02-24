@@ -1,6 +1,6 @@
 import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import Top from './StatusTop/StatusTop';
 import StatusTable from './StatusTable';
@@ -8,6 +8,7 @@ import PageSelector from '../Frame/PageSelector';
 import Footer from '../Frame/Footer/Footer';
 import Loading from '../Frame/Loading/Loading';
 import axios from '../Tool/axios';
+import socketio from 'socket.io-client';
 import getHref from '../Tool/getHref';
 
 import svgFilter from './svg_filter.svg';
@@ -136,6 +137,14 @@ const Filter = (props) => {
         FilterList.push(<FilterBtn theme={ props.theme } text={ text } to={ `/status/${ getHref.encodeObject({ problemId: props.problemId, loginId: props.loginId, result: props.result }) }` }/>)
     }
 
+    const searchHref = `/status/${ getHref.encodeObject({ problemId: problemId, loginId: loginId, result: result, lang: lang }) }`;
+    const history = useHistory();
+    const onKeyup = () => {
+        if(window.event.keyCode === 13){
+            history.push(searchHref);
+        }
+    }
+
     return (
         <>
             <div style={{ display: 'flex' }} className="ND">
@@ -149,9 +158,9 @@ const Filter = (props) => {
             <animated.div style={ styleBox } className="ND">
                 <div style={{ marginTop: '15px', marginLeft: '15px', marginRight: '15px' }}>
                     <input style={{ ...styleInput, marginRight: '6px', width: '120px' }} type="txt" placeholder="문제 번호(#)"
-                    value={ problemId } onChange={ (e) => setProblemId(e.target.value) }/>
-                    <animated.input style={{ ...styleInput, marginRight: '6px', width: '200px' }} type="txt" placeholder="아이디"
-                    value={ loginId } onChange={ (e) => setLoginId(e.target.value) }/>
+                    value={ problemId } onChange={ (e) => setProblemId(e.target.value) } onKeyUp={ () => onKeyup() }/>
+                    <input style={{ ...styleInput, marginRight: '6px', width: '200px' }} type="txt" placeholder="아이디"
+                    value={ loginId } onChange={ (e) => setLoginId(e.target.value) } onKeyUp={ () => onKeyup() }/>
                     <animated.span style={{ ...styleSelectBorder, width: '170px', marginRight: '6px' }}>
                         <select style={{ ...styleSelect }} value={ result } onChange={ (e) => setResult(e.target.value) }>
                             <option value="">모든 결과</option>
@@ -179,7 +188,7 @@ const Filter = (props) => {
                     </animated.span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row-reverse', margin: '15px' }}>
-                    <Link to={ `/status/${ getHref.encodeObject({ problemId: problemId, loginId: loginId, result: result, lang: lang }) }` }>
+                    <Link to={ searchHref }>
                         <animated.div style={ styleBoxBtn }
                         onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>적용</animated.div>
                     </Link>
@@ -220,6 +229,7 @@ class Status extends Component {
     constructor(props){
         super(props);
         this.state = { myLoginId: undefined, problemId: undefined, loginId: undefined, result: undefined, lang: undefined, page: 1, list: [] }
+        this.socket = socketio('https://euleroj.io');
     }
     makeGetPageUrl(page){
         return  `/status/${ getHref.encodeObject({ problemId: this.state.problemId, loginId: this.state.loginId, result: this.state.result, lang: this.state.lang, page: page }) }`;
@@ -250,14 +260,14 @@ class Status extends Component {
         let container = <LoadingLay/>
         if(needLoad){
             if(!this.onCall){
-                if(this.props.socket){
+                if(this.socket){
                     if(!this.joinRoom){
-                        this.props.socket.emit('joinRoom', 'status');
+                        this.socket.emit('joinRoom', 'status');
                         this.joinRoom = true;
 
-                        this.props.socket.off('update_info');
-                        this.props.socket.off('update_res');
-                        this.props.socket.on('update_info', msg => {
+                        this.socket.off('update_info');
+                        this.socket.off('update_res');
+                        this.socket.on('update_info', msg => {
                             for(let i=0; i<this.state.list.length; i++){
                                 if(this.state.list[i].id === msg.id){
                                     if(this.state.list[i].status.indexOf('wait')!==-1) this.state.list[i].status = msg.res;
@@ -265,7 +275,7 @@ class Status extends Component {
                             }
                             this.setState({ list: this.state.list });
                         });
-                        this.props.socket.on('update_res', msg => {
+                        this.socket.on('update_res', msg => {
                             for(var i=0; i<msg.length; i++){
                                 for(let j=0; j<this.state.list.length; j++){
                                     if(this.state.list[j].id === msg[i].id){
@@ -278,9 +288,9 @@ class Status extends Component {
                     }
                     this.loadFail = false;
                     this.onCall = true;
-                    this.props.socket.off('load_status');
-                    this.props.socket.emit('status_load', { problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page });
-                    this.props.socket.on('load_status', (msg) => {
+                    this.socket.off('load_status');
+                    this.socket.emit('status_load', { problemId: query.problemId, loginId: query.loginId, result: query.result, lang: query.lang, page: query.page });
+                    this.socket.on('load_status', (msg) => {
                         if(msg.problemId && msg.problemId.startsWith('#') === false) msg.problemId = '#'+msg.problemId;
                         if(msg.err){
                             this.setState({ err: true, list: [] }, () => {
@@ -346,10 +356,8 @@ class Status extends Component {
         );
     }
     componentWillUnmount(){
-        if(this.joinRoom){
-            this.joinRoom = false;
-            this.props.socket.emit('leaveRoom', 'status');
-        }
+        if(this.joinRoom) this.joinRoom = false;
+        if(this.socket) this.socket.disconnect();
     }
 }
 

@@ -2,13 +2,13 @@ import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
-import PropTypes from 'prop-types';
 import TaskTable from './ResultTaskTable';
 import Editor from './ResultEditor';
 import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer/Footer';
 import Loading from '../../Frame/Loading/Loading';
 import axios from '../../Tool/axios';
+import socketio from 'socket.io-client';
 import trans from '../../Tool/trans';
 import resultSummary from './resultSummary';
 
@@ -141,7 +141,7 @@ const Lay1 = (props) => {
     )
 }
 
-const ErrorBox = (props) => {
+const ErrorLay = (props) => {
     const style = useSpring({
         position: 'relative', borderRadius: '15px', overflow: 'hidden',
         background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)',
@@ -150,58 +150,64 @@ const ErrorBox = (props) => {
         color: (props.theme==='light' ? 'black' : 'white')
     })
 
+    if (!props.stderr) return null;
     let text = props.stderr.split('\n').join('<br>').split(' ').join('&nbsp;');
     
     if(text.startsWith('&error;')){
         text = text.substring(13);
-        if(text.startsWith('ERROR&nbsp;:&nbsp;runtime&nbsp;error')){
+        if(text.startsWith('ERROR&nbsp;:&nbsp;runtime&nbsp;error<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;runtime&nbsp;error','런타임 에러<br>');
         }
-        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;error')){
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;error<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;error','컴파일 에러<br>');
         }
-        else if(text.startsWith('ERROR&nbsp;:&nbsp;output-limit&nbsp;error')){
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;output-limit&nbsp;error<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;output-limit&nbsp;error','출력 초과 에러<br>');
         }
-        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;timeout')){
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;timeout<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;timeout','컴파일 시간 초과<br>');
         }
-        else if(text.startsWith('ERROR&nbsp;:&nbsp;time-limit&nbsp;error')){
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;time-limit&nbsp;error<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;time-limit&nbsp;error','시간 초과<br>');
         }
-        else if(text.startsWith('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error')){
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error<br>')){
             text = text.replace('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error','메모리 초과<br>');
         }
+        else return null;
+
+        return (
+            <div>
+                <div style={{ height: '70px' }}/>
+                <Title theme={ props.theme } img={ svgError } title={ '경고 메시지' }/>
+                <animated.div style={ style } dangerouslySetInnerHTML={{ __html: text }}/>
+            </div>
+        )
     }
 
-    return <animated.div style={ style } dangerouslySetInnerHTML={{ __html: text }}/>;
-}
-ErrorBox.propTypes = {
-    stderr: PropTypes.string, theme: PropTypes.string,
+    return null;
 }
 
 class Result extends Component {
     constructor(props) {
         super(props);
+        this.socket = socketio('https://euleroj.io');
         this.state = { }
     }
     render() {
         if(!this.load) {
-            if(this.state.id !== this.props.id){
+            if(this.state.id !== this.props.id || this.state.needLoad){
                 this.load = true;
-                
-                axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
-                    this.setState({
-                        err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
-                        lid: data.lid, compile: data.compile, status: data.status, date: data.time,
-                        task: data.task, source: data.source, editor: data.editor
-                    }, () => {
-                        this.load = false;
-                        if(this.props.socket){
-                            this.props.socket.emit('joinRoom', `status_res_${ this.props.id }`);
-                            this.props.socket.emit('status_res_reload', this.props.id);
-                            this.props.socket.off('update_status_restask');
-                            this.props.socket.on('update_status_restask', (msg) => {
+                this.setState({ needLoad: false }, () => {
+                    axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
+                        this.setState({
+                            err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
+                            lid: data.lid, compile: data.compile, status: data.status, date: data.time,
+                            task: data.task, source: data.source, editor: data.editor
+                        }, () => {
+                            this.load = false;
+                            this.socket.emit('joinRoom', `status_res_${ this.props.id }`);
+                            this.socket.emit('status_res_reload', this.props.id);
+                            this.socket.on('update_status_restask', (msg) => {
                                 if(this.state.id !== msg.id) return;
                                 if(this.state.status.indexOf('wait') !== -1){
                                     if(msg.res.indexOf('wait') !== -1){
@@ -209,13 +215,15 @@ class Result extends Component {
                                         const next = Number(msg.res.substr(5));
                                         if(prev >= next) return;
                                     }
+                                    else{
+                                        this.setState({ needLoad: true });
+                                    }
                                     this.setState({ status: msg.res, task: msg.task });
                                 }
                             });
-                        }
-                        this.props.reFooter();
+                        });
                     });
-                });
+                })
             }
         }
 
@@ -247,16 +255,6 @@ class Result extends Component {
             )
         }
         else{
-            let StderrSpace = null;
-            if (this.state.stderr){
-                StderrSpace = (
-                    <div>
-                        <div style={{ height: '70px' }}/>
-                        <Title theme={ this.props.theme } img={ svgError } title={ '경고 메시지' }/>
-                        <ErrorBox stderr={ this.state.stderr } theme={ this.props.theme }/>
-                    </div>
-                )
-            }
             return (
                 <>
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
@@ -267,7 +265,7 @@ class Result extends Component {
                         date={ this.state.date } compile={ this.state.compile } res={ this.state.status }
                         task={ this.state.task } source={ this.state.source }/>
 
-                        { StderrSpace }
+                        <ErrorLay stderr={ this.state.stderr } theme={ this.props.theme }/>
                         
                         <div style={{ height: '70px' }}/>
                         <Title theme={ this.props.theme } img={ svgTask } title={ '테스트 케이스' }/>
@@ -284,8 +282,11 @@ class Result extends Component {
             );
         }
     }
+    componentDidUpdate(){
+        this.props.reFooter();
+    }
     componentWillUnmount(){
-        this.props.socket.off('update_status_restask');
+        if(this.socket) this.socket.disconnect();
     }
 }
 

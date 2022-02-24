@@ -77,22 +77,13 @@ function App() {
   const [alarmList, setAlarmList] = useState([]);
   const [alarmVisible, setAlarmVisible] = useState(false);
 
-  /* Socket */
-  const [socket, setSocket] = useState(undefined);
-
-  useEffect(() => {
-    const _socket = socketio('https://euleroj.io');
-    setSocket(_socket);
-  }, [])
-
   /* Router */
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
     reFooter: () => reFooter(),
     alarmList: alarmList, setAlarmList: setAlarmList,
-    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible,
-    socket: socket
+    alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
   };
   return (
     <Router>
