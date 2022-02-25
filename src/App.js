@@ -119,7 +119,9 @@ function App() {
         <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage { ...params }/></Route>
         <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId { ...params }/></Route>
         
-        { /*<Route exact path="/contest"><Frame { ...params }><Contest { ...params }/></Frame></Route>*/ }
+        <Route exact path="/contest"><Frame { ...params }><Contest { ...params } category="ongoing"/></Frame></Route>
+        <Route exact path="/contest/list/ongoing"><Frame { ...params }><Contest { ...params } category="ongoing"/></Frame></Route>
+        <Route exact path="/contest/list/past"><Frame { ...params }><Contest { ...params } category="past"/></Frame></Route>
 
         <Route path="/profile/unknown"><Frame { ...params } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId { ...params }/></Route>
