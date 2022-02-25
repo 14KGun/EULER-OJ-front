@@ -68,37 +68,34 @@ const ErrorLay = (props) => {
 }
 
 const tagDefaultState = {
-    id: undefined, page: undefined, loaded: undefined,
+    id: undefined, page: undefined,
     err: undefined, msg: undefined, info: undefined, route: [], tagChild: undefined, problemChild: undefined, maxPage: undefined,
 };
 class Tag extends Component {
     constructor(props){
         super(props);
-
         this.state = { ...tagDefaultState };
     }
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.id !== prevState.id || nextProps.page !== prevState.page){
-            return { ...tagDefaultState, id: nextProps.id, page: nextProps.page, loaded: false };
-        }
-        return prevState;
-    }
-
     makeGetPageUrl(id){
         return page => {
             return `/tags/${id}/${page}`;
         }
     }
-
     render(){
-        if(this.state.loaded === false){
-            axios.get(`/json/tags/getInfo/${ this.state.id }?page=${ this.state.page }`).then((tagInfo) => {
-                this.setState({
-                    loaded: true,
-                    err: tagInfo.data.err, msg: tagInfo.data.msg, info: tagInfo.data.info, route: tagInfo.data.route,
-                    tagChild: tagInfo.data.tagChild, problemChild: tagInfo.data.problemChild, maxPage: tagInfo.data.maxPage
+        if(!this.onCall){
+            if(this.props.id !== this.state.id || this.props.page !== this.state.page){
+                const _id = this.props.id, _page = this.props.page;
+                this.onCall = true;
+                axios.get(`/json/tags/getInfo/${ this.props.id }?page=${ this.props.page }`).then((tagInfo) => {
+                    this.setState({
+                        id: _id, page: _page,
+                        err: tagInfo.data.err, msg: tagInfo.data.msg, info: tagInfo.data.info, route: tagInfo.data.route,
+                        tagChild: tagInfo.data.tagChild, problemChild: tagInfo.data.problemChild, maxPage: tagInfo.data.maxPage
+                    }, () => {
+                        this.onCall = false;
+                    });
                 });
-            });
+            }
         }
         return (
             <div>
