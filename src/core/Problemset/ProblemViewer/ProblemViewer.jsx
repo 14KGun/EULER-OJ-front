@@ -14,6 +14,7 @@ import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
 import getHref from '../../Tool/getHref';
+import problemHistory from '../../Tool/problemHistory';
 import './ProblemViewer.css';
 
 import imgEditor from './img_editor.png';
@@ -411,6 +412,7 @@ class ProblemViewer extends Component {
                         solve: probInfo.data.solve, submit: probInfo.data.submit, blogging: probInfo.data.blogging,
                         timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
                     }, () => {
+                        if(!this.state.err) problemHistory.add(this.state.id);
                         this.onCall = false;
                     });
                 });

@@ -38,6 +38,10 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2022.02.25">
+                <UpdateTxt theme={ props.theme }>문제 목록 페이지에 최근 방문기록이 추가되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 페이지의 검색 필터에서 입력 도중 Enter Key를 눌러 검색할 수 있습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.02.24">
                 <UpdateTxt theme={ props.theme }>새로운 언어 Ruby, Go을 실행 및 채점할 수 있습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>계정 설정의 언어 정렬을 변경하지 않은 경우 기본 언어들이 선택됩니다.</UpdateTxt>

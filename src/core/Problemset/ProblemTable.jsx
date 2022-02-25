@@ -9,6 +9,7 @@ import svgPersonGray from './svg_personGray.svg';
 import imgNosolve from '../Tag/TagIcon/img_nosolveLight.png'
 import imgYoutube from '../Tag/TagIcon/img_youtubeLight.png'
 import imgBlog from '../Tag/TagIcon/img_blogLight.png'
+import svgEmpty from './svg_empty.svg';
 
 const ProblemTop = () => {
     const borderLine = '2px solid rgb(0,150,200)';
@@ -111,6 +112,18 @@ const ProblemItem = (props) => {
         </animated.div>
     )
 }
+
+const Empty = (props) => {
+    return (
+        <div className="ND">
+            <div style={{ textAlign: 'center' }}>
+                <img src={ svgEmpty } alt="" style={{ width: '30px', height: '30px' }}/>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>문제가 존재하지 않습니다.</div>
+        </div>
+    )
+}
+
 class ProblemTable extends Component {
     constructor(props){
         super(props);
@@ -121,6 +134,7 @@ class ProblemTable extends Component {
         })
     }
     render() {
+        if(this.props.content.length <= 0) return <Empty theme={ this.props.theme }/>;
         return (
             <>
                 { this.props.content.length > 0 ? <ProblemTop/> : <></> }
