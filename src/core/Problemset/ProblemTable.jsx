@@ -119,7 +119,7 @@ const Empty = (props) => {
             <div style={{ textAlign: 'center' }}>
                 <img src={ svgEmpty } alt="" style={{ width: '30px', height: '30px' }}/>
             </div>
-            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>문제가 존재하지 않습니다.</div>
+            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>{ props.children }</div>
         </div>
     )
 }
@@ -134,7 +134,7 @@ class ProblemTable extends Component {
         })
     }
     render() {
-        if(this.props.content.length <= 0) return <Empty theme={ this.props.theme }/>;
+        if(this.props.content.length <= 0 && this.props.empty) return <Empty theme={ this.props.theme }>{ this.props.empty }</Empty>;
         return (
             <>
                 { this.props.content.length > 0 ? <ProblemTop/> : <></> }

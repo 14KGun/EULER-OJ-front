@@ -105,7 +105,8 @@ class History extends Component {
         
         let container = <LoadingLay/>;
         if(this.state.list !== undefined){
-            container =  <ProblemTable content={ this.state.list } theme={ this.props.theme }/>;
+            container =  <ProblemTable content={ this.state.list } theme={ this.props.theme }
+            empty="문제가 존재하지 않습니다."/>;
         }
 
         return (
