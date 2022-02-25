@@ -40,6 +40,7 @@ const Update = (props) => {
 
             <UpdateBox theme={ props.theme } date="2022.02.25">
                 <UpdateTxt theme={ props.theme }>문제 목록 페이지에 최근 방문기록이 추가되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>태그 페이지의 버그(오랫동안 페이지를 불러오는 버그, 잘못된 페이지를 불러오는 버그)가 수정되었습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>채점 페이지의 검색 필터에서 입력 도중 Enter Key를 눌러 검색할 수 있습니다.</UpdateTxt>
             </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.02.24">
