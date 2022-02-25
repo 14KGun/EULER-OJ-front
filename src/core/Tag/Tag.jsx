@@ -86,13 +86,15 @@ class Tag extends Component {
             if(this.props.id !== this.state.id || this.props.page !== this.state.page){
                 const _id = this.props.id, _page = this.props.page;
                 this.onCall = true;
-                axios.get(`/json/tags/getInfo/${ this.props.id }?page=${ this.props.page }`).then((tagInfo) => {
-                    this.setState({
-                        id: _id, page: _page,
-                        err: tagInfo.data.err, msg: tagInfo.data.msg, info: tagInfo.data.info, route: tagInfo.data.route,
-                        tagChild: tagInfo.data.tagChild, problemChild: tagInfo.data.problemChild, maxPage: tagInfo.data.maxPage
-                    }, () => {
-                        this.onCall = false;
+                this.setState({ tagChild: undefined, problemChild: undefined }, () => {
+                    axios.get(`/json/tags/getInfo/${ this.props.id }?page=${ this.props.page }`).then((tagInfo) => {
+                        this.setState({
+                            id: _id, page: _page,
+                            err: tagInfo.data.err, msg: tagInfo.data.msg, info: tagInfo.data.info, route: tagInfo.data.route,
+                            tagChild: tagInfo.data.tagChild, problemChild: tagInfo.data.problemChild, maxPage: tagInfo.data.maxPage
+                        }, () => {
+                            this.onCall = false;
+                        });
                     });
                 });
             }
