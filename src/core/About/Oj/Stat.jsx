@@ -49,14 +49,15 @@ class Stat extends Component {
                 /* dropShadow: { enabled: true, color: '#000', top: 18, left: 7, blur: 10, opacity: 0.2 }, */
             },
             sparkline: { enabled: false },
-            stroke: { curve: 'smooth' }
+            stroke: { curve: 'smooth' },
+            dataLabels: { enabled: false }
         };
         const chartSeries = [{ name: "채점 횟수", data: this.state.data }];
 
         return (
             <div className="ND">
                 <Layout.Title icon={ svgChart } theme={ this.props.theme }>채점 시도 횟수</Layout.Title>
-                <Chart type="line" options={ chartOptions } series={ chartSeries } width="100%" height="400px"/>
+                <Chart type="area" options={ chartOptions } series={ chartSeries } width="100%" height="400px"/>
             </div>
         );
     }
