@@ -21,7 +21,8 @@ const BtnItem = (props) => {
     const txtStyle = {
         position: 'absolute', top: '0px', left: '60px',
         width: '200px', height: '60px', lineHeight: '60px',
-        textAlign: 'center', fontSize: '16px', fontWeight: '300', color: 'black'
+        textAlign: 'center', fontSize: '16px', fontWeight: '300',
+        color: (props.theme==='light' ? 'black' : 'white')
     }
 
     const content = (
@@ -37,7 +38,7 @@ const BtnItem = (props) => {
 }
 
 BtnItem.defaultProps = {
-    padding: 0
+    padding: 0, theme: 'light'
 }
 
 export default BtnItem;

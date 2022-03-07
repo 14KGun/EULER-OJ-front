@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { Link } from "react-router-dom";
 import './Top.css';
 import axios from '../../Tool/axios';
+import getHref from '../../Tool/getHref';
 
 import svgPattern from './svg_pattern.svg';
 
@@ -72,6 +73,7 @@ const FixedLay = (props) => {
             <Link to={ `/problemset/problem/${ props.id }` }><TopBtn name="문제" selected={ props.type === 'problem' }/></Link>
             <Link to={ `/problemset/stats/${ props.id }` }><TopBtn name="통계" selected={ props.type === 'stats' }/></Link>
             <Link to={ `/problemset/blogging/${ props.id }` }><TopBtn name="블로깅" selected={ props.type === 'blogging' }/></Link>
+            <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }><TopBtn name="채점 기록" selected={ props.type === 'status' }/></Link>
             <Link to={ `/problemset/submit/${ props.id }` }><TopBtn name="제출" selected={ props.type === 'submit' }/></Link>
         </div>
     )

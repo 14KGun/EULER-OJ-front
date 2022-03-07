@@ -44,7 +44,7 @@ const ProfileUnknown = (props) => {
     return (
         <div>
             <div className="FRAME_MAIN ND" style={{ paddingTop: '100px', textAlign: 'center'}}>
-                <img src={ svgUnknown } style={{ maxWidth: '500px', marginBottom: '10px' }}/>
+                <img src={ svgUnknown } style={{ maxWidth: '500px', marginBottom: '10px' }} alt=""/>
                 <div style={{ fontSize: '30px', fontWeight: 900, lineHeight: '50px', color: 'rgb(52,59,71)' }}>OPPS! Page Not Found</div>
                 <div style={{ fontSize: '16px', fontWeight: 300, marginBottom: '30px', color: 'rgb(129,139,156)' }}>해당 사용자는 존재하지 않거나 탈퇴하였습니다.</div>
                     <div><BtnBack/><BtnHome/></div>

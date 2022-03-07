@@ -13,6 +13,8 @@ import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
+import getHref from '../../Tool/getHref';
+import problemHistory from '../../Tool/problemHistory';
 import './ProblemViewer.css';
 
 import imgEditor from './img_editor.png';
@@ -39,7 +41,7 @@ const sampleTransfer = (html) => {
 const Tag = (props) => {
     const [isHover, setHover] = useState(false);
     const background = useSpring({
-        background: isHover ? 'rgb(230,230,230)' : 'white',
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
         config: { duration: 100 }
     }).background;
 
@@ -56,7 +58,7 @@ const TagsLay = (props) => {
             { props.tags.map((item, index) => {
                 const url = item.url;
                 const name = item.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
-                return <Tag key={ index } url={ url } name={ name }/>
+                return <Tag key={ index } url={ url } name={ name } theme={ props.theme }/>
             }) }
         </>
     );
@@ -88,13 +90,13 @@ const BtnSubmit = (props) => {
     });
 
     return (
-        <a href={`/problemset/submit/${props.id}`}>
+        <Link to={`/problemset/submit/${props.id}`}>
             <animated.div className="right_TOPBTN" id="btn_submit" style={ style }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ imgSubmit } alt=""/>
                 <div>제출하기</div>
             </animated.div>
-        </a>
+        </Link>
     )
 }
 const BoxLink = (props) => {
@@ -255,23 +257,23 @@ const BoxStatus = (props) => {
     return (
         <div className="right_TOPBOX" style={{ background: background, border: border }}>
             <div className="right_TOPBOX-TITLE" style={{ color: color }}>채점 기록</div>
-            <a href={`/status?pid=${props.id}`}>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background1 }}
                 onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard3 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>전체 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
                 </animated.div>
-            </a>
-            <a href={`/status?pid=${props.id}&lid=${props.loginId ? props.loginId : ''}`}>
+            </Link>
+            <Link to={`/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>내 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
-            </a>
-            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res }/></div> : <></> }
+            </Link>
+            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res } theme={ props.theme }/></div> : <></> }
         </div>
     )
 }
@@ -410,6 +412,7 @@ class ProblemViewer extends Component {
                         solve: probInfo.data.solve, submit: probInfo.data.submit, blogging: probInfo.data.blogging,
                         timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
                     }, () => {
+                        if(!this.state.err) problemHistory.add(this.state.id);
                         this.onCall = false;
                     });
                 });
@@ -470,7 +473,7 @@ class ProblemViewer extends Component {
                     <div id="prob-id">#{ this.state.id }</div>
                     <div id="prob-title">{ this.state.title }</div>
                     <div id="prob-tag" className="ND">
-                        <TagsLay tags={ this.state.tags }/>
+                        <TagsLay tags={ this.state.tags } theme={ this.props.theme }/>
                         <Bookmark tooltip={ this.tooltip } id={ this.state.id }/>
                     </div>
                     <div className="txt0">문제</div>

@@ -1,10 +1,15 @@
 import React, { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { Link } from 'react-router-dom';
+import getHref from '../Tool/getHref';
+import axios from '../Tool/axios';
+
 import svgPersonGreen from './svg_personGreen.svg';
 import svgPersonGray from './svg_personGray.svg';
 import imgNosolve from '../Tag/TagIcon/img_nosolveLight.png'
 import imgYoutube from '../Tag/TagIcon/img_youtubeLight.png'
 import imgBlog from '../Tag/TagIcon/img_blogLight.png'
+import svgEmpty from './svg_empty.svg';
 
 const ProblemTop = () => {
     const borderLine = '2px solid rgb(0,150,200)';
@@ -70,7 +75,7 @@ const ProblemItem = (props) => {
     }
     
     const [ isHover, setHover ] = useState(false);
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(200,200,200,0.2)' : 'rgba(200,200,200,0)', config: { duration: 100 } }).background;
+    const ItemBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } }).background;
 
     const tagList = [];
     if(props.tags.nosolve){ tagList.push(<span key="sp1">&nbsp;</span>); tagList.push(<img key="nosolve" src={ imgNosolve } style={ Item3ImgStyle } alt="nosolve"/>); }
@@ -80,29 +85,60 @@ const ProblemItem = (props) => {
     return (
         <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden', background: ItemBackground }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <a href="#"><div style={ Item1Style }></div></a>
-            <a href={`/problemset/problem/${ props.id }`}><div style={ Item2Style }>#{ props.id }</div></a>
-            <a href={`/problemset/problem/${ props.id }`}><div style={ Item3Style }>
-                <span style={ Item3TxtStyle }>{ props.title }</span>
-                { tagList }
-            </div></a>
-            <a href={`/problemset/stats/${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
-                <div style={ Item4Txtstye }>{ props.submit }</div>
-            </div></a>
-            <a href={`/status?pid=${ props.id }`}><div style={{ ...Item4Style }}>
-                <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
-                <div style={ Item4Txtstye }>{ props.solve }</div>
-            </div></a>
+            <Link to={ props.myId === undefined || props.myId === '' ? getHref.loginCurrentUrl() : `/status/${ getHref.encodeObject({ problemId: props.id, loginId: props.myId }) }` }>
+                <div style={ Item1Style }></div>
+            </Link>
+            <Link to={`/problemset/problem/${ props.id }`}>
+                <div style={ Item2Style }>#{ props.id }</div>
+            </Link>
+            <Link to={`/problemset/problem/${ props.id }`}>
+                <div style={ Item3Style }>
+                    <span style={ Item3TxtStyle }>{ props.title }</span>
+                    { tagList }
+                </div>
+            </Link>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
+                <div style={{ ...Item4Style }}>
+                    <img style={ Item4Imgstye } src={ svgPersonGray } alt="submit"/>
+                    <div style={ Item4Txtstye }>{ props.submit }</div>
+                </div>
+            </Link>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id, result: 'accepted' }) }`}>
+                <div style={{ ...Item4Style }}>
+                    <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
+                    <div style={ Item4Txtstye }>{ props.solve }</div>
+                </div>
+            </Link>
         </animated.div>
     )
 }
+
+const Empty = (props) => {
+    return (
+        <div className="ND">
+            <div style={{ textAlign: 'center' }}>
+                <img src={ svgEmpty } alt="" style={{ width: '30px', height: '30px' }}/>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>{ props.children }</div>
+        </div>
+    )
+}
+
 class ProblemTable extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = { loginId: undefined }
+        axios.get('/json/logininfo').then(({ data }) => {
+            this.setState({ loginId: data.id });
+        })
+    }
     render() {
+        if(this.props.content.length <= 0 && this.props.empty) return <Empty theme={ this.props.theme }>{ this.props.empty }</Empty>;
         return (
             <>
                 { this.props.content.length > 0 ? <ProblemTop/> : <></> }
-                { this.props.content.map((item, index) => <ProblemItem key={ index } id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res } tags={ item.tags } theme={ this.props.theme }/>) }
+                { this.props.content.map((item, index) => <ProblemItem key={ index } id={ item.id } title={ item.title } solve={ item.solve } submit={ item.submit } res={ item.res } tags={ item.tags } theme={ this.props.theme } myId={ this.state.loginId }/>) }
             </>
         );
     }

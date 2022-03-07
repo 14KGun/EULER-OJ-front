@@ -4,6 +4,8 @@ import axios from '../../Tool/axios';
 import Frame from './Lay2Frame';
 import Loading from '../../Frame/Loading/Loading';
 
+import svgHelp from './svg_help.svg';
+
 const YoutubeItem = (props) => {
     const [isHover, setHover] = useState(false);
 
@@ -46,6 +48,36 @@ const YoutubeItem = (props) => {
         </a>
     );
 }
+
+const YoutubeEmptyItem = (props) => {
+    const [isHover, setHover] = useState(false);
+
+    const top = props.position[0]*205;
+    const left = props.position[1]*173;
+    const itemStyle = useSpring({
+        position: 'absolute', overflow: 'hidden',
+        textAlign: 'left', textAlignLast: 'left',
+        background: ( props.theme === 'light' ? 'rgb(240,240,240)' : 'rgb(45,45,45)' ),
+        borderRadius: '15px',
+        top: `${ top }px`, left: `${ left }px`,
+        width: `160px`, height: `190px`,
+        boxShadow: isHover ? '0 0 5px 5px rgba(0,0,0,0.1)' : '0 0 5px 5px rgba(0,0,0,0)',
+        border: isHover ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(0,0,0,0)',
+        transform: `scale(${ isHover ? 1.03 : 1.0 })`,
+        config: { duration: 150 }
+    });
+    const styleImg = {
+        width: '34px', height: '34px', position: 'absolute',
+        top: 'calc(50% - 17px)', left: 'calc(50% - 17px)'
+    }
+
+    return (
+        <animated.div style={ itemStyle }>
+            <img src={ svgHelp } alt="error" style={ styleImg }/>
+        </animated.div>
+    )
+}
+
 class Youtube extends Component {
     state = { youtubeList: undefined }
     constructor(props){
@@ -77,7 +109,7 @@ class Youtube extends Component {
                             try{
                                 comp = <YoutubeItem key={ index } id={ item.yotubeId } title={ item.title } imgSrc={ item.img.medium.url } time="" position={ pos } theme={ this.props.theme }/>;
                             } catch(e){
-                                comp = '';
+                                comp = <YoutubeEmptyItem key={ index } position={ pos } theme={ this.props.theme }/>;
                             }
                             return comp;
                         }) }

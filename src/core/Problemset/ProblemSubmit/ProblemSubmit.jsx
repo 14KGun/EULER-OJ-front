@@ -1,4 +1,4 @@
-import { Component, useState, useEffect } from 'react';
+import { Component, useState, useEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
@@ -14,8 +14,6 @@ import possibleInput from '../../Tool/possibleInput';
 import imgSubmit from './img_submit.png';
 import svgSort from './svg_sort.svg';
 import svgSetting from './svg_setting.svg';
-
-let onSubmit = false;
 
 const Top = (props) => {
     const txtStyle = {
@@ -55,13 +53,16 @@ const BtnBack = (props) => {
     }
     return (
         <Link to={ `/problemset/viewer/${ props.id }` }>
-            <animated.span style={{ ...style, background: background }} onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>문제로 돌아가기</animated.span>
+            <animated.span style={{ ...style, background: background }}
+            onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>문제로 돌아가기</animated.span>
         </Link>
     )
 }
 const BtnSubmit = (props) => {
+    const onSubmit = useRef(false);
     const [submitId, setSubmitId] = useState(undefined);
     const [isHover, setHover] = useState(false);
+
     const background = useSpring({
         background: isHover ? 'rgb(0,110,170)' : 'rgb(0,134,191)',
         config: { duration: 150 }
@@ -89,8 +90,8 @@ const BtnSubmit = (props) => {
         if(source === ''){ alert('소스 코드를 입력하세요.'); return; }
         if(!possibleInput.source(source)){ alert('소스 코드가 너무 길어요.'); return; }
 
-        if(!onSubmit){
-            onSubmit = true;
+        if(!onSubmit.current){
+            onSubmit.current = true;
             axios.post(`/json/problems/submit/${ props.id }`, { source: source, lang: props.lang }).then(result => {
                 if(result.data.id){
                     setSubmitId(result.data.id)
@@ -102,10 +103,12 @@ const BtnSubmit = (props) => {
         }
     }
 
-    if(submitId) return <Redirect to={ `/status/result/${ submitId }` }/>
     return (
-        <animated.span style={{ ...style, background: background }} className="BTNC" onClick={ () => onClick() }
-        onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>이 소스 코드 제출하기</animated.span>
+        <>
+            <animated.span style={{ ...style, background: background }} className="BTNC" onClick={ () => onClick() }
+            onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>이 소스 코드 제출하기</animated.span>
+            { submitId ? <Redirect to={ `/status/result/${ submitId }` }/> : <></> }
+        </>
     )
 }
 const BtnSort = (props) => {

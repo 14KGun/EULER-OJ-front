@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useSpring, animated, to } from 'react-spring';
+import { Link } from 'react-router-dom';
 import Top from '../../Frame/Top/Top';
 import './StatusTop.css';
 
+import svgStatus from './svg_status.svg';
 import svgItem1 from './svg_1.svg';
 import svgItem2 from './svg_2.svg';
 import svgItem3 from './svg_3.svg';
 import svgItem4 from './svg_4.svg';
 
 const Icon = () => {
-    return <div></div>
+    return (
+        <div style={{ width: '40px', height: '40px' }}>
+            <img src={ svgStatus } style={{ width: '32px', height: '32px', padding: '4px' }} alt=""/>
+        </div>
+    )
 }
 const TopBackground = () => {
     const [height, setHeight] = useState(322);
@@ -83,15 +89,23 @@ const TopBtn = (props) => {
 const TopFixedLay = (props) => {
     return (
         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <TopBtn name="모든 채점 기록" selected/>
-            <TopBtn name="내 채점 기록"/>
+            <Link to={ props.link1 }>
+                <TopBtn name="모든 채점 기록" selected={ props.category1 }/>
+            </Link>
+            {
+                props.link2 && props.link2!=='' ?
+                <Link to={ props.link2 }>
+                    <TopBtn name="내 채점 기록" selected={ props.category2 }/>
+                </Link> :
+                null
+            }
         </div>
     )
 }
 const StatusTop = (props) => {
     return (
-        <Top icon={ <Icon/> } title="채점" background={ <TopBackground/> }
-        fixedLay={ <TopFixedLay/> }/>
+        <Top icon={ <Icon/> } title={ "채점" + props.subtitle } background={ <TopBackground/> }
+        fixedLay={ <TopFixedLay category1={ props.category1 } category2={ props.category2 } link1={ props.link1 } link2={ props.link2 }/> }/>
     )
 }
 

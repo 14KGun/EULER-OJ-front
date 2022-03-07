@@ -17,7 +17,7 @@ const SubTitle = (props) => {
     return (
         <span style={{
             display: 'inline-block', height: '28px', lineHeight: '28px', borderRadius: '14px',
-            background: 'rgb(180,180,180)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
+            background: 'rgba(120,120,120,0.5)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
             fontSize: '16px', fontWeight: 300, color: 'white'
         }}>{ props.children }</span>
     )
@@ -48,7 +48,7 @@ const Trophy = (props) => {
     }
     const background = useSpring({
         background: isHover ? (props.theme==='light' ? 'rgba(220,220,220,1)' : 'rgba(60,60,60,1)') : (props.theme==='light' ? 'rgba(220,220,220,0)' : 'rgba(60,60,60,0)'),
-        config: { duration: 200 }
+        config: { duration: 100 }
     })
 
     if(!props.have){
@@ -87,11 +87,11 @@ const ActitvityLine = (props) => {
     const styleTime = {
         position: 'absolute', top: '0px', right: '13px', height: '40px', lineHeight: '40px',
         width: '200px', textAlign: 'center',
-        fontSize: '16px', fontWeight: 300, color: 'rgb(100,100,100)'
+        fontSize: '16px', fontWeight: 300, color: 'rgb(120,120,120)'
     }
     const background = useSpring({
         background: isHover ? (props.theme==='light' ? 'rgba(220,220,220,1)' : 'rgba(60,60,60,1)') : (props.theme==='light' ? 'rgba(220,220,220,0)' : 'rgba(60,60,60,0)'),
-        config: { duration: 200 }
+        config: { duration: 100 }
     })
 
     let imgSrc = undefined;

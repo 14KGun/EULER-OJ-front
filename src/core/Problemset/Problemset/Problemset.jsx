@@ -37,7 +37,7 @@ const SelectLayBtn = (props) => {
         fontSize: '17px', fontWeight: 300, color: 'white'
     }
     let background = useSpring({
-        background: isHover ? 'rgb(80,170,195)' : 'rgb(190,190,190)'
+        background: isHover ? 'rgb(80,170,195)' : 'rgba(120,120,120,0.5)'
     }).background;
     if(props.selected) background = 'rgb(0,150,200)'
     return (
@@ -49,7 +49,7 @@ const SelectLayBtn = (props) => {
 const SelectLay = (props) => {
     return (
         <div className="ND" style={{ paddingTop: '30px' }}>
-            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id } selected={ String(props.selected) === String(item.id) }/>) }
+            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id } selected={ String(props.selected) === String(item.id) } theme={ props.theme }/>) }
         </div>
     )
 }
@@ -77,7 +77,7 @@ class Problemset extends Component {
         if(String(propsCategory[0]) === String(this.state.category1) && String(propsCategory[1]) === String(this.state.category2) && String(propsCategory[2]) === String(this.state.requestPage)){
             container = (
                 <div className="FRAME_MAIN">
-                    <SelectLay items={ this.state.nav } selected={ propsCategory[1] } category1={ propsCategory[0] }/>
+                    <SelectLay items={ this.state.nav } selected={ propsCategory[1] } category1={ propsCategory[0] } theme={ this.props.theme }/>
                     <div style={{ height: '30px' }}/>
                     <ProblemTable content={ this.state.list } theme={ this.props.theme }/>
                     <PageSelector page={ this.state.page } max={ this.state.maxPage } get={ (x) => this.makeGetPageUrl(x) } theme={ this.props.theme }/>

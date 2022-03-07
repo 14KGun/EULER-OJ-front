@@ -1,5 +1,3 @@
-import { useSpring, animated } from 'react-spring';
-
 const TaskTableItem = (props) => {
     const style = {
         height: '60px', position: 'relative', overflow: 'hidden',
@@ -24,12 +22,12 @@ const TaskTableItem = (props) => {
     }
 
     return (
-        <animated.div style={ style }>
+        <div style={ style }>
             <div style={{ ...styleItem, ...styleIndex }}>{ props.index }</div>
             <div style={{ ...styleItem, ...styleResult }}>{ props.result }</div>
             <div style={{ ...styleItem, ...styleTime }}>{ props.time }</div>
             <div style={{ ...styleItem, ...styleMemory }}>{ props.memory }</div>
-        </animated.div>
+        </div>
     )
 }
 const TaskTable = (props) => {

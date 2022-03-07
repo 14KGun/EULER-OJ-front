@@ -131,13 +131,13 @@ class BooksList extends Component {
         this.state = {};
     }
     render(){
-        if(this.onCall == false){
+        if(this.onCall === false){
             this.onCall = true;
             axios.get('/json/problems-books/progress').then(({ data }) => {
                 for(let i=0; i<data.array.length; i++){
-                    if(data.array[i].id == 'c++_stone') this.setState({ prog1: data.array[i].progress }); 
-                    if(data.array[i].id == 'python_stone') this.setState({ prog2: data.array[i].progress }); 
-                    if(data.array[i].id == 'c++_iron') this.setState({ prog3: data.array[i].progress }); 
+                    if(data.array[i].id === 'c++_stone') this.setState({ prog1: data.array[i].progress }); 
+                    if(data.array[i].id === 'python_stone') this.setState({ prog2: data.array[i].progress }); 
+                    if(data.array[i].id === 'c++_iron') this.setState({ prog3: data.array[i].progress }); 
                 }
             })
         }

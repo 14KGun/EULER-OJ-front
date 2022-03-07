@@ -1,6 +1,7 @@
 import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
+import getHref from '../../Tool/getHref';
 
 const Title = (props) => {
     return (
@@ -11,7 +12,7 @@ const SubTitle = (props) => {
     return (
         <span style={{
             display: 'inline-block', height: '28px', lineHeight: '28px', borderRadius: '14px',
-            background: 'rgb(180,180,180)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
+            background: 'rgba(120,120,120,0.5)', paddingLeft: '8px', paddingRight: '8px', marginLeft: '5px',
             fontSize: '16px', fontWeight: 300, color: 'white'
         }}>{ props.children }</span>
     )
@@ -30,8 +31,9 @@ const BoxTableItem = (props) => {
     let style = {
         position: 'absolute', top: `${ 16 * props.y + 18 }px`, left: `${ 16 * props.x + 13 }px`,
         width: '11px', height: '11px',
-        border: '1px solid rgb(190,190,190)', borderRadius: '4px',
-        background: 'rgb(250,250,250)'
+        border: `1px solid ${ props.theme==='light' ? 'rgb(190,190,190)' : 'rgb(100,100,100)' }`, 
+        borderRadius: '4px',
+        background: (props.theme==='light' ? 'rgb(250,250,250)' : 'rgb(30,30,30)')
     }
 
     if(props.count === 0) style = { ...style }
@@ -42,10 +44,7 @@ const BoxTableItem = (props) => {
     else if(props.count >= 5) style = { ...style, background: 'rgb(17,81,45)' }
     else style = { ...style, visibility: 'hidden' }
     
-    return (
-        <div style={ style }>
-        </div>
-    )
+    return <div style={ style }/>;
 }
 const BoxTable = (props) => {
     const outArray = [];
@@ -59,7 +58,8 @@ const BoxTable = (props) => {
 
     const styleTop = {
         position: 'absolute', top: '0px', height: '18px', lineHeight: '18px',
-        fontSize: '12px', fontWeight: 300, color: 'rgb(80,80,80)'
+        fontSize: '12px', fontWeight: 300,
+        color: (props.theme==='light' ? 'rgb(80,80,80)' : 'rgb(170,170,170)')
     }
     for(var i=0; i<53; i++){
         let text = '';
@@ -73,7 +73,8 @@ const BoxTable = (props) => {
 
     const styleLeft = {
         position: 'absolute', left: '0px', height: '16px', lineHeight: '16px',
-        fontSize: '12px', fontWeight: 300, color: 'rgb(80,80,80)'
+        fontSize: '12px', fontWeight: 300,
+        color: (props.theme==='light' ? 'rgb(80,80,80)' : 'rgb(170,170,170)')
     }
     for(var i=0; i<7; i++){
         if(i%2 === 1){
@@ -84,7 +85,8 @@ const BoxTable = (props) => {
 
     for(var i=0; i<53; i++){
         for(var j=0; j<7; j++){
-            outArray.push(<BoxTableItem key={ i*7+j } y={ j } x={ i } count={ i*7+j >= props.data.length ? -1 : props.data[i*7+j].count }/>);
+            outArray.push(<BoxTableItem key={ i*7+j } y={ j } x={ i } theme={ props.theme }
+            count={ i*7+j >= props.data.length ? -1 : props.data[i*7+j].count }/>);
         }
     }
 
@@ -101,11 +103,12 @@ const IdContainer = (props) => {
         display: 'inline-block', height: '26px', lineHeight: '26px', borderRadius: '10px',
         paddingLeft: '7px', paddingRight: '7px', marginRight: '7px',
         fontSize: '16px', fontWeight: 300, color: 'black',
-        background: 'rgb(200,200,200)'
+        background: 'rgb(200,200,200)',
+        color: (props.theme==='light' ? 'black' : 'white')
     }
     const background = useSpring({
-        background: isHover ? 'rgb(180,180,180)' : 'rgb(200,200,200)',
-        config: { duration: 200 }
+        background: isHover ? (props.theme==='light' ? 'rgba(100,100,100,0.3)' : 'rgba(180,180,180,0.3)') : 'rgba(140,140,140,0.3)',
+        config: { duration: 100 }
     })
     return (
         <Link to={ `/problemset/problem/${ props.id }` }>
@@ -119,38 +122,39 @@ const BtnSearch = (props) => {
     const style = {
         display: 'inline-block', height: '28px', lineHeight: '28px', borderRadius: '18px',
         paddingLeft: '9px', paddingRight: '9px',
-        fontSize: '16px', fontWeight: 300, color: 'black',
-        border: '2px solid rgb(200,200,200)'
+        fontSize: '16px', fontWeight: 400, color: 'black',
+        border: '2px solid rgba(120,120,120,0.7)',
+        color: (props.theme==='light' ? 'rgb(110,110,110)' : 'rgb(140,140,140)')
     }
     const background = useSpring({
-        background: isHover ? 'rgba(220,220,220,1)' : 'rgba(220,220,220,0)',
-        config: { duration: 200 }
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
+        config: { duration: 100 }
     })
     return (
-        <a href={ `/status/?lid=${ props.id }&status=accepted` }>
+        <Link to={ `/status/${ getHref.encodeObject({ loginId: props.id, result: 'accepted' }) }` }>
             <animated.span style={{ ...style, ...background }}
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>채점 기록으로 보기</animated.span>
-        </a>
+        </Link>
     )
 }
 
 class Page2 extends Component {
-    constructor(props){
-        super(props);
-    }
     render() {
         return (
             <div className="FRAME_MAIN ND" style={{ paddingTop: '50px' }}>
                 <Title theme={ this.props.theme }>분석</Title>
                 <Container theme={ this.props.theme }>
-                    <BoxTable data={ this.props.data.table } count={ this.props.data.tableLength }/>
+                    <BoxTable data={ this.props.data.table } count={ this.props.data.tableLength } theme={ this.props.theme }/>
                     <div style={{ position: 'absolute', top: '0px', bottom: '0px', left: '860px', right: '0px', textAlign: 'center' }}>
-                        <div style={{ paddingTop: '30px', fontSize: '15px', fontWeight: 300, color: 'rgb(40,40,40)' }}>최근 1년 간</div>
+                        <div style={{ paddingTop: '30px', fontSize: '15px', fontWeight: 300,
+                        color: (this.props.theme==='light' ? 'rgb(100,100,100)' : 'rgb(150,150,150)') }}>최근 1년 간</div>
                         <div>
-                            <span style={{fontSize: '20px', fontWeight: 600, color: 'rgb(80,80,80)' }}>{ this.props.data.tableLength }개</span>
-                            <span style={{fontSize: '16px', fontWeight: 300, color: 'rgb(100,100,100)' }}>의 문제 맞음 기록</span>
+                            <span style={{fontSize: '20px', fontWeight: 600,
+                            color: (this.props.theme==='light' ? 'rgb(80,80,80)' : 'rgb(170,170,170)') }}>{ this.props.data.tableLength }개</span>
+                            <span style={{fontSize: '16px', fontWeight: 300,
+                            color: (this.props.theme==='light' ? 'rgb(100,100,100)' : 'rgb(150,150,150)') }}>의 문제 맞음 기록</span>
                         </div>
-                        <div style={{ fontSize: '14px', fontWeight: 300, color: 'rgb(150,150,150)' }}>(문제가 중복되어 있을 수 있습니다)</div>
+                        <div style={{ fontSize: '14px', fontWeight: 300, color: 'rgb(120,120,120)' }}>(문제가 중복되어 있을 수 있습니다)</div>
                     </div>
                 </Container>
 
@@ -158,9 +162,11 @@ class Page2 extends Component {
                 <Title theme={ this.props.theme }>맞은 문제<SubTitle>{ this.props.data.solve.length }</SubTitle></Title>
                 <Container theme={ this.props.theme }>
                     <div style={{ textAlign: 'center', lineHeight: '33px' }}>
-                        { this.props.data.solve.map((item, index) => <IdContainer key={ item } id={ item }/>) }
+                        { this.props.data.solve.map((item, index) => <IdContainer key={ item } id={ item } theme={ this.props.theme }/>) }
                     </div>
-                    <div style={{ textAlign: 'right', marginTop: '10px' }}><BtnSearch id={ this.props.data.id }/></div>
+                    <div style={{ textAlign: 'right', marginTop: '10px' }}>
+                        <BtnSearch id={ this.props.data.id } theme={ this.props.theme }/>
+                    </div>
                 </Container>
             </div>
         );

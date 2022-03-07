@@ -8,10 +8,14 @@ import Res from '../../Frame/Res/Res';
 import Footer from '../../Frame/Footer/Footer';
 import Loading from '../../Frame/Loading/Loading';
 import axios from '../../Tool/axios';
+import socketio from 'socket.io-client';
 import trans from '../../Tool/trans';
 import resultSummary from './resultSummary';
 
-import imgSubmit from './img_submit.png';
+import svgSubmit from './svg_submit.svg';
+import svgTask from './svg_task.svg';
+import svgCode from './svg_code.svg';
+import svgError from './svg_error.svg';
 
 const Title = (props) => {
     const txtStyle = {
@@ -19,7 +23,7 @@ const Title = (props) => {
         fontSize: '27px', fontWeight: 700, color: (props.theme === 'light' ? 'black' : 'white')
     }
     const styleImg = {
-        width: '50px', height: '50px', verticalAlign: 'middle', marginTop: '-13px'
+        width: '35px', height: '35px', verticalAlign: 'middle', marginTop: '-13px', marginRight: '7px'
     }
     return (
         <div style={{ marginBottom: '15px' }}>
@@ -108,7 +112,7 @@ const Lay1 = (props) => {
                     <div style={{ paddingTop: '10px', paddingLeft: '10px', position: 'relative', marginTop: '10px' }}>
                         <span style={ styleTxt1 }>결과</span>
                         <div style={{ position: 'absolute', top: '10px', left: '110px', width: '230px' }}>
-                            <Res res={ props.res } theme={ props.theme }/>
+                            <Res res={ props.res } theme={ props.theme } border={ props.theme==='light' ? '1px solid rgba(120,120,120,0)' : '1px solid rgba(120,120,120,0.8)' }/>
                         </div>
                     </div>
                 </div>
@@ -137,28 +141,73 @@ const Lay1 = (props) => {
     )
 }
 
+const ErrorLay = (props) => {
+    const style = useSpring({
+        position: 'relative', borderRadius: '15px', overflow: 'hidden',
+        background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)',
+        paddingTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px',
+        fontFamily: 'D2Coding', fontSize: '16px', fontWeight: 300,
+        color: (props.theme==='light' ? 'black' : 'white')
+    })
+
+    if (!props.stderr) return null;
+    let text = props.stderr.split('\n').join('<br>').split(' ').join('&nbsp;');
+    
+    if(text.startsWith('&error;')){
+        text = text.substring(13);
+        if(text.startsWith('ERROR&nbsp;:&nbsp;runtime&nbsp;error<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;runtime&nbsp;error','런타임 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;error<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;error','컴파일 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;output-limit&nbsp;error<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;output-limit&nbsp;error','출력 초과 에러<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;compile&nbsp;timeout<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;compile&nbsp;timeout','컴파일 시간 초과<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;time-limit&nbsp;error<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;time-limit&nbsp;error','시간 초과<br>');
+        }
+        else if(text.startsWith('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error<br>')){
+            text = text.replace('ERROR&nbsp;:&nbsp;memory-limit&nbsp;error','메모리 초과<br>');
+        }
+        else return null;
+
+        return (
+            <div>
+                <div style={{ height: '70px' }}/>
+                <Title theme={ props.theme } img={ svgError } title={ '경고 메시지' }/>
+                <animated.div style={ style } dangerouslySetInnerHTML={{ __html: text }}/>
+            </div>
+        )
+    }
+
+    return null;
+}
+
 class Result extends Component {
     constructor(props) {
         super(props);
+        this.socket = socketio('https://euleroj.io');
         this.state = { }
     }
     render() {
         if(!this.load) {
-            if(this.state.id !== this.props.id){
+            if(this.state.id !== this.props.id || this.state.needLoad){
                 this.load = true;
-                
-                axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
-                    this.setState({
-                        err: data.err, id: data.id, problem: data.problem,
-                        lid: data.lid, compile: data.compile, status: data.status, date: data.time,
-                        task: data.task, source: data.source, editor: data.editor
-                    }, () => {
-                        this.load = false;
-                        if(this.props.socket){
-                            this.props.socket.emit('joinRoom', `status_res_${ this.props.id }`);
-                            this.props.socket.emit('status_res_reload', this.props.id);
-                            this.props.socket.off('update_status_restask');
-                            this.props.socket.on('update_status_restask', (msg) => {
+                this.setState({ needLoad: false }, () => {
+                    axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
+                        this.setState({
+                            err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
+                            lid: data.lid, compile: data.compile, status: data.status, date: data.time,
+                            task: data.task, source: data.source, editor: data.editor
+                        }, () => {
+                            this.load = false;
+                            this.socket.emit('joinRoom', `status_res_${ this.props.id }`);
+                            this.socket.emit('status_res_reload', this.props.id);
+                            this.socket.on('update_status_restask', (msg) => {
                                 if(this.state.id !== msg.id) return;
                                 if(this.state.status.indexOf('wait') !== -1){
                                     if(msg.res.indexOf('wait') !== -1){
@@ -166,13 +215,15 @@ class Result extends Component {
                                         const next = Number(msg.res.substr(5));
                                         if(prev >= next) return;
                                     }
+                                    else{
+                                        this.setState({ needLoad: true });
+                                    }
                                     this.setState({ status: msg.res, task: msg.task });
                                 }
                             });
-                        }
-                        this.props.reFooter();
+                        });
                     });
-                });
+                })
             }
         }
 
@@ -182,7 +233,7 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <div style={{ height: '100px' }}/>
                         <Loading/>
                         <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
@@ -196,9 +247,9 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px',
-                        color: (this.props.theme==='light' ? 'black' : 'white') }}>해당 체점 결과는 존재하지 않습니다.</div>
+                        color: (this.props.theme==='light' ? 'black' : 'white') }}>해당 채점 결과는 존재하지 않습니다.</div>
                     </div>
                 </>
             )
@@ -209,17 +260,19 @@ class Result extends Component {
                     <Helmet><title>채점 결과 ({ this.props.id }) : 오일러OJ</title></Helmet>
                     <div className="FRAME_MAIN ND">
                         <div style={{ height: '100px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '채점 결과' }/>
+                        <Title theme={ this.props.theme } img={ svgSubmit } title={ '채점 결과' }/>
                         <Lay1 theme={ this.props.theme } id={ this.state.id } problem={ this.state.problem } lid={ this.state.lid }
                         date={ this.state.date } compile={ this.state.compile } res={ this.state.status }
                         task={ this.state.task } source={ this.state.source }/>
+
+                        <ErrorLay stderr={ this.state.stderr } theme={ this.props.theme }/>
                         
                         <div style={{ height: '70px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ 'Task' }/>
+                        <Title theme={ this.props.theme } img={ svgTask } title={ '테스트 케이스' }/>
                         <TaskTable theme={ this.props.theme } task={ this.state.task }/>
                         
                         <div style={{ height: '90px' }}/>
-                        <Title theme={ this.props.theme } img={ imgSubmit } title={ '소스 코드' }/>
+                        <Title theme={ this.props.theme } img={ svgCode } title={ '소스 코드' }/>
                         <Editor theme={ this.props.theme } reFooter={ this.props.reFooter } id={ this.state.id } problem={ this.state.problem }
                         lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
                     </div>
@@ -229,8 +282,11 @@ class Result extends Component {
             );
         }
     }
+    componentDidUpdate(){
+        this.props.reFooter();
+    }
     componentWillUnmount(){
-        this.props.socket.off('update_status_restask');
+        if(this.socket) this.socket.disconnect();
     }
 }
 

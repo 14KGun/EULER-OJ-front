@@ -9,7 +9,7 @@ const HeaderLeft = (props) => {
     const style = {
         position: 'fixed', top: '80px', left: '10px', width: '300px', zIndex: 89,
         borderRadius: '10px', overflow: 'hidden',
-        background: 'white'
+        background: (props.theme==='light' ? 'white' : 'rgb(35,37,39)')
     };
     const springStyle = useSpring({
         height: props.show ? '350px' : '0px'
@@ -22,11 +22,11 @@ const HeaderLeft = (props) => {
     return (
         <animated.div className="ND" style={{ ...style, ...springStyle }}>
             <div style={ topStyle }>오일러 바로가기</div>
-            <BtnItem icon={ imgEuler } name="메인" url="/" close={ props.close }/>
-            <BtnItem icon={ imgEuler } name="오일러OJ" url="/problemset" close={ props.close }/>
-            <BtnItem icon={ imgYoutube } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" close={ props.close } newtab/>
-            <BtnItem icon={ imgBooks } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" close={ props.close } newtab/>
-            <BtnItem icon={ imgBlog } name="오일러BLOG" url="https://blog.naver.com/euleroj" close={ props.close } newtab/>
+            <BtnItem icon={ imgEuler } name="메인" url="/" close={ props.close } theme={ props.theme }/>
+            <BtnItem icon={ imgEuler } name="오일러OJ" url="/problemset" close={ props.close } theme={ props.theme }/>
+            <BtnItem icon={ imgYoutube } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" close={ props.close } newtab theme={ props.theme }/>
+            <BtnItem icon={ imgBooks } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" close={ props.close } newtab theme={ props.theme }/>
+            <BtnItem icon={ imgBlog } name="오일러BLOG" url="https://blog.naver.com/euleroj" close={ props.close } newtab theme={ props.theme }/>
         </animated.div>
     );
 }

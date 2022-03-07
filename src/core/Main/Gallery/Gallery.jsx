@@ -3,9 +3,10 @@ import { useSpring, animated } from 'react-spring';
 import Page1 from './Page1/Page1';
 import Page2 from './Page2/Page2';
 import Page3 from './Page3/Page3';
+import Page4 from './Page4/Page4';
 
 const GalleryMaker = (props) => {
-    const pageList = [<Page1/>, <Page2/>, <Page3/>];
+    const pageList = [<Page1/>, <Page2/>, <Page4/>];
     const pageIndex = props.pageIndex; //, setPage = props.setPage;
 
     var pageStyle = [];

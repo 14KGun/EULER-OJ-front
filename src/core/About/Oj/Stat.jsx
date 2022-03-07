@@ -5,6 +5,17 @@ import axios from '../../Tool/axios';
 
 import svgChart from '../svg_chart.svg';
 
+const getQuarter = (x) => {
+    const year = x.split('-')[0];
+    const month = x.split('-')[1];
+
+    if(['1','2','3'].indexOf(month) !== -1) return `${ year }년 1분기`;
+    if(['4','5','6'].indexOf(month) !== -1) return `${ year }년 2분기`;
+    if(['7','8','9'].indexOf(month) !== -1) return `${ year }년 3분기`;
+    if(['10','11','12'].indexOf(month) !== -1) return `${ year }년 4분기`;
+    return `${ year }년`;
+}
+
 class Stat extends Component {
     constructor(props) {
         super(props);
@@ -13,11 +24,20 @@ class Stat extends Component {
 
         axios.get('/json/about/oj/stat').then(result => {
             const category = [], data = [];
-            result.data.stat.pop();
+            
             for(const i of result.data.stat){
-                category.push(i.name);
-                data.push(i.value);
+                const categoryName = getQuarter(i.name);
+                
+                console.log(i);
+                if(category.length > 0 && category[category.length - 1] == categoryName){
+                    data[data.length - 1] += i.value;
+                }
+                else{
+                    category.push(categoryName);
+                    data.push(i.value);
+                }
             }
+            category.pop(); data.pop();
             this.setState({ category: category, data: data })
         })
     }
@@ -29,14 +49,15 @@ class Stat extends Component {
                 /* dropShadow: { enabled: true, color: '#000', top: 18, left: 7, blur: 10, opacity: 0.2 }, */
             },
             sparkline: { enabled: false },
-            stroke: { curve: 'smooth' }
+            stroke: { curve: 'smooth' },
+            dataLabels: { enabled: false }
         };
         const chartSeries = [{ name: "채점 횟수", data: this.state.data }];
 
         return (
             <div className="ND">
                 <Layout.Title icon={ svgChart } theme={ this.props.theme }>채점 시도 횟수</Layout.Title>
-                <Chart type="line" options={ chartOptions } series={ chartSeries } width="100%" height="400px"/>
+                <Chart type="area" options={ chartOptions } series={ chartSeries } width="100%" height="400px"/>
             </div>
         );
     }

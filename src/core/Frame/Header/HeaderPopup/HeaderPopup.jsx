@@ -15,14 +15,14 @@ const HeaderPopupMaker = (props) => {
         <>
             <animated.div style={ BlurscreenStyle }
             onClick={ () => { props.leftClose(); props.rightClose(); } }/>
-            <HeaderLeft show={ props.left } close={ props.leftClose }/>
-            <HeaderRight show={ props.right } close={ props.rightClose } loginInfo={ props.loginInfo }/>
+            <HeaderLeft show={ props.left } close={ props.leftClose } theme={ props.theme }/>
+            <HeaderRight show={ props.right } close={ props.rightClose } loginInfo={ props.loginInfo } theme={ props.theme }/>
         </>
     );
 }
 class HeaderPopup extends Component {
     render() {
-        return <HeaderPopupMaker loginInfo={ this.props.loginInfo }
+        return <HeaderPopupMaker loginInfo={ this.props.loginInfo } theme={ this.props.theme }
         left={ this.props.left } leftClose={ this.props.leftClose }
         right={ this.props.right } rightClose={ this.props.rightClose }/>;
     }
