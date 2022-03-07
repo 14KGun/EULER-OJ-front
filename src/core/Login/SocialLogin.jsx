@@ -1,5 +1,6 @@
 import { Component, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+
 import imgGoogle from './img_google.png';
 import imgNaver from './img_naver.png';
 import imgKakao from './img_kakao.png';
@@ -39,8 +40,8 @@ const BtnBack = (props) => {
         fontSize: '15px', fontWeight: '300', color: 'white'
     }
     const springBtn = useSpring({
-        background: isHover ? 'rgb(175,175,175)' : 'rgb(200,200,200)',
-        config: { duration: 200 }
+        background: isHover ? 'rgb(175,175,175)' : 'rgb(190,190,190)',
+        config: { duration: 100 }
     });
     return (
         <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) } onClick={ props.onClick }

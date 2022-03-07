@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { Helmet } from "react-helmet";
 import { animated, useSpring } from 'react-spring';
+import Chart from "react-apexcharts";
+import Layout from '../../Frame/Layout/Layout';
 import Top from '../Top/Top';
 import Loading from '../../Frame/Loading/Loading';
 import Footer from '../../Frame/Footer/Footer';
@@ -18,32 +20,45 @@ const LoadingLay = () => {
         </div>
     )
 }
-
-const Title = (props) => {
-    const style = {
-        fontSize: '27px', fontWeight: 700, marginLeft: '45px',
-        color: (props.theme==='light' ? 'black' : 'white'),
-        lineHeight: '40px'
-    }
-    const styleImg = {
-        position: 'absolute', top: '2px', left: '0px',
-        width: '36px'
-    }
-    return (
-        <div style={{ position: 'relative' }}>
-            <img src={ props.icon } style={ styleImg } alt=""/>
-            <div style={ style }>{ props.children }</div>
-        </div>
-    )
-}
 const Stat = (props) => {
-    const style = useSpring({
-        background: (props.theme==='light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'), borderRadius: '10px'
-    })
+    const chartOptions = {
+        colors: ["#20E647"],
+        plotOptions: {
+            radialBar: {
+                hollow: { size: "50%" },
+                track: {
+                    dropShadow: { enabled: true, top: 2, left: 0, blur: 4, opacity: 0.15 },
+                    background: 'rgba(120,120,120,0.15)',
+                },
+                dataLabels: {
+                    name: { fontSize: "15px", color: "#888", fontWeight: 300, offsetY: -10, show: true },
+                    value: { fontSize: "20px", color: "#888", fontWeight: 900, offsetY: -2, show: true }
+                }
+            }
+        },
+        fill: {
+            type: "gradient",
+            gradient: { shade: "dark", type: "horizontal", gradientToColors: ["#87D4F9"], stops: [0, 100] }
+        },
+        stroke: { lineCap: "round" },
+        labels: ["성공률"]
+    }
     return (
-        <animated.div style={ style }>
-            123
-        </animated.div>
+        <Layout.Container>
+            <div>
+                <Chart type="radialBar" options={ chartOptions } series={ ['37.15'] } width="100%" height="250px"/>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ width: '100px' }}>
+                        <div>맞은 사람</div>
+                        <div>123</div>
+                    </div>
+                    <div style={{ width: '100px' }}>
+                        <div>제출 횟수</div>
+                        <div>512</div>
+                    </div>
+                </div>
+            </div>
+        </Layout.Container>
     )
 }
 const Tag = (props) => {
@@ -74,26 +89,26 @@ class Stats extends Component {
         container = (
             <div className="ND">
                 <div style={{ height: '50px' }}/>
-                <Title theme={ this.props.theme } icon={ svgChart }>통계</Title>
+                <Layout.Title theme={ this.props.theme } icon={ svgChart }>통계</Layout.Title>
                 <Stat theme={ this.props.theme }/>
 
-                <div style={{ height: '40px' }}/>
-                <Title theme={ this.props.theme } icon={ svgTag }>태그</Title>
+                <div style={{ height: '50px' }}/>
+                <Layout.Title theme={ this.props.theme } icon={ svgTag }>태그</Layout.Title>
                 <Tag theme={ this.props.theme }/>
 
-                <div style={{ height: '40px' }}/>
-                <Title theme={ this.props.theme } icon={ svgRank }>실행 시간 Top 5</Title>
+                <div style={{ height: '50px' }}/>
+                <Layout.Title theme={ this.props.theme } icon={ svgRank }>실행 시간 Top 5</Layout.Title>
                 <TimeTop5 theme={ this.props.theme }/>
 
-                <div style={{ height: '40px' }}/>
-                <Title theme={ this.props.theme } icon={ svgRank }>숏코딩 Top 5</Title>
+                <div style={{ height: '50px' }}/>
+                <Layout.Title theme={ this.props.theme } icon={ svgRank }>숏코딩 Top 5</Layout.Title>
                 <TimeTop5 theme={ this.props.theme }/>
 
-                <div style={{ height: '40px' }}/>
-                <Title theme={ this.props.theme } icon={ svgPerson }>맞은 사람 (52)</Title>
+                { /*<div style={{ height: '50px' }}/>
+                <Layout.Title theme={ this.props.theme } icon={ svgPerson }>맞은 사람 (52)</Layout.Title> */ }
 
-                <div style={{ height: '40px' }}/>
-                <Title theme={ this.props.theme }>사용된 언어</Title>
+                <div style={{ height: '50px' }}/>
+                <Layout.Title theme={ this.props.theme }>사용된 언어</Layout.Title>
             </div>
         )
 

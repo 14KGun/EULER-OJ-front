@@ -5,7 +5,13 @@ import { Helmet } from "react-helmet";
 import axios from '../Tool/axios';
 import getHref from '../Tool/getHref';
 import SocialLogin from './SocialLogin';
+
 import svgCoding from './svg_coding.svg';
+import svgRight from './svg_right.svg';
+import imgGoogle from './img_google.png';
+import imgFacebook from './img_facebook.png';
+import imgNaver from './img_naver.png';
+import imgKakao from './img_kakao.png';
 
 const LayLeft = (props) => {
     const opacity = useSpring({
@@ -52,36 +58,72 @@ const PageRight = (props) => {
 const BtnLogin = (props) => {
     const [isHover, setHover] = useState(false);
     const styleBtn = {
-        width: '60%', height: '40px', borderRadius: '20px', margin: 'auto',
-        textAlign: 'center', lineHeight: '40px',
-        fontSize: '15px', fontWeight: '300', color: 'white'
+        width: '60%', height: '40px', borderRadius: '20px',
+        margin: 'auto', position: 'relative', overflow: 'hidden'
     }
     const springBtn = useSpring({
-        background: isHover || props.canClick===false ? 'rgb(30,110,220)' : 'rgb(50,140,250)',
-        config: { duration: 200 }
+        background: isHover || props.canClick===false ? 'rgb(45,120,230)' : 'rgb(50,140,250)',
+        config: { duration: 100 }
     });
+    const styleTxt = {
+        height: '40px', textAlign: 'center', lineHeight: '40px',
+        fontSize: '15px', fontWeight: '300', color: 'white'
+    }
+    const styleImg = {
+        position: 'absolute', top: '10px', left: '10px',
+        height: '20px'
+    }
     const handleClick = () => {
         if(props.canClick) props.onClick();
     }
     return (
-        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) } onClick={ handleClick }
-        style={{ ...styleBtn, ...springBtn }} className="BTNC">Go</animated.div>
+        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }
+        onClick={ handleClick } style={{ ...styleBtn, ...springBtn }} className="BTNC">
+            <div style={ styleTxt }>Go</div>
+            <img style={ styleImg } src={ svgRight } alt=""/>
+        </animated.div>
+    )
+}
+const SocialImg = (props) => {
+    const style = {
+        position: 'absolute', top: `${ 7 + props.top }px`, left: `${ 10 + props.left }px`,
+        height: '14px', width: '14px', borderRadius: '8px',
+        overflow: 'hidden', background: props.background
+    }
+    const styleImg = {
+        position: 'absolute', top: '20%', left: '20%',
+        width: '60%', height: '60%'
+    }
+
+    return (
+        <div style={ style }>
+            <img style={ styleImg } src={ props.src } alt=""/>
+        </div>
     )
 }
 const BtnSocial = (props) => {
     const [isHover, setHover] = useState(false);
     const styleBtn = {
-        width: '60%', height: '40px', borderRadius: '20px', margin: 'auto',
-        textAlign: 'center', lineHeight: '40px',
-        fontSize: '15px', fontWeight: '300', color: 'white'
+        width: '60%', height: '40px', borderRadius: '20px',
+        margin: 'auto', position: 'relative', overflow: 'hidden'
     }
     const springBtn = useSpring({
-        background: isHover ? 'rgb(175,175,175)' : 'rgb(200,200,200)',
-        config: { duration: 200 }
+        background: isHover ? 'rgb(175,175,175)' : 'rgb(190,190,190)',
+        config: { duration: 100 }
     });
+    const styleTxt = {
+        height: '40px', textAlign: 'center', lineHeight: '40px',
+        fontSize: '15px', fontWeight: '300', color: 'white'
+    }
     return (
-        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) } onClick={ props.onClick }
-        style={{ ...styleBtn, ...springBtn }} className="BTNC">소셜 로그인</animated.div>
+        <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }
+        onClick={ props.onClick } style={{ ...styleBtn, ...springBtn }} className="BTNC">
+            <div style={ styleTxt }>소셜 로그인</div>
+            <SocialImg src={ imgGoogle } background="rgb(255,255,255)" top={ 0 } left={ 0 }/>
+            <SocialImg src={ imgFacebook } background="rgb(50,140,250)" top={ 0 } left={ 12 }/>
+            <SocialImg src={ imgKakao } background="rgb(255,220,0)" top={ 12 } left={ 12 }/>
+            <SocialImg src={ imgNaver } background="rgb(30,200,0)" top={ 12 } left={ 0 }/>
+        </animated.div>
     )
 }
 const BtnFind = (props) => {
