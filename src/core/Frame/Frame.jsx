@@ -10,12 +10,13 @@ const Frame = (props) => {
     return (
         <animated.div style={{ width: '100%', height: '100%', background: background }}>
             { props.children }
-            <Header theme={ props.theme } setTheme={ props.setTheme } txtColor={ props.headerTxtColor }/>
+            <Header theme={ props.theme } setTheme={ props.setTheme } txtColor={ props.headerTxtColor }
+            alarmList={ props.alarmList } setAlarmList={ props.setAlarmList } alarmVisible={ props.alarmVisible } setAlarmVisible={ props.setAlarmVisible }/>
         </animated.div>
     );
 
 }
 
-Frame.defaultProps = { theme: 'light', headerTxtColor: 'white' }
+Frame.defaultProps = { theme: 'light', headerTxtColor: 'white', alarmList: [] }
 
 export default Frame;

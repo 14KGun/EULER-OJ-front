@@ -13,6 +13,8 @@ import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
 import Res from '../../Frame/Res/Res';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import Footer from '../../Frame/Footer/Footer'
+import getHref from '../../Tool/getHref';
+import problemHistory from '../../Tool/problemHistory';
 import './ProblemViewer.css';
 
 import imgEditor from './img_editor.png';
@@ -39,7 +41,7 @@ const sampleTransfer = (html) => {
 const Tag = (props) => {
     const [isHover, setHover] = useState(false);
     const background = useSpring({
-        background: isHover ? 'rgb(230,230,230)' : 'white',
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
         config: { duration: 100 }
     }).background;
 
@@ -56,7 +58,7 @@ const TagsLay = (props) => {
             { props.tags.map((item, index) => {
                 const url = item.url;
                 const name = item.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
-                return <Tag key={ index } url={ url } name={ name }/>
+                return <Tag key={ index } url={ url } name={ name } theme={ props.theme }/>
             }) }
         </>
     );
@@ -88,13 +90,13 @@ const BtnSubmit = (props) => {
     });
 
     return (
-        <a href={`/problemset/submit/${props.id}`}>
+        <Link to={`/problemset/submit/${props.id}`}>
             <animated.div className="right_TOPBTN" id="btn_submit" style={ style }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ imgSubmit } alt=""/>
                 <div>제출하기</div>
             </animated.div>
-        </a>
+        </Link>
     )
 }
 const BoxLink = (props) => {
@@ -117,7 +119,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipYoutube);
     }
     const youtubeStyle = useSpring({
-        background: isYoutubeHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isYoutubeHover ? 0.15 : 0 })`,
         config: { duration: 150 }
     })
     const youtubeNextStyle = useSpring({
@@ -137,7 +139,7 @@ const BoxLink = (props) => {
         props.tooltip.remove(tooltipBlog);
     }
     const blogStyle = useSpring({
-        background: isBlogHover ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isBlogHover ? 0.15 : 0 })`,
         config: { duration: 150 }
     })
     const blogNextStyle = useSpring({
@@ -199,7 +201,7 @@ const BoxStat = (props) => {
             color: 'gray'
         }
         donutContainer = (
-            <a href={`/problemset/stats/${ props.id }`}>
+            <Link to={`/problemset/stats/${ props.id }`}>
                 <div style={{ position: 'relative' }}>
                     <animated.div id="donutchart-container" style={ style }
                     onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
@@ -207,7 +209,7 @@ const BoxStat = (props) => {
                     </animated.div>
                     <div style={ stylePercent }>{ dataPercent }%</div>
                 </div>
-            </a>
+            </Link>
         )
     }
 
@@ -236,11 +238,11 @@ const BoxStatus = (props) => {
     const [isHover1, setHover1] = useState(false);
     const [isHover2, setHover2] = useState(false);
     const background1 = useSpring({
-        background: isHover1 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isHover1 ? 0.15 : 0 })`,
         config: { duration: 100 }
     }).background;
     const background2 = useSpring({
-        background: isHover2 ? (props.theme === 'light' ? 'rgb(235,235,235)' : 'rgb(30,30,30)') : background,
+        background: `rgba(120,120,120,${ isHover2 ? 0.15 : 0 })`,
         config: { duration: 100 }
     }).background;
     const next1Style = useSpring({
@@ -255,23 +257,23 @@ const BoxStatus = (props) => {
     return (
         <div className="right_TOPBOX" style={{ background: background, border: border }}>
             <div className="right_TOPBOX-TITLE" style={{ color: color }}>채점 기록</div>
-            <a href={`/status?pid=${props.id}`}>
+            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background1 }}
                 onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard3 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>전체 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
                 </animated.div>
-            </a>
-            <a href={`/status?pid=${props.id}&lid=${props.loginId ? props.loginId : ''}`}>
+            </Link>
+            <Link to={`/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }`}>
                 <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
                     <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>내 채점 기록</div>
                     <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
                 </animated.div>
-            </a>
-            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res }/></div> : <></> }
+            </Link>
+            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res } theme={ props.theme }/></div> : <></> }
         </div>
     )
 }
@@ -303,6 +305,41 @@ const BoxLimit = (props) => {
         </div>
     )
 }
+const BoxBlogging = (props) => {
+    const [isHover, setHover] = useState(false);
+    const color = (props.theme === 'light' ? 'black' : 'white');
+    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
+    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
+
+    const btnStyle = useSpring({
+        background: `rgba(120,120,120,${ isHover ? 0.15 : 0 })`,
+        height: '40px', config: { duration: 100 }
+    })
+    const nextStyle = useSpring({
+        opacity: isHover ? 1 : 0, top: '12px',
+        config: { duration: 100 }
+    })
+
+    if(props.list.length <= 0) return null;
+    const userList = props.list.map((item, index) => (
+        <div key={ index } className="right_TOPBOX-blogging-lay1" style={{ left: `${ 6 + index*20 }px` }}>
+            <img src={ `/profile-img/${ item }.webp?size=26` } alt={ item }/>
+        </div>
+    ))
+
+    return (
+        <div className="right_TOPBOX" style={{ background: background, border: border }}>
+            <div className="right_TOPBOX-TITLE" style={{ color: color }}>블로깅</div>
+            <Link to={ `/problemset/blogging/${ props.id }` }>
+                <animated.div className="right_TOBBOX-BTN" id="btnBlogging" style={ btnStyle }
+                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                    { userList }
+                    <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ nextStyle }/>
+                </animated.div>
+            </Link>
+        </div>
+    )
+}
 
 const LoadingLay = () => {
     return (
@@ -316,7 +353,7 @@ const LoadingLay = () => {
 const problemDefaultState = {
     id: undefined, loaded: false, err: false,
     title: undefined, problemHtml: undefined, tags: [], loginId: undefined,
-    sampleInput: [], sampleOutput: [], youtube: '', blog: '',
+    sampleInput: [], sampleOutput: [], youtube: '', blog: '', blogging: [],
     solve: '', submit: '', timelimit: '', memorylimit: '', inputmethod: '', outputmethod: '',
     res: undefined
 }
@@ -365,18 +402,24 @@ class ProblemViewer extends Component {
 
     render() {
         if(this.state.loaded === false){
-            axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
-                this.setState({
-                    loaded: true, err: probInfo.data.err,
-                    title: probInfo.data.title, problemHtml: probInfo.data.problemHtml, tags: probInfo.data.tags, loginId: probInfo.data.loginId,
-                    sampleInput: probInfo.data.sampleInput, sampleOutput: probInfo.data.sampleOutput, youtube: probInfo.data.youtube, blog: probInfo.data.blog,
-                    solve: probInfo.data.solve, submit: probInfo.data.submit,
-                    timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
+            if(!this.onCall){
+                this.onCall = true;
+                axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
+                    this.setState({
+                        loaded: true, err: probInfo.data.err,
+                        title: probInfo.data.title, problemHtml: probInfo.data.problemHtml, tags: probInfo.data.tags, loginId: probInfo.data.loginId,
+                        sampleInput: probInfo.data.sampleInput, sampleOutput: probInfo.data.sampleOutput, youtube: probInfo.data.youtube, blog: probInfo.data.blog,
+                        solve: probInfo.data.solve, submit: probInfo.data.submit, blogging: probInfo.data.blogging,
+                        timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
+                    }, () => {
+                        if(!this.state.err) problemHistory.add(this.state.id);
+                        this.onCall = false;
+                    });
                 });
-            });
-            axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
-                this.setState({ res: resInfo.data.res });
-            });
+                axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
+                    this.setState({ res: resInfo.data.res });
+                });
+            }
         }
         if(this.state.err) return <PageNotFound msg={ `요청하신 문제 #${this.props.id}는 존재하지 않거나 관리자에 의하여 비공개된 문제일 수 있습니다.` }/>;
 
@@ -430,7 +473,7 @@ class ProblemViewer extends Component {
                     <div id="prob-id">#{ this.state.id }</div>
                     <div id="prob-title">{ this.state.title }</div>
                     <div id="prob-tag" className="ND">
-                        <TagsLay tags={ this.state.tags }/>
+                        <TagsLay tags={ this.state.tags } theme={ this.props.theme }/>
                         <Bookmark tooltip={ this.tooltip } id={ this.state.id }/>
                     </div>
                     <div className="txt0">문제</div>
@@ -459,6 +502,7 @@ class ProblemViewer extends Component {
                             <BoxStat theme={ this.props.theme } id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
                             <BoxStatus theme={ this.props.theme } id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
                             <BoxLimit theme={ this.props.theme } time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
+                            <BoxBlogging theme={ this.props.theme } id={ this.props.id } list={ this.state.blogging }/>
                         </div>
                     </div>
                 </div>

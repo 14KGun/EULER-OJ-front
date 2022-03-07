@@ -1,0 +1,7 @@
+.header-alarm-border {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.header-alarm-border::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}

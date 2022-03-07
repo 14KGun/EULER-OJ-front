@@ -72,6 +72,23 @@ class Editor extends Component {
             </div>
         );
     }
+    componentDidMount() {
+        const onChange = this.props.onChange;
+        const doOnChange = () => {
+            const editorElement = document.getElementById('code-editor');
+            if(!editorElement) return true;
+            if(!editorElement.editor) return false;
+            if(onChange) onChange(editorElement.editor.getValue());
+            return true;
+        }
+
+        const repeatChecking = () => {
+            setTimeout(() => {
+                if (!doOnChange()) repeatChecking();
+            }, 500);
+        }
+        repeatChecking();
+    }
 }
 Editor.defaultProps = {
     lang: 'C++', theme: 'vs-dark', height: '500px',

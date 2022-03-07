@@ -3,7 +3,10 @@ import { Link, withRouter } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
+import BtnAlarm from './Alarm/BtnAlarm';
+import AlarmPopup from './Alarm/AlarmPopup';
 import HeaderPopup from './HeaderPopup/HeaderPopup';
+
 import svgEulerLogo from '../svg_eulerlogo.svg';
 import svgThemeDark from './svg_theme_dark.svg';
 import svgThemeLight from './svg_theme_light4.svg';
@@ -108,8 +111,7 @@ const BtnTheme = (props) => {
     if(props.theme === 'dark') img = <img src={ svgThemeDark } alt="theme" className="header_theme_img2"/>;
 
     return (
-        <animated.button id="header_theme" className="BTNC"
-        onClick={ () => onClick() } style={{ ...background }}
+        <animated.button id="header_theme" className="BTNC" onClick={ () => onClick() } style={{ ...background }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             { img }
         </animated.button>
@@ -164,10 +166,20 @@ const HeaderMaker = (props) => {
         loginInfo={ props.loginInfo }/>;
     }
 
+    /* Alarm */
+    let btnAlarmLay = '';
+    if(props.alarmList.length > 0/*props.loginInfo && props.loginInfo.id !== ''*/){
+        btnAlarmLay = (
+            <BtnAlarm background={ [hoverBgd, hoverBgdNone] } theme={ props.theme } color={ isScrolled ? props.txtColorWithBgd : props.txtColor }
+            onClick={ () => props.setAlarmVisible(!props.alarmVisible) }/>
+        )
+    }
+
     return (
         <>
-            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo }
+            <HeaderPopup left={ isLeftPopup } right={ isRightPopup } loginInfo={ props.loginInfo } theme={ props.getTheme }
             leftClose={ () => setLeftPopup(false) } rightClose={ () => setRightPopup(false) }/>
+            { /* <AlarmPopup theme={ props.getTheme } moveLeft={ isRightPopup } list={ props.alarmList } setList={ props.setAlarmList } visible={ props.alarmVisible }/> */ }
 
             <animated.div id="header" className="ND" style={ headerStyle }>
                 <BtnLogo background={ [hoverBgd, hoverBgdNone] } onClick={ () => onClickLeft() }/>
@@ -176,6 +188,7 @@ const HeaderMaker = (props) => {
                 }) }
                 { rightLay }
                 <BtnTheme background={ [hoverBgd, hoverBgdNone] } setTheme={ props.setTheme } theme={ props.getTheme }/>
+                { /*btnAlarmLay*/ }
             </animated.div>
         </>
     );
@@ -192,13 +205,13 @@ class Header extends Component {
         { url: '/status', name: '채점' }, { url: '/ranking', name: '순위' }, { url: '/about', name: '페이지' }];
 
         if(adminCheck){
-            urlList.push({ url: '/nadmin', name: '관리(Demo)' });
+            urlList.push({ url: '/nadmin', name: '관리' });
         }
         return urlList;
     }
     requestLogininfo(){
         axios.get('/json/logininfo').then((userInfo) => {
-            this.setState({ loginInfo: userInfo.data });
+            if(!this.unmount) this.setState({ loginInfo: userInfo.data });
         })
     }
     render(){
@@ -208,7 +221,7 @@ class Header extends Component {
             this.requestLogininfo();
         }
 
-        const urlList = this.urlList(this.state.loginInfo && this.state.loginInfo.level >= 5);
+        const urlList = this.urlList(this.state.loginInfo && (this.state.loginInfo.level >= 5 || this.state.loginInfo.mebershipPos === 'leader'));
 
         let theme = { r: 255, g: 255, b: 255 };
         if(this.props.theme === 'dark') theme = { r: 50, g: 50, b: 50 };
@@ -226,8 +239,13 @@ class Header extends Component {
         return (
             <HeaderMaker theme={ theme } txtColor={ txtColor } txtColorWithBgd={ txtColorWithBgd }
             urlList={ urlList } loginInfo={ this.state.loginInfo }
-            setTheme={ this.props.setTheme } getTheme={ this.props.theme }/>
+            setTheme={ this.props.setTheme } getTheme={ this.props.theme }
+            alarmList={ this.props.alarmList } setAlarmList={ this.props.setAlarmList }
+            alarmVisible={ this.props.alarmVisible } setAlarmVisible={ this.props.setAlarmVisible }/>
         )
+    }
+    componentWillUnmount(){
+        this.unmount = true;
     }
 }
 

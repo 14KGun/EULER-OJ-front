@@ -44,6 +44,7 @@ const ScgImg = () => {
     const btnStyle = useSpring({
         background:  isBtnHover ? 'rgb(0,134,191)' : 'rgb(255,255,255)',
         color:  isBtnHover ? 'white' : 'black',
+        config: { duration: 100 }
     });
     
     return (

@@ -1,7 +1,8 @@
-import { Component, useState, useEffect } from 'react';
+import { Component, useState, useEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import { Helmet } from "react-helmet";
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 import Popup from './ProblemSubmitPopup';
 import TopMessage from '../ProblemViewer/TopMessage';
@@ -13,8 +14,6 @@ import possibleInput from '../../Tool/possibleInput';
 import imgSubmit from './img_submit.png';
 import svgSort from './svg_sort.svg';
 import svgSetting from './svg_setting.svg';
-
-let onSubmit = false;
 
 const Top = (props) => {
     const txtStyle = {
@@ -54,13 +53,16 @@ const BtnBack = (props) => {
     }
     return (
         <Link to={ `/problemset/viewer/${ props.id }` }>
-            <animated.span style={{ ...style, background: background }} onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>문제로 돌아가기</animated.span>
+            <animated.span style={{ ...style, background: background }}
+            onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>문제로 돌아가기</animated.span>
         </Link>
     )
 }
 const BtnSubmit = (props) => {
+    const onSubmit = useRef(false);
     const [submitId, setSubmitId] = useState(undefined);
     const [isHover, setHover] = useState(false);
+
     const background = useSpring({
         background: isHover ? 'rgb(0,110,170)' : 'rgb(0,134,191)',
         config: { duration: 150 }
@@ -88,8 +90,8 @@ const BtnSubmit = (props) => {
         if(source === ''){ alert('소스 코드를 입력하세요.'); return; }
         if(!possibleInput.source(source)){ alert('소스 코드가 너무 길어요.'); return; }
 
-        if(!onSubmit){
-            onSubmit = true;
+        if(!onSubmit.current){
+            onSubmit.current = true;
             axios.post(`/json/problems/submit/${ props.id }`, { source: source, lang: props.lang }).then(result => {
                 if(result.data.id){
                     setSubmitId(result.data.id)
@@ -101,10 +103,12 @@ const BtnSubmit = (props) => {
         }
     }
 
-    if(submitId) return <Redirect to={ `/status/result/${ submitId }` }/>
     return (
-        <animated.span style={{ ...style, background: background }} className="BTNC" onClick={ () => onClick() }
-        onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>이 소스 코드 제출하기</animated.span>
+        <>
+            <animated.span style={{ ...style, background: background }} className="BTNC" onClick={ () => onClick() }
+            onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>이 소스 코드 제출하기</animated.span>
+            { submitId ? <Redirect to={ `/status/result/${ submitId }` }/> : <></> }
+        </>
     )
 }
 const BtnSort = (props) => {
@@ -218,7 +222,7 @@ const Lay2 = (props) => {
 
 const Editor = (props) => {
     const [isHover, setHover] = useState(false);
-    const [height, setHeight] = useState('500px');
+    const [height, setHeight] = useStateWithCallbackLazy('500px');
     const [tooltipId, settooltipId] = useState('undefined');
     const background = useSpring({
         background: isHover ? 'rgba(100,100,100,1)' : 'rgba(100,100,100,0)',
@@ -251,9 +255,17 @@ const Editor = (props) => {
     }
 
     const onChange = (code) => {
+        let lineHeight = 22;
+        const lines = document.getElementsByClassName('view-line');
+        if(lines.length > 0){
+            lineHeight = lines[0].clientHeight;
+        }
+
         const codeHeight = code.split('\n').length;
-        const newHeight = Math.max(500, codeHeight*22+200);
-        if(`${ newHeight }px` !== height) setHeight(`${ newHeight }px`);
+        const newHeight = Math.max(500, codeHeight*lineHeight+200);
+        if(`${ newHeight }px` !== height){
+            setHeight(`${ newHeight }px`, () => props.reFooter());
+        }
     }
 
     useEffect(() => {

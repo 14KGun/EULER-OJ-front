@@ -8,6 +8,15 @@ import svgIn from './svg_in.svg';
 import svgCode from './svg_code.svg';
 import svgOff from './svg_off.svg';
 import svgOn from './svg_on.svg';
+import svgUpload from './svg_upload.svg';
+
+import svgLangC from './langSvg/svg_lang_c.svg';
+import svgLangCpp from './langSvg/svg_lang_cpp.svg';
+import svgLangPython from './langSvg/svg_lang_python.svg';
+import svgLangJava from './langSvg/svg_lang_java.svg';
+import svgLangRuby from './langSvg/svg_lang_ruby.svg';
+import svgLangGo from './langSvg/svg_lang_go.svg';
+import svgLangR from './langSvg/svg_lang_r.svg';
 
 const Console = (props) => {
     const [isHover, setHover] = useState(false);
@@ -30,6 +39,32 @@ const Console = (props) => {
     )
 }
 
+const Lang = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = useSpring({
+        width: '150px', height: '150px', borderRadius: '10px', position: 'relative',
+        border: `1px solid ${ props.theme==='light' ? 'rgb(200,200,200)' : 'rgb(60,60,60)' }`,
+        transform: `scale(${ isHover ? 1.01 : 1.0 })`,
+        config: { duration: 100 }
+    });
+    const styleImg = {
+        position: 'absolute', bottom: '10px', left: '10px',
+        width: '96px', height: '96px',
+    }
+    const styleText = {
+        position: 'absolute', top: '15px', right: '15px',
+        fontSize: '16px', fontWeight: 400, opacity: 0.7,
+        color: (props.theme==='light' ? 'black' : 'white')
+    }
+    return (
+        <animated.div style={ style }
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            <img src={ props.icon } alt="" style={ styleImg }/>
+            <div style={ styleText }>{ props.children }</div>
+        </animated.div>
+    )
+}
+
 const Manual = (props) => {
     return (
         <div className="ND">
@@ -38,7 +73,7 @@ const Manual = (props) => {
                 <Layout.Content theme={ props.theme }>① https://euleroj.io 에 접속한 후 회원가입을 위해 상단 메뉴의 '로그인' 버튼을 클릭합니다.</Layout.Content>
                 <Layout.Content theme={ props.theme }>② '회원가입' 버튼을 클릭합니다.</Layout.Content>
                 <Layout.Content theme={ props.theme }>③ 이메일 주소를 인증하여 회원가입을 진행 할 수도 있고 소셜(SNS) 계정으로도 회원가입이 가능합니다.</Layout.Content>
-                <Layout.Content theme={ props.theme }>④ 만일 이메일 주소로 회원가입을 진행하면 작성한 이메일 주소로 메일이 전송된다. 인증하기를 클릭하여 회원가입을 완료해주세요.</Layout.Content>
+                <Layout.Content theme={ props.theme }>④ 만일 이메일 주소로 회원가입을 진행하면 작성한 이메일 주소로 메일이 전송됩니다. 인증하기를 클릭하여 회원가입을 완료해주세요.</Layout.Content>
             </div>
             
             <div style={{ height: '60px' }}/>
@@ -118,6 +153,22 @@ const Manual = (props) => {
             <Layout.Title icon={ svgCode } theme={ props.theme }>본인이 제출한 소스 코드 확인하기</Layout.Title>
             <div style={{ paddingLeft: '15px' }}>
                 <Layout.Content theme={ props.theme }>제출한 소스코드의 확인은 본인이 작성한 코드만 가능합니다.</Layout.Content>
+            </div>
+            
+            <div style={{ height: '60px' }}/>
+            <Layout.Title icon={ svgUpload } theme={ props.theme }>제출 가능한 언어</Layout.Title>
+            <div style={{ paddingLeft: '15px' }}>
+                <Layout.Content theme={ props.theme }>오일러OJ에서는 다음 언어들을 제출과 채점이 가능합니다.</Layout.Content>
+                <div style={{ height: '10px' }}/>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <Lang icon={ svgLangC } theme={ props.theme }>C</Lang>
+                    <Lang icon={ svgLangCpp } theme={ props.theme }>C++</Lang>
+                    <Lang icon={ svgLangPython } theme={ props.theme }>Python</Lang>
+                    <Lang icon={ svgLangJava } theme={ props.theme }>Java</Lang>
+                    <Lang icon={ svgLangRuby } theme={ props.theme }>Ruby</Lang>
+                    <Lang icon={ svgLangGo } theme={ props.theme }>Go</Lang>
+                    <Lang icon={ svgLangR } theme={ props.theme }>R</Lang>
+                </div>
             </div>
 
             <div style={{ height: '60px' }}/>

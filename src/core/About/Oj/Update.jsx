@@ -24,7 +24,7 @@ const UpdateBox = (props) => {
 
 const UpdateTxt = (props) => {
     const style = {
-        fontSize: '16px', fontWeight: 300, marginBottom: '6px',
+        fontSize: '16px', fontWeight: 300, marginTottom: '5px', marginBottom: '5px',
         color: (props.theme==='light' ? 'black' : 'white')
     }
     return (
@@ -38,6 +38,43 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2022.02.25">
+                <UpdateTxt theme={ props.theme }>문제 목록 페이지에 최근 방문기록이 추가되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>태그 페이지의 버그(오랫동안 페이지를 불러오는 버그, 잘못된 페이지를 불러오는 버그)가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 페이지의 검색 필터에서 입력 도중 Enter Key를 눌러 검색할 수 있습니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2022.02.24">
+                <UpdateTxt theme={ props.theme }>새로운 언어 Ruby, Go을 실행 및 채점할 수 있습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>계정 설정의 언어 정렬을 변경하지 않은 경우 기본 언어들이 선택됩니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 서버의 모든 언어들의 버전이 업데이트 되었습니다. 이제 gcc(11.2.0), python3(3.6.3), python2(2.7), pypy(3.8), openjdk(11), ruby(3.1), go(1.17.7), r(3.6.3) 을 사용합니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 시, 채점 결과 페이지의 메모리 사용량이 더 정확하게 측정됩니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 시, 채점 결과 페이지에서 채점 때 발생한 에러 메시지를 확인할 수 있습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>#4135, #4332, #5549, #5569, #6004 문제들의 채점 금지가 해제되었고 재채점 되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>에디터에서 코드 실행 시, 실행 시간 뿐만 아니라 메모리 사용량도 함께 출력됩니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2022.02.12">
+                <UpdateTxt theme={ props.theme }>코딩마법서 C/C++ IRON 출시가 사이트에 반영되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>에디터 스크롤 버그가 수정되었습니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2022.01.31">
+                <UpdateTxt theme={ props.theme }>문제 테이블의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>나와 비교하기에서 둘 다 틀린 문제의 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>일부 페이지의 다크 모드 색이 수정되었습니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2022.01.08">
+                <UpdateTxt theme={ props.theme }>메인 페이지의 새로운 블로깅에서 좋아요와 문제 바로가기 버튼이 추가되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>채점 페이지가 리모델링되었습니다. 기존보다 편한 검색 필터 사용을 할 수 있습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>블로깅의 개시 날짜가 올바르지 않던 버그가 고쳐졌습니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2021.11.30">
+                <UpdateTxt theme={ props.theme }>블로깅이 추가되었습니다. 오일러OJ 메인에서 새로운 블로깅을 확인할 수 있으며 문제 페이지에서 블로깅 페이지에 접근이 가능합니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2021.11.11">
+                <UpdateTxt theme={ props.theme }>채점 결과 페이지가 리모델링되었습니다. '에디터로 가져가기', '소스코드 다운로드'가 가능합니다.</UpdateTxt>
+            </UpdateBox>
+            <UpdateBox theme={ props.theme } date="2021.10.20">
+                <UpdateTxt theme={ props.theme }>문제 페이지의 버그가 고쳐졌습니다. 문제 페이지에서 입출력 예제를 넓게 볼 수 있습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2021.10.15">
                 <UpdateTxt theme={ props.theme }>문제/코딩마법서 페이지가 수정되었습니다. 각 코딩마법서 별 진도 현황을 확인할 수 있습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>페이지가 추가되었습니다. 페이지에서 '통계', '업데이트 기록', '개인정보 처리방침'을 확인할 수 있습니다.</UpdateTxt>

@@ -1,4 +1,5 @@
 import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
 import Frame from './Lay2Frame';
@@ -8,9 +9,10 @@ const ProblemItem = (props) => {
     const [isHover, setHover] = useState(false);
 
     const itemStyle = useSpring({
-        height: '40px', position: 'relative',
+        height: '40px', position: 'relative', overflow: 'hidden',
         borderBottom: `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(60,60,60)' }`,
-        background: isHover ? 'rgba(150,150,150,0.15)' : 'rgba(150,150,150,0)'
+        background: isHover ? 'rgba(150,150,150,0.1)' : 'rgba(150,150,150,0)',
+        config: { duration: 100 }
     });
     const txt1Style = {
         position: 'absolute', left: '10px',
@@ -24,12 +26,13 @@ const ProblemItem = (props) => {
     };
 
     return(
-        <a href={ `/problemset/problem/${ props.id }` }>
+        <Link to={ `/problemset/problem/${ props.id }` }>
             <animated.div style={ itemStyle }
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <div style={ txt1Style }>{ '#'+props.id }</div>
                 <div style={ txt2Style }>{ props.title }</div>
-        </animated.div></a>
+            </animated.div>
+        </Link>
     );
 }
 class Problem extends Component {
@@ -38,7 +41,6 @@ class Problem extends Component {
         super(props);
 
         axios.get('/json/main/problemlist').then((problemList) => {
-            //console.log(problemList.data);
             this.setState({ problemList: problemList.data });
         });
     }

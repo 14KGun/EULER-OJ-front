@@ -16,7 +16,7 @@ const Bookmark = (props) => {
     const [isHover, setHover] = useState(false);
     const [tooltipId, setTooltipId] = useState(undefined);
     const background = useSpring({
-        background: isHover ? 'rgba(220,220,220,1)' : 'rgba(220,220,220,0)',
+        background: isHover ? 'rgba(120,120,120,0.2)' : 'rgba(120,120,120,0)',
         config: { duration: 100 }
     }).background
 
@@ -40,7 +40,7 @@ const Bookmark = (props) => {
 }
 
 const defaultState = { id: undefined, loaded: false, available: false, check: false }
-class bookmarkMaker extends Component {
+class BookmarkMaker extends Component {
     constructor(props){
         super(props);
         this.state = defaultState
@@ -82,4 +82,4 @@ class bookmarkMaker extends Component {
     }
 }
 
-export default bookmarkMaker;
+export default BookmarkMaker;

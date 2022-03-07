@@ -1,9 +1,10 @@
 import React, { Component, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
-import Lay2Empty from './Lay2/Empty';
+import Lay2Blogging from './Lay2/Blogging';
 import Footer from '../Frame/Footer/Footer'
 import './Main.css';
 import imgCard1 from './img_card1.png';
@@ -22,7 +23,7 @@ const Lay1Item = (props) => {
 
     const [xys, setXys] = useState([0, 0, 1]);
     const [isHover, setHover] = useState(false);
-    const cardStyleXys = useSpring({ xys: xys, config: { mass: 5, tension: 350, friction: 40 } });
+    const cardStyleXys = useSpring({ xys: xys, config: { mass: 5, tension: 350, friction: 40, duration: 100 } });
     const cardStyle = useSpring({
         background: isHover ? 'rgba(220,220,220,0)' : 'rgba(220,220,220,0)',
         boxShadow: isHover ? '0px 10px 30px -5px rgba(0,0,0,0.3)' : '0px 10px 30px -5px rgba(0,0,0,0)',
@@ -50,7 +51,7 @@ const Lay1Item = (props) => {
     else{
         return (
             <div style={{ width: '25%', height: '100%', float: 'left', position: 'relative' }}>
-                <a href={ props.url }>{ card }</a>
+                <Link to={ props.url }>{ card }</Link>
             </div>
         );
     }
@@ -59,7 +60,7 @@ const Lay1Item = (props) => {
 class Main extends Component {
     constructor(props){
         super(props);
-        this.state = { pageIndex: 0/*Math.floor(Math.random() * 2)*/, pageFix: undefined };
+        this.state = { pageIndex: 2/*Math.floor(Math.random() * 2)*/, pageFix: undefined };
 
         const setPage = (pageIndex) => {
             this.setState({ pageIndex: pageIndex });
@@ -79,17 +80,23 @@ class Main extends Component {
                 <Gallery pageIndex={ this.state.pageIndex } setPage={ this.setPage.bind(this) } pageFix={ this.state.pageFix }/>
                 <div id="lay1" className="ND">
                     <div className="FRAME_MAIN" style={{ height: '200px' }}>
-                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset" theme={ this.props.theme }/></span>
-                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" theme={ this.props.theme } newTab/></span>
-                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }><Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/></span>
+                        <span onMouseEnter={ () => this.fixPage(0) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard1 } name="오일러OJ" url="/problemset" theme={ this.props.theme }/>
+                        </span>
+                        <span onMouseEnter={ () => this.fixPage(1) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard2 } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" theme={ this.props.theme } newTab/>
+                        </span>
+                        <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }>
+                            <Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/>
+                        </span>
                         <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" theme={ this.props.theme } newTab/>
                     </div>
                 </div>
-                <div id="lay2" style={{ background: 'rgba(120,120,120,0.2)' }}>
+                <div id="lay2" style={{ background: 'rgba(120,120,120,0.1)' }}>
                     <div className="FRAME_MAIN ND" style={{ position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
                         <Lay2Problem theme={ this.props.theme }/>
                         <Lay2Youtube theme={ this.props.theme }/>
-                        <Lay2Empty theme={ this.props.theme }/>
+                        <Lay2Blogging theme={ this.props.theme }/>
                     </div>
                 </div>
                 <Footer theme={ this.props.theme }/>

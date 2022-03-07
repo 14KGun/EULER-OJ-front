@@ -8,6 +8,7 @@ import Loading from '../../Frame/Loading/Loading';
 import RankingTable from '../RankingTable';
 import PageSelector from '../../Frame/PageSelector';
 import Footer from '../../Frame/Footer/Footer';
+
 import svgPodium from '../svg_podium.svg';
 import svgRanking from '../svg_ranking.svg';
 import '../EulerRanking.css';
@@ -30,12 +31,12 @@ const TopBackground = (props) => {
     const styleRank2 = {
         position: 'absolute', bottom: '86px', right: '228px',
         width: '60px', height: '60px', background: 'white',
-        borderRadius: '50px', border: '1px solid gray'
+        borderRadius: '50px', border: '1px solid gray', overflow: 'hidden'
     }
     const styleRank3 = {
         position: 'absolute', bottom: '83px', right: '70px',
         width: '60px', height: '60px', background: 'white',
-        borderRadius: '50px', border: '1px solid gray'
+        borderRadius: '50px', border: '1px solid gray', overflow: 'hidden'
     }
     const styleRank1Txt = {
         position: 'absolute', bottom: '178px', right: '140px', width: '80px', textAlign: 'center',

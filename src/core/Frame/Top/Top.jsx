@@ -16,10 +16,10 @@ const TitleLay = (props) => {
     )
 }
 class Top extends Component {
-    state = { scrolledTop: 0 }
-    componentDidMount(){
-        this.scrollevent();
-        document.addEventListener('scroll', () => this.scrollevent());
+    constructor(props){
+        super(props);
+        this.state = { scrolledTop: 0 }
+        this.scrollevent = this.scrollevent.bind(this)
     }
     scrollevent(){
         const scrolledHeight = document.documentElement.scrollTop;
@@ -30,7 +30,7 @@ class Top extends Component {
             <>
                 <div className="ND" style={{ height: '322px', position: 'relative' }}>
                     <div style={{
-                        position: 'absolute', left: '0xp', bottom: '0px', width: '100%',
+                        position: 'absolute', left: '0px', bottom: '0px', width: '100%',
                         height: `${ Math.max(322-this.state.scrolledTop, 120) }px`
                     }}>{ this.props.background }</div>
                 </div>
@@ -53,6 +53,13 @@ class Top extends Component {
                 <TitleLay icon={ this.props.icon } title={ this.props.title } scrolledTop={ this.state.scrolledTop }/>
             </>
         );
+    }
+    componentDidMount(){
+        this.scrollevent();
+        document.addEventListener('scroll', this.scrollevent);
+    }
+    componentWillUnmount(){
+        document.removeEventListener('scroll', this.scrollevent);
     }
 }
 

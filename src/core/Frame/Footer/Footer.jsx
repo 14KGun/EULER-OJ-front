@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import imgEulerLogoBlack from '../svg_eulerlogo-black.svg';
 import imgEulerLogoWhite from '../svg_eulerlogo-white.svg';
 import imgBtn2 from './img_icon2.png';
@@ -12,10 +14,11 @@ class Footer extends Component {
     state = { bodyWidth: 0, bodyHeight: 0 }
     constructor(props) {
         super(props);
+        this.reposition = this.reposition.bind(this);
 
         this.footerTopStyle = {
             width: '100%', height: '30px',
-            background: 'rgba(120,120,120,0.2)'
+            background: 'rgba(120,120,120,0.1)'
         }
         this.lay1Style = { height: '85px', position: 'relative' }
         this.logoStyle = { height: '47px', verticalAlign: 'top' }
@@ -48,7 +51,7 @@ class Footer extends Component {
                                 <a href="https://www.facebook.com/euleredu"><img src={ imgBtn5 } style={ this.minibtnStyle } alt="EULER facebook"/></a>
                                 <a href="https://band.us/@euler"><img src={ imgBtn6 } style={ this.minibtnStyle } alt="EULER naver band"/></a>
                                 <a href="https://blog.naver.com/euleredu"><img src={ imgBtn7 } style={ this.minibtnStyle } alt="EULER naver blog"/></a><br/>
-                                <u><a href="/about" style={ this.personalRightStyle }>개인정보처리방침</a></u>
+                                <u><Link to="/about/policy/privacy" style={ this.personalRightStyle }>개인정보처리방침</Link></u>
                             </div>
                         </div>
                     </div>
@@ -66,11 +69,7 @@ class Footer extends Component {
     }
     componentDidMount(){
         this.reposition();
-        window.addEventListener('resize', () => this.reposition());
-    }
-    componentDidUpdate(){
-        this.reposition();
-        window.addEventListener('resize', () => this.reposition());
+        window.addEventListener('resize', this.reposition);
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.reposition);
