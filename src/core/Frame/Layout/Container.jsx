@@ -1,6 +1,6 @@
 const Container = (props) => {
     const style = {
-        background: 'rgb(140,140,140,0.15)', borderRadius: '15px'
+        background: 'rgb(130,130,130,0.1)', borderRadius: '15px'
     }
 
     return (

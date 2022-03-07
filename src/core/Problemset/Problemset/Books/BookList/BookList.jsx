@@ -53,7 +53,7 @@ const TopFixedLay = (props) => {
             <Link to="/problemset/list/tag"><TopBtn name="태그" selected={ false }/></Link>
             <Link to="/problemset/list/books"><TopBtn name="코딩마법서" selected={ true }/></Link>
             <Link to="/problemset/list/number"><TopBtn name="문제 번호" selected={ false }/></Link>
-            <div style={{ position: 'absolute', width: '250px', top: '12px', right: '0px' }}>
+            <div style={{ position: 'absolute', top: '8px', right: '0px' }}>
                 <SearchBox/>
             </div>
         </div>

@@ -46,7 +46,7 @@ const TopFixedLay = (props) => {
             <Link to="/problemset/list/books"><TopBtn name="코딩마법서" selected={ props.category === 'level' || props.category === 'books' }/></Link>
             <Link to="/problemset/list/number"><TopBtn name="문제 번호" selected={ props.category === 'number' }/></Link>
             <Link to="/problemset/list/history"><TopBtn name="최근 방문기록" selected={ props.category === 'history' }/></Link>
-            <div style={{ position: 'absolute', width: '250px', top: '12px', right: '0px' }}>
+            <div style={{ position: 'absolute', top: '8px', right: '0px' }}>
                 <SearchBox/>
             </div>
         </div>
