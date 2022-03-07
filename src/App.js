@@ -105,7 +105,7 @@ function App() {
         <Route exact path="/problemset/viewer/:Pnum"><ProblemViewerWithId { ...params }/></Route>
         <Route exact path="/problemset/blogging/:Pnum"><ProblemBloggingWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
-        { /*<Route exact path="/problemset/stats/:Pnum"><ProblemStatWithId { ...params }/></Route> */ }
+        <Route exact path="/problemset/stats/:Pnum"><ProblemStatWithId { ...params }/></Route>
 
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
         <Route exact path="/status"><StatusWithIdPage { ...params }/></Route>
