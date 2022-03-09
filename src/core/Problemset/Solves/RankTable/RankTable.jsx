@@ -41,12 +41,22 @@ const Item = (props) => {
         fontSize: '16px', fontWeight: 500,
         color: (props.theme === 'light' ? 'black' : '#ccc')
     }
+    const styleLang = {
+        position: 'absolute', top: '0px',
+        right: '115px', width: '100px', 
+        height: '60px', lineHeight: '60px',
+        fontSize: '16px', fontWeight: 300, textAlign: 'center',
+        color: (props.theme === 'light' ? 'black' : '#ccc')
+    }
+    const styleValue = {
+        position: 'absolute', top: '0px',
+        right: '15px', width: '100px', 
+        height: '60px', lineHeight: '60px',
+        fontSize: '16px', fontWeight: 500, textAlign: 'center',
+        color: (props.theme === 'light' ? 'black' : '#ccc')
+    }
 
-    let rankLay = (
-        <div>
-            { 4 }th
-        </div>
-    )
+    let rankLay = null;
     if(props.rank <= 3){
         const icon = [svgMedal1, svgMedal2, svgMedal3][props.rank - 1];
         rankLay = (
@@ -60,6 +70,8 @@ const Item = (props) => {
             { rankLay }
             <img style={ styleProf } src="https://euleroj.io/profile-img/SHRIMP_CHAN.webp" alt="profile"/>
             <div style={ styleId }>supernova</div>
+            <div style={ styleLang }>Python3</div>
+            <div style={ styleValue }>0.07 초</div>
         </animated.div>
     )
 }
@@ -72,6 +84,7 @@ const Table = (props) => {
             <Item rank={ 2 } theme={ props.theme }/>
             <Item rank={ 3 } theme={ props.theme }/>
             <Item rank={ 4 } theme={ props.theme }/>
+            <Item rank={ 5 } theme={ props.theme }/>
         </div>
     )
 }

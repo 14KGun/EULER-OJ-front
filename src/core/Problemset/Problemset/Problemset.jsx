@@ -35,9 +35,9 @@ const SelectLayBtn = (props) => {
         display: 'inline-block', height: '40px', lineHeight: '40px', borderRadius: '20px',
         paddingLeft: '18px', paddingRight: '18px', marginRight: '8px', marginBottom: '8px',
         fontSize: '16px', fontWeight: 300,
-        color: (props.selected || props.theme==='dark' ? 'white' : 'black')
+        color: (props.selected ? 'white' : (props.theme==='dark' ? '#ddd' : 'black'))
     }
-    let background = useSpring({
+    const background = useSpring({
         background: props.selected ? 'rgb(0,150,200)' : `rgba(140,140,140,${ isHover ? 0.3 : 0.2 })`,
         config: { duration: 100 }
     });
@@ -45,7 +45,9 @@ const SelectLayBtn = (props) => {
     return (
         <Link to={ `/problemset/list/${ props.category1 }/${ props.id }` }>
             <animated.span style={{ ...style, ...background }}
-            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>{ props.name }</animated.span>
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                { props.name }
+            </animated.span>
         </Link>
     )
 }

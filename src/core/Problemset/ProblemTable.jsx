@@ -75,7 +75,7 @@ const ProblemItem = (props) => {
     }
     
     const [ isHover, setHover ] = useState(false);
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } }).background;
+    const background = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } }).background;
 
     const tagList = [];
     if(props.tags.nosolve){ tagList.push(<span key="sp1">&nbsp;</span>); tagList.push(<img key="nosolve" src={ imgNosolve } style={ Item3ImgStyle } alt="nosolve"/>); }
@@ -83,7 +83,7 @@ const ProblemItem = (props) => {
     if(props.tags.blog){ tagList.push(<span key="sp3">&nbsp;</span>); tagList.push(<img key="blog" src={ imgBlog } style={ Item3ImgStyle } alt="blog"/>); }
 
     return (
-        <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden', background: ItemBackground }}
+        <animated.div style={{ height: '60px', borderBottom: '1px solid rgba(100,100,100,0.3)', position: 'relative', overflow: 'hidden', background: background }}
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <Link to={ props.myId === undefined || props.myId === '' ? getHref.loginCurrentUrl() : `/status/${ getHref.encodeObject({ problemId: props.id, loginId: props.myId }) }` }>
                 <div style={ Item1Style }></div>

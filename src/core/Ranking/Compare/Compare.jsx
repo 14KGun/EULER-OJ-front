@@ -165,7 +165,7 @@ const Trophy = (props) => {
     }
 
     return (
-        <Link to={ `/timelog/trophy/${ props.id }` }>
+        <Link to={ `/trophy/info/${ props.id }` }>
             <animated.span style={{ ...style, ...background }} className="profile-trophy-item"
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ props.src } alt="" style={ styleImg }/>

@@ -57,7 +57,7 @@ const Trophy = (props) => {
     }
 
     return (
-        <Link to={ `/timelog/trophy/${ props.id }` }>
+        <Link to={ `/trophy/info/${ props.id }` }>
             <animated.span style={{ ...style, ...background }} className="profile-trophy-item"
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ props.src } alt="" style={ styleImg }/>
@@ -153,7 +153,7 @@ class Page1 extends Component {
                         let text = '', time = '', link = '', type = '';
                         if(item.type === 'trophy'){
                             text = `업적 '${ this.trophyTrans[item.info] }'을(를) 달성하였습니다.`;
-                            link = `/timelog/trophy/${ item.info }`;
+                            link = `/trophy/info/${ item.info }`;
                             type = 'trophy';
                         }
                         else if(item.type === 'nosolve'){

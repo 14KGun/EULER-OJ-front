@@ -33,7 +33,7 @@ const trophySet = [
 ]
 const getInfoById = (id) => {
     for(var i=0; i<trophySet.length; i++){
-        if(trophySet[i].id === id) return trophySet[i]
+        if(String(trophySet[i].id) === String(id)) return trophySet[i]
     }
     return undefined;
 }

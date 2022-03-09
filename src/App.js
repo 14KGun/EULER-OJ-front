@@ -17,6 +17,7 @@ import ProblemViewer from './core/Problemset/ProblemViewer/ProblemViewer';
 import ProblemSubmit from './core/Problemset/ProblemSubmit/ProblemSubmit';
 import ProblemBlogging from './core/Problemset/Blogging/Blogging';
 import ProblemStat from './core/Problemset/Stats/Stats';
+import ProblemSolves from './core/Problemset/Solves/Solves';
 import Status from './core/Status/Status';
 import StatusResult from './core/Status/Result/Result';
 import Tag from './core/Tag/Tag';
@@ -25,6 +26,8 @@ import EulerRanking from './core/Ranking/EulerRanking/EulerRanking';
 import Compare from './core/Ranking/Compare/Compare';
 import Profile from './core/Profile/Profile/Profile';
 import ProfileUnknown from './core/Profile/ProfileUnknown/ProfileUnknown';
+import Trophy from './core/Trophy/Trophy';
+import TrophyInfo from './core/Trophy/Info/Info';
 import Setting from './core/Setting/Setting';
 import MembershipMain from './core/Setting/Membership/Main/Main';
 import About from './core/About/About';
@@ -43,6 +46,7 @@ const ProblemViewerWithId = (props) => <Frame { ...props } headerTxtColor="none"
 const ProblemSubmitWithId = (props) => <Frame { ...props } headerTxtColor="none"><ProblemSubmit { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemBloggingWithId = (props) => <Frame { ...props }><ProblemBlogging { ...props } id={ useParams().Pnum }/></Frame>
 const ProblemStatWithId = (props) => <Frame { ...props }><ProblemStat { ...props } id={ useParams().Pnum }/></Frame>
+const ProblemSolvesWithId = (props) => <Frame { ...props }><ProblemSolves { ...props } id={ useParams().Pnum }/></Frame>
 const StatusWithIdPage = (props) => <Frame { ...props }><Status { ...props } id={ useParams().Pnum }/></Frame>
 const StatusResultWithId = (props) => <Frame { ...props } headerTxtColor="none"><StatusResult { ...props } id={ useParams().Pnum }/></Frame>
 const TagWithId = (props) => <Frame { ...props }><Tag { ...props } id={ useParams().Pnum } page={1}/></Frame>
@@ -50,6 +54,7 @@ const TagWithIdPage = (props) => <Frame { ...props }><Tag { ...props } id={ useP
 const EulerRankingWithIdPage = (props) => <Frame { ...props }><EulerRanking { ...props } page={ useParams().Pnum }/></Frame>
 const CompareWithIdId = (props) => <Frame { ...props }><Compare { ...props } id1={ useParams().Pnum1 } id2={ useParams().Pnum2 }/></Frame>
 const ProfileWithId = (props) => <Frame { ...props }><Profile { ...props } id={ useParams().Pnum }/></Frame>
+const TrophyWithId = (props) =>  <Frame { ...props } headerTxtColor="none"><TrophyInfo { ...props } id={ useParams().Pnum }/></Frame>
 
 const getThemeFromCookie = () => {
   const theme = cookie.getCookie('theme');
@@ -106,6 +111,7 @@ function App() {
         <Route exact path="/problemset/blogging/:Pnum"><ProblemBloggingWithId { ...params }/></Route>
         <Route exact path="/problemset/submit/:Pnum"><ProblemSubmitWithId { ...params }/></Route>
         <Route exact path="/problemset/stats/:Pnum"><ProblemStatWithId { ...params }/></Route>
+        <Route exact path="/problemset/solves/:Pnum"><ProblemSolvesWithId { ...params }/></Route> { /**/ }
 
         <Route exact path="/status/result/:Pnum"><StatusResultWithId { ...params }/></Route>
         <Route exact path="/status"><StatusWithIdPage { ...params }/></Route>
@@ -119,12 +125,19 @@ function App() {
         <Route exact path="/ranking/euler/:Pnum"><EulerRankingWithIdPage { ...params }/></Route>
         <Route exact path="/ranking/compare/:Pnum1/:Pnum2"><CompareWithIdId { ...params }/></Route>
         
-        <Route exact path="/contest"><Frame { ...params }><Contest { ...params } category="ongoing"/></Frame></Route>
+        <Route exact path="/contest"><Frame { ...params }><Contest { ...params } category="ongoing"/></Frame></Route> { /**/ }
         <Route exact path="/contest/list/ongoing"><Frame { ...params }><Contest { ...params } category="ongoing"/></Frame></Route>
         <Route exact path="/contest/list/past"><Frame { ...params }><Contest { ...params } category="past"/></Frame></Route>
 
         <Route path="/profile/unknown"><Frame { ...params } headerTxtColor="none"><ProfileUnknown/></Frame></Route>
         <Route path="/profile/:Pnum"><ProfileWithId { ...params }/></Route>
+
+        <Route exact path="/trophy"><Frame { ...params } headerTxtColor="none"><Trophy { ...params } category="all"/></Frame></Route>
+        <Route exact path="/trophy/list"><Frame { ...params } headerTxtColor="none"><Trophy { ...params } category="all"/></Frame></Route>
+        <Route exact path="/trophy/list/all"><Frame { ...params } headerTxtColor="none"><Trophy { ...params } category="all"/></Frame></Route>
+        <Route exact path="/trophy/list/success"><Frame { ...params } headerTxtColor="none"><Trophy { ...params } category="success"/></Frame></Route>
+        <Route exact path="/trophy/list/fail"><Frame { ...params } headerTxtColor="none"><Trophy { ...params } category="fail"/></Frame></Route>
+        <Route exact path="/trophy/info/:Pnum"><TrophyWithId { ...params }/></Route>
 
         <Route exact path="/setting/profile"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="me"/></Frame></Route>
         <Route exact path="/setting/profile/me"><Frame { ...params } headerTxtColor="none"><Setting { ...params } page="me"/></Frame></Route>
@@ -162,8 +175,6 @@ function App() {
 
         <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
-        <Route path="/problemset/stats/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/stats/'+props.match.params.pnum; return null; } }/>
-        <Route path="/contest" component={ () => { window.location.href = 'https://euleroj.io/contest'; return null; } }/>
         <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
         <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
@@ -173,8 +184,7 @@ function App() {
         <Route path="/login/unlink/step1/naver" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/naver'; return null; } }/>
         <Route path="/login/unlink/step1/kakao" component={ () => { window.location.href = 'https://euleroj.io/login/unlink/step1/kakao'; return null; } }/>
         <Route path="/logout" component={ () => { window.location.href = 'https://euleroj.io/logout'; return null; } }/>
-        <Route path="/timelog/trophy/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/timelog/trophy/'+props.match.params.pnum; return null; } }/>
-
+        
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
       <RouterScroll { ...params } height={ appHeight }/>

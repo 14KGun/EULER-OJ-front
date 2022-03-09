@@ -59,13 +59,14 @@ class PageNotFound extends Component {
                     <div><BtnBack/><BtnHome/></div>
                 </div>
                 <div className="BTM_EMPTY"/>
-                <Footer/>
+                <Footer theme={ this.props.theme }/>
             </div>
         );
     }
 }
 
 PageNotFound.defaultProps = {
+    theme: 'light',
     msg: '요청하신 페이지의 주소가 잘못 입력되었거나,<br>페이지의 주소가 변경/삭제로 인하여 페이지를 찾을 수 없습니다.'
 }
 
