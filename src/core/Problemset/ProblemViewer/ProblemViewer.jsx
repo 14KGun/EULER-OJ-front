@@ -8,6 +8,7 @@ import axios from '../../Tool/axios';
 
 import svgEditor from './svg_editor.svg';
 import svgSubmit from './svg_submit.svg';
+import svgYoutube from './svg_youtube.svg';
 
 const ViewerFlexLay = (props) => {
     const getWidth = () => document.body.clientWidth;
@@ -27,7 +28,7 @@ const ViewerFlexLay = (props) => {
     }, []);
 
     const widthEnv = {
-        main: 1200, sub: 230, gap: 20, margin: 20
+        main: 1200, sub: 230, gap: 30, margin: 20
     };
 
     if(bodyWidth >= widthEnv.margin*2 + widthEnv.sub*2 + widthEnv.main + widthEnv.gap*2){
@@ -57,22 +58,28 @@ const ViewerFlexLay = (props) => {
 }
 
 const Tag = (props) => {
-    const style = {
-        height: '20px', borderRadius: '12px',
-        border: '2px solid #0086bf'
-    }
-    const styleText = {
+    const [isHover, setHover] = useState(false);
+    const style = useSpring({
+        height: '24px', borderRadius: '14px',
+        border: '2px solid rgb(0,134,191)',
+        background: `rgba(0,134,191,${ isHover ? 1 : 0 })`,
+        config: { duration: 100 }
+    });
+    const styleText = useSpring({
         paddingLeft: '10px', paddingRight: '10px',
-        height: '20px', lineHeight: '20px',
-        fontSize: '14px', fontWeight: 500, color: 'rgb(0,134,191)'
-    }
+        height: '24px', lineHeight: '24px',
+        fontSize: '15px', fontWeight: 500,
+        color: isHover ? 'rgb(255,255,255)' : 'rgb(0,134,191)',
+        config: { duration: 100 }
+    })
 
     return (
-        <animated.div style={ style }>
+        <animated.div style={ style }
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
             <Link to={ `/tags/${ props.id }` }>
-                <div style={ styleText }>
+                <animated.div style={ styleText }>
                     { props.name }
-                </div>
+                </animated.div>
             </Link>
         </animated.div>
     )
@@ -133,8 +140,8 @@ const Header = (props) => {
                 <div style={{ height: '70px' }}/>
                 <ViewerFlexLay  subLay={ null }>
                     <div style={{ position: 'relative' }}>
-                        <animated.div style={ styleId }>#1234</animated.div>
-                        <animated.div style={ styleTitle }>볼드모트</animated.div>
+                        <animated.div style={ styleId }>#{ props.id }</animated.div>
+                        <animated.div style={ styleTitle }>{ props.title }</animated.div>
                         <animated.div style={ styleTags }>
                             <Tag id={ 123 } name="KOI"/>
                             <Tag id={ 123 } name="Dijkstra"/>
@@ -154,11 +161,11 @@ const BoxLay = (props) => {
         borderLeft: '1px solid rgba(140,140,140,0.3)',
         borderRight: '1px solid rgba(140,140,140,0.3)',
         borderBottom: '1px solid rgba(140,140,140,0.3)',
-        boxShadow: '0px 10px 10px 5px rgba(140,140,140,0.1)'
+        boxShadow: '0px 10px 10px 5px rgba(0,0,0,0.05)'
     })
     const styleTitle = {
-        paddingTop: '15px', paddingBottom: '60px',
-        paddingLeft: '15px', paddingRight: '15px',
+        paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px',
+        lineHeight: '25px',
         fontSize: '17px', fontWeight: 400,
         color: props.theme==='light' ? 'black' : '#ddd',
     }
@@ -170,6 +177,45 @@ const BoxLay = (props) => {
                 { props.children }
             </div>
         </animated.div>
+    )
+}
+const StatLay = (props) => {
+    const [isHover1, setHover1] = useState(false);
+    const styleLay1 = useSpring({
+        paddingLeft: '10px', paddingRight: '10px',
+        paddingTop: '10px', paddingBottom: '10px',
+        borderRadius: '10px',
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleStat = {
+        width: '100%', height: '24px', borderRadius: '13px',
+        overflow: 'hidden',
+        background: 'rgba(160,160,160,0.2)',
+        border: '1px solid rgba(160,160,160,0.4)'
+    }
+    const styleStatBar = useSpring({
+        height: '100%', width: '50%', opacity: 0.5,
+        backgroundImage: 'linear-gradient(to left, #4facfe 0%, #00f2fe 100%)'
+    })
+    const styleStatTxt = {
+        fontSize: '14px', fontWeight: 300,
+        textAlign: 'right', color: 'gray'
+    }
+
+    return (
+        <div style={{ paddingLeft: '15px', paddingRight: '15px' }}>
+            <Link>
+                <animated.div style={ styleLay1 }
+                onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                    <div style={ styleStat }>
+                        <animated.div style={ styleStatBar }/>
+                    </div>
+                    <div style={ styleStatTxt }>성공률: 15%</div>
+                </animated.div>
+            </Link>
+            <div style={{ height: '15px' }}/>
+        </div>
     )
 }
 
@@ -184,6 +230,7 @@ const ProblemViewer = (props) => {
     let subLay = null;
     const [isHoverBtnCod, setHoverBtnCod] = useState(undefined);
     const [isHoverBtnSub, setHoverBtnSub] = useState(undefined);
+    const [isHoverBtnYou, setHoverBtnYou] = useState(undefined);
     const styleBtnCoding = useSpring({
         width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
         background: isHoverBtnCod ? `rgba(0,134,191,1)` : `rgba(0,134,191,0.9)`,
@@ -193,6 +240,12 @@ const ProblemViewer = (props) => {
         marginTop: '10px',
         width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
         background: isHoverBtnSub ? `rgba(0,120,50,1)` : `rgba(0,120,50,0.9)`,
+        config: { duration: 100 }
+    });
+    const styleBtnYoutube = useSpring({
+        marginTop: '10px',
+        width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
+        background: isHoverBtnYou ? `rgba(240,100,20,1)` : `rgba(240,100,20,0.9)`,
         config: { duration: 100 }
     });
     const styleBtn1tImg = {
@@ -225,7 +278,15 @@ const ProblemViewer = (props) => {
                         <div style={ styleBtn1tTxt }>제출 하기</div>
                     </animated.div>
                 </Link>
+                <Link>
+                    <animated.div style={ styleBtnYoutube }
+                    onMouseEnter={ () => setHoverBtnYou(true) } onMouseLeave={ () => setHoverBtnYou(false) }>
+                        <img src={ svgYoutube } alt="youtube" style={ styleBtn1tImg }/>
+                        <div style={ styleBtn1tTxt }>유튜브 해설 바로가기</div>
+                    </animated.div>
+                </Link>
                 <BoxLay title="통계" theme={ props.theme }>
+                    <StatLay theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="통계" theme={ props.theme }>
                 </BoxLay>
@@ -238,7 +299,8 @@ const ProblemViewer = (props) => {
     return (
         <div>
             <Helmet><title>#{ props.id } { probInfo ? probInfo.title : '' } : 오일러OJ</title></Helmet>
-            <Header id={ props.id } theme={ props.theme }/>
+            <Header id={ props.id } theme={ props.theme }
+            title={ probInfo ? probInfo.title : '' }/>
             <ViewerFlexLay subLay={ subLay }>
                 { probInfo ? 
                     <ProblemView html={ probInfo.problemHtml }
