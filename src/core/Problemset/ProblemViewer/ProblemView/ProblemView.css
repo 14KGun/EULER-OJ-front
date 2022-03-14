@@ -1,0 +1,23 @@
+.content{
+    position: relative;
+    padding: 15px; padding-bottom: 0px; padding-top: 25px;
+    font-size: 16px; font-weight: 300;
+    line-height: 220%; letter-spacing: 1.3px;
+}
+.content-txt{ float: left; }
+.content-pow{ font-size: 12px; float: left; margin-top: -8px; }
+.content-hidden{ display: none; }
+.content-d{ font-family: "D2Coding"; }
+.txt0{
+    padding: 15px; padding-bottom: 0px; padding-top: 25px;
+    font-size: 17px; font-weight: 500;
+    border-top: 2px solid rgb(20, 134, 191);
+    color: rgb(20, 134, 191);
+}
+.txt1{
+    padding: 15px; padding-bottom: 0px; padding-top: 25px; margin-top: 25px;
+    font-size: 17px; font-weight: 500;
+    border-top: 1px solid rgba(140,140,140,0.3);
+    color: rgb(20, 134, 191);
+}
+center > img{ max-width: 100%; }
