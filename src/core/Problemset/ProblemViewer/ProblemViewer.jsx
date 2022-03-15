@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 import ProblemView from './ProblemView/ProblemView';
 import Footer from '../../Frame/Footer/Footer';
 import axios from '../../Tool/axios';
+import getHref from '../../Tool/getHref';
 
 import svgEditor from './svg_editor.svg';
 import svgSubmit from './svg_submit.svg';
 import svgYoutube from './svg_youtube.svg';
+import svgPerson from './svg_person.svg';
+import svgPersons from './svg_persons.svg';
+import svgRight from './svg_right.svg';
 
 const ViewerFlexLay = (props) => {
     const getWidth = () => document.body.clientWidth;
@@ -240,6 +244,12 @@ const StatLay = (props) => {
     const [isHover1, setHover1] = useState(false);
     const [isHover2, setHover2] = useState(false);
     const [isHover3, setHover3] = useState(false);
+    
+    let percent = 0;
+    if(props.submit > 0 && props.solve > 0){
+        percent = (props.solve / props.submit * 100).toFixed(2);
+    }
+
     const styleLay1 = useSpring({
         paddingLeft: '10px', paddingRight: '10px',
         paddingTop: '10px', paddingBottom: '10px',
@@ -254,9 +264,12 @@ const StatLay = (props) => {
         border: '1px solid rgba(160,160,160,0.4)'
     }
     const styleStatBar = useSpring({
-        height: '100%', width: '50%', opacity: 0.5,
-        backgroundImage: 'linear-gradient(to left, #4facfe 0%, #00f2fe 100%)'
+        from: { width: `0%` }, to: { width: `${ percent }%` }
     })
+    const styleStatBarDefault = {
+        height: '100%', opacity: 0.5,
+        backgroundImage: 'linear-gradient(to left, #4facfe 0%, #00f2fe 100%)'
+    }
     const styleStatTxt = {
         fontSize: '14px', fontWeight: 300,
         textAlign: 'right', color: 'gray'
@@ -290,16 +303,16 @@ const StatLay = (props) => {
                 <animated.div style={ styleLay1 }
                 onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                     <div style={ styleStat }>
-                        <animated.div style={ styleStatBar }/>
+                        <animated.div style={{ ...styleStatBar, ...styleStatBarDefault }}/>
                     </div>
-                    <div style={ styleStatTxt }>성공률: 15%</div>
+                    <div style={ styleStatTxt }>성공률: { percent }%</div>
                 </animated.div>
             </Link>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <animated.div style={{ ...styleBtn, ...styleBtn2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                     <div style={ styleBtnName }>맞은 사람</div>
-                    <div style={ styleBtnValue }>690</div>
+                    <div style={ styleBtnValue }>{ props.solve }</div>
                 </animated.div>
                 <div style={{ width: '1px', height: '30px',
                 marginTop: '8px',
@@ -307,7 +320,7 @@ const StatLay = (props) => {
                 <animated.div style={{ ...styleBtn, ...styleBtn3 }}
                 onMouseEnter={ () => setHover3(true) } onMouseLeave={ () => setHover3(false) }>
                     <div style={ styleBtnName }>제출 횟수</div>
-                    <div style={ styleBtnValue }>1502</div>
+                    <div style={ styleBtnValue }>{ props.submit }</div>
                 </animated.div>
             </div>
             <div style={{ height: '15px' }}/>
@@ -315,24 +328,66 @@ const StatLay = (props) => {
     )
 }
 const StatusLay = (props) => {
+    const [isHover1, setHover1] = useState(false);
+    const [isHover2, setHover2] = useState(false);
     const styleBtn = {
         paddingLeft: '10px', paddingRight: '10px',
-        height: '40px',
-        background: 'gray'
+        height: '40px', borderRadius: '10px',
+        overflow: 'hidden', position: 'relative'
+    }
+    const styleBtn1 = useSpring({
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleBtn2 = useSpring({
+        background: `rgba(170,170,170,${ isHover2 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleImg = {
+        position: 'absolute', top: '8px', left: '8px',
+        width: '24px', height: '24px'
     }
     const styleTxt = {
         height: '40px', lineHeight: '40px',
-        fontSize: '16px'
+        paddingLeft: '28px',
+        fontSize: '15px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
     }
+    const styleGo1 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover1 ? 1 : 0,
+        config: { duration: 100 }
+    })
+    const styleGo2 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover2 ? 1 : 0,
+        config: { duration: 100 }
+    })
     return (
         <div style={{ paddingLeft: '15px', paddingRight: '15px',
-        paddingTop: '10px', paddingBottom: '15px' }}>
-            <animated.div style={{ ...styleBtn }}>
-                <div style={ styleTxt }>전체 채점 기록</div>
-            </animated.div>
-            <animated.div style={{ ...styleBtn }}>
-                <div style={ styleTxt }>내 채점 기록</div>
-            </animated.div>
+        paddingTop: '5px', paddingBottom: '15px' }}>
+            <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }>
+                <animated.div style={{ ...styleBtn, ...styleBtn1 }}
+                onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                    <img src={ svgPersons } alt="" style={ styleImg }/>
+                    <div style={ styleTxt }>전체 채점 기록</div>
+                    <animated.img src={ svgRight } style={ styleGo1 }/>
+                </animated.div>
+            </Link>
+            {
+                props.loginId ?
+                <Link to={ `/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }` }>
+                    <animated.div style={{ ...styleBtn, ...styleBtn2 }}
+                    onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
+                        <img src={ svgPerson } alt="" style={ styleImg }/>
+                        <div style={ styleTxt }>내 채점 기록</div>
+                        <animated.img src={ svgRight } style={ styleGo2 }/>
+                    </animated.div>
+                </Link> :
+                null
+            }
         </div>
     )
 }
@@ -439,18 +494,26 @@ const ProblemViewer = (props) => {
                         <div style={ styleBtn1tTxt }>제출 하기</div>
                     </animated.div>
                 </Link>
-                <a>
-                    <animated.div style={ styleBtnYoutube }
-                    onMouseEnter={ () => setHoverBtnYou(true) } onMouseLeave={ () => setHoverBtnYou(false) }>
-                        <img src={ svgYoutube } alt="youtube" style={ styleBtn1tImg }/>
-                        <div style={ styleBtn1tTxt }>유튜브 해설 바로가기</div>
-                    </animated.div>
-                </a>
+                {
+                    probInfo && probInfo.youtube && probInfo.youtube !== '' ?
+                    <a href={ probInfo.youtube } target="_blank" rel="noreferrer">
+                        <animated.div style={ styleBtnYoutube }
+                        onMouseEnter={ () => setHoverBtnYou(true) } onMouseLeave={ () => setHoverBtnYou(false) }>
+                            <img src={ svgYoutube } alt="youtube" style={ styleBtn1tImg }/>
+                            <div style={ styleBtn1tTxt }>유튜브 해설 바로가기</div>
+                        </animated.div>
+                    </a> : null
+                }
                 <BoxLay title="통계" theme={ props.theme }>
-                    <StatLay id={ props.id } theme={ props.theme }/>
+                    <StatLay id={ props.id }
+                    solve={ probInfo ? probInfo.solve : 0 }
+                    submit={ probInfo ? probInfo.submit : 0 }
+                    theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="채점 기록" theme={ props.theme }>
-                    <StatusLay id={ props.id } theme={ props.theme }/>
+                    <StatusLay id={ props.id }
+                    loginId={ probInfo ? probInfo.loginId : undefined }
+                    theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="블로깅" theme={ props.theme }>
                 </BoxLay>
