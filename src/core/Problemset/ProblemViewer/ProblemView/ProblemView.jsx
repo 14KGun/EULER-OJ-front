@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
+import SampleLay from './SampleLay/SampleLay';
 
 import './ProblemView.css';
 
@@ -19,10 +20,10 @@ const ProblemView = (props) => {
     const rePainting = () => {
         const contents = document.getElementsByClassName('content');
         for(let i=0; i<contents.length; i++){
-            if(props.theme === 'dark' && contents[i].style.color === '') contents[i].style.color = '#aaa';
-            if(props.theme === 'dark' && contents[i].style.color === 'black') contents[i].style.color = '#aaa';
+            if(props.theme === 'dark' && contents[i].style.color === '') contents[i].style.color = 'rgb(170, 170, 170)';
+            if(props.theme === 'dark' && contents[i].style.color === 'black') contents[i].style.color = 'rgb(170, 170, 170)';
             if(props.theme === 'light' && contents[i].style.color === '') contents[i].style.color = 'black';
-            if(props.theme === 'light' && contents[i].style.color === 'white') contents[i].style.color = 'black';
+            if(props.theme === 'light' && contents[i].style.color === 'rgb(170, 170, 170)') contents[i].style.color = 'black';
         }
     }
 
@@ -41,6 +42,8 @@ const ProblemView = (props) => {
             <div className="txt0">문제</div>
             <div dangerouslySetInnerHTML={{ __html: htmlList[0] }}/>
             <div className="txt1">입출력 예제</div>
+            { props.sampleInput.map((item, index) => <SampleLay index={ index + 1 }
+            input={ props.sampleInput[index] } output={ props.sampleOutput[index] } theme={ props.theme }/>) }
             { /* sample */ }
             <div dangerouslySetInnerHTML={{ __html: htmlList[1] }}/>
         </div>

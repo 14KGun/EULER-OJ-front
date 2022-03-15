@@ -11,7 +11,7 @@ const Screen = (props) => {
 
     const styleSkeleton = {
         position: 'fixed', top: '90px', left: '0px',
-        width: '100%', height: `calc(100% - 110px)`, zIndex: 10,
+        width: '100%', height: `calc(100% - 110px)`, zIndex: 85,
         pointerEvents: props.show ? 'auto' : 'none'
     };
     const style = useSpring({
