@@ -71,7 +71,10 @@ function App() {
   
   /* Footer */
   const [appHeight, setAppHeight] = useState(0);
-  const reFooter = () => {
+  const [reFooterSwitch, setReFooterSwithch] = useState(true);
+  const reFooter = (o) => {
+    if(o == 'on') setReFooterSwithch(true);
+    if(o == 'off') setReFooterSwithch(false);
     const ojFooter = document.getElementById('footer-empty');
     if(ojFooter){
       const height = ojFooter.offsetTop;
@@ -87,7 +90,7 @@ function App() {
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
-    reFooter: () => reFooter(),
+    reFooter: (x='auto') => reFooter(x),
     alarmList: alarmList, setAlarmList: setAlarmList,
     alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
   };
@@ -187,7 +190,7 @@ function App() {
         
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
-      <RouterScroll { ...params } height={ appHeight }/>
+      <RouterScroll { ...params } height={ appHeight } switch={ reFooterSwitch }/>
       { /* <Socket { ...params }/> */ }
     </Router>
   );

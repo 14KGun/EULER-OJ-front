@@ -3,9 +3,14 @@ import { Helmet } from "react-helmet";
 import { animated, useSpring } from 'react-spring';
 import { Link } from 'react-router-dom';
 import ProblemView from './ProblemView/ProblemView';
+import Bookmark from './Bookmark/Bookmark';
+import ResMini from './ResMini/ResMini';
 import Footer from '../../Frame/Footer/Footer';
+import Layout from '../../Frame/Layout/Layout';
+import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
+import problemHistory from '../../Tool/problemHistory';
 
 import svgEditor from './svg_editor.svg';
 import svgSubmit from './svg_submit.svg';
@@ -13,6 +18,8 @@ import svgYoutube from './svg_youtube.svg';
 import svgPerson from './svg_person.svg';
 import svgPersons from './svg_persons.svg';
 import svgRight from './svg_right.svg';
+import svgBlogging from './svg_blogging.svg';
+import svgNaverBlog from './svg_naverblog.svg';
 
 const ViewerFlexLay = (props) => {
     const getWidth = () => document.body.clientWidth;
@@ -77,12 +84,13 @@ const Tag = (props) => {
         config: { duration: 100 }
     })
 
+    const name = props.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
     return (
         <animated.div style={ style }
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <Link to={ `/tags/${ props.id }` }>
+            <Link to={ props.url }>
                 <animated.div style={ styleText }>
-                    { props.name }
+                    { name }
                 </animated.div>
             </Link>
         </animated.div>
@@ -125,8 +133,7 @@ const Header = (props) => {
         top: heightS.to(x => `${ (x-130)/90*41+21 }px`), // 62 ~ 21
         width: heightS.to(x => `${ (x-130)/90*6+20 }px`), // 24 ~ 20
         height: heightS.to(x => `${ (x-130)/90*6+20 }px`), // 24 ~ 20
-        borderRadius: '23px', overflow: 'hidden',
-        background: 'rgb(220,220,220)'
+        borderRadius: '23px', overflow: 'hidden'
     }
     const styleId = {
         position: 'absolute', left: left,
@@ -138,7 +145,9 @@ const Header = (props) => {
         position: 'absolute', left: left,
         top: heightS.to(x => `${ (x-130)/90*37+13 }px`), // 50 ~ 13
         fontSize: heightS.to(x => `${ (x-130)/90*9+23 }px`), // 32 ~ 23
-        fontWeight: 500, color: 'rgb(0,134,191)'
+        fontWeight: 500, color: 'rgb(0,134,191)',
+        width: '100%',
+        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
     }
     const styleTags = {
         position: 'absolute', left: left,
@@ -157,7 +166,8 @@ const Header = (props) => {
         display: 'flex', justifyContent: 'right', gap: '8px'
     }
     const styleSubLayOpacity = useSpring({
-        opacity: height===130 ? 1 : 0
+        opacity: height===130 ? 1 : 0,
+        pointerEvents: height===130 ? 'auto' : 'none'
     })
     const styleSubBtn = {
         marginTop: '8px', position: 'relative',
@@ -194,18 +204,31 @@ const Header = (props) => {
         </div>
     )
 
+    const styleOptLay = {
+        position: 'absolute', top: subTop, right: '5px',
+        width: '70px', height: '60px', overflow: 'hidden',
+        display: 'flex', justifyContent: 'right', gap: '8px'
+    }
+    
     return (
         <>
             <animated.div style={ style } className="ND">
                 <div style={{ height: '70px' }}/>
                 <ViewerFlexLay subLay={ subLay }>
                     <div style={{ position: 'relative' }}>
-                        <animated.div style={ styleRes }></animated.div>
+                        <animated.div style={ styleRes }>
+                            <ResMini id={ props.id } theme={ props.theme }
+                            loginId={ props.loginId } res={ props.res }/>
+                        </animated.div>
                         <animated.div style={ styleId }>#{ props.id }</animated.div>
                         <animated.div style={ styleTitle }>{ props.title }</animated.div>
                         <animated.div style={ styleTags }>
-                            <Tag id={ 123 } name="KOI"/>
-                            <Tag id={ 123 } name="Dijkstra"/>
+                            { props.tags.map((item, index) => <Tag key={ index } url={ item.url } name={ item.name }/>) }
+                        </animated.div>
+                    </div>
+                    <div style={{ position: 'relative' }}>
+                        <animated.div style={ styleOptLay }>
+                            <Bookmark id={ props.id }/>
                         </animated.div>
                     </div>
                 </ViewerFlexLay>
@@ -311,16 +334,20 @@ const StatLay = (props) => {
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <animated.div style={{ ...styleBtn, ...styleBtn2 }}
                 onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
-                    <div style={ styleBtnName }>맞은 사람</div>
-                    <div style={ styleBtnValue }>{ props.solve }</div>
+                    <Link to={ `/problemset/solves/${ props.id }` }>
+                        <div style={ styleBtnName }>맞은 사람</div>
+                        <div style={ styleBtnValue }>{ props.solve }</div>
+                    </Link>
                 </animated.div>
                 <div style={{ width: '1px', height: '30px',
                 marginTop: '8px',
                 background: 'rgba(160,160,160,0.3)' }}/>
                 <animated.div style={{ ...styleBtn, ...styleBtn3 }}
                 onMouseEnter={ () => setHover3(true) } onMouseLeave={ () => setHover3(false) }>
-                    <div style={ styleBtnName }>제출 횟수</div>
-                    <div style={ styleBtnValue }>{ props.submit }</div>
+                    <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }>
+                        <div style={ styleBtnName }>제출 횟수</div>
+                        <div style={ styleBtnValue }>{ props.submit }</div>
+                    </Link>
                 </animated.div>
             </div>
             <div style={{ height: '15px' }}/>
@@ -391,6 +418,74 @@ const StatusLay = (props) => {
         </div>
     )
 }
+const BloggingLay = (props) => {
+    const [isHover1, setHover1] = useState(false);
+    const [isHover2, setHover2] = useState(false);
+    const styleBtn = {
+        paddingLeft: '10px', paddingRight: '10px',
+        height: '40px', borderRadius: '10px',
+        overflow: 'hidden', position: 'relative'
+    }
+    const styleBtn1 = useSpring({
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleBtn2 = useSpring({
+        background: `rgba(170,170,170,${ isHover2 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleImg = {
+        position: 'absolute', top: '8px', left: '8px',
+        width: '24px', height: '24px'
+    }
+    const styleImg2 = {
+        position: 'absolute', top: '12px', left: '8px',
+        width: '22px'
+    }
+    const styleTxt = {
+        height: '40px', lineHeight: '40px',
+        paddingLeft: '28px',
+        fontSize: '15px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
+    }
+    const styleGo1 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover1 ? 1 : 0,
+        config: { duration: 100 }
+    })
+    const styleGo2 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover2 ? 1 : 0,
+        config: { duration: 100 }
+    })
+
+    return (
+        <div style={{ paddingLeft: '15px', paddingRight: '15px',
+        paddingTop: '5px', paddingBottom: '15px' }}>
+            {
+                props.naverblog ?
+                <a href={ props.naverblog } target="_blank" rel="noreferrer">
+                    <animated.div style={{ ...styleBtn, ...styleBtn1 }}
+                    onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                        <img src={ svgNaverBlog } alt="" style={ styleImg2 }/>
+                        <div style={ styleTxt }>오일러 블로깅 바로가기</div>
+                        <animated.img src={ svgRight } style={ styleGo1 }/>
+                    </animated.div>
+                </a> : null
+            }
+            <Link to={ `/problemset/blogging/${ props.id }` }>
+                <animated.div style={{ ...styleBtn, ...styleBtn2 }}
+                onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
+                    <img src={ svgBlogging } alt="" style={ styleImg }/>
+                    <div style={ styleTxt }>전체 블로깅</div>
+                    <animated.img src={ svgRight } style={ styleGo2 }/>
+                </animated.div>
+            </Link>
+        </div>
+    )
+}
 const LimitLay = (props) => {
     const styleLine = {
         display: 'flex', position: 'relative',
@@ -437,10 +532,21 @@ const LimitLay = (props) => {
 
 const ProblemViewer = (props) => {
     const [probInfo, setProbInfo] = useState(undefined);
+    const [res, setRes] = useState('load');
+    
     useState(() => {
         axios.get(`/json/problems/problem/${ props.id }`).then(({ data }) => {
             setProbInfo(data);
+            if(!data.err) problemHistory.add(props.id);
         });
+        axios.get(`/json/problems/problemres/${ props.id }`).then(({ data }) => {
+            setRes(data.res);
+        });
+
+        props.reFooter('off');
+        return () => {
+            props.reFooter('on');
+        }
     }, [props.id])
 
     let subLay = null;
@@ -475,7 +581,8 @@ const ProblemViewer = (props) => {
     }
 
     if (probInfo && probInfo.err){
-        return null;
+        return <PageNotFound theme={ props.theme }
+        msg="요청하신 문제를 찾을 수 없습니다."/>;
     }
     if (probInfo){
         subLay = (
@@ -516,6 +623,9 @@ const ProblemViewer = (props) => {
                     theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="블로깅" theme={ props.theme }>
+                    <BloggingLay id={ props.id }
+                    naverblog={ probInfo && probInfo.blog && probInfo.blog !== '' ? probInfo.blog : '' }
+                    theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="제한" theme={ props.theme }>
                     <LimitLay theme={ props.theme }/>
@@ -528,13 +638,16 @@ const ProblemViewer = (props) => {
         <div>
             <Helmet><title>#{ props.id } { probInfo ? probInfo.title : '' } : 오일러OJ</title></Helmet>
             <Header id={ props.id } theme={ props.theme }
-            title={ probInfo ? probInfo.title : '' }/>
+            title={ probInfo ? probInfo.title : '' }
+            tags={ probInfo ? probInfo.tags : [] }
+            loginId={ probInfo ? probInfo.loginId : undefined }
+            res={ res }/>
             <ViewerFlexLay subLay={ subLay }>
                 { probInfo ? 
                     <ProblemView html={ probInfo.problemHtml }
                     sampleInput={ probInfo.sampleInput } sampleOutput={ probInfo.sampleOutput }
                     theme={ props.theme }/> :
-                    null
+                    <Layout.Loading theme={ props.theme }/>
                 }
             </ViewerFlexLay>
             <div className="BTM_EMPTY"></div>

@@ -19,6 +19,7 @@ const ReactScrollAuto = (props) => {
         config: { duration: 100 }
     }).height;
     const getFooterHeight = (x) => {
+        if (props.switch === false) return 0;
         return Math.max(bodyHeight - x, 0);
     }
     
