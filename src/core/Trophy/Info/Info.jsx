@@ -44,6 +44,7 @@ const Info = (props) => {
         color: props.theme === 'light' ? 'black' : '#aaa'
     }
     const stylePerson = {
+        position: 'relative',
         padding: '20px', display: 'flex', gap: '4px',
         justifyContent: 'center', flexWrap: 'wrap'
     }
@@ -67,7 +68,7 @@ const Info = (props) => {
                 <div style={{ height: '50px' }}/>
                 <Layout.Title icon={ svgPerson } theme={ props.theme }>업적 달성자</Layout.Title>
                 <Layout.Container>
-                    <div style={ stylePerson }>
+                    <div style={ stylePerson } className="ND">
                         <Layout.ProfBtn id={ "supernova" }/>
                         <Layout.ProfBtn id={ "geon6757_kakao" }/>
                     </div>
