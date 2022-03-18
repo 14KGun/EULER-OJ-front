@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import axios from '../../Tool/axios';
-import Tooltip from '../../Tool/tooltip';
 import trans from '../../Tool/trans';
 
 import svgGood from './svg_good.svg';
@@ -124,7 +123,7 @@ const TableItem = (props) => {
                     <a href={ props.url } target="_blank" rel="noreferrer">
                         <span style={ styleTitleText }>{ props.name }</span>
                     </a>
-                    <Good id={ props.id } good={ props.good } pushed={ props.dogood } tooltip={ props.tooltip }/>
+                    <Good id={ props.id } good={ props.good } pushed={ props.dogood }/>
                 </div>
                 <div style={ styleSubtitle } className="ND">{ props.subname }</div>
                 { props.loginId ? <>
@@ -146,21 +145,13 @@ const TableItem = (props) => {
 }
 
 const Table = (props) => {
-    const tooltip = useRef(new Tooltip());
-
-    useEffect(() => {
-        return () => {
-            tooltip.current.clear();
-        }
-    }, []);
-
     if(props.list.length <= 0) return <div/>;
     return (
         <div>
             <TableTop/>
             { props.list.map((item, index) => <TableItem key={ index } theme={ props.theme } id={ item.id }
             name={ item.name } subname={ item.subname } good={ item.good } dogood={ item.dogood }
-            loginId={ item.loginId } date={ item.date } url={ item.url } tooltip={ tooltip.current }/>) }
+            loginId={ item.loginId } date={ item.date } url={ item.url }/>) }
         </div>
     )
 }
