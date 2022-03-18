@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import RouterScroll from './ReactScrollAuto';
 import Socket from './Socket';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
@@ -181,6 +182,7 @@ function App() {
         
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
+      <RouterScroll/>
       { /* <Socket { ...params }/> */ }
     </Router>
   );

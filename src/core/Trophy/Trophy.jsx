@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import { animated, useSpring } from 'react-spring';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Layout from '../Frame/Layout/Layout';
 import Footer from '../Frame/Footer/Footer';
+import axios from '../Tool/axios';
 import getTrophyInfo from '../Tool/getTrophyInfo';
+import getHref from '../Tool/getHref';
 
 import svgTrophy from './svg_trophy.svg';
+import svgCheck from './svg_check.svg';
 
 const SelectLayBtn = (props) => {
     const [isHover, setHover] = useState(false);
@@ -31,6 +34,9 @@ const SelectLayBtn = (props) => {
     )
 }
 const SelectLay = (props) => {
+    if(props.loginId === undefined && props.category !== 'all'){
+        return <Redirect to={ getHref.loginCurrentUrl() }/>
+    }
     return (
         <div style={{ display: 'flex', gap: '8px' }}>
             <SelectLayBtn theme={ props.theme } name="모든 업적" category="all"
@@ -67,6 +73,16 @@ const TrophyItem = (props) => {
         fontSize: '15px', fontWeight: 300,
         color: props.theme === 'light' ? 'gray' : 'gray'
     }
+    const styleAchieve = {
+        position: 'absolute', top: 'calc(50% - 10px)', right: '30px',
+        width: '20px', height: '20px', borderRadius: '15px', 
+        background: (props.theme==='light' ? 'rgb(34,177,76)' : 'rgb(25,150,60)'),
+        display: (props.achieve ? 'block' : 'none')
+    }
+    const styleCheck = {
+        position: 'absolute', top: '0px', left: '0px',
+        width: '80%', height: '80%', padding: '10%'
+    }
 
     return (
         <Link to={ `/trophy/info/${ props.id }` }>
@@ -77,30 +93,53 @@ const TrophyItem = (props) => {
                     <div style={ styleTitle }>{ props.name }</div>
                     <div style={ styleSub }>{ props.sub }</div>
                 </div>
+                <div style={ styleAchieve }>
+                    <img src={ svgCheck } alt="" style={ styleCheck }/>
+                </div>
             </animated.div>
         </Link>
     )
 }
 const TrophyTable = (props) => {
+    const trophys = getTrophyInfo.list;
+    const list = [];
+
+    for(let i=0; i<trophys.length; i++){
+        if(props.category === "success" && props.achieve.indexOf(trophys[i].id) < 0) continue;
+        if(props.category === "fail" && props.achieve.indexOf(trophys[i].id) >= 0) continue;
+
+        list.push(<TrophyItem key={ i } id={ trophys[i].id } img={ trophys[i].icon }
+        name={ trophys[i].name } sub={ trophys[i].hint } theme={ props.theme }
+        achieve={ props.achieve.indexOf(trophys[i].id) >= 0 }/>);
+    }
+
     return (
         <div>
-            { getTrophyInfo.list.map(item => {
-                return <TrophyItem key={ item.id } id={ item.id } img={ item.icon }
-                name={ item.name } sub={ item.hint } theme={ props.theme }/>
-            }) }
+            { list }
         </div>
     )
 }
 
 const Trophy = (props) => {
+    const [myAchieve, setMyAchieve] = useState(undefined);
+    useEffect(() => {
+        axios.get('/json/trophy/achieve').then(({ data }) => {
+            setMyAchieve(data);
+        })
+    }, []);
+
+
     return (
         <div>
             <Helmet><title>업적 : 오일러OJ</title></Helmet>
             <Layout.HeaderTitle theme={ props.theme } icon={ svgTrophy } title="업적"/>
             <div className="FRAME_MAIN">
-                <SelectLay theme={ props.theme } category={ props.category }/>
+                <SelectLay theme={ props.theme } category={ props.category }
+                loginId={ myAchieve ? myAchieve.loginId : '' }/>
                 <div style={{ height: '30px' }}/>
-                <TrophyTable theme={ props.theme }/>
+                <TrophyTable theme={ props.theme }
+                category={ props.category }
+                achieve={ myAchieve ? myAchieve.list : [] }/>
             </div>
             <div className="BTM_EMPTY"></div>
             <Footer theme={ props.theme }/>
