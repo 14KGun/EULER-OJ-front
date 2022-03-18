@@ -253,10 +253,25 @@ const BoxLay = (props) => {
         fontSize: '17px', fontWeight: 400,
         color: props.theme==='light' ? 'black' : '#ddd',
     }
+    const styleCnt = {
+        display: 'inline-block',
+        height: '16px', lineHeight: '16px', borderRadius: '8px',
+        marginLeft: '5px',
+        paddingLeft: '7px', paddingRight: '7px',
+        fontSize: '12px', fontWeight: 300,
+        background: 'rgba(120,120,120,0.2)',
+        color: 'gray',
+    }
     return (
         <animated.div style={ style } className="ND">
             <div style={{ borderTop: '2px solid rgb(20, 134, 191)' }}/>
-            <div style={ styleTitle }>{ props.title }</div>
+            <div style={ styleTitle }>
+                { props.title }
+                {
+                    props.cnt !== undefined ?
+                    <span style={ styleCnt }>{ props.cnt }</span> : null
+                }
+            </div>
             <div>
                 { props.children }
             </div>
@@ -617,12 +632,14 @@ const ProblemViewer = (props) => {
                     submit={ probInfo ? probInfo.submit : 0 }
                     theme={ props.theme }/>
                 </BoxLay>
-                <BoxLay title="채점 기록" theme={ props.theme }>
+                <BoxLay title="채점 기록" theme={ props.theme }
+                cnt={ probInfo ? probInfo.submit : undefined }>
                     <StatusLay id={ props.id }
                     loginId={ probInfo ? probInfo.loginId : undefined }
                     theme={ props.theme }/>
                 </BoxLay>
-                <BoxLay title="블로깅" theme={ props.theme }>
+                <BoxLay title="블로깅" theme={ props.theme }
+                cnt={ probInfo ? probInfo.bloggingCnt : undefined }>
                     <BloggingLay id={ props.id }
                     naverblog={ probInfo && probInfo.blog && probInfo.blog !== '' ? probInfo.blog : '' }
                     theme={ props.theme }/>

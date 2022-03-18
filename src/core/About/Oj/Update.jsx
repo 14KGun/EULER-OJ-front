@@ -25,7 +25,7 @@ const UpdateBox = (props) => {
 const UpdateTxt = (props) => {
     const style = {
         fontSize: '16px', fontWeight: 300, marginTottom: '5px', marginBottom: '5px',
-        color: (props.theme==='light' ? 'black' : 'white')
+        color: (props.theme==='light' ? 'black' : '#aaa')
     }
     return (
         <div style={ style }>{ props.children }</div>
@@ -38,6 +38,14 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="">
+                <UpdateTxt theme={ props.theme }>문제 뷰어 페이지가 리모델링되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>문제 통계 페이지가 리모델링되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>문제 맞은 사람들 페이지가 추가되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>대회 페이지가 리모델링되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>업적 페이지가 리모델링되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>업적 코딩홀릭, STONE을 획득할 수 있습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.02.25">
                 <UpdateTxt theme={ props.theme }>문제 목록 페이지에 최근 방문기록이 추가되었습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>태그 페이지의 버그(오랫동안 페이지를 불러오는 버그, 잘못된 페이지를 불러오는 버그)가 수정되었습니다.</UpdateTxt>

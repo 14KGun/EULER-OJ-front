@@ -179,6 +179,8 @@ function App() {
         <Route path="/problemset/editor/:pnum1/:pnum2" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum1+'/'+props.match.params.pnum2; return null; } }/>
         <Route path="/problemset/editor/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/problemset/editor/'+props.match.params.pnum; return null; } }/>
         <Route path="/ranking/2001" component={ () => { window.location.href = 'https://euleroj.io/ranking/2001'; return null; } }/>
+        <Route path="/contest/pastmoc/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/contest/pastmoc/'+props.match.params.pnum; return null; } }/>
+        <Route path="/contest/:pnum" component={ (props) => { window.location.href = 'https://euleroj.io/contest/'+props.match.params.pnum; return null; } }/>
         <Route path="/login/joinus" component={ () => { window.location.href = 'https://euleroj.io/login/joinus'; return null; } }/>
         <Route path="/login/auth/google" component={ () => { window.location.href = 'https://euleroj.io/login/auth/google'; return null; } }/>
         <Route path="/login/auth/naver" component={ () => { window.location.href = 'https://euleroj.io/login/auth/naver'; return null; } }/>
