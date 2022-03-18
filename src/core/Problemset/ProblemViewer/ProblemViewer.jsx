@@ -7,6 +7,7 @@ import Bookmark from './Bookmark/Bookmark';
 import ResMini from './ResMini/ResMini';
 import Footer from '../../Frame/Footer/Footer';
 import Layout from '../../Frame/Layout/Layout';
+import ToolTip from '../../Frame/Tooltip/Tooltip';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
@@ -159,6 +160,9 @@ const Header = (props) => {
     const [isHoverBtnCod, setHoverBtnCod] = useState(undefined);
     const [isHoverBtnSub, setHoverBtnSub] = useState(undefined);
     const [isHoverBtnYou, setHoverBtnYou] = useState(undefined);
+    const btnCod = useRef();
+    const btnSub = useRef();
+    const btnYou = useRef();
     const subTop = heightS.to(x => `${ x-130 }px`);
     const styleSubLay = {
         position: 'absolute', top: subTop, left: '0px',
@@ -188,25 +192,27 @@ const Header = (props) => {
     const subLay = (
         <div style={{ position: 'relative' }}>
             <animated.div style={{ ...styleSubLay, ...styleSubLayOpacity }}>
-                <animated.div style={{ ...styleSubBtn, ...styleBtnCoding }}
+                <animated.div style={{ ...styleSubBtn, ...styleBtnCoding }} ref={ btnCod }
                 onMouseEnter={ () => setHoverBtnCod(true) } onMouseLeave={ () => setHoverBtnCod(false) }>
                     <Link to={ `/problemset/editor/${ props.id }` }>
                         <img src={ svgEditor } alt="editor" style={ styleSubBtnImg }/>
                     </Link>
                 </animated.div>
-                <animated.div style={{ ...styleSubBtn, ...styleBtnSubmit }}
+                <animated.div style={{ ...styleSubBtn, ...styleBtnSubmit }} ref={ btnSub }
                 onMouseEnter={ () => setHoverBtnSub(true) } onMouseLeave={ () => setHoverBtnSub(false) }>
                     <Link to={ `/problemset/submit/${ props.id }` }>
                         <img src={ svgSubmit } alt="submit" style={ styleSubBtnImg }/>
                     </Link>
                 </animated.div>
+                <ToolTip target={ btnCod } show={ isHoverBtnCod } position="left">코딩 시작하기</ToolTip>
+                <ToolTip target={ btnSub } show={ isHoverBtnSub } position="left">코드 제출 하기</ToolTip>
             </animated.div>
         </div>
     )
 
     const styleOptLay = {
         position: 'absolute', top: subTop, right: '5px',
-        width: '70px', height: '60px', overflow: 'hidden',
+        width: '70px', height: '60px',
         display: 'flex', justifyContent: 'right', gap: '8px'
     }
     
@@ -601,7 +607,7 @@ const ProblemViewer = (props) => {
     }
     if (probInfo){
         subLay = (
-            <div>
+            <div className="ND">
                 <Link to={ `/problemset/editor/${ props.id }` }>
                     <animated.div style={ styleBtnCoding }
                     onMouseEnter={ () => setHoverBtnCod(true) } onMouseLeave={ () => setHoverBtnCod(false) }>

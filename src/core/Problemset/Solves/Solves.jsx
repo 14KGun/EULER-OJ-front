@@ -27,14 +27,14 @@ class Solves extends Component {
         container = (
             <div className="ND">
                 <div style={{ height: '50px' }}/>
-                <Layout.Title theme={ this.props.theme } icon={ svgTime }>실행 시간 Top 5</Layout.Title>
+                {/*<Layout.Title theme={ this.props.theme } icon={ svgTime }>실행 시간 Top 5</Layout.Title>
                 <RankTable theme={ this.props.theme }/>
 
                 <div style={{ height: '70px' }}/>
                 <Layout.Title theme={ this.props.theme } icon={ svgShort }>숏코딩 Top 5</Layout.Title>
                 <RankTable theme={ this.props.theme }/>
 
-                <div style={{ height: '70px' }}/>
+                <div style={{ height: '70px' }}/>*/}
                 <Layout.Title theme={ this.props.theme } icon={ svgPerson }>맞은 사람들</Layout.Title>
                 <Layout.Container>
                     <div style={{ padding: '20px' }}>

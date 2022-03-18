@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { useSpring, animated } from 'react-spring';
+import ToolTip from '../../../Frame/Tooltip/Tooltip';
 
 import axios from '../../../Tool/axios';
 import svgChecked from './svg_checked.svg';
 import svgUnchecked from './svg_unchecked.svg';
 
 const Bookmark = (props) => {
-    const available = useRef(false);
+    const target = useRef();
+    const available = useRef(false)
     const [isChecked, setChecked] = useStateWithCallbackLazy(undefined);
     const [isHover, setHover] = useState(false);
     useEffect(() => {
@@ -57,12 +59,20 @@ const Bookmark = (props) => {
     }
 
     return (
-        <animated.div style={ style } className="BTNC"
-        onClick={ () => onClick() }
-        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <img src={ isChecked ? svgChecked : svgUnchecked }
-            alt="" style={ styleImg }/>
-        </animated.div>
+        <>
+            <animated.div style={ style } className="BTNC"
+            onClick={ () => onClick() } ref={ target }
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <img src={ isChecked ? svgChecked : svgUnchecked }
+                alt="" style={ styleImg }/>
+            </animated.div>
+            <ToolTip target={ target } show={ isHover && isChecked } position="left">
+                북마크에서 이 문제 제거
+            </ToolTip>
+            <ToolTip target={ target } show={ isHover && !isChecked } position="left">
+                북마크에 이 문제 추가
+            </ToolTip>
+        </>
     )
 }
 

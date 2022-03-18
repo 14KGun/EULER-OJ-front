@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { Link } from 'react-router-dom';
-import Tooltip from '../Tooltp/Tooltip';
+import Tooltip from '../Tooltip/Tooltip';
 
 const ProfBtn = (props) => {
     const [isHover, setHover] = useState(false);

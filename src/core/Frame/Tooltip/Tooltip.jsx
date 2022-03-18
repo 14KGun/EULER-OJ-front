@@ -17,6 +17,12 @@ const Tooltip = (props) => {
             console.log(px);
             console.log(baseOffset)
         }
+        if(props.position === 'left'){
+            px = targetOffset.x - baseOffset.x - meOffset.width - 7;
+            py = targetOffset.y - baseOffset.y + targetOffset.height/2 - meOffset.height/2;
+            console.log(px);
+            console.log(baseOffset)
+        }
     }
 
     const styleR = {
