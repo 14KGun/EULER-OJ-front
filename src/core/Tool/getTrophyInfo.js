@@ -24,10 +24,10 @@ const trophySet = [
     { id: 7, icon: imgTrophy7, name: '개척자', hint: '아무도 안 푼 문제를 해결' },
     { id: 10, icon: imgTrophy10, name: '크리스토퍼 콜럼버스', hint: '아무도 안 푼 20개의 문제를 해결' },
     { id: 11, icon: imgTrophy11, name: '닐 암스트롱', hint: '아무도 안 푼 50개의 문제를 해결' },
-    { id: 8, icon: imgTrophy8, name: '코딩홀릭', hint: '일주일에 10문제 이상 해결(현재 획득할 수 없습니다)' },
+    { id: 8, icon: imgTrophy8, name: '코딩홀릭', hint: '일주일에 10문제 이상 해결' },
     { id: 9, icon: imgTrophy9, name: '콜라', hint: '#2016 콜라 문제를 해결' },
     { id: 14, icon: imgTrophy14, name: '이지팬갈비', hint: '#2004 이지팬갈비 문제를 해결(광고)' },
-    { id: 12, icon: imgTrophy12, name: 'STONE', hint: '코딩마법서 STONE 난이도의 모든 문제를 해결(현재 획득할 수 없습니다)' },
+    { id: 12, icon: imgTrophy12, name: 'STONE', hint: '코딩마법서 STONE 난이도의 모든 문제를 해결' },
     { id: 15, icon: imgTrophy15, name: '우승', hint: '오일러가 주최하는 대회에서 우승' },
     { id: 13, icon: imgTrophy13, name: '이 달의 1등', hint: '이 달의 순위에서 1위 달성(현재 획득할 수 없습니다)' },
 ]

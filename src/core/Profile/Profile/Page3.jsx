@@ -79,7 +79,7 @@ class Page3 extends Component {
                     </div>
                     <div style={{ textAlign: 'right', marginTop: '10px' }}>
                         <BtnSearch id={ this.props.data.id } theme={ this.props.theme }/>
-                        </div>
+                    </div>
                 </Container>
             </div>
         );

@@ -1,12 +1,14 @@
-import { Component, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import { animated, useSpring } from 'react-spring';
 import { Link } from 'react-router-dom';
 import Chart from "react-apexcharts";
 import Layout from '../../Frame/Layout/Layout';
 import Top from '../Top/Top';
-import Loading from '../../Frame/Loading/Loading';
 import Footer from '../../Frame/Footer/Footer';
+import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
+import axios from '../../Tool/axios';
+import getHref from '../../Tool/getHref';
 
 import svgChart from './svg_chart.svg';
 import svgTag from './svg_tag.svg';
@@ -14,14 +16,6 @@ import svgTagEmpty from './svg_tagno.svg';
 // import svgRank from './svg_rank.svg';
 import svgAssess from './svg_assess.svg';
 
-const LoadingLay = () => {
-    return (
-        <div style={{ paddingTop: '100px', height: '300px' }}>
-            <Loading/>
-            <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
-        </div>
-    )
-}
 const StatLine = (props) => {
     const [isHover, setHover] = useState(false);
     const style = useSpring({
@@ -43,13 +37,11 @@ const StatLine = (props) => {
     }
 
     return (
-        <Link>
-            <animated.div style={ style }
-            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                <div style={ styleTxt1 }>{ props.name }</div>
-                <div style={ styleTxt2 }>{ props.value }</div>
-            </animated.div>
-        </Link>
+        <animated.div style={ style }
+        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            <div style={ styleTxt1 }>{ props.name }</div>
+            <div style={ styleTxt2 }>{ props.value }</div>
+        </animated.div>
     )
 }
 const Stat = (props) => {
@@ -108,43 +100,59 @@ const Stat = (props) => {
                 <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap',
                 paddingLeft: '30px', paddingRight: '30px', gap: '20px' }}>
                     <div style={{ width: '220px', paddingBottom: '30px' }}>
-                        <Chart type="radialBar" options={ chartOptions } series={ ['37.15'] } width="100%" height="250px"/>
+                        <Chart type="radialBar" options={ chartOptions }
+                        series={ [(props.stat.solves / props.stat.tot * 100).toFixed(2)] }
+                        width="100%" height="250px"/>
                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '-20px' }}>
                             <div style={{ width: '100px' }}>
-                                <Link>
+                                <Link to={ `/problemset/solves/${ props.id }` }>
                                     <animated.div style={ styleBtn1 }
                                     onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
                                         <div style={ styleTxt1 }>맞은 사람</div>
-                                        <div style={{ ...styleTxt2, color: 'green' }}>123</div>
+                                        <div style={{ ...styleTxt2, color: 'green' }}>{ props.stat.solves }</div>
                                     </animated.div>
                                 </Link>
                             </div>
                             <div style={{ width: '1px', height: '36px', marginTop: '7px', background: 'rgba(120,120,120,0.3)' }}/>
                             <div style={{ width: '100px' }}>
-                                <Link>
+                                <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }>
                                     <animated.div style={ styleBtn2 }
                                     onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
                                         <div style={ styleTxt1 }>제출 횟수</div>
-                                        <div style={ styleTxt2 }>512</div>
+                                        <div style={ styleTxt2 }>{ props.stat.tot }</div>
                                     </animated.div>
                                 </Link>
                             </div>
                         </div>
                     </div>
                     <div style={{ width: '300px', paddingTop: '30px', paddingBottom: '30px' }}>
-                        <StatLine theme={ props.theme } name="맞았습니다" value={ 1 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "accepted" }) }` }>
+                            <StatLine theme={ props.theme } name="맞았습니다" value={ props.stat.ac }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="부분 점수" value={ 1 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "partial" }) }` }>
+                            <StatLine theme={ props.theme } name="부분 점수" value={ props.stat.part }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="시간 초과" value={ 441 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "time" }) }` }>
+                            <StatLine theme={ props.theme } name="시간 초과" value={ props.stat.time }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="메모리 초과" value={ 13 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "memory" }) }` }>
+                            <StatLine theme={ props.theme } name="메모리 초과" value={ props.stat.mem }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="출력 초과" value={ 1 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "output" }) }` }>
+                            <StatLine theme={ props.theme } name="출력 초과" value={ props.stat.out }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="런타임 에러" value={ 1 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "runtime" }) }` }>
+                            <StatLine theme={ props.theme } name="런타임 에러" value={ props.stat.run }/>
+                        </Link>
                         <div style={ styleBorder }/>
-                        <StatLine theme={ props.theme } name="컴파일 에러" value={ 1233 }/>
+                        <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id, result: "compile" }) }` }>
+                            <StatLine theme={ props.theme } name="컴파일 에러" value={ props.stat.comp }/>
+                        </Link>
                     </div>
                 </div>
             </Layout.Container>
@@ -190,9 +198,11 @@ const Tag = (props) => {
             <Layout.Title theme={ props.theme } icon={ svgTag }>태그</Layout.Title>
             <Layout.Container>
                 <div style={{ padding: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    { /*<TagItem theme={ props.theme }>우리들의 일그러진 영웅</TagItem>
-                    <TagItem theme={ props.theme }>KOI</TagItem>*/ }
-                    <TagEmpty theme={ props.theme }/>
+                    { props.names.map((item, index) => <TagItem key={ index } to={ props.urls[index] } theme={ props.theme }>{ item }</TagItem>) }
+                    {
+                        props.names.length === 0 ?
+                        <TagEmpty theme={ props.theme }/> : null
+                    }
                 </div>
             </Layout.Container>
         </>
@@ -212,16 +222,41 @@ const LangStatItem = (props) => {
         paddingLeft: '7px', fontSize: '15px', fontWeight: 300,
         color: props.theme==='light' ? 'black' : 'white'
     }
+    const onHover = () => {
+        setHover(true);
+        props.setText(`${ props.text } 제출 횟수 : ${ props.cnt }`);
+    }
     return (
         <animated.div style={ style }
-        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <Link>
+        onMouseEnter={ () => onHover() } onMouseLeave={ () => setHover(false) }>
+            <Link to={ props.to }>
                 <div style={ styleText }>{ props.text }</div>
             </Link>
         </animated.div>
     )
 }
 const LangStat = (props) => {
+    const [text, setText] = useState(`전체 제출 횟수 : ${ props.tot }`);
+
+    const list = [];
+    for (const langCode in props.stat) {
+        if(props.stat[langCode] <= 0) continue;
+        let name = langCode;
+        if(langCode == 'c') name = 'C';
+        else if(langCode == 'cpp') name = 'C++';
+        else if(langCode == 'python') name = 'Python';
+        else if(langCode == 'java') name = 'Java';
+        else if(langCode == 'ruby') name = 'Ruby';
+        else if(langCode == 'golang') name = 'Go';
+        else if(langCode == 'r') name = 'R';
+        list.push({
+            lang: langCode, name: name, cnt: props.stat[langCode],
+            percent: (props.stat[langCode] / props.tot * 100),
+            to: `/status/${ getHref.encodeObject({ problemId: props.id, lang: langCode }) }`
+        })
+    }
+    list.sort((x,y) => y.cnt - x.cnt);
+
     const colorSet = [
         'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
         'linear-gradient(120deg, #fda085 0%, #f6d365 100%)',
@@ -249,15 +284,10 @@ const LangStat = (props) => {
             <Layout.Container>
                 <div style={{ padding: '20px' }}>
                     <div style={ styleStat }>
-                        <LangStatItem theme={ props.theme } color={ colorSet[0] } value={ 20 } text="C++"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[1] } value={ 20 } text="C"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[2] } value={ 20 } text="Python3"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[3] } value={ 20 } text="Java"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[4] } value={ 10 } text="R"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[5] } value={ 5 } text="Go"/>
-                        <LangStatItem theme={ props.theme } color={ colorSet[6] } value={ 0.4 } text="Ruby"/>
+                        { list.map((item, index) => <LangStatItem theme={ props.theme } color={ colorSet[index] }
+                        value={ item.percent } text={ item.name } to={ item.to } cnt={ item.cnt } setText={ (x) => setText(x) }/>) }
                     </div>
-                    <div style={ styleBtm }>전체 제출 횟수 : 1000</div>
+                    <div style={ styleBtm }>{ text }</div>
                 </div>
             </Layout.Container>
         </>
@@ -265,28 +295,42 @@ const LangStat = (props) => {
 
 }
 
-class Stats extends Component {
-    render() {
-        let container = <LoadingLay/>
+const Stats = (props) => {
+    const [info, setInfo] = useState(undefined);
 
+    useEffect(() => {
+        axios.get(`/json/problems/stats/info/${ props.id }`).then(({ data }) => {
+            console.log(data);
+            setInfo(data);
+        })
+    }, [props.id]);
+
+    let container = <Layout.Loading theme={ props.theme }/>;
+    if(info && info.err){
+        return <PageNotFound theme={ props.theme } msg="요청하신 문제를 찾을 수 없습니다."/>;
+    }
+    if(info){
         container = (
             <div className="ND">
-                <Stat theme={ this.props.theme }/>
-                <Tag theme={ this.props.theme }/>
-                <LangStat theme={ this.props.theme }/>
+                <Stat id={ props.id } stat={ info.stat }
+                theme={ props.theme }/>
+                <Tag names={ info.tagsName } urls={ info.tagsUrl }
+                theme={ props.theme }/>
+                <LangStat id={ props.id } stat={ info.lang }
+                tot={ info.stat.tot } theme={ props.theme }/>
             </div>
         )
-
-        return (
-            <div>
-                <Helmet><title>통계 (#{ this.props.id }) : 오일러OJ</title></Helmet>
-                <Top id={ this.props.id } type="stats"/>
-                <div className="FRAME_MAIN">{ container }</div>
-                <div className="BTM_EMPTY"></div>
-                <Footer theme={ this.props.theme }/>
-            </div>
-        );
     }
+
+    return (
+        <div>
+            <Helmet><title>통계 (#{ props.id }) : 오일러OJ</title></Helmet>
+            <Top id={ props.id } type="stats"/>
+            <div className="FRAME_MAIN">{ container }</div>
+            <div className="BTM_EMPTY"></div>
+            <Footer theme={ props.theme }/>
+        </div>
+    );
 }
 
 export default Stats;

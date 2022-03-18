@@ -1,11 +1,11 @@
-import { Component, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
 import { animated, useSpring } from 'react-spring';
-import { Link } from 'react-router-dom';
 import Layout from '../../Frame/Layout/Layout';
 import Footer from '../../Frame/Footer/Footer';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
 import getTrophyInfo from '../../Tool/getTrophyInfo';
+import axios from '../../Tool/axios';
 
 import svgCondi from './svg_condi.svg';
 import svgPercent from './svg_percent.svg';
@@ -39,17 +39,46 @@ const Stat = (props) => {
 
 const Info = (props) => {
     const info = getTrophyInfo.getInfoById(props.id);
+    const [solveNum, setSolveNum] = useState(undefined);
     const styleHint = {
         padding: '20px', fontSize: '16px', fontWeight: 300,
         color: props.theme === 'light' ? 'black' : '#aaa'
     }
     const stylePerson = {
+        position: 'relative',
         padding: '20px', display: 'flex', gap: '4px',
         justifyContent: 'center', flexWrap: 'wrap'
     }
 
+    useEffect(() => {
+        if(info){
+            axios.get(`/json/trophy/info/${ props.id }`).then(({ data }) => {
+                setSolveNum(data);
+            })
+        }
+    }, [props.id])
+
     if(!info) return <PageNotFound theme={ props.theme }/>;
-    
+
+    let container = <Layout.Loading theme={ props.theme }/>;
+    if(solveNum){
+        container = (
+            <>
+                <div style={{ height: '50px' }}/>
+                <Layout.Title icon={ svgPercent } theme={ props.theme }>통계</Layout.Title>
+                <Stat value={ (solveNum.users.length / solveNum.tot * 100).toFixed(2) } theme={ props.theme }/>
+
+                <div style={{ height: '50px' }}/>
+                <Layout.Title icon={ svgPerson } theme={ props.theme }>업적 달성자</Layout.Title>
+                <Layout.Container>
+                    <div style={ stylePerson } className="ND">
+                        { solveNum.users.map((item, index) => <Layout.ProfBtn key={ index } id={ item }/>) }
+                    </div>
+                </Layout.Container>
+            </>
+        )
+    }
+
     return (
         <div>
             <Helmet><title>{ info.name } : 오일러OJ</title></Helmet>
@@ -60,18 +89,7 @@ const Info = (props) => {
                     <div style={ styleHint }>{ info.hint }</div>
                 </Layout.Container>
 
-                <div style={{ height: '50px' }}/>
-                <Layout.Title icon={ svgPercent } theme={ props.theme }>통계</Layout.Title>
-                <Stat value={ 50 } theme={ props.theme }/>
-
-                <div style={{ height: '50px' }}/>
-                <Layout.Title icon={ svgPerson } theme={ props.theme }>업적 달성자</Layout.Title>
-                <Layout.Container>
-                    <div style={ stylePerson }>
-                        <Layout.ProfBtn id={ "supernova" }/>
-                        <Layout.ProfBtn id={ "geon6757_kakao" }/>
-                    </div>
-                </Layout.Container>
+                { container }
             </div>
             <div className="BTM_EMPTY"></div>
             <Footer theme={ props.theme }/>

@@ -124,9 +124,6 @@ class History extends Component {
             </div>
         )
     }
-    componentDidUpdate(){
-        this.props.reFooter();
-    }
 }
 
 export default History;

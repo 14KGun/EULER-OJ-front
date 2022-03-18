@@ -1,578 +1,677 @@
-import React, { Component, useState } from 'react';
-import { Helmet } from "react-helmet"
+import { useState, useRef } from 'react';
+import { Helmet } from "react-helmet";
+import { animated, useSpring } from 'react-spring';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
-import Tooltip from  '../../Tool/tooltip';
-import axios from '../../Tool/axios';
-import Loading from '../../Frame/Loading/Loading';
-import TopMessage from './TopMessage';
+import ProblemView from './ProblemView/ProblemView';
 import Bookmark from './Bookmark/Bookmark';
-import DonutStat from './DonutStat/DonutStat';
-import CopyBtn from './CopyBtn/CopyBtn'
-import TxtscreenBtn from './CopyBtn/TxtscreenBtn';
-import Res from '../../Frame/Res/Res';
+import ResMini from './ResMini/ResMini';
+import Footer from '../../Frame/Footer/Footer';
+import Layout from '../../Frame/Layout/Layout';
+import ToolTip from '../../Frame/Tooltip/Tooltip';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';
-import Footer from '../../Frame/Footer/Footer'
+import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
 import problemHistory from '../../Tool/problemHistory';
-import './ProblemViewer.css';
 
-import imgEditor from './img_editor.png';
-import imgSubmit from './img_submit.png';
-import imgBoard1 from './img_board1.png';
-import imgBoard3 from './img_board3.png';
-import imgNext from './img_next.png';
-import imgYoutube from '../../Tag/TagIcon/img_youtubeLight.png';
-import imgBlog from '../../Tag/TagIcon/img_blogLight.png';
+import svgEditor from './svg_editor.svg';
+import svgSubmit from './svg_submit.svg';
+import svgYoutube from './svg_youtube.svg';
+import svgPerson from './svg_person.svg';
+import svgPersons from './svg_persons.svg';
+import svgRight from './svg_right.svg';
+import svgBlogging from './svg_blogging.svg';
+import svgNaverBlog from './svg_naverblog.svg';
 
-const htmlParser = (html) => {
-    html = html.split('/sysfile/problems/img/').join('/exposure/problemsImg/');
-    html = html.split('src="/exposure/problemsImg/').join('src="https://euleroj.io/exposure/problemsImg/');
-    if(html.indexOf('<!--Separation:Bottom-->') !== -1){
-        const sep = html.split('<!--Separation:Bottom-->');
-        return [sep[0], sep[1]];
+const ViewerFlexLay = (props) => {
+    const getWidth = () => document.body.clientWidth;
+    const widthR = useRef(getWidth());
+    const [bodyWidth, setWidth] = useState(widthR.current); // range = 200 ~ 130
+    useState(() => {
+        const resizeEvent = () => {
+            const _width = getWidth();
+            if(widthR.current !== _width){
+                widthR.current = _width;
+                setWidth(_width);
+            }
+        }
+        resizeEvent();
+        window.addEventListener('resize', resizeEvent);
+        return () => window.removeEventListener('resize', resizeEvent);
+    }, []);
+
+    const widthEnv = {
+        main: 1200, sub: 230, gap: 30, margin: 20
+    };
+
+    if(bodyWidth >= widthEnv.margin*2 + widthEnv.sub*2 + widthEnv.main + widthEnv.gap*2){
+        return (
+            <div style={{ display: 'flex', gap: widthEnv.gap, justifyContent: 'center' }}>
+                <div style={{ width: widthEnv.sub }}></div>
+                <div style={{ width: widthEnv.main }}>{ props.children }</div>
+                <div style={{ width: widthEnv.sub }}>{ props.subLay }</div>
+            </div>
+        )
     }
-    else return [html, '']
-}
-const sampleTransfer = (html) => {
-    return html.split("\n").join("<br>").split(" ").join("&nbsp;");
+    if(bodyWidth >= widthEnv.margin*2 + widthEnv.sub + widthEnv.main + widthEnv.gap*2){
+        return (
+            <div style={{ display: 'flex', gap: widthEnv.gap, justifyContent: 'center' }}>
+                <div style={{ width: `calc(100% - ${ widthEnv.main + widthEnv.sub + widthEnv.gap*2 + widthEnv.margin*2 }px)` }}></div>
+                <div style={{ width: widthEnv.main }}>{ props.children }</div>
+                <div style={{ width: widthEnv.sub }}>{ props.subLay }</div>
+            </div>
+        )
+    }
+    return (
+        <div style={{ display: 'flex', gap: widthEnv.gap, justifyContent: 'center' }}>
+            <div style={{ width: `calc(100% - ${ widthEnv.sub + + widthEnv.gap + widthEnv.margin*2 }px)` }}>{ props.children }</div>
+            <div style={{ width: widthEnv.sub }}>{ props.subLay }</div>
+        </div>
+    );
 }
 
 const Tag = (props) => {
     const [isHover, setHover] = useState(false);
-    const background = useSpring({
-        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
+    const style = useSpring({
+        height: '24px', borderRadius: '14px',
+        border: '2px solid rgb(0,134,191)',
+        background: `rgba(0,134,191,${ isHover ? 1 : 0 })`,
         config: { duration: 100 }
-    }).background;
+    });
+    const styleText = useSpring({
+        paddingLeft: '10px', paddingRight: '10px',
+        height: '24px', lineHeight: '24px',
+        fontSize: '15px', fontWeight: 500,
+        color: isHover ? 'rgb(255,255,255)' : 'rgb(0,134,191)',
+        config: { duration: 100 }
+    })
 
+    const name = props.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
     return (
-        <Link to={ props.url } style={{ marginRight: '3px' }}
+        <animated.div style={ style }
         onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <animated.span className="TAG" style={{ background: background }}>{ props.name }</animated.span>
-        </Link>
+            <Link to={ props.url }>
+                <animated.div style={ styleText }>
+                    { name }
+                </animated.div>
+            </Link>
+        </animated.div>
     )
 }
-const TagsLay = (props) => {
+const Header = (props) => {
+    const getHeight = () => {
+        const scrolledHeight = Math.max(document.documentElement.scrollTop, 0);
+        return Math.max(220 - scrolledHeight, 130);
+    }
+
+    const heightR = useRef(getHeight());
+    const [height, setHeight] = useState(heightR.current); // range = 220 ~ 130
+    useState(() => {
+        const scrollEvent = () => {
+            const _height = getHeight();
+            if(heightR.current !== _height){
+                heightR.current = _height;
+                setHeight(_height);
+            }
+        }
+        document.addEventListener('scroll', scrollEvent);
+        return () => {
+            document.removeEventListener('scroll', scrollEvent);
+        }
+    }, []);
+
+    const bgdN = (props.theme === 'light' ? 255 : 30);
+    const heightS = useSpring({ height: height }).height;
+    const left = heightS.to(x => `${ (x-130)/90*8+28 }px`); // 36 ~ 28
+    const style = {
+        position: 'fixed', top: '0px', left: '0px', width: '100%',
+        overflow: 'hidden', zIndex: 80,
+        height: heightS.to(x => `${ x }px`),
+        background: heightS.to(x => `rgba(${ bgdN },${ bgdN },${ bgdN },${ 1-(x-130)/70 })`), // 0 ~ 1
+        borderBottom: heightS.to(x => `1px solid rgba(120,120,120,${ height === 130 ? 0.2 : 0 })`)
+    }
+    const styleRes = {
+        position: 'absolute', left: '0px',
+        top: heightS.to(x => `${ (x-130)/90*41+21 }px`), // 62 ~ 21
+        width: heightS.to(x => `${ (x-130)/90*6+20 }px`), // 24 ~ 20
+        height: heightS.to(x => `${ (x-130)/90*6+20 }px`), // 24 ~ 20
+        borderRadius: '23px', overflow: 'hidden'
+    }
+    const styleId = {
+        position: 'absolute', left: left,
+        top: heightS.to(x => `${ (x-130)/90*30 }px`), // 30 ~ 0
+        opacity: heightS.to(x => (x-130)/90), // 1 ~ 0
+        fontSize: '16px', fontWeight: 400, color: '#888'
+    }
+    const styleTitle = {
+        position: 'absolute', left: left,
+        top: heightS.to(x => `${ (x-130)/90*37+13 }px`), // 50 ~ 13
+        fontSize: heightS.to(x => `${ (x-130)/90*9+23 }px`), // 32 ~ 23
+        fontWeight: 500, color: 'rgb(0,134,191)',
+        width: '100%',
+        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+    }
+    const styleTags = {
+        position: 'absolute', left: left,
+        top: heightS.to(x => `${ (x-130)/90*50+50 }px`), // 100 ~ 50
+        opacity: heightS.to(x => (x-130)/90), // 1 ~ 0
+        display: 'flex', gap: '3px'
+    }
+
+    const [isHoverBtnCod, setHoverBtnCod] = useState(undefined);
+    const [isHoverBtnSub, setHoverBtnSub] = useState(undefined);
+    const [isHoverBtnYou, setHoverBtnYou] = useState(undefined);
+    const btnCod = useRef();
+    const btnSub = useRef();
+    const btnYou = useRef();
+    const subTop = heightS.to(x => `${ x-130 }px`);
+    const styleSubLay = {
+        position: 'absolute', top: subTop, left: '0px',
+        width: '100%', height: '60px', overflow: 'hidden',
+        display: 'flex', justifyContent: 'right', gap: '8px'
+    }
+    const styleSubLayOpacity = useSpring({
+        opacity: height===130 ? 1 : 0,
+        pointerEvents: height===130 ? 'auto' : 'none'
+    })
+    const styleSubBtn = {
+        marginTop: '8px', position: 'relative',
+        width: '44px', height: '44px', borderRadius: '8px',
+        background: 'gray'
+    }
+    const styleSubBtnImg = {
+        padding: '20%', height: '60%'
+    }
+    const styleBtnCoding = useSpring({
+        background: isHoverBtnCod ? `rgba(0,134,191,1)` : `rgba(0,134,191,0.9)`,
+        config: { duration: 100 }
+    });
+    const styleBtnSubmit = useSpring({
+        background: isHoverBtnSub ? `rgba(0,120,50,1)` : `rgba(0,120,50,0.9)`,
+        config: { duration: 100 }
+    });
+    const subLay = (
+        <div style={{ position: 'relative' }}>
+            <animated.div style={{ ...styleSubLay, ...styleSubLayOpacity }}>
+                <animated.div style={{ ...styleSubBtn, ...styleBtnCoding }} ref={ btnCod }
+                onMouseEnter={ () => setHoverBtnCod(true) } onMouseLeave={ () => setHoverBtnCod(false) }>
+                    <Link to={ `/problemset/editor/${ props.id }` }>
+                        <img src={ svgEditor } alt="editor" style={ styleSubBtnImg }/>
+                    </Link>
+                </animated.div>
+                <animated.div style={{ ...styleSubBtn, ...styleBtnSubmit }} ref={ btnSub }
+                onMouseEnter={ () => setHoverBtnSub(true) } onMouseLeave={ () => setHoverBtnSub(false) }>
+                    <Link to={ `/problemset/submit/${ props.id }` }>
+                        <img src={ svgSubmit } alt="submit" style={ styleSubBtnImg }/>
+                    </Link>
+                </animated.div>
+                <ToolTip target={ btnCod } show={ isHoverBtnCod } position="left">코딩 시작하기</ToolTip>
+                <ToolTip target={ btnSub } show={ isHoverBtnSub } position="left">코드 제출 하기</ToolTip>
+            </animated.div>
+        </div>
+    )
+
+    const styleOptLay = {
+        position: 'absolute', top: subTop, right: '5px',
+        width: '70px', height: '60px',
+        display: 'flex', justifyContent: 'right', gap: '8px'
+    }
+    
     return (
         <>
-            { props.tags.map((item, index) => {
-                const url = item.url;
-                const name = item.name.replace('(','ooppeenn').replace(')','cclloossee').replace(/ooppeenn.*cclloossee/,'').trim();
-                return <Tag key={ index } url={ url } name={ name } theme={ props.theme }/>
-            }) }
+            <animated.div style={ style } className="ND">
+                <div style={{ height: '70px' }}/>
+                <ViewerFlexLay subLay={ subLay }>
+                    <div style={{ position: 'relative' }}>
+                        <animated.div style={ styleRes }>
+                            <ResMini id={ props.id } theme={ props.theme }
+                            loginId={ props.loginId } res={ props.res }/>
+                        </animated.div>
+                        <animated.div style={ styleId }>#{ props.id }</animated.div>
+                        <animated.div style={ styleTitle }>{ props.title }</animated.div>
+                        <animated.div style={ styleTags }>
+                            { props.tags.map((item, index) => <Tag key={ index } url={ item.url } name={ item.name }/>) }
+                        </animated.div>
+                    </div>
+                    <div style={{ position: 'relative' }}>
+                        <animated.div style={ styleOptLay }>
+                            <Bookmark id={ props.id }/>
+                        </animated.div>
+                    </div>
+                </ViewerFlexLay>
+            </animated.div>
+            <div style={{ height: '220px' }}/>
         </>
-    );
+    )
 }
-const BtnEditor = (props) => {
-    const [isHover, setHover] = useState(false);
+
+const BoxLay = (props) => {
     const style = useSpring({
-        background: isHover ? 'rgb(0,150,200)' : 'rgb(0,134,191)',
-        boxShadow: isHover ? '0 0 10px 5px rgb(0,0,0,0.2)' : '0 0 6px 3px rgb(0,0,0,0.12)',
-        config: { duration: 150 }
-    });
-
+        marginTop: '20px', overflow: 'hidden',
+        background: props.theme==='light' ? 'white' : 'black',
+        borderLeft: '1px solid rgba(140,140,140,0.3)',
+        borderRight: '1px solid rgba(140,140,140,0.3)',
+        borderBottom: '1px solid rgba(140,140,140,0.3)',
+        boxShadow: '0px 10px 10px 5px rgba(0,0,0,0.05)'
+    })
+    const styleTitle = {
+        paddingTop: '15px', paddingLeft: '15px', paddingRight: '15px',
+        lineHeight: '25px',
+        fontSize: '17px', fontWeight: 400,
+        color: props.theme==='light' ? 'black' : '#ddd',
+    }
+    const styleCnt = {
+        display: 'inline-block',
+        height: '16px', lineHeight: '16px', borderRadius: '8px',
+        marginLeft: '5px',
+        paddingLeft: '7px', paddingRight: '7px',
+        fontSize: '12px', fontWeight: 300,
+        background: 'rgba(120,120,120,0.2)',
+        color: 'gray',
+    }
     return (
-        <a href={`/problemset/editor/${props.id}`}>
-            <animated.div className="right_TOPBTN" id="btn_editor" style={ style }
-            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                <img src={ imgEditor } alt=""/>
-                <div>코딩 시작하기</div>
-            </animated.div>
-        </a>
+        <animated.div style={ style } className="ND">
+            <div style={{ borderTop: '2px solid rgb(20, 134, 191)' }}/>
+            <div style={ styleTitle }>
+                { props.title }
+                {
+                    props.cnt !== undefined ?
+                    <span style={ styleCnt }>{ props.cnt }</span> : null
+                }
+            </div>
+            <div>
+                { props.children }
+            </div>
+        </animated.div>
     )
 }
-const BtnSubmit = (props) => {
-    const [isHover, setHover] = useState(false);
-    const style = useSpring({
-        background: isHover ? 'rgb(50,190,100)' : 'rgb(34,177,76)',
-        boxShadow: isHover ? '0 0 10px 5px rgb(0,0,0,0.2)' : '0 0 6px 3px rgb(0,0,0,0.12)',
-        config: { duration: 150 }
-    });
+const StatLay = (props) => {
+    const [isHover1, setHover1] = useState(false);
+    const [isHover2, setHover2] = useState(false);
+    const [isHover3, setHover3] = useState(false);
+    
+    let percent = 0;
+    if(props.submit > 0 && props.solve > 0){
+        percent = (props.solve / props.submit * 100).toFixed(2);
+    }
+
+    const styleLay1 = useSpring({
+        paddingLeft: '10px', paddingRight: '10px',
+        paddingTop: '10px', paddingBottom: '10px',
+        borderRadius: '10px',
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleStat = {
+        width: '100%', height: '24px', borderRadius: '13px',
+        overflow: 'hidden',
+        background: 'rgba(160,160,160,0.2)',
+        border: '1px solid rgba(160,160,160,0.4)'
+    }
+    const styleStatBar = useSpring({
+        from: { width: `0%` }, to: { width: `${ percent }%` }
+    })
+    const styleStatBarDefault = {
+        height: '100%', opacity: 0.5,
+        backgroundImage: 'linear-gradient(to left, #4facfe 0%, #00f2fe 100%)'
+    }
+    const styleStatTxt = {
+        fontSize: '14px', fontWeight: 300,
+        textAlign: 'right', color: 'gray'
+    }
+    const styleBtn = {
+        width: '49%', height: '47px',
+        overflow: 'hidden', borderRadius: '8px'
+    }
+    const styleBtn2 = useSpring({
+        background: `rgba(170,170,170,${ isHover2 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleBtn3 = useSpring({
+        background: `rgba(170,170,170,${ isHover3 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleBtnName = {
+        textAlign: 'center', paddingTop: '3px',
+        fontSize: '13px', fontWeight: 300,
+        color: 'gray'
+    }
+    const styleBtnValue = {
+        textAlign: 'center',
+        fontSize: '15px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
+    }
 
     return (
-        <Link to={`/problemset/submit/${props.id}`}>
-            <animated.div className="right_TOPBTN" id="btn_submit" style={ style }
-            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                <img src={ imgSubmit } alt=""/>
-                <div>제출하기</div>
-            </animated.div>
-        </Link>
-    )
-}
-const BoxLink = (props) => {
-    const color = (props.theme === 'light' ? 'black' : 'white');
-    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)')
-    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
-
-    const urlYoutube = props.youtube ? props.youtube : '';
-    const urlBlog = props.blog ? props.blog : '';
-    
-    const [isYoutubeHover, setYoutubeHover] = useState(false);
-    const [tooltipYoutube, setTooltipYoutube] = useState(false);
-    const YoutubeHover = () => {
-        setYoutubeHover(true);
-        const id = props.tooltip.create(document.getElementById(`btnYoutube`), 'top', '유튜브를 새 탭에서 엽니다');
-        setTooltipYoutube(id);
-    }
-    const YoutubeHoverOut = () => {
-        setYoutubeHover(false);
-        props.tooltip.remove(tooltipYoutube);
-    }
-    const youtubeStyle = useSpring({
-        background: `rgba(120,120,120,${ isYoutubeHover ? 0.15 : 0 })`,
-        config: { duration: 150 }
-    })
-    const youtubeNextStyle = useSpring({
-        opacity: isYoutubeHover ? 1 : 0,
-        config: { duration: 150 }
-    });
-    
-    const [isBlogHover, setBlogHover] = useState(false);
-    const [tooltipBlog, setTooltipBlog] = useState(false);
-    const BlogHover = () => {
-        setBlogHover(true);
-        const id = props.tooltip.create(document.getElementById(`btnBlog`), 'top', '블로그를 새 탭에서 엽니다');
-        setTooltipBlog(id);
-    }
-    const BlogHoverOut = () => {
-        setBlogHover(false);
-        props.tooltip.remove(tooltipBlog);
-    }
-    const blogStyle = useSpring({
-        background: `rgba(120,120,120,${ isBlogHover ? 0.15 : 0 })`,
-        config: { duration: 150 }
-    })
-    const blogNextStyle = useSpring({
-        opacity: isBlogHover ? 1 : 0,
-        config: { duration: 150 }
-    });
-
-    const BtnYoutube = (
-        <a href={ urlYoutube } target="_blank" rel="noreferrer">
-            <animated.div className="right_TOBBOX-BTN" id="btnYoutube" style={ youtubeStyle }
-            onMouseEnter={ YoutubeHover } onMouseLeave={ YoutubeHoverOut }>
-                <img className="right_TOBBOX-BTN-LOGO1" src={ imgYoutube } alt=""/>
-                <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>유튜브</div>
-                <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ youtubeNextStyle }/>
-            </animated.div>
-        </a>
-    );
-    const BtnBlog = (
-        <a href={ urlBlog } target="_blank" rel="noreferrer">
-            <animated.div className="right_TOBBOX-BTN" id="btnBlog" style={ blogStyle }
-            onMouseEnter={ BlogHover } onMouseLeave={ BlogHoverOut }>
-                <img className="right_TOBBOX-BTN-LOGO1" src={ imgBlog } alt=""/>
-                <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>블로그</div>
-                <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ blogNextStyle }/>
-            </animated.div>
-        </a>
-    )
-
-    if(urlYoutube === '' && urlBlog === '') return <></>;
-    return (
-        <div className="right_TOPBOX" style={{ background: background, border: border }}>
-            <div className="right_TOPBOX-TITLE" style={{ color: color }}>해설 바로가기</div>
-            { urlYoutube !== '' ? BtnYoutube : <></> }
-            { urlBlog !== '' ? BtnBlog : <></> }
+        <div style={{ paddingLeft: '15px', paddingRight: '15px' }}>
+            <Link to={ `/problemset/stats/${ props.id }` }>
+                <animated.div style={ styleLay1 }
+                onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                    <div style={ styleStat }>
+                        <animated.div style={{ ...styleStatBar, ...styleStatBarDefault }}/>
+                    </div>
+                    <div style={ styleStatTxt }>성공률: { percent }%</div>
+                </animated.div>
+            </Link>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <animated.div style={{ ...styleBtn, ...styleBtn2 }}
+                onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
+                    <Link to={ `/problemset/solves/${ props.id }` }>
+                        <div style={ styleBtnName }>맞은 사람</div>
+                        <div style={ styleBtnValue }>{ props.solve }</div>
+                    </Link>
+                </animated.div>
+                <div style={{ width: '1px', height: '30px',
+                marginTop: '8px',
+                background: 'rgba(160,160,160,0.3)' }}/>
+                <animated.div style={{ ...styleBtn, ...styleBtn3 }}
+                onMouseEnter={ () => setHover3(true) } onMouseLeave={ () => setHover3(false) }>
+                    <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }>
+                        <div style={ styleBtnName }>제출 횟수</div>
+                        <div style={ styleBtnValue }>{ props.submit }</div>
+                    </Link>
+                </animated.div>
+            </div>
+            <div style={{ height: '15px' }}/>
         </div>
     )
 }
-const BoxStat = (props) => {
-    const color = (props.theme === 'light' ? 'black' : 'white');
-    const subcolor = (props.theme === 'light' ? 'rgb(60,60,60)' : 'rgb(190,190,190)');
-    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
-    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
-
-    const solveInt = parseInt(props.solve);
-    const submitInt = parseInt(props.submit);
-
-    let donutContainer = <div style={{ height: '10px' }}/>;
-    const [isHover, setHover] = useState(false);
-    const style = useSpring({
-        background: isHover ? (props.theme === 'light' ? 'rgb(245,245,245)' : 'rgb(30,30,30)') : background,
-        config: { duration: 100 }
-    })
-    if (!isNaN(solveInt / submitInt)) {
-        const dataPercent = (solveInt / submitInt * 100.0).toFixed(1);
-        const stylePercent = {
-            position: 'absolute', width: '100%', textAlign: 'center',
-            top: '52px', left: '0px',
-            fontSize: '16px', fontWeight: 900,
-            color: 'gray'
-        }
-        donutContainer = (
-            <Link to={`/problemset/stats/${ props.id }`}>
-                <div style={{ position: 'relative' }}>
-                    <animated.div id="donutchart-container" style={ style }
-                    onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                        <DonutStat percent={ dataPercent }/>
-                    </animated.div>
-                    <div style={ stylePercent }>{ dataPercent }%</div>
-                </div>
-            </Link>
-        )
-    }
-
-    return (
-        <>
-            <div className="right_TOPBOX" style={{ background: background, border: border }}>
-                <div className="right_TOPBOX-TITLE" style={{ color: color }}>통계</div>
-                { donutContainer }
-                <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                    <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>맞은 사람</div>
-                    <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.solve }</div>
-                </div>
-                <div className="right_TOPBOX-L">
-                    <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>제출 횟수</div>
-                    <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.submit }</div>
-                </div>
-            </div>
-        </>
-    )
-}
-const BoxStatus = (props) => {
-    const color = (props.theme === 'light' ? 'black' : 'white');
-    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
-    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
-
+const StatusLay = (props) => {
     const [isHover1, setHover1] = useState(false);
     const [isHover2, setHover2] = useState(false);
-    const background1 = useSpring({
-        background: `rgba(120,120,120,${ isHover1 ? 0.15 : 0 })`,
+    const styleBtn = {
+        paddingLeft: '10px', paddingRight: '10px',
+        height: '40px', borderRadius: '10px',
+        overflow: 'hidden', position: 'relative'
+    }
+    const styleBtn1 = useSpring({
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
         config: { duration: 100 }
-    }).background;
-    const background2 = useSpring({
-        background: `rgba(120,120,120,${ isHover2 ? 0.15 : 0 })`,
+    })
+    const styleBtn2 = useSpring({
+        background: `rgba(170,170,170,${ isHover2 ? 0.15 : 0 })`,
         config: { duration: 100 }
-    }).background;
-    const next1Style = useSpring({
+    })
+    const styleImg = {
+        position: 'absolute', top: '8px', left: '8px',
+        width: '24px', height: '24px'
+    }
+    const styleTxt = {
+        height: '40px', lineHeight: '40px',
+        paddingLeft: '28px',
+        fontSize: '15px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
+    }
+    const styleGo1 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
         opacity: isHover1 ? 1 : 0,
         config: { duration: 100 }
     })
-    const next2Style = useSpring({
+    const styleGo2 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover2 ? 1 : 0,
+        config: { duration: 100 }
+    })
+    return (
+        <div style={{ paddingLeft: '15px', paddingRight: '15px',
+        paddingTop: '5px', paddingBottom: '15px' }}>
+            <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }>
+                <animated.div style={{ ...styleBtn, ...styleBtn1 }}
+                onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                    <img src={ svgPersons } alt="" style={ styleImg }/>
+                    <div style={ styleTxt }>전체 채점 기록</div>
+                    <animated.img src={ svgRight } style={ styleGo1 }/>
+                </animated.div>
+            </Link>
+            {
+                props.loginId ?
+                <Link to={ `/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }` }>
+                    <animated.div style={{ ...styleBtn, ...styleBtn2 }}
+                    onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
+                        <img src={ svgPerson } alt="" style={ styleImg }/>
+                        <div style={ styleTxt }>내 채점 기록</div>
+                        <animated.img src={ svgRight } style={ styleGo2 }/>
+                    </animated.div>
+                </Link> :
+                null
+            }
+        </div>
+    )
+}
+const BloggingLay = (props) => {
+    const [isHover1, setHover1] = useState(false);
+    const [isHover2, setHover2] = useState(false);
+    const styleBtn = {
+        paddingLeft: '10px', paddingRight: '10px',
+        height: '40px', borderRadius: '10px',
+        overflow: 'hidden', position: 'relative'
+    }
+    const styleBtn1 = useSpring({
+        background: `rgba(170,170,170,${ isHover1 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleBtn2 = useSpring({
+        background: `rgba(170,170,170,${ isHover2 ? 0.15 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleImg = {
+        position: 'absolute', top: '8px', left: '8px',
+        width: '24px', height: '24px'
+    }
+    const styleImg2 = {
+        position: 'absolute', top: '12px', left: '8px',
+        width: '22px'
+    }
+    const styleTxt = {
+        height: '40px', lineHeight: '40px',
+        paddingLeft: '28px',
+        fontSize: '15px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
+    }
+    const styleGo1 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
+        opacity: isHover1 ? 1 : 0,
+        config: { duration: 100 }
+    })
+    const styleGo2 = useSpring({
+        position: 'absolute', top: '5px', right: '5px',
+        width: '30px', height: '30px',
         opacity: isHover2 ? 1 : 0,
         config: { duration: 100 }
     })
 
     return (
-        <div className="right_TOPBOX" style={{ background: background, border: border }}>
-            <div className="right_TOPBOX-TITLE" style={{ color: color }}>채점 기록</div>
-            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id }) }`}>
-                <animated.div className="right_TOBBOX-BTN" style={{ background: background1 }}
-                onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
-                    <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard3 } alt=""/>
-                    <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>전체 채점 기록</div>
-                    <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next1Style }/>
-                </animated.div>
-            </Link>
-            <Link to={`/status/${  getHref.encodeObject({ problemId: props.id, loginId: (props.loginId ? props.loginId : '') }) }`}>
-                <animated.div className="right_TOBBOX-BTN" style={{ background: background2 }}
-                onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
-                    <img className="right_TOBBOX-BTN-LOGO1" src={ imgBoard1 } alt=""/>
-                    <div className="right_TOBBOX-BTN-TXT" style={{ color: color }}>내 채점 기록</div>
-                    <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ next2Style }/>
-                </animated.div>
-            </Link>
-            { props.res !== undefined && props.res !== 0 ? <div id="res"><Res res={ props.res } theme={ props.theme }/></div> : <></> }
-        </div>
-    )
-}
-const BoxLimit = (props) => {
-    const color = (props.theme === 'light' ? 'black' : 'white');
-    const subcolor = (props.theme === 'light' ? 'rgb(60,60,60)' : 'rgb(190,190,190)');
-    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
-    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
-
-    return (
-        <div className="right_TOPBOX" style={{ background: background, border: border }}>
-            <div className="right_TOPBOX-TITLE" style={{ color: color }}>제한</div>
-            <div className="right_TOPBOX-L right_TOPBOX-L-BORDER" style={{ marginTop: '10px' }}>
-                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>시간</div>
-                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.time }초</div>
-            </div>
-            <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>메모리</div>
-                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.memory }MB</div>
-            </div>
-            <div className="right_TOPBOX-L right_TOPBOX-L-BORDER">
-                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>입력 방식</div>
-                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.input }</div>
-            </div>
-            <div className="right_TOPBOX-L">
-                <div className="right_TOPBOX-L-LEFT" style={{ color: subcolor }}>출력 방식</div>
-                <div className="right_TOPBOX-L-RIGHT" style={{ color: subcolor }}>{ props.output }</div>
-            </div>
-        </div>
-    )
-}
-const BoxBlogging = (props) => {
-    const [isHover, setHover] = useState(false);
-    const color = (props.theme === 'light' ? 'black' : 'white');
-    const background = (props.theme === 'light' ? 'white' : 'rgb(20,20,20)');
-    const border = `1px solid ${ props.theme === 'light' ? 'rgb(220,220,220)' : 'rgb(10,10,10)' }`;
-
-    const btnStyle = useSpring({
-        background: `rgba(120,120,120,${ isHover ? 0.15 : 0 })`,
-        height: '40px', config: { duration: 100 }
-    })
-    const nextStyle = useSpring({
-        opacity: isHover ? 1 : 0, top: '12px',
-        config: { duration: 100 }
-    })
-
-    if(props.list.length <= 0) return null;
-    const userList = props.list.map((item, index) => (
-        <div key={ index } className="right_TOPBOX-blogging-lay1" style={{ left: `${ 6 + index*20 }px` }}>
-            <img src={ `/profile-img/${ item }.webp?size=26` } alt={ item }/>
-        </div>
-    ))
-
-    return (
-        <div className="right_TOPBOX" style={{ background: background, border: border }}>
-            <div className="right_TOPBOX-TITLE" style={{ color: color }}>블로깅</div>
+        <div style={{ paddingLeft: '15px', paddingRight: '15px',
+        paddingTop: '5px', paddingBottom: '15px' }}>
+            {
+                props.naverblog ?
+                <a href={ props.naverblog } target="_blank" rel="noreferrer">
+                    <animated.div style={{ ...styleBtn, ...styleBtn1 }}
+                    onMouseEnter={ () => setHover1(true) } onMouseLeave={ () => setHover1(false) }>
+                        <img src={ svgNaverBlog } alt="" style={ styleImg2 }/>
+                        <div style={ styleTxt }>오일러 블로깅 바로가기</div>
+                        <animated.img src={ svgRight } style={ styleGo1 }/>
+                    </animated.div>
+                </a> : null
+            }
             <Link to={ `/problemset/blogging/${ props.id }` }>
-                <animated.div className="right_TOBBOX-BTN" id="btnBlogging" style={ btnStyle }
-                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                    { userList }
-                    <animated.img className="right_TOBBOX-next" src={ imgNext } alt="" style={ nextStyle }/>
+                <animated.div style={{ ...styleBtn, ...styleBtn2 }}
+                onMouseEnter={ () => setHover2(true) } onMouseLeave={ () => setHover2(false) }>
+                    <img src={ svgBlogging } alt="" style={ styleImg }/>
+                    <div style={ styleTxt }>전체 블로깅</div>
+                    <animated.img src={ svgRight } style={ styleGo2 }/>
                 </animated.div>
             </Link>
         </div>
     )
 }
-
-const LoadingLay = () => {
+const LimitLay = (props) => {
+    const styleLine = {
+        display: 'flex', position: 'relative',
+        paddingLeft: '10px', paddingRight: '10px'
+    }
+    const styleName = {
+        width: '40%',
+        lineHeight: '25px',
+        fontSize: '14px', fontWeight: 300, color: 'gray'
+    }
+    const styleValue = {
+        lineHeight: '25px',
+        fontSize: '14px', fontWeight: 300,
+        color: props.theme==='light' ? 'black' : '#aaa'
+    }
+    const styleBorder = {
+        borderTop: '1px solid rgba(160,160,160,0.3)'
+    }
     return (
-        <div style={{ paddingTop: '100px', height: '300px' }} className="ND">
-            <Loading/>
-            <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>문제 불러오는 중...</div>
+        <div style={{ paddingLeft: '15px', paddingRight: '15px',
+        paddingTop: '10px', paddingBottom: '15px' }}>
+            <div style={ styleLine }>
+                <div style={ styleName }>시간</div>
+                <div style={ styleValue }>1초</div>
+            </div>
+            <div style={ styleBorder }/>
+            <div style={ styleLine }>
+                <div style={ styleName }>메모리</div>
+                <div style={ styleValue }>32MB</div>
+            </div>
+            <div style={ styleBorder }/>
+            <div style={ styleLine }>
+                <div style={ styleName }>입력 방식</div>
+                <div style={ styleValue }>Standard Input</div>
+            </div>
+            <div style={ styleBorder }/>
+            <div style={ styleLine }>
+                <div style={ styleName }>출력 방식</div>
+                <div style={ styleValue }>Standard Output</div>
+            </div>
         </div>
     )
 }
 
-const problemDefaultState = {
-    id: undefined, loaded: false, err: false,
-    title: undefined, problemHtml: undefined, tags: [], loginId: undefined,
-    sampleInput: [], sampleOutput: [], youtube: '', blog: '', blogging: [],
-    solve: '', submit: '', timelimit: '', memorylimit: '', inputmethod: '', outputmethod: '',
-    res: undefined
-}
-class ProblemViewer extends Component {
-    constructor(props){
-        super(props);
-        this.state = problemDefaultState;
-        this.tooltip = new Tooltip();
+const ProblemViewer = (props) => {
+    const [probInfo, setProbInfo] = useState(undefined);
+    const [res, setRes] = useState('load');
+    
+    useState(() => {
+        axios.get(`/json/problems/problem/${ props.id }`).then(({ data }) => {
+            setProbInfo(data);
+            if(!data.err) problemHistory.add(props.id);
+        });
+        axios.get(`/json/problems/problemres/${ props.id }`).then(({ data }) => {
+            setRes(data.res);
+        });
+    }, [props.id])
 
-        this.styleExboxBorder = {
-            display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px 0px'
-        }
-        this.styleExbox = {
-            overflow: 'hidden', borderRadius: '10px'
-        }
-        this.styleExboxTop = {
-            position: 'relative', width: '100%', height: '40px', overflow: 'hidden',
-            display: 'flex', justifyContent: 'space-between'
-        }
-        this.styleExboxTopText = {
-            height: '40px', lineHeight: '40px', paddingLeft: '13px',
-            fontSize: '15px', fontWeight: 400
-        }
-        this.styleExboxTopRLay = {
-            paddingRight: '6px', height: '40px',
-            display: 'flex', justifyContent: 'flex-end'
-        }
+    let subLay = null;
+    const [isHoverBtnCod, setHoverBtnCod] = useState(undefined);
+    const [isHoverBtnSub, setHoverBtnSub] = useState(undefined);
+    const [isHoverBtnYou, setHoverBtnYou] = useState(undefined);
+    const styleBtnCoding = useSpring({
+        width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
+        background: isHoverBtnCod ? `rgba(0,134,191,1)` : `rgba(0,134,191,0.9)`,
+        config: { duration: 100 }
+    });
+    const styleBtnSubmit = useSpring({
+        marginTop: '10px',
+        width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
+        background: isHoverBtnSub ? `rgba(0,120,50,1)` : `rgba(0,120,50,0.9)`,
+        config: { duration: 100 }
+    });
+    const styleBtnYoutube = useSpring({
+        marginTop: '10px',
+        width: '100%', height: '46px', borderRadius: '10px', position: 'relative',
+        background: isHoverBtnYou ? `rgba(240,100,20,1)` : `rgba(240,100,20,0.9)`,
+        config: { duration: 100 }
+    });
+    const styleBtn1tImg = {
+        position: 'absolute', top: '10px', left: '10px',
+        width: '26px', height: '26px'
     }
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.id !== prevState.id){
-            return { ...problemDefaultState, id: nextProps.id, loaded: false };
-        }
-        return prevState;
-    }
-
-    isneedMsg1(){
-        if(this.state.tags === undefined) return false;
-        for(var i=0; i<this.state.tags.length; i++){
-            if(this.state.tags[i].name === '제출이 금지됨') return true;
-        }
-        return false;
-    }
-    isneedMsg2(){
-        return false;
+    const styleBtn1tTxt = {
+        position: 'absolute', top: '0px', left: '36px', right: '10px',
+        textAlign: 'center', height: '46px', lineHeight: '46px',
+        fontSzie: '16px', fontWeight: 300, color: 'white'
     }
 
-    render() {
-        if(this.state.loaded === false){
-            if(!this.onCall){
-                this.onCall = true;
-                axios.get(`/json/problems/problem/${ this.state.id }`).then((probInfo) => {
-                    this.setState({
-                        loaded: true, err: probInfo.data.err,
-                        title: probInfo.data.title, problemHtml: probInfo.data.problemHtml, tags: probInfo.data.tags, loginId: probInfo.data.loginId,
-                        sampleInput: probInfo.data.sampleInput, sampleOutput: probInfo.data.sampleOutput, youtube: probInfo.data.youtube, blog: probInfo.data.blog,
-                        solve: probInfo.data.solve, submit: probInfo.data.submit, blogging: probInfo.data.blogging,
-                        timelimit: probInfo.data.timelimit, memorylimit: probInfo.data.memorylimit, inputmethod: probInfo.data.inputmethod, outputmethod: probInfo.data.outputmethod,
-                    }, () => {
-                        if(!this.state.err) problemHistory.add(this.state.id);
-                        this.onCall = false;
-                    });
-                });
-                axios.get(`/json/problems/problemres/${ this.state.id }`).then((resInfo) => {
-                    this.setState({ res: resInfo.data.res });
-                });
-            }
-        }
-        if(this.state.err) return <PageNotFound msg={ `요청하신 문제 #${this.props.id}는 존재하지 않거나 관리자에 의하여 비공개된 문제일 수 있습니다.` }/>;
-
-        var layLeft = <LoadingLay/>;
-        if(this.state.loaded){
-            const problems = htmlParser(this.state.problemHtml);
-            const samples = [];
-
-            if(this.props.theme === 'dark'){
-                this.styleExbox = { ...this.styleExbox, background: 'rgb(20,20,22)', border: '1px solid rgb(10,11,12)'  }
-                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(10,11,12)' };
-                this.styleExboxTopText = { ...this.styleExboxTopText, color: 'white' };
-            }
-            else{
-                this.styleExbox = { ...this.styleExbox, background: 'rgb(240,240,240)', border: '1px solid rgb(220,220,220)'  }
-                this.styleExboxTop = { ...this.styleExboxTop, background: 'rgb(220,220,220)' };
-                this.styleExboxTopText = { ...this.styleExboxTopText, color: 'black' };
-            }
-
-            for(var i=0; i<this.state.sampleInput.length; i++){
-                samples.push(
-                    <div key={ i } className="content EX-BORDER" style={ this.styleExboxBorder }>
-                        <div className="EXBOX EXBOX-INPUT" style={ this.styleExbox }>
-                            <div className="ND" style={ this.styleExboxTop }>
-                                <div style={ this.styleExboxTopText }>예제{ i+1 } - 입력</div>
-                                <div style={ this.styleExboxTopRLay }>
-                                    <CopyBtn text={ this.state.sampleInput[i] } theme={ this.props.theme }/>
-                                    <TxtscreenBtn text={ this.state.sampleInput[i] } title={ `예제${ i+1 } - 입력` } theme={ this.props.theme }/>
-                                </div>
-                            </div>
-                            <div className="EXBOX-CONTENT content-d"
-                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleInput[i]) }}/>
-                        </div>
-
-                        <div className="EXBOX EXBOX-OUTPUT" style={ this.styleExbox }>
-                            <div className="ND" style={ this.styleExboxTop }>
-                                <div style={ this.styleExboxTopText }>예제{ i+1 } - 출력</div>
-                                <div style={ this.styleExboxTopRLay }>
-                                    <TxtscreenBtn text={ this.state.sampleOutput[i] } title={ `예제${ i+1 } - 출력` } theme={ this.props.theme }/>
-                                </div>
-                            </div>
-                            <div className="EXBOX-CONTENT content-d"
-                            dangerouslySetInnerHTML={{ __html: sampleTransfer(this.state.sampleOutput[i]) }}/>
-                        </div>
-                    </div>
-                );
-            }
-
-            layLeft = (
-                <>
-                    <div id="prob-id">#{ this.state.id }</div>
-                    <div id="prob-title">{ this.state.title }</div>
-                    <div id="prob-tag" className="ND">
-                        <TagsLay tags={ this.state.tags } theme={ this.props.theme }/>
-                        <Bookmark tooltip={ this.tooltip } id={ this.state.id }/>
-                    </div>
-                    <div className="txt0">문제</div>
-                    <div dangerouslySetInnerHTML={{ __html: problems[0] }}/>
-                    <div className="txt1">입출력 예제</div>
-                    { samples }
-                    <div dangerouslySetInnerHTML={{ __html: problems[1] }}/>
-                </>
-            );
-        }
-
-        return (
-            <>
-                <Helmet>
-                    <title>{ this.state.title ? `#${ this.state.id } ${ this.state.title } : 오일러OJ` : `#${ this.props.id } : 오일러OJ` }</title>
-                </Helmet>
-                <div className="FRAME_MAIN" style={{ paddingTop: '110px' }}>
-                    { this.isneedMsg1() ? <TopMessage type="banwarn"/> : <></> }
-                    { this.isneedMsg2() ? <TopMessage type="bookmark"/> : <></> }
-                    <div id="lay_main">
-                        <div id="lay_left">{ layLeft }</div>
-                        <div id="lay_right" className="ND">
-                            <BtnEditor id={ this.props.id }/>
-                            <BtnSubmit id={ this.props.id }/>
-                            <BoxLink theme={ this.props.theme } id={ this.props.id } youtube={ this.state.youtube } blog={ this.state.blog } tooltip={ this.tooltip }/>
-                            <BoxStat theme={ this.props.theme } id={ this.props.id } solve={ this.state.solve } submit={ this.state.submit }/>
-                            <BoxStatus theme={ this.props.theme } id={ this.props.id } loginId={ this.state.loginId } res={ this.state.res }/>
-                            <BoxLimit theme={ this.props.theme } time={ this.state.timelimit } memory={ this.state.memorylimit } input={ this.state.inputmethod } output={ this.state.outputmethod }/>
-                            <BoxBlogging theme={ this.props.theme } id={ this.props.id } list={ this.state.blogging }/>
-                        </div>
-                    </div>
-                </div>
-                <div className="BTM_EMPTY"/>
-                <Footer theme={ this.props.theme }/>
-            </>
-        );
+    if (probInfo && probInfo.err){
+        return <PageNotFound theme={ props.theme }
+        msg="요청하신 문제를 찾을 수 없습니다."/>;
     }
-    resizeEvent(){
-        const bodyWidth = document.body.clientWidth;
+    if (probInfo){
+        subLay = (
+            <div className="ND">
+                <Link to={ `/problemset/editor/${ props.id }` }>
+                    <animated.div style={ styleBtnCoding }
+                    onMouseEnter={ () => setHoverBtnCod(true) } onMouseLeave={ () => setHoverBtnCod(false) }>
+                        <img src={ svgEditor } alt="editor" style={ styleBtn1tImg }/>
+                        <div style={ styleBtn1tTxt }>코딩 시작하기</div>
+                    </animated.div>
+                </Link>
+                <Link to={ `/problemset/submit/${ props.id }` }>
+                    <animated.div style={ styleBtnSubmit }
+                    onMouseEnter={ () => setHoverBtnSub(true) } onMouseLeave={ () => setHoverBtnSub(false) }>
+                        <img src={ svgSubmit } alt="submit" style={ styleBtn1tImg }/>
+                        <div style={ styleBtn1tTxt }>제출 하기</div>
+                    </animated.div>
+                </Link>
+                {
+                    probInfo && probInfo.youtube && probInfo.youtube !== '' ?
+                    <a href={ probInfo.youtube } target="_blank" rel="noreferrer">
+                        <animated.div style={ styleBtnYoutube }
+                        onMouseEnter={ () => setHoverBtnYou(true) } onMouseLeave={ () => setHoverBtnYou(false) }>
+                            <img src={ svgYoutube } alt="youtube" style={ styleBtn1tImg }/>
+                            <div style={ styleBtn1tTxt }>유튜브 해설 바로가기</div>
+                        </animated.div>
+                    </a> : null
+                }
+                <BoxLay title="통계" theme={ props.theme }>
+                    <StatLay id={ props.id }
+                    solve={ probInfo ? probInfo.solve : 0 }
+                    submit={ probInfo ? probInfo.submit : 0 }
+                    theme={ props.theme }/>
+                </BoxLay>
+                <BoxLay title="채점 기록" theme={ props.theme }
+                cnt={ probInfo ? probInfo.submit : undefined }>
+                    <StatusLay id={ props.id }
+                    loginId={ probInfo ? probInfo.loginId : undefined }
+                    theme={ props.theme }/>
+                </BoxLay>
+                <BoxLay title="블로깅" theme={ props.theme }
+                cnt={ probInfo ? probInfo.bloggingCnt : undefined }>
+                    <BloggingLay id={ props.id }
+                    naverblog={ probInfo && probInfo.blog && probInfo.blog !== '' ? probInfo.blog : '' }
+                    theme={ props.theme }/>
+                </BoxLay>
+                <BoxLay title="제한" theme={ props.theme }>
+                    <LimitLay theme={ props.theme }/>
+                </BoxLay>
+            </div>
+        )
+    }
 
-        const clist = document.getElementsByClassName('EX-BORDER');
-        for(var i=0; i<clist.length; i++){
-            const inputElement = clist[i].getElementsByClassName('EXBOX-INPUT')[0];
-            const outputElement = clist[i].getElementsByClassName('EXBOX-OUTPUT')[0];
-
-            inputElement.style.height = 'auto'; outputElement.style.height = 'auto';
-
-            if(bodyWidth >= 1140){
-                const height = Math.max(inputElement.clientHeight, outputElement.clientHeight);
-                inputElement.style.width = 'calc(50% - 7px)'; outputElement.style.width = 'calc(50% - 7px)';
-                inputElement.style.height = `${ height }px`; outputElement.style.height = `${ height }px`;
-            }
-            else{
-                inputElement.style.width = '100%'; outputElement.style.width = '100%';
-            }
-        }
-
-        try{
-            const heightLeft = document.getElementById('lay_left').clientHeight;
-            const heightRight = document.getElementById('lay_right').clientHeight;
-            document.getElementById("lay_main").style.height = `${ Math.max(heightLeft, heightRight) }px`
-        } catch(error){
-        }
-    }
-    repainting(theme){
-        const contents = document.getElementsByClassName('content');
-        for(var i=0; i<contents.length; i++){
-            if(theme === 'dark' && contents[i].style.color === ''){
-                contents[i].style.color = 'white'
-            }
-            if(theme === 'dark' && contents[i].style.color === 'black'){
-                contents[i].style.color = 'white'
-            }
-            if(theme === 'light' && contents[i].style.color === ''){
-                contents[i].style.color = 'black'
-            }
-            if(theme === 'light' && contents[i].style.color === 'white'){
-                contents[i].style.color = 'black'
-            }
-        }
-    }
-    componentDidMount(){
-        this.resizeEvent();
-        window.addEventListener('resize', this.resizeEvent);
-        this.resizeEventInterval = setInterval(this.resizeEvent, 500);
-        this.repainting(this.props.theme);
-        this.props.reFooter();
-    }
-    componentDidUpdate(){
-        this.resizeEvent();
-        window.addEventListener('resize', this.resizeEvent);
-        this.repainting(this.props.theme);
-        this.props.reFooter();
-    }
-    componentWillUnmount(){
-        this.tooltip.clear();
-        window.removeEventListener('resize', this.resizeEvent);
-        clearInterval(this.resizeEventInterval);
-    }
+    return (
+        <div>
+            <Helmet><title>#{ props.id } { probInfo ? probInfo.title : '' } : 오일러OJ</title></Helmet>
+            <Header id={ props.id } theme={ props.theme }
+            title={ probInfo ? probInfo.title : '' }
+            tags={ probInfo ? probInfo.tags : [] }
+            loginId={ probInfo ? probInfo.loginId : undefined }
+            res={ res }/>
+            <ViewerFlexLay subLay={ subLay }>
+                { probInfo ? 
+                    <ProblemView html={ probInfo.problemHtml }
+                    sampleInput={ probInfo.sampleInput } sampleOutput={ probInfo.sampleOutput }
+                    theme={ props.theme }/> :
+                    <Layout.Loading theme={ props.theme }/>
+                }
+            </ViewerFlexLay>
+            <div className="BTM_EMPTY"></div>
+            <Footer theme={ props.theme }/>
+        </div>
+    )
 }
 
 export default ProblemViewer;

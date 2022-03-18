@@ -273,7 +273,7 @@ class Result extends Component {
                         
                         <div style={{ height: '90px' }}/>
                         <Title theme={ this.props.theme } img={ svgCode } title={ '소스 코드' }/>
-                        <Editor theme={ this.props.theme } reFooter={ this.props.reFooter } id={ this.state.id } problem={ this.state.problem }
+                        <Editor theme={ this.props.theme } id={ this.state.id } problem={ this.state.problem }
                         lang={ this.state.compile } option={ this.state.editor } source={ this.state.source }/>
                     </div>
                     <div className="BTM_EMPTY"/>
@@ -281,9 +281,6 @@ class Result extends Component {
                 </>
             );
         }
-    }
-    componentDidUpdate(){
-        this.props.reFooter();
     }
     componentWillUnmount(){
         if(this.socket) this.socket.disconnect();

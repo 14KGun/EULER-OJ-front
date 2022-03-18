@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { animated, useSpring } from 'react-spring';
 import { Link } from 'react-router-dom';
+import Tooltip from '../Tooltip/Tooltip';
 
 const ProfBtn = (props) => {
     const [isHover, setHover] = useState(false);
+    const target = useRef();
+
     const style = useSpring({
         width: `${ props.size }px`, height: `${ props.size }px`, borderRadius: `${ props.size/2 + 1 }px`,
         background: 'white', position: 'relative', overflow: 'hidden',
@@ -18,12 +21,15 @@ const ProfBtn = (props) => {
     }
 
     return (
-        <animated.div style={ style }
-        onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-            <Link to={ `/profile/${ props.id }` }>
-                <img style={ styleImg } src={ `https://euleroj.io/profile-img/${ props.id }.webp?size=${ props.size }` } alt={ props.id }/>
-            </Link>
-        </animated.div>
+        <>
+            <animated.div style={ style } ref={ target }
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <Link to={ `/profile/${ props.id }` }>
+                    <img style={ styleImg } src={ `https://euleroj.io/profile-img/${ props.id }.webp?size=${ props.size }` } alt={ props.id }/>
+                </Link>
+            </animated.div>
+            <Tooltip target={ target } show={ isHover }>{ props.id }</Tooltip>
+        </>
     )
 }
 ProfBtn.defaultProps = {

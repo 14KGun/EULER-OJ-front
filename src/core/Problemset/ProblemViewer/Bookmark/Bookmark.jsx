@@ -1,85 +1,79 @@
-import { Component, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { useSpring, animated } from 'react-spring';
+import ToolTip from '../../../Frame/Tooltip/Tooltip';
+
 import axios from '../../../Tool/axios';
 import svgChecked from './svg_checked.svg';
 import svgUnchecked from './svg_unchecked.svg';
 
-const style = {
-    position: 'absolute', width: '32px', height: '32px', right: '0px', bottom: '10px',
-    borderRadius: '16px'
-}
-const styleImg = {
-    position: 'absolute', top: '5px', left: '8px',
-    width: '15px', height: '22px'
-}
 const Bookmark = (props) => {
+    const target = useRef();
+    const available = useRef(false)
+    const [isChecked, setChecked] = useStateWithCallbackLazy(undefined);
     const [isHover, setHover] = useState(false);
-    const [tooltipId, setTooltipId] = useState(undefined);
-    const background = useSpring({
-        background: isHover ? 'rgba(120,120,120,0.2)' : 'rgba(120,120,120,0)',
-        config: { duration: 100 }
-    }).background
+    useEffect(() => {
+        axios.get(`/json/problems/bookmark/check/${ props.id }`).then(({ data }) => {
+            available.current = false;
+            setChecked(data.check, () => {
+                available.current = (data.available ? true : false);
+            });
+        })
+    }, [props.id]);
 
-    const onMouseEnter = () => {
-        setHover(true);
-        const msg = props.check ? '북마크에서 이 문제 제거' : '북마크에 이 문제 추가';
-        const id = props.tooltip.create(document.getElementById(`btnBookmark`), 'top', msg);
-        setTooltipId(id);
-    }
-    const onMouseLeave = () => {
-        setHover(false);
-        props.tooltip.remove(tooltipId);
-    }
-
-    return (
-        <animated.div id="btnBookmark" style={{ ...style, background }} className="BTNC ND"
-        onMouseEnter={ onMouseEnter } onMouseLeave={ onMouseLeave } onClick={ props.onClick }>
-            <img style={ styleImg } src={ props.check ? svgChecked : svgUnchecked } alt="bookmark"/>
-        </animated.div>
-    );
-}
-
-const defaultState = { id: undefined, loaded: false, available: false, check: false }
-class BookmarkMaker extends Component {
-    constructor(props){
-        super(props);
-        this.state = defaultState
-    }
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.id !== prevState.id){
-            return { ...defaultState, id: nextProps.id, loaded: false };
-        }
-        return prevState;
-    }
-    onClick(){
-        if(this.state.available === true){
-            this.setState({ available: false });
-            if(this.state.check){
-                axios.get(`/json/problems/bookmark/delete/${ this.state.id }`).then(res => {
-                    if(res.data.done){
-                        this.setState({ available: true, check: false });
+    const onClick = () => {
+        if(available.current){
+            available.current = false;
+            if(isChecked){
+                axios.get(`/json/problems/bookmark/delete/${ props.id }`).then(({ data }) => {
+                    if(data.done){
+                        setChecked(false, () => {
+                            available.current = true;
+                        });
                     }
                 })
             }
             else{
-                axios.get(`/json/problems/bookmark/add/${ this.state.id }`).then(res => {
-                    if(res.data.done){
-                        this.setState({ available: true, check: true });
+                axios.get(`/json/problems/bookmark/add/${ props.id }`).then(({ data }) => {
+                    if(data.done){
+                        setChecked(true, () => {
+                            available.current = true;
+                        });
                     }
                 })
             }
         }
     }
-    render(){
-        if(this.state.loaded === false){
-            axios.get(`/json/problems/bookmark/check/${ this.state.id }`).then(bookmarkInfo => {
-                this.setState({
-                    loaded: true, available: bookmarkInfo.data.available, check: bookmarkInfo.data.check
-                });
-            })
-        }
-        return <Bookmark tooltip={ this.props.tooltip } check={ this.state.check } onClick={ () => this.onClick() }/>
+
+    const style = useSpring({
+        width: '40px', height: '40px', borderRadius: '20px',
+        marginTop: '10px',
+        position: 'relative',
+        background: `rgba(140,140,140,${ isHover ? 0.1 : 0 })`,
+        config: { duration: 100 }
+    })
+    const styleImg = {
+        position: 'absolute',
+        top: 'calc(50% - 12px)', left: 'calc(50% - 12px)',
+        width: '24px', height: '24px'
     }
+
+    return (
+        <>
+            <animated.div style={ style } className="BTNC"
+            onClick={ () => onClick() } ref={ target }
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <img src={ isChecked ? svgChecked : svgUnchecked }
+                alt="" style={ styleImg }/>
+            </animated.div>
+            <ToolTip target={ target } show={ isHover && isChecked } position="left">
+                북마크에서 이 문제 제거
+            </ToolTip>
+            <ToolTip target={ target } show={ isHover && !isChecked } position="left">
+                북마크에 이 문제 추가
+            </ToolTip>
+        </>
+    )
 }
 
-export default BookmarkMaker;
+export default Bookmark;
