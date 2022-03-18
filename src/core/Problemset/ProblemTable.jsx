@@ -103,7 +103,7 @@ const ProblemItem = (props) => {
                     <div style={ Item4Txtstye }>{ props.submit }</div>
                 </div>
             </Link>
-            <Link to={`/status/${ getHref.encodeObject({ problemId: props.id, result: 'accepted' }) }`}>
+            <Link to={`/problemset/solves/${ props.id }`}>
                 <div style={{ ...Item4Style }}>
                     <img style={ Item4Imgstye } src={ svgPersonGreen } alt="solve"/>
                     <div style={ Item4Txtstye }>{ props.solve }</div>
