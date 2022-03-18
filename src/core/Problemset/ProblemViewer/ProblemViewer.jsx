@@ -563,11 +563,6 @@ const ProblemViewer = (props) => {
         axios.get(`/json/problems/problemres/${ props.id }`).then(({ data }) => {
             setRes(data.res);
         });
-
-        props.reFooter('off');
-        return () => {
-            props.reFooter('on');
-        }
     }, [props.id])
 
     let subLay = null;

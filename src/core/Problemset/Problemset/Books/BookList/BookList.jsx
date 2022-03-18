@@ -97,7 +97,6 @@ class BookList extends Component {
             axios.get(`https://euleroj.io/json/problems/getlist?category1=${ this.state.axios[0] }&category2=${ this.state.axios[1] }`).then(({ data }) => {
                 this.setState({ problems: data.list }, () => {
                     this.onCall = false;
-                    this.props.reFooter();
                 })
             })
         }

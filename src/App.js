@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import RouterScroll from './ReactScrollAuto';
 import Socket from './Socket';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
@@ -68,19 +67,10 @@ function App() {
     cookie.setCookie('theme',_theme,1000);
     themeHandler(_theme);
   }
-  
-  /* Footer */
-  const [appHeight, setAppHeight] = useState(0);
-  const [reFooterSwitch, setReFooterSwithch] = useState(true);
-  const reFooter = (o) => {
-    if(o == 'on') setReFooterSwithch(true);
-    if(o == 'off') setReFooterSwithch(false);
-    const ojFooter = document.getElementById('footer-empty');
-    if(ojFooter){
-      const height = ojFooter.offsetTop;
-      if(height !== appHeight) setAppHeight(height);
-    }
-  };
+  useEffect(() => {
+    const background = (theme === 'dark' ? 'rgb(30,31,33)' : 'rgb(250,251,252)');
+    document.body.style.background = background;
+  }, [theme]);
 
   /* Alarm */
   const [alarmList, setAlarmList] = useState([]);
@@ -90,7 +80,6 @@ function App() {
   const params = {
     theme: theme,
     setTheme: (x) => setTheme(x),
-    reFooter: (x='auto') => reFooter(x),
     alarmList: alarmList, setAlarmList: setAlarmList,
     alarmVisible: alarmVisible, setAlarmVisible: setAlarmVisible
   };
@@ -192,7 +181,6 @@ function App() {
         
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
-      <RouterScroll { ...params } height={ appHeight } switch={ reFooterSwitch }/>
       { /* <Socket { ...params }/> */ }
     </Router>
   );

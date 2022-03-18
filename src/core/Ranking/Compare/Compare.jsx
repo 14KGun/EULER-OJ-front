@@ -323,9 +323,6 @@ class Compare extends Component {
             </div>
         );
     }
-    componentDidUpdate(){
-        this.props.reFooter();
-    }
 }
 
 export default Compare;

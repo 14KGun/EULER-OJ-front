@@ -14,14 +14,10 @@ const Tooltip = (props) => {
         if(props.position === 'top'){
             px = targetOffset.x - baseOffset.x + targetOffset.width/2 - meOffset.width/2;
             py = targetOffset.y - baseOffset.y - meOffset.height - 7;
-            console.log(px);
-            console.log(baseOffset)
         }
         if(props.position === 'left'){
             px = targetOffset.x - baseOffset.x - meOffset.width - 7;
             py = targetOffset.y - baseOffset.y + targetOffset.height/2 - meOffset.height/2;
-            console.log(px);
-            console.log(baseOffset)
         }
     }
 

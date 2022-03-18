@@ -14,10 +14,6 @@ const Contest = (props) => {
     const [list, setList] = useStateWithCallbackLazy([]);
 
     useEffect(() => {
-        props.reFooter();
-    }, [list]);
-
-    useEffect(() => {
         setList(undefined, () => {
             axios.get(`/json/contest/list/${ props.category }`).then(({ data }) => {
                 if(data.category === props.category){

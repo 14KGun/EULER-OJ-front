@@ -234,7 +234,7 @@ const Lay2 = (props) => {
 const Editor = (props) => {
     const btnSetting = useRef();
     const [isHover, setHover] = useState(false);
-    const [height, setHeight] = useStateWithCallbackLazy('500px');
+    const [height, setHeight] = useState('500px');
 
     const background = useSpring({
         background: isHover ? 'rgba(100,100,100,1)' : 'rgba(100,100,100,0)',
@@ -266,13 +266,9 @@ const Editor = (props) => {
         const codeHeight = code.split('\n').length;
         const newHeight = Math.max(500, codeHeight*lineHeight+200);
         if(`${ newHeight }px` !== height){
-            setHeight(`${ newHeight }px`, () => props.reFooter());
+            setHeight(`${ newHeight }px`);
         }
     }
-
-    useEffect(() => {
-        props.reFooter();
-    });
 
     if(!props.option) return null;
     return (
@@ -359,7 +355,7 @@ class ProblemSubmit extends Component {
                         setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning } langHandler={ (x) => this.setState({ lang: x }) }/>
                     </div>
                     { this.state.python3Warning && <Python3DengerMsg/> }
-                    <Editor option={ this.state.editor } lang={ this.state.lang } reFooter={ this.props.reFooter }/>
+                    <Editor option={ this.state.editor } lang={ this.state.lang }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer theme={ this.props.theme }/>

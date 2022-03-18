@@ -110,9 +110,6 @@ class Problemset extends Component {
             </div>
         );
     }
-    componentDidUpdate(){
-        this.props.reFooter();
-    }
 }
 
 export default Problemset;

@@ -3,10 +3,12 @@ import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import trans from '../../Tool/trans';
 import getTrophyInfo from '../../Tool/getTrophyInfo';
+
 import svgNosolve from './svg_nosolve.svg';
 import svgTrophy from './svg_trophy.svg';
 import svgContest from './svg_contest.svg';
 import svgClock from './svg_clock.svg';
+import svgEmpty from './svg_empty.svg';
 
 const Title = (props) => {
     return (
@@ -64,6 +66,40 @@ const Trophy = (props) => {
                 <div style={ styleTxt }>{ props.text }</div>
             </animated.span>
         </Link>
+    )
+}
+
+const BtnTrophy = (props) => {
+    const [isHover, setHover] = useState(false);
+    const style = {
+        height: '28px', lineHeight: '28px', borderRadius: '18px',
+        paddingLeft: '13px', paddingRight: '13px',
+        fontSize: '16px', fontWeight: 300, color: 'black',
+        border: '2px solid rgba(120,120,120,0.7)',
+        color: (props.theme==='light' ? 'rgb(110,110,110)' : 'rgb(140,140,140)')
+    }
+    const background = useSpring({
+        background: isHover ? 'rgba(120,120,120,0.15)' : 'rgba(120,120,120,0)',
+        config: { duration: 100 }
+    })
+    return (
+        <Link to="/trophy">
+            <animated.div style={{ ...style, ...background }}
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>모든 업적 보기</animated.div>
+        </Link>
+    )
+}
+
+const TrophyEmpty = (props) => {
+    const styleText = {
+        fontSize: '16px', fontWeight: 300,
+        color: (props.theme==='light' ? 'black' : '#aaa'),
+    }
+    return (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '5px' }}>
+            <img src={ svgEmpty } alt="" style={{ height: '24px' }}/>
+            <div style={ styleText }>달성한 업적이 없습니다.</div>
+        </div>
     )
 }
 
@@ -141,9 +177,13 @@ class Page1 extends Component {
                         { trophyList1.map((item, index) => {
                             return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id } theme={ this.props.theme } have/>
                         }) }
-                        { trophyList2.map((item, index) => {
-                            return <Trophy key={ index } src={ item.icon } text={ item.name } hint={ item.hint } id={ item.id } theme={ this.props.theme }/>
-                        }) }
+                        {
+                            trophyList1.length === 0 ?
+                            <TrophyEmpty theme={ this.props.theme }/> : null
+                        }
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'right' }}>
+                        <BtnTrophy theme={ this.props.theme }/>
                     </div>
                 </Container>
                 <div style={{ height: '40px' }}/>

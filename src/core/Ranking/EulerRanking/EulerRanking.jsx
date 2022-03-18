@@ -170,9 +170,6 @@ class EulerRanking extends Component {
             </div>
         );
     }
-    componentDidUpdate(){
-        this.props.reFooter();
-    }
 }
 
 export default EulerRanking;

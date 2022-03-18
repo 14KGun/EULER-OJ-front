@@ -117,7 +117,6 @@ class Tag extends Component {
         );
     }
     componentDidUpdate(){
-        this.props.reFooter();
         if(this.state.info && this.state.info.name) document.title = `${ this.state.info.name } : 오일러OJ`;
         else document.title = "태그 : 오일러OJ";
     }
