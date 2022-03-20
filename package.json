@@ -29,6 +29,7 @@
     "start": "react-scripts start",
     "buildL": "GENERATE_SOURCEMAP=false react-scripts build",
     "buildW": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "buildN": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
