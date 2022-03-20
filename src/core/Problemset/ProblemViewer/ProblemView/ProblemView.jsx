@@ -26,10 +26,31 @@ const ProblemView = (props) => {
             if(props.theme === 'light' && contents[i].style.color === 'rgb(170, 170, 170)') contents[i].style.color = 'black';
         }
     }
+    const imgResizing = () => {
+        const contents = document.getElementsByClassName('content');
+        for(let i=0; i<contents.length; i++){
+            const centers = contents[i].getElementsByTagName('center');
+            for(let j=0; j<centers.length; j++){
+                const imgs = centers[j].getElementsByTagName('img');
+                for(let k=0; k<imgs.length; k++){
+                    const imgElement = imgs[k];
+                    const doImgExpand = () => {
+                        const width = imgElement.getBoundingClientRect().width;
+                        if (width >= 940){
+                            imgElement.style.width = "100%";
+                        }
+                    }
+                    imgElement.onload = doImgExpand;
+                    doImgExpand();
+                }
+            }
+        }
+    }
 
     useEffect(() => {
         setHtmlList(htmlParser(props.html), () => {
             rePainting();
+            imgResizing();
         });
     }, [props.html])
 
@@ -38,7 +59,7 @@ const ProblemView = (props) => {
     }, [props.theme])
 
     return (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
             <div className="txt0">문제</div>
             <div dangerouslySetInnerHTML={{ __html: htmlList[0] }}/>
             <div className="txt1">입출력 예제</div>

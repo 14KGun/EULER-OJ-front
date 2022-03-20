@@ -197,33 +197,31 @@ class Result extends Component {
         if(!this.load) {
             if(this.state.id !== this.props.id || this.state.needLoad){
                 this.load = true;
-                this.setState({ needLoad: false }, () => {
-                    axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
-                        this.setState({
-                            err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
-                            lid: data.lid, compile: data.compile, status: data.status, date: data.time,
-                            task: data.task, source: data.source, editor: data.editor
-                        }, () => {
-                            this.load = false;
-                            this.socket.emit('joinRoom', `status_res_${ this.props.id }`);
-                            this.socket.emit('status_res_reload', this.props.id);
-                            this.socket.on('update_status_restask', (msg) => {
-                                if(this.state.id !== msg.id) return;
-                                if(this.state.status.indexOf('wait') !== -1){
-                                    if(msg.res.indexOf('wait') !== -1){
-                                        const prev = Number(this.state.status.substr(5));
-                                        const next = Number(msg.res.substr(5));
-                                        if(prev >= next) return;
-                                    }
-                                    else{
-                                        this.setState({ needLoad: true });
-                                    }
-                                    this.setState({ status: msg.res, task: msg.task });
+                axios.get(`/json/status/getResult/${ this.props.id }`).then(({ data }) => {
+                    this.setState({
+                        err: data.err, id: data.id, problem: data.problem, stderr: data.stderr,
+                        lid: data.lid, compile: data.compile, status: data.status, date: data.time,
+                        task: data.task, source: data.source, editor: data.editor
+                    }, () => {
+                        this.load = false;
+                        this.socket.emit('joinRoom', `status_res_${ this.props.id }`);
+                        this.socket.emit('status_res_reload', this.props.id);
+                        this.socket.on('update_status_restask', (msg) => {
+                            if(this.state.id !== msg.id) return;
+                            if(this.state.status.indexOf('wait') !== -1){
+                                if(msg.res.indexOf('wait') !== -1){
+                                    const prev = Number(this.state.status.substr(5));
+                                    const next = Number(msg.res.substr(5));
+                                    if(prev >= next) return;
                                 }
-                            });
+                                else{
+                                    this.setState({ needLoad: true });
+                                }
+                                this.setState({ status: msg.res, task: msg.task });
+                            }
                         });
                     });
-                })
+                });
             }
         }
 
