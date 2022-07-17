@@ -530,22 +530,22 @@ const LimitLay = (props) => {
         paddingTop: '10px', paddingBottom: '15px' }}>
             <div style={ styleLine }>
                 <div style={ styleName }>시간</div>
-                <div style={ styleValue }>1초</div>
+                <div style={ styleValue }>{ props.timeLimit }초</div>
             </div>
             <div style={ styleBorder }/>
             <div style={ styleLine }>
                 <div style={ styleName }>메모리</div>
-                <div style={ styleValue }>32MB</div>
+                <div style={ styleValue }>{ props.memoryLimit }MB</div>
             </div>
             <div style={ styleBorder }/>
             <div style={ styleLine }>
                 <div style={ styleName }>입력 방식</div>
-                <div style={ styleValue }>Standard Input</div>
+                <div style={ styleValue }>{ props.inputMethod }</div>
             </div>
             <div style={ styleBorder }/>
             <div style={ styleLine }>
                 <div style={ styleName }>출력 방식</div>
-                <div style={ styleValue }>Standard Output</div>
+                <div style={ styleValue }>{ props.outputMethod }</div>
             </div>
         </div>
     )
@@ -646,7 +646,13 @@ const ProblemViewer = (props) => {
                     theme={ props.theme }/>
                 </BoxLay>
                 <BoxLay title="제한" theme={ props.theme }>
-                    <LimitLay theme={ props.theme }/>
+                    <LimitLay
+                        timeLimit={ probInfo?.timelimit }
+                        memoryLimit={ probInfo?.memorylimit }
+                        inputMethod={ probInfo?.inputmethod }
+                        outputMethod={ probInfo?.outputmethod }
+                        theme={ props.theme }
+                    />
                 </BoxLay>
             </div>
         )
