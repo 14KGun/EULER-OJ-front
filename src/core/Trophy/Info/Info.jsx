@@ -53,6 +53,7 @@ const Info = (props) => {
     useEffect(() => {
         if(info){
             axios.get(`/json/trophy/info/${ props.id }`).then(({ data }) => {
+                data.users.sort(() => Math.random() - 0.5);
                 setSolveNum(data);
             })
         }
@@ -71,9 +72,27 @@ const Info = (props) => {
                 <div style={{ height: '50px' }}/>
                 <Layout.Title icon={ svgPerson } theme={ props.theme }>업적 달성자</Layout.Title>
                 <Layout.Container>
-                    <div style={ stylePerson } className="ND">
-                        { solveNum.users.map((item, index) => <Layout.ProfBtn key={ index } id={ item }/>) }
-                    </div>
+                    {
+                        solveNum.users.length > 100 ? (
+                            <>
+                                <div style={ stylePerson } className="ND">
+                                    { solveNum.users.slice(0,100).map((item, index) => <Layout.ProfBtn key={ index } id={ item }/>) }
+                                </div>
+                                <div style={{
+                                    textAlign: 'center',
+                                    paddingBottom: '20px',
+                                    fontSize: '16px', fontWeight: '300',
+                                    color: props.theme==='light' ? 'black' : 'white'
+                                }}>
+                                    외 { solveNum.users.length - 100 }명
+                                </div>
+                            </>
+                        ) : (
+                            <div style={ stylePerson } className="ND">
+                                { solveNum.users.map((item, index) => <Layout.ProfBtn key={ index } id={ item }/>) }
+                            </div>
+                        )
+                    }
                 </Layout.Container>
             </>
         )
