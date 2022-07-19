@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import RouterScroll from './ReactScrollAuto';
-import Socket from './Socket';
 import Frame from './core/Frame/Frame';
 import LoginBoxFrame from './core/Frame/LoginBoxFrame/LoginBoxFrame';
 import Main from './core/Main/Main';
@@ -33,7 +32,6 @@ import MembershipMain from './core/Setting/Membership/Main/Main';
 import About from './core/About/About';
 import Admin from './core/Admin/Admin';
 import PageNotFound from './core/PageNotFound/PageNotFound';
-import socketio from 'socket.io-client';
 import cookie from './core/Tool/cookie';
 import './Font.css';
 import './App.css';
