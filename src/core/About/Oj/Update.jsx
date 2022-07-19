@@ -38,6 +38,10 @@ const Update = (props) => {
             <Layout.Title icon={ svgUpdate } theme={ props.theme }>업데이트 기록</Layout.Title>
             <div style={{ height: '20px' }}/>
 
+            <UpdateBox theme={ props.theme } date="2022.07.20">
+                <UpdateTxt theme={ props.theme }>문제 뷰어 페이지에서 제한이 잘못 표기되는 버그가 수정되었습니다.</UpdateTxt>
+                <UpdateTxt theme={ props.theme }>코딩마법서 3권 BRONZE VERSION C/C++이 추가되었습니다.</UpdateTxt>
+            </UpdateBox>
             <UpdateBox theme={ props.theme } date="2022.03.19">
                 <UpdateTxt theme={ props.theme }>문제 뷰어 페이지가 리모델링되었습니다.</UpdateTxt>
                 <UpdateTxt theme={ props.theme }>문제 통계 페이지가 리모델링되었습니다.</UpdateTxt>
