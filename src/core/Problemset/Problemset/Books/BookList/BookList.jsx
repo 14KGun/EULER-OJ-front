@@ -85,6 +85,9 @@ class BookList extends Component {
             else if(nextProps.category === 'c++_iron'){
                 return { category: nextProps.category, title: '코딩마법서 2권 IRON VERSION C/C++', axios: ['level', '12'] };
             }
+            else if(nextProps.category === 'c++_bronze'){
+                return { category: nextProps.category, title: '코딩마법서 3권 BRONZE VERSION C/C++', axios: ['level', '13'] };
+            }
             else{
                 return {};
             }
@@ -94,7 +97,7 @@ class BookList extends Component {
     render() {
         if(this.state.problems === undefined && this.state.axios && this.onCall === false){
             this.onCall = true;
-            axios.get(`https://euleroj.io/json/problems/getlist?category1=${ this.state.axios[0] }&category2=${ this.state.axios[1] }`).then(({ data }) => {
+            axios.get(`/json/problems/getlist?category1=${ this.state.axios[0] }&category2=${ this.state.axios[1] }`).then(({ data }) => {
                 this.setState({ problems: data.list }, () => {
                     this.onCall = false;
                 })

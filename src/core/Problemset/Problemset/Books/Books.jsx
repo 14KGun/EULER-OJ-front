@@ -138,6 +138,7 @@ class BooksList extends Component {
                     if(data.array[i].id === 'c++_stone') this.setState({ prog1: data.array[i].progress }); 
                     if(data.array[i].id === 'python_stone') this.setState({ prog2: data.array[i].progress }); 
                     if(data.array[i].id === 'c++_iron') this.setState({ prog3: data.array[i].progress }); 
+                    if(data.array[i].id === 'c++_bronze') this.setState({ prog4: data.array[i].progress }); 
                 }
             })
         }
@@ -157,6 +158,8 @@ class BooksList extends Component {
                             name="코딩마법서 1권<br>STONE VERSION" subname="파이썬" to="/problemset/list/books/python_stone" progress={ this.state.prog2 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img03 theme={ this.props.theme }/> }
                             name="코딩마법서 2권<br>IRON VERSION" subname="C/C++" to="/problemset/list/books/c++_iron" progress={ this.state.prog3 }/>
+                            <Book theme={ this.props.theme } img={ <ImgBook.Img04 theme={ this.props.theme }/> }
+                            name="코딩마법서 3권<br>BRONZE VERSION" subname="C/C++" to="/problemset/list/books/c++_bronze" progress={ this.state.prog4 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img04 theme={ this.props.theme }/> }
                             name="기존 목록" to="/problemset/list/level" progress={ undefined }/>
                         </div>
