@@ -38,11 +38,22 @@
 }
 
 .problemset-books-img-04-light{
+    background: #a18cd1;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fbc2eb, #a18cd1);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fbc2eb, #a18cd1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.problemset-books-img-04-dark{
+    background: #764ba2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #667eea, #764ba2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #667eea, #764ba2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.problemset-books-img-None-light{
     background: #334d50;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #cbcaa5, #334d50);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #cbcaa5, #334d50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-.problemset-books-img-04-dark{
+.problemset-books-img-None-dark{
     background: #334d50;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #cbcaa5, #334d50);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #cbcaa5, #334d50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

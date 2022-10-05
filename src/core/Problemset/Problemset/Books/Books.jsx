@@ -160,7 +160,7 @@ class BooksList extends Component {
                             name="코딩마법서 2권<br>IRON VERSION" subname="C/C++" to="/problemset/list/books/c++_iron" progress={ this.state.prog3 }/>
                             <Book theme={ this.props.theme } img={ <ImgBook.Img04 theme={ this.props.theme }/> }
                             name="코딩마법서 3권<br>BRONZE VERSION" subname="C/C++" to="/problemset/list/books/c++_bronze" progress={ this.state.prog4 }/>
-                            <Book theme={ this.props.theme } img={ <ImgBook.Img04 theme={ this.props.theme }/> }
+                            <Book theme={ this.props.theme } img={ <ImgBook.ImgNone theme={ this.props.theme }/> }
                             name="기존 목록" to="/problemset/list/level" progress={ undefined }/>
                         </div>
                     </div>
