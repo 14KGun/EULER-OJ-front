@@ -26,7 +26,7 @@ const HeaderLeft = (props) => {
             <BtnItem icon={ imgEuler } name="오일러OJ" url="/problemset" close={ props.close } theme={ props.theme }/>
             <BtnItem icon={ imgYoutube } name="오일러TV" url="https://www.youtube.com/channel/UCQQJLCWcgAvrWRdZaxLUXJQ" close={ props.close } newtab theme={ props.theme }/>
             <BtnItem icon={ imgBooks } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" close={ props.close } newtab theme={ props.theme }/>
-            <BtnItem icon={ imgBlog } name="오일러BLOG" url="https://blog.naver.com/euleroj" close={ props.close } newtab theme={ props.theme }/>
+            <BtnItem icon={ imgBlog } name="오일러BLOG" url="https://blog.naver.com/euleredu" close={ props.close } newtab theme={ props.theme }/>
         </animated.div>
     );
 }
