@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 
 const LoadingMaker = () => {
     const ItemStyle = {

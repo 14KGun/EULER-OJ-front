@@ -28,7 +28,6 @@ class Stat extends Component {
             for(const i of result.data.stat){
                 const categoryName = getQuarter(i.name);
                 
-                console.log(i);
                 if(category.length > 0 && category[category.length - 1] == categoryName){
                     data[data.length - 1] += i.value;
                 }

@@ -1,39 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import layout from '../Frame/Layout/Layout';
 import axios from '../Tool/axios';
 import Top from './ContestTop/ContestTop';
 import Loading from '../Frame/Loading/Loading';
 import Footer from '../Frame/Footer/Footer';
 import ContestTable from './ContestTable';
 
-const LoadingLay = () => {
-    return (
-        <div style={{ paddingTop: '100px', height: '300px' }}>
-            <Loading/>
-            <div style={{ textAlign: 'center', paddingTop: '100px', fontSize: '16px' }}>페이지 불러오는 중...</div>
-        </div>
-    )
-}
 const Contest = (props) => {
-    const onCall = useRef(false);
-    const [list, setList] = useStateWithCallbackLazy(undefined);
-    const [category, setCategory] = useStateWithCallbackLazy(undefined);
+    const [list, setList] = useStateWithCallbackLazy([]);
 
     useEffect(() => {
-        props.reFooter();
-    }, [list]);
-
-    if(!onCall.current && category !== props.category){
-        onCall.current = true;
-        setCategory("ongoing", () => {
-            setList([], () => {
-                onCall.current = false;
+        setList(undefined, () => {
+            axios.get(`/json/contest/list/${ props.category }`).then(({ data }) => {
+                if(data.category === props.category){
+                    setList(data.list);
+                }
             })
-        });
-    }
+        })
+    }, [props.category])
 
     return (
         <div>
@@ -42,7 +30,12 @@ const Contest = (props) => {
             <div style={{ background: 'rgba(120,120,120,0.05)' }}>
                 <div style={{ height: '30px' }}/>
                 <div className="FRAME_MAIN">
-                    { list ?  <ContestTable theme={ props.theme }/> : <LoadingLay/> }
+                    {
+                        list !== undefined ? 
+                        <ContestTable theme={ props.theme } list={ list }
+                        empty="대회가 없습니다."/> :
+                        <layout.Loading theme={ props.theme }/>
+                    }
                 </div>
                 <div className="BTM_EMPTY"/>
             </div>

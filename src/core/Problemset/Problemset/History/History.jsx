@@ -1,5 +1,5 @@
 import { Component, useState } from "react";
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import { Helmet } from "react-helmet";
 import Top from '../ProblemsetTop';
 import Footer from '../../../Frame/Footer/Footer';
@@ -123,9 +123,6 @@ class History extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         )
-    }
-    componentDidUpdate(){
-        this.props.reFooter();
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import axios from '../Tool/axios';
 import Top from '../Frame/Top/Top';
 import TopBackground from './TagTopBackground/TagTopBackground';
@@ -117,7 +117,6 @@ class Tag extends Component {
         );
     }
     componentDidUpdate(){
-        this.props.reFooter();
         if(this.state.info && this.state.info.name) document.title = `${ this.state.info.name } : 오일러OJ`;
         else document.title = "태그 : 오일러OJ";
     }

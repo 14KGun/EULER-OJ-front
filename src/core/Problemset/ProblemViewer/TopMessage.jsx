@@ -40,7 +40,8 @@ class TopMessage extends Component {
         }
         if(this.props.type === 'python3Warning'){
             imgSrc = svgMsg;
-            txt = 'Python3로 제출 시 인터프리터 방식으로, Pypy3로 제출 시 컴파일러 방식으로 채점을 진행합니다. 즉, 대부분의 문제에서 Pypy3로의 제출이 실행시간을 더 단축될 수 있습니다. 오일러OJ는 Python3가 아니라 Pypy3로 제출하는 것을 권장합니다.';
+            // txt = 'Python3로 제출 시 인터프리터 방식으로, Pypy3로 제출 시 컴파일러 방식으로 채점을 진행합니다. 즉, 대부분의 문제에서 Pypy3로의 제출이 실행시간을 더 단축될 수 있습니다. 오일러OJ는 Python3가 아니라 Pypy3로 제출하는 것을 권장합니다.';
+            txt = '대부분의 문제에서 Python3가 아닌 Pypy3로의 제출이 실행시간을 더 단축될 수 있습니다. 오일러OJ는 Pypy3로 제출하는 것을 권장합니다.';
             background = 'rgb(245,190,0)';
         }
 

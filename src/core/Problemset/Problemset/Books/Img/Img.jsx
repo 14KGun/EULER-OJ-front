@@ -1,6 +1,7 @@
 import imgBook01 from './img_book1.jpeg'
 import imgBook02 from './img_book2.jpeg'
 import imgBook03 from './img_book3.jpg'
+import imgBook04 from './img_book4.jpeg'
 import './img.css'
 
 const ImgSkeleton = (props) => {
@@ -27,13 +28,16 @@ const Img03 = (props) => {
     return <ImgSkeleton img={ imgBook03 } Num="03" theme={ props.theme }/>
 }
 const Img04 = (props) => {
+    return <ImgSkeleton img={ imgBook04 } Num="04" theme={ props.theme }/>
+}
+const ImgNone = (props) => {
     const style = {
         width: '100%', height: '100%', overflow: 'hidden', position: 'relative'
     }
     return (
-        <div style={ style } className={ `problemset-books-img-04-light` }>
+        <div style={ style } className={ `problemset-books-img-None-light` }>
         </div>
     )
 }
 
-export default { Img01, Img02, Img03, Img04 }
+export default { Img01, Img02, Img03, Img04, ImgNone }

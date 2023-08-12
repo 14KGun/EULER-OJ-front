@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 
 import svgAlarmWhite from './svg_alarm_white.svg';
 import svgAlarmYellow from './svg_alarm_yellow.svg';

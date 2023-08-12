@@ -1,5 +1,5 @@
 import { Component, useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from "react-router-dom";
 import './Top.css';
 import axios from '../../Tool/axios';
@@ -72,6 +72,7 @@ const FixedLay = (props) => {
         <div>
             <Link to={ `/problemset/problem/${ props.id }` }><TopBtn name="문제" selected={ props.type === 'problem' }/></Link>
             <Link to={ `/problemset/stats/${ props.id }` }><TopBtn name="통계" selected={ props.type === 'stats' }/></Link>
+            <Link to={ `/problemset/solves/${ props.id }` }><TopBtn name="맞은 사람들" selected={ props.type === 'solves' }/></Link>
             <Link to={ `/problemset/blogging/${ props.id }` }><TopBtn name="블로깅" selected={ props.type === 'blogging' }/></Link>
             <Link to={ `/status/${ getHref.encodeObject({ problemId: props.id }) }` }><TopBtn name="채점 기록" selected={ props.type === 'status' }/></Link>
             <Link to={ `/problemset/submit/${ props.id }` }><TopBtn name="제출" selected={ props.type === 'submit' }/></Link>

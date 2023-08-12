@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import svgUnknown from './svg_unknown.svg';
 import Footer from '../../Frame/Footer/Footer';
 

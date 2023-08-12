@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Layout from './Layout';
 import svgTheme from './svg_theme.svg';
 import svgSelect from './svg_select.svg';

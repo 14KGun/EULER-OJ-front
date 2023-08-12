@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Component, useState } from 'react';
 import ProblemTable from './ProblemTable';
 
@@ -35,7 +35,8 @@ const BtnSort = (props) => {
         borderRadius: '10px', overflow: 'hidden',
         WebkitBackdropFilter: `blur(6px)`, backdropFilter: `blur(6px)`,
         background: `rgba(${ backgroundColor },${ backgroundColor },${ backgroundColor },0.5)`,
-        opacity: (isClick ? 1 : 0),
+        opacity: isClick ? 1 : 0,
+        pointerEvents: isClick ? 'auto' : 'none',
         config: { duration: 100 }
     })
 
@@ -85,7 +86,8 @@ class Table extends Component {
         return (
             <div>
                 <div className="ND" style={{ position: 'relative', display: 'flex', flexDirection: 'row-reverse' }}>
-                    <BtnSort theme={ this.props.theme } handler={ (x) => this.doSort(x) } list={ this.sortList } index={ this.state.sort }/>
+                    <BtnSort theme={ this.props.theme } handler={ (x) => this.doSort(x) }
+                    list={ this.sortList } index={ this.state.sort }/>
                 </div>
                 <div style={{ height: '30px' }}/>
                 <ProblemTable content={ this.state.content } theme={ this.props.theme }/>

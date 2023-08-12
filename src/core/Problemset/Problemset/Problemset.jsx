@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import Top from './ProblemsetTop';
@@ -32,24 +32,30 @@ const LoadingLay = () => {
 const SelectLayBtn = (props) => {
     const [isHover, setHover] = useState(false);
     const style = {
-        display: 'inline-block', height: '30px', lineHeight: '30px', borderRadius: '15px',
-        paddingLeft: '13px', paddingRight: '13px', marginRight: '5px', marginBottom: '5px',
-        fontSize: '17px', fontWeight: 300, color: 'white'
+        display: 'inline-block', height: '40px', lineHeight: '40px', borderRadius: '20px',
+        paddingLeft: '18px', paddingRight: '18px', marginRight: '8px', marginBottom: '8px',
+        fontSize: '16px', fontWeight: 300,
+        color: (props.selected ? 'white' : (props.theme==='dark' ? '#ddd' : 'black'))
     }
-    let background = useSpring({
-        background: isHover ? 'rgb(80,170,195)' : 'rgba(120,120,120,0.5)'
-    }).background;
-    if(props.selected) background = 'rgb(0,150,200)'
+    const background = useSpring({
+        background: props.selected ? 'rgb(0,150,200)' : `rgba(140,140,140,${ isHover ? 0.3 : 0.2 })`,
+        config: { duration: 100 }
+    });
+
     return (
         <Link to={ `/problemset/list/${ props.category1 }/${ props.id }` }>
-            <animated.span style={{ ...style, background }}>{ props.name }</animated.span>
+            <animated.span style={{ ...style, ...background }}
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                { props.name }
+            </animated.span>
         </Link>
     )
 }
 const SelectLay = (props) => {
     return (
         <div className="ND" style={{ paddingTop: '30px' }}>
-            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id } selected={ String(props.selected) === String(item.id) } theme={ props.theme }/>) }
+            { props.items.map((item, index) => <SelectLayBtn key={ index } name={ item.name } category1={ props.category1 } id={ item.id }
+            selected={ String(props.selected) === String(item.id) } theme={ props.theme }/>) }
         </div>
     )
 }
@@ -103,9 +109,6 @@ class Problemset extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         );
-    }
-    componentDidUpdate(){
-        this.props.reFooter();
     }
 }
 

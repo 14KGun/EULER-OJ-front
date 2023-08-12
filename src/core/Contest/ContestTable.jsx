@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
+
+import svgEmpty from './svg_empty.svg';
 
 const ContestLine = (props) => {
     const styleName = {
@@ -38,27 +40,46 @@ const Contest = (props) => {
         color: (props.theme==='light' ? 'black' : 'white')
     }
     return (
-        <Link to={ `/contest/1` }>
-            <animated.div style={ style } onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
-                <img style={ styleImg } src="https://euleroj.io/contest/save/logo/1.png"/>
-                <div style={ styleTitle }>제251회 Open Challenge</div>
+        <Link to={ props.url }>
+            <animated.div style={ style }
+            onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                <img style={ styleImg } src={ props.img }/>
+                <div style={ styleTitle }>{ props.name }</div>
                 <div style={{ position: 'absolute', bottom: '15px', left: '15px', right: '15px' }}>
-                    <ContestLine theme={ props.theme } name="시작">2021.02.27 / 12:00</ContestLine>
-                    <ContestLine theme={ props.theme } name="종료">2021.02.27 / 12:00</ContestLine>
-                    <ContestLine theme={ props.theme } name="대상">누구나</ContestLine>
+                    <ContestLine theme={ props.theme } name="시작">{ props.start }</ContestLine>
+                    <ContestLine theme={ props.theme } name="종료">{ props.end }</ContestLine>
+                    <ContestLine theme={ props.theme } name="대상">{ props.target }</ContestLine>
                 </div>
             </animated.div>
         </Link>
     )
 }
 
-const Table = (props) => {
+const Empty = (props) => {
     return (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }} className="ND">
-            <Contest theme={ props.theme }/>
-            <Contest theme={ props.theme }/>
+        <div className="ND">
+            <div style={{ height: '30px' }}/>
+            <div style={{ textAlign: 'center' }}>
+                <img src={ svgEmpty } alt="" style={{ width: '30px', height: '30px' }}/>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: 300, color: (props.theme==='light' ? 'black' : 'white') }}>{ props.children }</div>
         </div>
     )
+}
+
+const Table = (props) => {
+    if (props.list.length <= 0 && props.empty) {
+        return <Empty theme={ props.theme }>{ props.empty }</Empty>;
+    }
+    return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }} className="ND">
+            { props.list.map((item, index) => <Contest key={ index } theme={ props.theme } { ...item }/>) }
+        </div>
+    )
+}
+
+Table.defaultProps = {
+    list: []
 }
 
 export default Table;

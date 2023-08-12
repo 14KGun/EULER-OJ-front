@@ -1,6 +1,6 @@
 import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import getHref from '../../Tool/getHref';
 
 const Title = (props) => {
@@ -79,7 +79,7 @@ class Page3 extends Component {
                     </div>
                     <div style={{ textAlign: 'right', marginTop: '10px' }}>
                         <BtnSearch id={ this.props.data.id } theme={ this.props.theme }/>
-                        </div>
+                    </div>
                 </Container>
             </div>
         );

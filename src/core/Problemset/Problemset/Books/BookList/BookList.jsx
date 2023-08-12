@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import Top from '../../../../Frame/Top/Top';
 import SearchBox from '../../../../Search/SearchBox/SearchBox';
@@ -53,7 +53,7 @@ const TopFixedLay = (props) => {
             <Link to="/problemset/list/tag"><TopBtn name="태그" selected={ false }/></Link>
             <Link to="/problemset/list/books"><TopBtn name="코딩마법서" selected={ true }/></Link>
             <Link to="/problemset/list/number"><TopBtn name="문제 번호" selected={ false }/></Link>
-            <div style={{ position: 'absolute', width: '250px', top: '12px', right: '0px' }}>
+            <div style={{ position: 'absolute', top: '8px', right: '0px' }}>
                 <SearchBox/>
             </div>
         </div>
@@ -85,6 +85,9 @@ class BookList extends Component {
             else if(nextProps.category === 'c++_iron'){
                 return { category: nextProps.category, title: '코딩마법서 2권 IRON VERSION C/C++', axios: ['level', '12'] };
             }
+            else if(nextProps.category === 'c++_bronze'){
+                return { category: nextProps.category, title: '코딩마법서 3권 BRONZE VERSION C/C++', axios: ['level', '13'] };
+            }
             else{
                 return {};
             }
@@ -94,10 +97,9 @@ class BookList extends Component {
     render() {
         if(this.state.problems === undefined && this.state.axios && this.onCall === false){
             this.onCall = true;
-            axios.get(`https://euleroj.io/json/problems/getlist?category1=${ this.state.axios[0] }&category2=${ this.state.axios[1] }`).then(({ data }) => {
+            axios.get(`/json/problems/getlist?category1=${ this.state.axios[0] }&category2=${ this.state.axios[1] }`).then(({ data }) => {
                 this.setState({ problems: data.list }, () => {
                     this.onCall = false;
-                    this.props.reFooter();
                 })
             })
         }

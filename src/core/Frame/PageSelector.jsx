@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 
 let pageStyle = {
     display: 'inline-block', fontSize: '16px', fontWeight: '300', fontFamily: 'Nanum Gothic',
@@ -80,7 +80,7 @@ class PageSelector extends Component {
             content.push(<span key="left-sp">&nbsp;</span>)
         }
         for(var i=left; i<=right; i++){
-            const colorSelected = (this.props.theme === 'light' ? 200 : 70);
+            const colorSelected = (this.props.theme === 'light' ? 227 : 50);
             const color = (this.props.theme === 'light' ? 227 : 50);
             content.push(<Page key={ i*2-1 } page={ i } url={ this.props.get(i) } selected={ i === page } color={ color } colorSelected={ colorSelected }/>);
             content.push(<span key={ i*2 }>&nbsp;</span>)

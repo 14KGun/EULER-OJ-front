@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import possibleInput from '../../Tool/possibleInput';
-import ImageUploader from "react-images-upload";
+import ImageUploader from "../../../components/ImagesUploader";
 import Layout from './Layout';
 import axios from '../../Tool/axios';
 
@@ -17,7 +17,6 @@ class Me extends Component {
       this.state = { picture: undefined, pictureUrl: undefined, feeling: undefined, oncall: false };
     }
     onDrop(pictureFile, pictureDataURLs){
-        //console.log(pictureFile, pictureDataURLs);
         this.setState({ picture: pictureFile[0], pictureUrl: pictureDataURLs[0] })
     }
     onClick(){
@@ -27,7 +26,6 @@ class Me extends Component {
                 const form = new FormData();
                 form.append('photo',this.state.picture )
                 axios.post('/json/setting/profile/me/profimg', form).then(result => {
-                    // console.log(result.data);
                     window.location.reload();
                 })
             })

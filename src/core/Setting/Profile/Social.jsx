@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { useHistory } from 'react-router-dom';
 import Layout from './Layout';
 import svgSocial from './svg_social.svg';

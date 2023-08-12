@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from '../../Tool/axios';
@@ -165,7 +165,7 @@ const Trophy = (props) => {
     }
 
     return (
-        <Link to={ `/timelog/trophy/${ props.id }` }>
+        <Link to={ `/trophy/info/${ props.id }` }>
             <animated.span style={{ ...style, ...background }} className="profile-trophy-item"
             onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <img src={ props.src } alt="" style={ styleImg }/>
@@ -322,9 +322,6 @@ class Compare extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         );
-    }
-    componentDidUpdate(){
-        this.props.reFooter();
     }
 }
 

@@ -1,13 +1,13 @@
 import { Component, useState, useEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Helmet } from "react-helmet";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
 import Popup from './ProblemSubmitPopup';
 import TopMessage from '../ProblemViewer/TopMessage';
 import Footer from '../../Frame/Footer/Footer';
-import Tooltip from  '../../Tool/tooltip';
+import Tooltip from  '../../Frame/Tooltip/Tooltip';
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
 import possibleInput from '../../Tool/possibleInput';
@@ -112,66 +112,72 @@ const BtnSubmit = (props) => {
     )
 }
 const BtnSort = (props) => {
+    const btnLang = useRef();
     const [isHover, setHover] = useState(false);
-    const [tooltipId, settooltipId] = useState('undefined');
+
     const background = useSpring({
         background: isHover ? 'rgba(150,150,150,0.3)' : 'rgba(150,150,150,0)',
         config: { duration: 150 }
     }).background;
-    const onMouseEnter = () => {
-        setHover(true);
-        const id = props.tooltip.create(document.getElementById(`btn-sort`), 'top', '언어 정렬 설정으로 이동');
-        settooltipId(id);
-    };
-    const onMouseLeave = () => {
-        setHover(false);
-        props.tooltip.remove(tooltipId);
-    }
     const style = {
         position: 'absolute', top: '0px', left: '225px', width: '30px', height: '30px', borderRadius: '10px'
     };
     const styleImg = {
         width: '60%', height: '60%', margin: '20%'
     }
+
     return (
-        <Link to="/setting/profile/langsort">
-            <animated.div id="btn-sort" style={{ ...style, background: background }} onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>
-                <img src={ svgSort } style={ styleImg } alt="sort"/>
-            </animated.div>
-        </Link>
+        <>
+            <Link to="/setting/profile/langsort">
+                <animated.div id="btn-sort" ref={ btnLang }
+                style={{ ...style, background: background }}
+                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                    <img src={ svgSort } style={ styleImg } alt="sort"/>
+                </animated.div>
+            </Link>
+            <Tooltip target={ btnLang } show={ isHover }>언어 정렬 설정으로 이동</Tooltip>
+        </>
     )
 }
 
 const Lay1 = (props) => {
     const style = {
         position: 'absolute', top: '0px', left: '0px',
-        width: '200px', height: '200px', borderRadius: '15px'
+        width: '200px', height: '200px', borderRadius: '15px',
+        background: 'rgb(130,130,130,0.1)'
     }
     const txt1Style = {
         fontSize: '15px', fontWeight: '400', color: 'gray'
     }
     const txt2Style = {
-        fontSize: '18px', fontWeight: '700', color: (props.theme === 'light' ? 'black' : 'white')
+        fontSize: '18px', fontWeight: '700',
+        color: (props.theme === 'light' ? 'black' : 'white')
     }
-    const background = useSpring({
-        background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)'
-    })
 
     return (
-        <animated.div style={{ ...style, ...background }}>
+        <div style={ style }>
             <div style={{ ...txt1Style, marginTop: '20px', marginLeft: '20px' }}>{ props.waitTime !== undefined ? '예상 채점 대기시간' : '' }</div>
             <div style={{ ...txt2Style, marginTop: '0px', marginLeft: '20px' }}>{ props.waitTime !== undefined ? `${ props.waitTime }초` : '' }</div>
             <div style={{ ...txt1Style, marginTop: '20px', marginLeft: '20px' }}>{ props.waitCount !== undefined ? '채점 대기 중인 소스코드' : '' }</div>
             <div style={{ ...txt2Style, marginTop: '0px', marginLeft: '20px' }}>{ props.waitCount !== undefined ? `${ props.waitCount }개` : '' }</div>
-        </animated.div>
+        </div>
     );
 }
 const Lay2 = (props) => {
     const [lang, changeLang] = useState('');
+    const [isHover, setHover] = useState(false);
     const style = {
         position: 'absolute', top: '0px', left: '210px', right: '0px',
-        height: '200px', borderRadius: '15px'
+        height: '200px', borderRadius: '15px',
+        background: 'rgb(130,130,130,0.1)'
     }
+    const styleBtnProb = useSpring({
+        marginLeft: '10px', marginRight: '10px',
+        paddingTop: '10px',  paddingBottom: '10px',
+        borderRadius: '10px',
+        background: `rgba(120,120,120,${ isHover ? 0.1 : 0 })`,
+        config: { duration: 100 }
+    })
     const txt1Style = {
         fontSize: '15px', fontWeight: '400', color: 'gray'
     }
@@ -184,7 +190,6 @@ const Lay2 = (props) => {
         background: (props.theme === 'light' ? 'white' : 'black'),
         color: (props.theme === 'light' ? 'black' : 'white')
     }
-    const background = useSpring({ background: props.theme === 'light' ? 'rgb(230,230,230)' : 'rgb(50,50,50)' })
 
     const onChange = (x) => {
         changeLang(x);
@@ -202,42 +207,39 @@ const Lay2 = (props) => {
         props.langHandler(props.langSubmit[0]);
     }
     return (
-        <animated.div style={{ ...style, ...background }}>
-            <div style={{ ...txt1Style, marginTop: '20px', marginLeft: '20px' }}>#{ props.id }</div>
-            <div style={{ ...txt2Style, marginTop: '0px', marginLeft: '20px' }}>{ props.title }</div>
+        <div style={ style }>
+            <div style={{ height: '10px' }}/>
+            <Link to={ `/problemset/problem/${ props.id }` }>
+                <animated.div style={ styleBtnProb }
+                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+                    <div style={{ ...txt1Style, paddingLeft: '10px' }}>#{ props.id }</div>
+                    <div style={{ ...txt2Style, paddingLeft: '10px' }}>{ props.title }</div>
+                </animated.div>
+            </Link>
             <div style={{ ...txt1Style, marginTop: '20px', marginLeft: '20px' }}>제출 언어</div>
             <div style={{ position: 'relative' }}>
                 <select style={ selectStyle } onChange={ (e) => onChange(e.target.value) } value={ lang }>
                     { props.langSubmit.map((element, index) => <option value={ element } key={ index }>{ props.langShow[index] }</option>) }
                 </select>
-                <BtnSort tooltip={ props.tooltip } theme={ props.theme }/>
+                <BtnSort theme={ props.theme }/>
             </div>
             <div style={{ position: 'absolute', left: '20px', right: '20px', bottom: '20px', textAlign: 'right' }}>
                 <BtnBack id={ props.id } theme={ props.theme }/>
                 <BtnSubmit id={ props.id } theme={ props.theme } lang={ lang }/>
             </div>
-        </animated.div>
+        </div>
     );
 }
 
 const Editor = (props) => {
+    const btnSetting = useRef();
     const [isHover, setHover] = useState(false);
-    const [height, setHeight] = useStateWithCallbackLazy('500px');
-    const [tooltipId, settooltipId] = useState('undefined');
+    const [height, setHeight] = useState('500px');
+
     const background = useSpring({
         background: isHover ? 'rgba(100,100,100,1)' : 'rgba(100,100,100,0)',
         config: { duration: 150 }
     }).background;
-    const onMouseEnter = () => {
-        setHover(true);
-        const id = props.tooltip.create(document.getElementById(`btn-editorsetting`), 'top', '에디터 설정으로 이동');
-        settooltipId(id);
-    };
-    const onMouseLeave = () => {
-        setHover(false);
-        props.tooltip.remove(tooltipId);
-    }
-
     const style = {
         marginTop: '10px', position: 'relative',
         background: 'rgb(80,80,80)', borderRadius: '15px', overflow: 'hidden',
@@ -264,27 +266,22 @@ const Editor = (props) => {
         const codeHeight = code.split('\n').length;
         const newHeight = Math.max(500, codeHeight*lineHeight+200);
         if(`${ newHeight }px` !== height){
-            setHeight(`${ newHeight }px`, () => props.reFooter());
+            setHeight(`${ newHeight }px`);
         }
     }
 
-    useEffect(() => {
-        props.reFooter();
-    });
-
-    if(!props.option){
-        return (
-            <></>
-        )
-    }
+    if(!props.option) return null;
     return (
         <div style={ style }>
             <div style={ styleTxt }>소스 코드 입력</div>
             <Link to="/setting/profile/editor">
-                <animated.div id="btn-editorsetting" style={{ ...styleBtnSetting, background: background }} onMouseEnter={ () => onMouseEnter() } onMouseLeave={ () => onMouseLeave() }>
+                <animated.div id="btn-editorsetting" ref={ btnSetting }
+                style={{ ...styleBtnSetting, background: background }}
+                onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                     <img style={ styleImg } src={ svgSetting } alt="setting"/>
                 </animated.div>
             </Link>
+            <Tooltip target={ btnSetting } show={ isHover } position="left">에디터 설정으로 이동</Tooltip>
             <div style={{ width: '100%', height: height }}>
                 <CodeEditor lang={ props.lang } theme={ props.option.theme } letterSpacing={ props.option.letterSpacing }
                 fontSize={ props.option.size } tabSize={ props.option.tab } font={ props.option.font } initCode="" height="100%" onChange={ (x) => onChange(x) }/>
@@ -296,7 +293,6 @@ const Editor = (props) => {
 class ProblemSubmit extends Component {
     constructor(props){
         super(props);
-        this.tooltip = new Tooltip();
         this.state = {
             python3Warning: false, lang: undefined,
             id: undefined, title: undefined, waitTime: undefined, waitCount: undefined, editor: undefined, langShow: [], langSubmit: [], err: undefined
@@ -355,20 +351,17 @@ class ProblemSubmit extends Component {
                     <Top theme={ this.props.theme }/>
                     <div style={{ height: 200, position: 'relative' }}>
                         <Lay1 theme={ this.props.theme } waitTime={ this.state.waitTime } waitCount={ this.state.waitCount }/>
-                        <Lay2 theme={ this.props.theme } id={ this.props.id } title={ this.state.title } tooltip={ this.tooltip } langSubmit={ this.state.langSubmit } langShow={ this.state.langShow }
+                        <Lay2 theme={ this.props.theme } id={ this.props.id } title={ this.state.title } langSubmit={ this.state.langSubmit } langShow={ this.state.langShow }
                         setPython3Warning={ (val) => this.setPython3Warning(val) } python3Warning={ this.state.python3Warning } langHandler={ (x) => this.setState({ lang: x }) }/>
                     </div>
                     { this.state.python3Warning && <Python3DengerMsg/> }
-                    <Editor option={ this.state.editor } lang={ this.state.lang } tooltip={ this.tooltip } reFooter={ this.props.reFooter }/>
+                    <Editor option={ this.state.editor } lang={ this.state.lang }/>
                 </div>
                 <div className="BTM_EMPTY"/>
                 <Footer theme={ this.props.theme }/>
                 {/* { this.state.popup ? <Popup/> : <></> } */}
             </>
         );
-    }
-    componentWillUnmount(){
-        this.tooltip.clear();
     }
 }
 

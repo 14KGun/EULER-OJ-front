@@ -1,5 +1,5 @@
 import { Component, useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from '../../Tool/axios';
@@ -169,9 +169,6 @@ class EulerRanking extends Component {
                 <Footer theme={ this.props.theme }/>
             </div>
         );
-    }
-    componentDidUpdate(){
-        this.props.reFooter();
     }
 }
 

@@ -1,6 +1,6 @@
 import { useState, Component, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import axios from '../../Tool/axios';
 import getHref from '../../Tool/getHref';
 import BtnAlarm from './Alarm/BtnAlarm';

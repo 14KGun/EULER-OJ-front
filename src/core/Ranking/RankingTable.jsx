@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import trans from '../Tool/trans';
 import svgAccept from './svg_accpet.svg';
 import svgTrophy from './svg_trophy.svg';
@@ -64,10 +64,11 @@ const RankItem = (props) => {
     const styleLay8 = {
         position: 'absolute', top: '30px', right: '230px', width: '120px', height: '20px'
     }
-    const ItemBackground = useSpring({ background: isHover ? 'rgba(200,200,200,0.2)' : 'rgba(200,200,200,0)', config: { duration: 100 } });
+    const styleBackground = useSpring({ background: isHover ? 'rgba(160,160,160,0.05)' : 'rgba(160,160,160,0)', config: { duration: 100 } });
+
     return (
         <Link to={ `/profile/${ props.id }` }>
-            <animated.div style={{ ...style, ...ItemBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
+            <animated.div style={{ ...style, ...styleBackground }} onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>
                 <div style={ styleLay1 } className="ND">{ props.rank }</div>
                 <div style={ styleLay2 } className="ND">
                     <img src={ `https://euleroj.io/profile-img/${ props.id }.webp?size=50` } alt="" style={{ height: '100%', width: '100%' }}/>

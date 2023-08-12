@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
@@ -89,7 +89,7 @@ class Main extends Component {
                         <span onMouseEnter={ () => this.fixPage(2) } onMouseLeave={ () => this.fixPage(undefined) }>
                             <Lay1Item img={ imgCard3 } name="오일러BOOKS" url="https://smartstore.naver.com/eulerbooks" theme={ this.props.theme } newTab/>
                         </span>
-                        <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleroj" theme={ this.props.theme } newTab/>
+                        <Lay1Item img={ imgCard4 } name="오일러BLOG" url="https://blog.naver.com/euleredu" theme={ this.props.theme } newTab/>
                     </div>
                 </div>
                 <div id="lay2" style={{ background: 'rgba(120,120,120,0.1)' }}>

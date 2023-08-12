@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 
@@ -100,7 +100,6 @@ class Frame extends Component {
         window.addEventListener('resize', this.resizeEvent);
 
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
-        if(this.props.reFooter) this.props.reFooter();
     }
     componentDidUpdate(){
         this.resizeEvent()
@@ -108,7 +107,6 @@ class Frame extends Component {
 
         clearInterval(this.resizeEventInterval);
         this.resizeEventInterval = setInterval(this.resizeEvent, 500);
-        if(this.props.reFooter) this.props.reFooter();
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.resizeEvent);

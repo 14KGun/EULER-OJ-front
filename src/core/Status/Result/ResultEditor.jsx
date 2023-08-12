@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { Link } from 'react-router-dom';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';
@@ -50,7 +50,7 @@ const Btn = (props) => {
     )
 }
 const Editor = (props) => {
-    const [height, setHeight] = useStateWithCallbackLazy('500px');
+    const [height, setHeight] = useState('500px');
 
     const style = {
         marginTop: '10px', position: 'relative',
@@ -72,7 +72,7 @@ const Editor = (props) => {
         const codeHeight = code.split('\n').length;
         const newHeight = Math.max(500, codeHeight*lineHeight+200);
         if(`${ newHeight }px` !== height) {
-            setHeight(`${ newHeight }px`, () => props.reFooter());
+            setHeight(`${ newHeight }px`);
         }
     }
 
@@ -115,7 +115,7 @@ const None = (props) => {
 const Wrap = (props) => {
     if(!props.source) return <None theme={ props.theme }/>
     if(props.source === '') return <None theme={ props.theme }/>
-    return <Editor theme={ props.theme } reFooter={ props.reFooter } id={ props.id } problem={ props.problem }
+    return <Editor theme={ props.theme } id={ props.id } problem={ props.problem }
     lang={ props.lang } option={ props.option } source={ props.source }/>
 }
 
