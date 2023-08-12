@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import Layout from '../../Frame/Layout/Layout';
 import Footer from '../../Frame/Footer/Footer';
 import PageNotFound from '../../Frame/PageNotFound/PageNotFound';

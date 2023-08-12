@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import Chart from "react-apexcharts";
 import Layout from '../../Frame/Layout/Layout';

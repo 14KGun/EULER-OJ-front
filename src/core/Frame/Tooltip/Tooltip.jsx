@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 
 const Tooltip = (props) => {
     const base = useRef();

@@ -1,6 +1,6 @@
 import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Helmet } from "react-helmet";
 import TaskTable from './ResultTaskTable';
 import Editor from './ResultEditor';

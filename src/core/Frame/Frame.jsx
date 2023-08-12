@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Header from './Header/Header';
 
 const Frame = (props) => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import { Link } from 'react-router-dom';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';

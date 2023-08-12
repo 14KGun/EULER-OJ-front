@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import Top from '../../Frame/Top/Top';
 

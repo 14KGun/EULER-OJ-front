@@ -1,6 +1,6 @@
 import { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import getHref from '../../Tool/getHref';
 
 const Title = (props) => {

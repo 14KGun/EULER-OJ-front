@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Gallery from './Gallery/Gallery';
 import Lay2Youtube from './Lay2/Youtube';
 import Lay2Problem from './Lay2/Problem';
@@ -31,15 +31,14 @@ const Lay1Item = (props) => {
     });
 
     const card = (
-        null
-        // <animated.div className="CARD"
-        // onMouseEnter={ () => setHover(true) }
-        // onMouseMove={ (e) => setXys(calc(e)) }
-        // onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
-        // style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
-        //     <div className="CARD-NAME" style={{ color: (props.theme === 'light' ? 'black' : 'white') }}>{ props.name }</div>
-        //     <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
-        // </animated.div>
+        <animated.div className="CARD"
+        onMouseEnter={ () => setHover(true) }
+        onMouseMove={ (e) => setXys(calc(e)) }
+        onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
+        style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
+            <div className="CARD-NAME" style={{ color: (props.theme === 'light' ? 'black' : 'white') }}>{ props.name }</div>
+            <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
+        </animated.div>
     );
 
     if(props.newTab){

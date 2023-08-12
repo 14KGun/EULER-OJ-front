@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import Tooltip from '../Tooltip/Tooltip';
 

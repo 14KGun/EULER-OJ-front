@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import svgBackground from './svg_background.svg';
 import svgGround from './svg_ground.svg';
 import svgPerson from './svg_person.svg';

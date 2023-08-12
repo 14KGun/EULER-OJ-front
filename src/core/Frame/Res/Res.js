@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import imgAccept from './accept.png';
 import imgTime from './time.png';
 import imgMemory from './memory.png';

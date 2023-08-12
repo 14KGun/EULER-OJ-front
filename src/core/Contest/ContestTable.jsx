@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 
 import svgEmpty from './svg_empty.svg';

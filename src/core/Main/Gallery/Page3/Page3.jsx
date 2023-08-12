@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import imgEffect from './effect.png';
 import imgTitle from './title.png';
 import imgBook from './book.png';

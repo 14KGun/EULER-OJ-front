@@ -1,6 +1,6 @@
 import { Component, useState, useEffect, useRef } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Helmet } from "react-helmet";
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
 import CodeEditor from '../../Frame/CodeEditor/CodeEditor';

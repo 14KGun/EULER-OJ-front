@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import svgBackground01 from './svg_background1.svg';
 
 const getBodyWidth = (scalable, bodyWidth) => {

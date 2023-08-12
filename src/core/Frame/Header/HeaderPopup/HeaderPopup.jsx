@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import HeaderLeft from './HeaderPopupLeft';
 import HeaderRight from './HeaderPopupRight';
 

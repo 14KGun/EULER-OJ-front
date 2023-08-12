@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import BtnItem from './HeaderPopupBtnItem';
 
 import svgProfile from './svg_profile.svg';

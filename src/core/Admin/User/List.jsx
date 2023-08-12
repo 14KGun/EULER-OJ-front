@@ -1,5 +1,5 @@
 import { Component, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Layout from '../Layout';
 import Loading from '../../Frame/Loading/Loading';
 import axios from '../../Tool/axios';

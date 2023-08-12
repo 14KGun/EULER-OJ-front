@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import BtnItem from './HeaderPopupBtnItem';
 import imgEuler from '../../../Main/img_card1.png';
 import imgYoutube from '../../../Main/img_card2.png';

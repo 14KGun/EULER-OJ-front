@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 
 let pageStyle = {
     display: 'inline-block', fontSize: '16px', fontWeight: '300', fontFamily: 'Nanum Gothic',

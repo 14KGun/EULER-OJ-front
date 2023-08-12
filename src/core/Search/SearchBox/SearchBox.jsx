@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 
 // import svgSearch from './svg_search.svg';
 import svgSearchFocus from './svg_search_focus.svg';

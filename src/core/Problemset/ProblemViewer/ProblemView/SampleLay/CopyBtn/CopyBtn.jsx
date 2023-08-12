@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import svgCopy from './svg_copy.svg';

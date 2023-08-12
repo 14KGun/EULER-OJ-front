@@ -1,4 +1,4 @@
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import getHref from '../../../Tool/getHref';
 

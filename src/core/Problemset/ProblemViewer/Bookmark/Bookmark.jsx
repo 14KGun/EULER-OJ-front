@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStateWithCallbackLazy } from 'use-state-with-callback';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import ToolTip from '../../../Frame/Tooltip/Tooltip';
 
 import axios from '../../../Tool/axios';

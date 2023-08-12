@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import { Component, useState } from 'react';
 import ProblemTable from './ProblemTable';
 

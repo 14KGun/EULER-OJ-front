@@ -1,4 +1,4 @@
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import Layout from '../Layout';
 
 import svgUpdate from '../svg_update.svg';

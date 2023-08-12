@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from "@react-spring/web";
 import trans from '../Tool/trans';
 import svgAccept from './svg_accpet.svg';
 import svgTrophy from './svg_trophy.svg';

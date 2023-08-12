@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Helmet } from "react-helmet";
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from "@react-spring/web";
 import { Link } from 'react-router-dom';
 import ProblemView from './ProblemView/ProblemView';
 import Bookmark from './Bookmark/Bookmark';
