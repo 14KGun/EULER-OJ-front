@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import possibleInput from '../../Tool/possibleInput';
-// import ImageUploader from "react-images-upload";
+import ImageUploader from "../../../components/ImagesUploader";
 import Layout from './Layout';
 import axios from '../../Tool/axios';
 
@@ -17,7 +17,6 @@ class Me extends Component {
       this.state = { picture: undefined, pictureUrl: undefined, feeling: undefined, oncall: false };
     }
     onDrop(pictureFile, pictureDataURLs){
-        //console.log(pictureFile, pictureDataURLs);
         this.setState({ picture: pictureFile[0], pictureUrl: pictureDataURLs[0] })
     }
     onClick(){
@@ -27,7 +26,6 @@ class Me extends Component {
                 const form = new FormData();
                 form.append('photo',this.state.picture )
                 axios.post('/json/setting/profile/me/profimg', form).then(result => {
-                    // console.log(result.data);
                     window.location.reload();
                 })
             })
@@ -82,11 +80,11 @@ class Me extends Component {
                         </div>
                     </div>
                     <div style={{ marginLeft: '180px' }}>
-                        {/* <ImageUploader withIcon={ true } singleImage={ true } pictures={ [this.state.picture] }
+                        <ImageUploader withIcon={ true } singleImage={ true } pictures={ [this.state.picture] }
                         buttonText="이미지 선택하기" label="1MB 이하의 파일만 업로드 가능합니다."
                         fileSizeError="파일의 사이즈가 너무 큽니다." fileTypeError="지원하지 않는 파일 형식입니다."
                         fileContainerStyle={ styleUploader } labelStyles={ styleUploaderLabel }
-                        onChange={ (x,y) => this.onDrop(x,y) } imgExtension={ [".jpg", ".gif", ".png"] } maxFileSize="1048576"/> */}
+                        onChange={ (x,y) => this.onDrop(x,y) } imgExtension={ [".jpg", ".gif", ".png"] } maxFileSize="1048576"/>
                     </div>
                 </div>
 
