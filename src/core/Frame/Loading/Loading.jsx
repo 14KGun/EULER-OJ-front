@@ -23,9 +23,9 @@ const LoadingMaker = () => {
 
     return (
         <div style={{ position: 'relative', margin: 'auto', width: '80px' }}>
-            <animated.div style={{ ...ItemStyle, top: topSpring.top.to(top => eachItemSpring(top, 2)), left: '0px' }}></animated.div>
+            {/* <animated.div style={{ ...ItemStyle, top: topSpring.top.to(top => eachItemSpring(top, 2)), left: '0px' }}></animated.div>
             <animated.div style={{ ...ItemStyle, top: topSpring.top.to(top => eachItemSpring(top, 1)), left: '30px' }}></animated.div>
-            <animated.div style={{ ...ItemStyle, top: topSpring.top.to(top => eachItemSpring(top, 0)), left: '60px' }}></animated.div>
+            <animated.div style={{ ...ItemStyle, top: topSpring.top.to(top => eachItemSpring(top, 0)), left: '60px' }}></animated.div> */}
         </div>
     );
 }

@@ -1,42 +1,33 @@
 {
-  "name": "euleroj",
+  "name": "euleroj-front",
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "apexcharts": "^3.28.3",
-    "axios": "^0.21.1",
+    "axios": "^1.4.0",
     "cross-env": "^7.0.3",
-    "query-string": "^7.0.1",
+    "query-string": "^8.1.0",
     "react": "^17.0.2",
-    "react-apexcharts": "^1.3.9",
-    "react-beautiful-dnd": "^13.1.0",
-    "react-copy-to-clipboard": "^5.0.3",
+    "react-apexcharts": "^1.4.1",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
-    "react-images-upload": "^1.2.8",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-spring": "^9.0.0",
-    "socket.io-client": "^4.3.2",
-    "use-state-with-callback": "^2.0.3",
-    "web-vitals": "^1.0.1"
+    "react-router-dom": "^5.3.4",
+    "react-scripts": "^5.0.1",
+    "react-spring": "^8.0.27",
+    "socket.io-client": "^4.7.2",
+    "use-state-with-callback": "^3.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "buildL": "GENERATE_SOURCEMAP=false react-scripts build",
     "buildW": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
-    "buildN": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "buildN": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {

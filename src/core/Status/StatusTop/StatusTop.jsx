@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSpring, animated, to } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 import { Link } from 'react-router-dom';
 import Top from '../../Frame/Top/Top';
 import './StatusTop.css';
@@ -44,19 +44,19 @@ const TopBackground = () => {
     }
     const styleItem1 = {
         position: 'absolute', top: '-100px', width: '1000px',
-        left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.7+(1-y)*1000) }px`)
+        left: `${ -((2300-springWidth)*0.7+(1-springValue)*1000) }px`
     }
     const styleItem2 = {
         position: 'absolute', top: '-180px', width: '1300px',
-        left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.5+(1-y)*800) }px`)
+        left: `${ -((2300-springWidth)*0.5+(1-springValue)*800) }px`
     }
     const styleItem3 = {
         position: 'absolute', top: `-330px`, width: '1600px',
-        left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.3+(1-y)*600) }px`)
+        left: `${ -((2300-springWidth)*0.3+(1-springValue)*600) }px`
     }
     const styleItem4 = {
         position: 'absolute', top: '-600px', width: '2000px',
-        left: to([springWidth, springValue], (x, y) => `${ -((2300-x)*0.1+(1-y)*400) }px`)
+        left: `${ -((2300-springWidth)*0.1+(1-springValue)*400) }px`
     }
     return (
         <div style={ style } className="StatusTopBackground">

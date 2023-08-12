@@ -31,14 +31,15 @@ const Lay1Item = (props) => {
     });
 
     const card = (
-        <animated.div className="CARD"
-        onMouseEnter={ () => setHover(true) }
-        onMouseMove={ (e) => setXys(calc(e)) }
-        onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
-        style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
-            <div className="CARD-NAME" style={{ color: (props.theme === 'light' ? 'black' : 'white') }}>{ props.name }</div>
-            <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
-        </animated.div>
+        null
+        // <animated.div className="CARD"
+        // onMouseEnter={ () => setHover(true) }
+        // onMouseMove={ (e) => setXys(calc(e)) }
+        // onMouseLeave={ () => { setXys([0, 0, 1]); setHover(false); } }
+        // style={{ transform: cardStyleXys.xys.to(trans), background: cardStyle.background, boxShadow: cardStyle.boxShadow }}>
+        //     <div className="CARD-NAME" style={{ color: (props.theme === 'light' ? 'black' : 'white') }}>{ props.name }</div>
+        //     <img className="CARD-IMG" src={ props.img } alt={ props.name }/>
+        // </animated.div>
     );
 
     if(props.newTab){

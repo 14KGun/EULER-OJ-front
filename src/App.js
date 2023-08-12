@@ -181,7 +181,6 @@ function App() {
         <Route path="/"><Frame { ...params } headerTxtColor="none"><PageNotFound/></Frame></Route>
       </Switch>
       <RouterScroll/>
-      { /* <Socket { ...params }/> */ }
     </Router>
   );
 }
